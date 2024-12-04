@@ -1,0 +1,7 @@
+releaseName: sonarr
+
+targetNamespace: sonarr
+
+chart: sonarr
+
+version: 11.2.1

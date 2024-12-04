@@ -1,0 +1,6 @@
+---
+# Source: helmrelease-tc-chart/templates/namespace.yml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: prometheus-operator

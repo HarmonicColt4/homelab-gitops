@@ -1,0 +1,7 @@
+releaseName: unifi
+
+targetNamespace: unifi
+
+chart: unifi
+
+version: 11.2.1

@@ -1,0 +1,7 @@
+releaseName: radarr-anime
+
+targetNamespace: radarr
+
+chart: radarr
+
+version: 11.2.1

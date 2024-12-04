@@ -1,0 +1,7 @@
+releaseName: jellyfin
+
+targetNamespace: jellyfin
+
+chart: jellyfin
+
+version: 20.2.0

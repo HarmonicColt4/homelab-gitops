@@ -1,0 +1,7 @@
+releaseName: flaresolverr
+
+targetNamespace: flaresolverr
+
+chart: flaresolverr
+
+version: 11.2.1

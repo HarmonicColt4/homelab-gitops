@@ -1,0 +1,7 @@
+releaseName: cloudnative-pg
+
+targetNamespace: cloudnative-pg
+
+chart: cloudnative-pg
+
+version: 8.2.0

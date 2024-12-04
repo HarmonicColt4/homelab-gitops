@@ -1,0 +1,7 @@
+releaseName: prowlarr
+
+targetNamespace: prowlarr
+
+chart: prowlarr
+
+version: 11.2.1

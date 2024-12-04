@@ -1,0 +1,7 @@
+releaseName: jellyseerr
+
+targetNamespace: jellyseerr
+
+chart: jellyseerr
+
+version: 11.2.0

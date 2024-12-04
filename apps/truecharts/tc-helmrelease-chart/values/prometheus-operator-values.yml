@@ -1,0 +1,7 @@
+releaseName: prometheus-operator
+
+targetNamespace: prometheus-operator
+
+chart: prometheus-operator
+
+version: 8.5.0

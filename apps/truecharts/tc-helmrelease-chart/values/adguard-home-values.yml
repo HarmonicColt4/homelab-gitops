@@ -1,0 +1,7 @@
+releaseName: adguard-home
+
+targetNamespace: adguard-home
+
+chart: adguard-home
+
+version: 15.2.0

@@ -1,0 +1,46 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: openebs
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: openebs
+  namespace: default
+spec:
+  interval: 24h
+  url: https://openebs.github.io/openebs
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: openebs
+  namespace: default
+spec:
+  releaseName: openebs
+  targetNamespace: openebs
+  interval: 24h
+  chart:
+    spec:
+      chart: openebs
+      version: '< 5'
+      sourceRef:
+        kind: HelmRepository
+        name: openebs
+      interval: 24h
+  values:
+    localpv-provisioner:
+      hostpathClass:
+        isDefaultClass: true
+
+    engines:
+      local:
+        lvm:
+          enabled: false
+        zfs:
+          enabled: false
+      replicated:
+        mayastor:
+          enabled: false

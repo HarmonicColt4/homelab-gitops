@@ -1,0 +1,23 @@
+ingress:
+  main:
+    integrations:
+      traefik:
+        enabled: false
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+      cert-manager.io/cluster-issuer: letsencrypt-staging
+    enabled: true
+    hosts:
+      - host: {{ .Values.releaseName }}.{{ .Values.domain }}
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+        - {{ .Values.releaseName }}.{{ .Values.domain }}
+        secretName: {{ .Values.releaseName }}-cert
+securityContext:
+    container:
+        PUID: 3001
+        runAsUser: 3001
+        runAsGroup: 3001

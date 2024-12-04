@@ -22,14 +22,18 @@ spec:
   targetNamespace: traefik
   releaseName: traefik
   interval: 24h
+  dependsOn:
+    - name: metallb
   chart:
     spec:
       chart: traefik
-      version: '< 30'
+      version: '33.*'
       sourceRef:
         kind: HelmRepository
         name: traefik
       interval: 24h
+  install:
+    disableWait: true
   values:
     service:
       annotations:

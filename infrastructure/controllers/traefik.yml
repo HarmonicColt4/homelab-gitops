@@ -22,8 +22,6 @@ spec:
   targetNamespace: traefik
   releaseName: traefik
   interval: 24h
-  dependsOn:
-    - name: metallb
   chart:
     spec:
       chart: traefik

@@ -33,9 +33,6 @@ spec:
   install:
     disableWait: true
   values:
-    service:
-      annotations:
-        metallb.universe.tf/loadBalancerIPs: 10.13.25.20
     ports:
       traefik:
         expose:

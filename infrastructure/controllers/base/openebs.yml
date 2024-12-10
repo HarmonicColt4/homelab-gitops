@@ -31,10 +31,6 @@ spec:
         name: openebs
       interval: 24h
   values:
-    localpv-provisioner:
-      hostpathClass:
-        isDefaultClass: true
-
     engines:
       local:
         lvm:
@@ -44,3 +40,8 @@ spec:
       replicated:
         mayastor:
           enabled: false
+
+    localpv-provisioner:
+      hostpathClass:
+        basePath: "/var/local"
+        isDefaultClass: true

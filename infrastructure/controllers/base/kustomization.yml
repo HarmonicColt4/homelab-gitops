@@ -3,5 +3,5 @@ kind: Kustomization
 resources:
   - metallb.yml
   - cert-manager.yml 
-  # - openebs.yml 
+  - openebs.yml 
   - traefik.yml

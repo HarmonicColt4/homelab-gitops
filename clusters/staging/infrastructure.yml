@@ -15,9 +15,8 @@ spec:
   wait: true
   patches:
     - patch: |
-        - op: add
-          path: /spec/values
-          value:
+        spec:
+          values:
             service:
               annotations:
                 metallb.universe.tf/loadBalancerIPs: 10.13.25.21

@@ -4,4 +4,4 @@ targetNamespace: qbittorrent
 
 chart: qbittorrent
 
-version: 22.1.2
+version: '22.1.2'

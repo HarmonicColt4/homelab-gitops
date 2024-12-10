@@ -4,4 +4,4 @@ targetNamespace: prometheus-operator
 
 chart: prometheus-operator
 
-version: 8.5.0
+version: '8.5.0'

@@ -4,4 +4,4 @@ targetNamespace: adguard-home
 
 chart: adguard-home
 
-version: 15.2.0
+version: '15.2.0'

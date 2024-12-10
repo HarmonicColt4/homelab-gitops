@@ -32,11 +32,3 @@ spec:
       interval: 24h
   install:
     disableWait: true
-  values:
-    ports:
-      traefik:
-        expose:
-          default: true
-    ingressRoute:
-      dashboard:
-        enabled: true

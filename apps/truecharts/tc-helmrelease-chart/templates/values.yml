@@ -18,6 +18,6 @@ ingress:
         secretName: {{ .Values.releaseName }}-cert
 securityContext:
     container:
-        PUID: 3001
-        runAsUser: 3001
-        runAsGroup: 3001
+        PUID: 568
+        runAsUser: 568
+        runAsGroup: 568

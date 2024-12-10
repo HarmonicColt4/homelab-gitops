@@ -7,10 +7,15 @@ resources:
   - release.yml
   - namespace.yml
 
-secretGenerator:
+configMapGenerator:
   - name: values
     files:
-      - values.yaml=values.enc.yml
+      - values.yaml=values.yml
+
+# secretGenerator:
+#   - name: values
+#     files:
+#       - values.yaml=values.enc.yml
 
 configurations:
   - kustomizeconfig.yml

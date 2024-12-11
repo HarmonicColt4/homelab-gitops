@@ -18,3 +18,7 @@ ingress:
       - hosts:
         - adguard-home.staging.weirdrussiandomain.com
         secretName: adguard-home-cert
+
+service:
+  main:
+    type: LoadBalancer

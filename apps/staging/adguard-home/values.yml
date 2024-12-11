@@ -1,7 +1,20 @@
-releaseName: adguard-home
-
-targetNamespace: adguard-home
-
-chart: adguard-home
-
-version: '11.*'
+---
+# Source: tc-helmrelease-chart/templates/values.yml
+ingress:
+  main:
+    integrations:
+      traefik:
+        enabled: false
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+      cert-manager.io/cluster-issuer: letsencrypt-staging
+    enabled: true
+    hosts:
+      - host: adguard-home.staging.weirdrussiandomain.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+        - adguard-home.staging.weirdrussiandomain.com
+        secretName: adguard-home-cert

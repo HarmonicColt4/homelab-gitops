@@ -1,0 +1,15 @@
+---
+# Source: tc-helmrelease-chart/templates/kustomizeconfig.yml
+nameReference:
+- kind: ConfigMap
+  version: v1
+  fieldSpecs:
+  - path: spec/valuesFrom/name
+    kind: HelmRelease
+
+# nameReference:
+# - kind: Secret
+#   version: v1
+#   fieldSpecs:
+#   - path: spec/valuesFrom/name
+#     kind: HelmRelease

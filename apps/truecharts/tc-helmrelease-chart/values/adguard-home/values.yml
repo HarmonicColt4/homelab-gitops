@@ -1,0 +1,9 @@
+releaseName: adguard-home
+
+targetNamespace: adguard-home
+
+chart: adguard-home
+
+version: "11.*"
+
+domain: staging.weirdrussiandomain.com

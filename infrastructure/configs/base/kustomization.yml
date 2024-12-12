@@ -3,4 +3,3 @@ kind: Kustomization
 resources:
   - cluster-issuers.yml
   - ip-address-pools.yml
-  - l2-advertisements.yml

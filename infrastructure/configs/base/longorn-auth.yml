@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  auth: Z3BlbmRhOiRhcHIxJE9GMlNOVVpZJFdCTXgxSGR1NjlhWWdVMm8ySmVCWDEK
+kind: Secret
+metadata:
+  name: basic-auth
+  namespace: longhorn-system

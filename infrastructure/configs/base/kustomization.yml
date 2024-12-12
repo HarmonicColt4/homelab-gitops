@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - cluster-issuers.yml
   - ip-address-pools.yml
+  - longorn-auth.yml

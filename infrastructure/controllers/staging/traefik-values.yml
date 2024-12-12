@@ -4,6 +4,8 @@ metadata:
   name: traefik
 spec:
   values:
+    deployment:
+      kind: DaemonSet
     ports:
       traefik:
         expose:

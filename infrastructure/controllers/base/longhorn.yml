@@ -29,6 +29,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: longhorn
+        namespace: default
       interval: 24h
   valuesFrom:
     - kind: ConfigMap

@@ -3,5 +3,11 @@ kind: Kustomization
 resources:
   - metallb.yml
   - cert-manager.yml 
-  # - openebs.yml 
+  - longhorn.yml 
   - traefik.yml
+configMapGenerator:
+  - name: longhorn-values
+    files:
+      - values.yaml=values/longhorn.yml
+configurations:
+  - kustomizeconfig.yml

@@ -25,7 +25,7 @@ spec:
   chart:
     spec:
       chart: longhorn
-      version: '1.*'
+      version: '1.7.*'
       sourceRef:
         kind: HelmRepository
         name: longhorn
@@ -40,9 +40,9 @@ spec:
       # storageOverProvisioningPercentage: 600
       # storageMinimalAvailablePercentage: 15
       # upgradeChecker: false
-      defaultReplicaCount: 2
+      defaultReplicaCount: 3
       # defaultDataLocality: disabled
-      defaultLonghornStaticStorageClass: longhorn
+      defaultLonghornStaticStorageClass: longhorn-static
       # backupstorePollInterval: 500
       # taintToleration: key1=value1:NoSchedule; key2:NoExecute
       # systemManagedComponentsNodeSelector: "label-key1:label-value1"

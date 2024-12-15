@@ -32,3 +32,19 @@ spec:
       interval: 24h
   install:
     disableWait: true
+  values:
+    deployment:
+      kind: DaemonSet
+    ports:
+      web:
+        redirectTo:
+          port: websecure
+      traefik:
+        expose:
+          default: true
+    ingressRoute:
+      dashboard:
+        enabled: true
+    service:
+      annotations:
+        metallb.universe.tf/loadBalancerIPs: 10.13.25.40

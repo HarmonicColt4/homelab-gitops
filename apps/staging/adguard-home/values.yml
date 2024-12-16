@@ -18,3 +18,5 @@ ingress:
       - hosts:
         - adguard-home.staging.weirdrussiandomain.com
         secretName: adguard-home-cert
+fallbackDefaults:
+  pvcSize: 1Gi

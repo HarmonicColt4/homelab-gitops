@@ -20,10 +20,6 @@ ingress:
         secretName: adguard-home-cert
 persistence:
   config:
-    volumeName: adguard-home-config
-    storageClass: longhorn
     size: 1Gi
   data:
-    volumeName: adguard-home-data
-    storageClass: longhorn
     size: 1Gi

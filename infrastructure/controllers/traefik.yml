@@ -32,6 +32,8 @@ spec:
       interval: 24h
   install:
     disableWait: true
+  upgrade:
+    disableWait: true
   values:
     deployment:
       kind: DaemonSet

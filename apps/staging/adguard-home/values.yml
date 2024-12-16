@@ -27,24 +27,24 @@ service:
   main:
     type: LoadBalancer
     annotations:
-    metallb.universe.tf/loadBalancerIPs: 10.13.25.31
+      metallb.universe.tf/loadBalancerIPs: 10.13.25.31
   dns-https:
     type: LoadBalancer
     annotations:
-    metallb.universe.tf/loadBalancerIPs: 10.13.25.31
+      metallb.universe.tf/loadBalancerIPs: 10.13.25.31
   dns-https-udp:
     type: LoadBalancer
     annotations:
-    metallb.universe.tf/loadBalancerIPs: 10.13.25.31
+      metallb.universe.tf/loadBalancerIPs: 10.13.25.31
   dns-crypt:
     type: LoadBalancer
     annotations:
-    metallb.universe.tf/loadBalancerIPs: 10.13.25.31
+      metallb.universe.tf/loadBalancerIPs: 10.13.25.31
   dns-crypt-udp:
     type: LoadBalancer
     annotations:
-    metallb.universe.tf/loadBalancerIPs: 10.13.25.31
+      metallb.universe.tf/loadBalancerIPs: 10.13.25.31
   dns-quic-udp-1:
     type: LoadBalancer
     annotations:
-    metallb.universe.tf/loadBalancerIPs: 10.13.25.31
+      metallb.universe.tf/loadBalancerIPs: 10.13.25.31

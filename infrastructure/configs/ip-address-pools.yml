@@ -5,4 +5,5 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-  - 10.13.25.40-10.13.25.49
+  - 10.13.25.31/24
+  - 10.13.25.35-10.13.25.39

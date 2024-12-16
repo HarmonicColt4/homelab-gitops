@@ -47,4 +47,4 @@ spec:
         enabled: true
     service:
       annotations:
-        metallb.universe.tf/loadBalancerIPs: 10.13.25.40
+        metallb.universe.tf/loadBalancerIPs: 10.13.25.31

@@ -1,4 +1,5 @@
 cloudflareddns:
+  user: guyfrank@outlook.com
   api_token: B-AwTbX9tOe-RUQXB1pAGh2JG7P8doUt8faSy4BP
   host_zone_record:
     - domain: weirdrussiandomain.com

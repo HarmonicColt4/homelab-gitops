@@ -18,11 +18,10 @@ ingress:
       - hosts:
         - jellyfin.staging.weirdrussiandomain.com
         secretName: jellyfin-cert
-
-fallbackDefaults:
-  pvcSize: 10Gi
-  vctSize: 10Gi
-
+global:
+  fallbackDefaults:
+    pvcSize: 10Gi
+    vctSize: 10Gi
 workload:
   main:
     podSpec:

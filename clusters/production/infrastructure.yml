@@ -54,7 +54,7 @@ spec:
   patches:
     - patch: |
         - op: replace
-          path:/spec/addresses
+          path: /spec/addresses
           value:
             - 10.13.25.21/32
             - 10.13.25.25-10.13.25.29
@@ -64,11 +64,11 @@ spec:
         namespace: metallb-system
     - patch: |
         - op: replace
-          path:/spec/rules/0/host
+          path: /spec/rules/0/host
           value:
             longhorn.weirdrussiandomain.com
         - op: replace
-          path:/spec/tls/0/hosts
+          path: /spec/tls/0/hosts
           value:
             - longhorn.staging.weirdrussiandomain.com
       target:
@@ -77,7 +77,7 @@ spec:
         namespace: longhorn-system
     - patch: |
         - op: replace
-          path:/stringData/api-token
+          path: /stringData/api-token
           value:
             myctuzPcGXWwpyyBwZsBQKFimtYZVTPRC4ZbC_Se
       target:

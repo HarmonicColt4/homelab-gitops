@@ -29,8 +29,3 @@ workload:
         main:
           env:
             JELLYFIN_PublishedServerUrl: jellyfin.staging.weirdrussiandomain.com
-  broadcastproxy:
-    enabled: true
-autodiscovery:
-  enabled: true
-updated: true

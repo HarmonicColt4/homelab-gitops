@@ -16,3 +16,7 @@ ingress:
       - hosts:
         - {{ .Values.releaseName }}.{{ .Values.domain }}
         secretName: {{ .Values.releaseName }}-cert
+global:
+  fallbackDefaults:
+    pvcSize: 10Gi
+    vctSize: 10Gi

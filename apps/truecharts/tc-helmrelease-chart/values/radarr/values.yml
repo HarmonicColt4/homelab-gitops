@@ -1,7 +1,0 @@
-releaseName: radarr
-
-targetNamespace: radarr
-
-chart: radarr
-
-version: '11.2.1'

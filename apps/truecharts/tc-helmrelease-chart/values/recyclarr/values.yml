@@ -1,7 +1,0 @@
-releaseName: recyclarr
-
-targetNamespace: recyclarr
-
-chart: recyclarr
-
-version: '11.2.1'

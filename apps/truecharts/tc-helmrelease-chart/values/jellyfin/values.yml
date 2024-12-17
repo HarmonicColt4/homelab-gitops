@@ -1,9 +1,0 @@
-releaseName: jellyfin
-
-targetNamespace: jellyfin
-
-chart: jellyfin
-
-version: '20.*'
-
-domain: staging.weirdrussiandomain.com

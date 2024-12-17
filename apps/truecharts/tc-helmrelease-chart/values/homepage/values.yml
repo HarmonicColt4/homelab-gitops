@@ -1,7 +1,0 @@
-releaseName: homepage
-
-targetNamespace: homepage
-
-chart: homepage
-
-version: '9.3.0'

@@ -1,0 +1,7 @@
+releaseName: cloudflareddns
+
+targetNamespace: cloudflareddns
+
+chart: cloudflareddns
+
+version: '11.*'

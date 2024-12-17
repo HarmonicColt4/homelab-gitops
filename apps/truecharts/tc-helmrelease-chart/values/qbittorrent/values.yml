@@ -1,7 +1,0 @@
-releaseName: qbittorrent
-
-targetNamespace: qbittorrent
-
-chart: qbittorrent
-
-version: '22.1.2'

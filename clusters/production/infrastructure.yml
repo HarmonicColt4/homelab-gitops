@@ -70,7 +70,7 @@ spec:
         - op: replace
           path: /spec/tls/0/hosts
           value:
-            - longhorn.staging.weirdrussiandomain.com
+            - longhorn.weirdrussiandomain.com
       target:
         kind: Ingress
         name: longhorn-ingress

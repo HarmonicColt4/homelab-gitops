@@ -18,5 +18,3 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: values
-    # - kind: Secret
-    #   name: values

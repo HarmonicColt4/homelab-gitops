@@ -12,10 +12,5 @@ configMapGenerator:
     files:
       - values.yaml=values.yml
 
-# secretGenerator:
-#   - name: values
-#     files:
-#       - values.yaml=values.enc.yml
-
 configurations:
   - kustomizeconfig.yml

@@ -16,7 +16,7 @@ spec:
   patches:
     - patch: |
         - op: replace
-          path:/spec/values
+          path: /spec/values
           value:
             deployment:
               kind: DaemonSet

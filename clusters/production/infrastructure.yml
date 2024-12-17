@@ -56,6 +56,7 @@ spec:
         - op: replace
           path: /spec/addresses
           value:
+            - 10.13.25.2/32
             - 10.13.25.21/32
             - 10.13.25.25-10.13.25.29
       target:

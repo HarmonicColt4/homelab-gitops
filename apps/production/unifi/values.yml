@@ -1,5 +1,14 @@
 ---
 # Source: tc-helmrelease-chart/templates/values.yml
+service:
+  main:
+    annotations:
+      traefik.ingress.kubernetes.io/service.serverstransport: traefik-insecure@kubernetescrd
+  comm:
+    type: LoadBalancer
+    annotations:
+      metallb.universe.tf/loadBalancerIPs: 10.13.25.2
+
 ingress:
   main:
     integrations:

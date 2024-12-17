@@ -31,27 +31,10 @@ spec:
         name: longhorn
       interval: 24h
   values:
+    persistence:
+      reclaimPolicy: Retain
     defaultSettings:
-      # backupTarget: s3://backupbucket@us-east-1/backupstore
-      # backupTargetCredentialSecret: minio-secret
       createDefaultDiskLabeledNodes: true
       defaultDataPath: /var/lib/longhorn/
-      # replicaSoftAntiAffinity: false
-      # storageOverProvisioningPercentage: 600
-      # storageMinimalAvailablePercentage: 15
-      # upgradeChecker: false
       defaultReplicaCount: 3
-      # defaultDataLocality: disabled
       defaultLonghornStaticStorageClass: longhorn-static
-      # backupstorePollInterval: 500
-      # taintToleration: key1=value1:NoSchedule; key2:NoExecute
-      # systemManagedComponentsNodeSelector: "label-key1:label-value1"
-      # priorityClass: high-priority
-      # autoSalvage: false
-      # disableSchedulingOnCordonedNode: true
-      # replicaZoneSoftAntiAffinity: false
-      # replicaDiskSoftAntiAffinity: false
-      # volumeAttachmentRecoveryPolicy: never
-      # nodeDownPodDeletionPolicy: do-nothing
-      # guaranteedInstanceManagerCpu: 15
-      # orphanAutoDeletion: false

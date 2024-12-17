@@ -77,15 +77,6 @@ spec:
         namespace: longhorn-system
     - patch: |
         - op: replace
-          path: /stringData/api-token
-          value:
-            myctuzPcGXWwpyyBwZsBQKFimtYZVTPRC4ZbC_Se
-      target:
-        kind: Secret
-        name: cloudflare-api-token-secret
-        namespace: cert-manager
-    - patch: |
-        - op: replace
           path: /spec/acme/server
           value: https://acme-v02.api.letsencrypt.org/directory
       target:

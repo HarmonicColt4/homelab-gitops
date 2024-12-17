@@ -1,7 +1,9 @@
-releaseName: cloudflareddns
+releaseName: unifi
 
-targetNamespace: cloudflareddns
+targetNamespace: unifi
 
-chart: cloudflareddns
+chart: unifi
 
 version: '11.*'
+
+domain: weirdrussiandomain.com

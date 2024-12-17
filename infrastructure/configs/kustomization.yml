@@ -5,3 +5,4 @@ resources:
   - ip-address-pools.yml
   - longorn-auth.yml
   - l2-advertisements.yml
+  - traefik.yml

@@ -6,6 +6,7 @@ kind: Kustomization
 namespace: actualserver
 
 resources:
+  - namespace.yml
   - release.yml
 
 configMapGenerator:

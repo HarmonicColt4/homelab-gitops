@@ -6,3 +6,4 @@ resources:
   - longorn-auth.yml
   - l2-advertisements.yml
   - traefik.yml
+  - intel-gpu-plugin.yml

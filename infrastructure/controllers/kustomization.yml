@@ -5,3 +5,4 @@ resources:
   - cert-manager.yml 
   - longhorn.yml 
   - traefik.yml
+  - intel-gpu-plugin.yml

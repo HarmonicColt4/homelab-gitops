@@ -1,0 +1,44 @@
+---
+# Source: tc-helmrelease-chart/templates/values.yml
+ingress:
+  main:
+    integrations:
+      traefik:
+        enabled: false
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      cert-manager.io/cluster-issuer: letsencrypt
+    enabled: true
+    hosts:
+      - host: jellyfin.weirdrussiandomain.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+        - jellyfin.weirdrussiandomain.com
+        secretName: jellyfin-cert
+global:
+  fallbackDefaults:
+    pvcSize: 5Gi
+    vctSize: 5Gi
+persistence:
+  media:
+    enabled: true
+    type: nfs
+    path: /mnt/storage/media
+    server: 10.13.25.10
+    mountPath: /mnt/storage/media
+service:
+  autodiscovery:
+    enabled: false
+workload:
+  main:
+    podSpec:
+      containers:
+        main:
+          resources:
+            limits:
+              gpu.intel.com/i915: 1
+          env:
+            JELLYFIN_PublishedServerUrl: jellyfin.weirdrussiandomain.com

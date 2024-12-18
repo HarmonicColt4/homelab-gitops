@@ -5,7 +5,6 @@ namespace: {{ .Values.targetNamespace }}
 
 resources:
   - release.yml
-  - namespace.yml
 
 configMapGenerator:
   - name: values

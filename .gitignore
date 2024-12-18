@@ -1,1 +1,2 @@
 apps/truecharts/tc-helmrelease-chart/values/values.yml
+apps/truecharts/tc-helmrelease-chart/script.sh

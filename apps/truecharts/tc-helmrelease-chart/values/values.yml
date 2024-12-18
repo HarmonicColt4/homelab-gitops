@@ -1,9 +1,0 @@
-releaseName: unifi
-
-targetNamespace: unifi
-
-chart: unifi
-
-version: '11.*'
-
-domain: weirdrussiandomain.com

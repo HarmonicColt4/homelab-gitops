@@ -30,36 +30,43 @@ service:
       metallb.universe.tf/allow-shared-ip: dns
   dns-tcp:
     type: LoadBalancer
+    externalTrafficPolicy: Local
     annotations:
       metallb.universe.tf/loadBalancerIPs: 10.13.25.3
       metallb.universe.tf/allow-shared-ip: dns
   dns-udp:
     type: LoadBalancer
+    externalTrafficPolicy: Local
     annotations:
       metallb.universe.tf/loadBalancerIPs: 10.13.25.3
       metallb.universe.tf/allow-shared-ip: dns
   dns-https:
     type: LoadBalancer
+    externalTrafficPolicy: Local
     annotations:
       metallb.universe.tf/loadBalancerIPs: 10.13.25.3
       metallb.universe.tf/allow-shared-ip: dns
   dns-https-udp:
     type: LoadBalancer
+    externalTrafficPolicy: Local
     annotations:
       metallb.universe.tf/loadBalancerIPs: 10.13.25.3
       metallb.universe.tf/allow-shared-ip: dns
   dns-crypt:
     type: LoadBalancer
+    externalTrafficPolicy: Local
     annotations:
       metallb.universe.tf/loadBalancerIPs: 10.13.25.3
       metallb.universe.tf/allow-shared-ip: dns
   dns-crypt-udp:
     type: LoadBalancer
+    externalTrafficPolicy: Local
     annotations:
       metallb.universe.tf/loadBalancerIPs: 10.13.25.3
       metallb.universe.tf/allow-shared-ip: dns
   dns-quic-udp-1:
     type: LoadBalancer
+    externalTrafficPolicy: Local
     annotations:
       metallb.universe.tf/loadBalancerIPs: 10.13.25.3
       metallb.universe.tf/allow-shared-ip: dns

@@ -32,16 +32,11 @@ persistence:
 service:
   main:
     type: LoadBalancer
-    externalTrafficPolicy: Local
     annotations:
       metallb.universe.tf/loadBalancerIPs: 10.13.25.29
       metallb.universe.tf/allow-shared-ip: jellyfin
   autodiscovery:
-    type: LoadBalancer
-    externalTrafficPolicy: Local
-    annotations:
-      metallb.universe.tf/loadBalancerIPs: 10.13.25.29
-      metallb.universe.tf/allow-shared-ip: jellyfin
+    enabled: false
 workload:
   main:
     podSpec:
@@ -52,5 +47,3 @@ workload:
               gpu.intel.com/i915: 1
           env:
             JELLYFIN_PublishedServerUrl: jellyfin.weirdrussiandomain.com
-  broadcastproxy:
-    enabled: true

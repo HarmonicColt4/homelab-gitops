@@ -23,12 +23,6 @@ global:
     pvcSize: 1Gi
     vctSize: 1Gi
 service:
-  main:
-    type: LoadBalancer
-    externalTrafficPolicy: Local
-    annotations:
-      metallb.universe.tf/loadBalancerIPs: 10.13.25.3
-      metallb.universe.tf/allow-shared-ip: dns
   dns-tcp:
     type: LoadBalancer
     externalTrafficPolicy: Local

@@ -4,6 +4,11 @@ cloudflareddns:
     - domain: weirdrussiandomain.com
       record: A
       zone: 43bc917a30243f4dd627f85a2faff775
+workload:
+  main:
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1      
 global:
   fallbackDefaults:
     pvcSize: 1Gi

@@ -18,6 +18,11 @@ ingress:
       - hosts:
         - actualserver.weirdrussiandomain.com
         secretName: actualserver-cert
+workload:
+  main:
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
 global:
   fallbackDefaults:
     pvcSize: 1Gi

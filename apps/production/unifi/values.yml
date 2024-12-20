@@ -27,6 +27,11 @@ ingress:
       - hosts:
         - unifi.weirdrussiandomain.com
         secretName: unifi-cert
+workload:
+  main:
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
 global:
   fallbackDefaults:
     pvcSize: 10Gi

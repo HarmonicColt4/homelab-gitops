@@ -47,3 +47,6 @@ workload:
               gpu.intel.com/i915: 1
           env:
             JELLYFIN_PublishedServerUrl: jellyfin.weirdrussiandomain.com
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1            

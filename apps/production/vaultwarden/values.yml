@@ -18,6 +18,11 @@ ingress:
       - hosts:
         - vaultwarden.weirdrussiandomain.com
         secretName: vaultwarden-cert
+workload:
+  main:
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
 global:
   fallbackDefaults:
     pvcSize: 1Gi

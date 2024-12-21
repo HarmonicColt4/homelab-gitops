@@ -1,0 +1,78 @@
+---
+# Source: tc-helmrelease-chart/templates/values.yml
+ingress:
+  main:
+    integrations:
+      traefik:
+        enabled: false
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      cert-manager.io/cluster-issuer: letsencrypt
+    enabled: true
+    hosts:
+      - host: nextcloud.weirdrussiandomain.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+        - nextcloud.weirdrussiandomain.com
+        secretName: nextcloud-cert
+global:
+  fallbackDefaults:
+    pvcSize: 10Gi
+    vctSize: 10Gi
+nextcloud:
+  credentials:
+    initialAdminUser: gpenda
+    initialAdminPassword: wj@i35g3y3@U&A
+  general:
+    default_phone_region: NZ
+    accessIP: 10.13.25.21
+  clamav:
+    enabled: true
+    stream_max_length: 26214400
+    file_max_size: -1
+    infected_action: only_log
+  notify_push:
+    enabled: true
+  collabora:
+    enabled: true
+    # default|compact|tabbed
+    interface_mode: default
+    username: gpenda
+    password: wj@i35g3y3@U&A
+    dictionaries:
+      - de_DE
+      - en_GB
+      - en_US
+      - el_GR
+      - es_ES
+      - fr_FR
+      - pt_BR
+      - pt_PT
+      - it
+      - nl
+      - ru
+persistence:
+  data:
+    enabled: true
+    type: nfs
+    path: /mnt/storage/nextcloud
+    server: 10.13.25.10
+    targetSelector:
+      main:
+        main:
+          mountPath: /var/www/html/data
+        init-perms:
+          mountPath: /var/www/html/data
+      nextcloud-cron:
+        nextcloud-cron:
+          mountPath: /var/www/html/data
+      preview-cron:
+        preview-cron:
+          mountPath: /var/www/html/data
+      nginx:
+        nginx:
+          mountPath: /var/www/html/data
+          readOnly: true      

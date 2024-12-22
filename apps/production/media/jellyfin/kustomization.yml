@@ -9,7 +9,7 @@ resources:
   - release.yml
 
 configMapGenerator:
-  - name: values
+  - name: jellyfin-values
     files:
       - values.yaml=values.yml
 

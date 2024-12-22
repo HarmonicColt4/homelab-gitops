@@ -1,0 +1,17 @@
+---
+global:
+  fallbackDefaults:
+    pvcSize: 1Gi
+    vctSize: 1Gi
+addons:
+  codeserver:
+    # -- Enable running a code-server container in the pod
+    enabled: true
+
+    service:
+      # -- Enable a service for the code-server add-on.
+      type: "LoadBalancer"
+      # Specify the default port information
+      ports:
+        codeserver:
+          port: 12321

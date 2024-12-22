@@ -4,11 +4,10 @@ kind: Kustomization
 namespace: {{ .Values.targetNamespace }}
 
 resources:
-  - namespace.yml
   - release.yml
 
 configMapGenerator:
-  - name: values
+  - name: {{ .Values.releaseName }}-values
     files:
       - values.yaml=values.yml
 

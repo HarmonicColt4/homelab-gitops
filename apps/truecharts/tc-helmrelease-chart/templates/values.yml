@@ -16,12 +16,7 @@ ingress:
       - hosts:
         - {{ .Values.releaseName }}.{{ .Values.domain }}
         secretName: {{ .Values.releaseName }}-cert
-workload:
-  main:
-    rollingUpdate:
-      maxUnavailable: 1
-      maxSurge: 1
 global:
   fallbackDefaults:
-    pvcSize: 10Gi
-    vctSize: 10Gi
+    pvcSize: 1Gi
+    vctSize: 1Gi

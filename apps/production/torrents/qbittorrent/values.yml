@@ -47,3 +47,8 @@ persistence:
     path: /mnt/storage/downloads
     server: 10.13.25.10
     mountPath: /downloads
+workload:
+  main:
+    podSpec:
+      nodeSelector:
+        netspeed: fast

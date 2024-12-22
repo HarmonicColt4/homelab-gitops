@@ -6,7 +6,7 @@ metadata:
   name: jellyfin
 spec:
   releaseName: jellyfin
-  targetNamespace: jellyfin
+  targetNamespace: media
   interval: 24h
   chart:
     spec:

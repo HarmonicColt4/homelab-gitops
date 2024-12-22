@@ -23,8 +23,6 @@ global:
     pvcSize: 5Gi
     vctSize: 5Gi
 persistence:
-  config:
-    volumeName: cloned-pvc-f3cb0f2d-e3ab-4ca8-8-d674597c
   media:
     enabled: true
     type: nfs

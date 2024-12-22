@@ -18,12 +18,14 @@ ingress:
       - hosts:
         - sonarr.weirdrussiandomain.com
         secretName: sonarr-cert
-workload:
-  main:
-    rollingUpdate:
-      maxUnavailable: 1
-      maxSurge: 1
 global:
   fallbackDefaults:
     pvcSize: 1Gi
     vctSize: 1Gi
+persistence:
+  media:
+    enabled: true
+    type: nfs
+    path: /mnt/storage/media/series
+    server: 10.13.25.10
+    mountPath: /mnt/storage/media/series

@@ -6,7 +6,6 @@ kind: Kustomization
 namespace: jellyfin
 
 resources:
-  - namespace.yml
   - release.yml
 
 configMapGenerator:

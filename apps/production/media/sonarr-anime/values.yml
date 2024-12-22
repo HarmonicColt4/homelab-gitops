@@ -28,4 +28,4 @@ persistence:
     type: nfs
     path: /mnt/storage/media/anime
     server: 10.13.25.10
-    mountPath: /mnt/storage/media/anime
+    mountPath: /anime

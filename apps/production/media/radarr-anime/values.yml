@@ -1,0 +1,31 @@
+---
+# Source: tc-helmrelease-chart/templates/values.yml
+ingress:
+  main:
+    integrations:
+      traefik:
+        enabled: false
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      cert-manager.io/cluster-issuer: letsencrypt
+    enabled: true
+    hosts:
+      - host: radarr-anime.weirdrussiandomain.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+        - radarr-anime.weirdrussiandomain.com
+        secretName: radarr-anime-cert
+global:
+  fallbackDefaults:
+    pvcSize: 1Gi
+    vctSize: 1Gi
+persistence:
+  media:
+    enabled: true
+    type: nfs
+    path: /mnt/storage/media/anime
+    server: 10.13.25.10
+    mountPath: /anime

@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: {{ .Values.targetNamespace }}
 
 resources:
+  - namespace.yml
   - release.yml
 
 configMapGenerator:

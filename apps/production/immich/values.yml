@@ -26,29 +26,30 @@ global:
 persistence:
   library:
     type: nfs
-    path: /mnt/storage/immich-clone/library
+    path: /mnt/storage/immich/library
     server: 10.13.25.10
   uploads:
     type: nfs
-    path: /mnt/storage/immich-clone/upload
+    path: /mnt/storage/immich/upload
     server: 10.13.25.10
   backups:
     type: nfs
-    path: /mnt/storage/immich-clone/backups
+    path: /mnt/storage/immich/backups
     server: 10.13.25.10
   thumbs:
     type: nfs
-    path: /mnt/storage/immich-clone/thumbs
+    path: /mnt/storage/immich/thumbs
     server: 10.13.25.10
   profile:
     type: nfs
-    path: /mnt/storage/immich-clone/profile
+    path: /mnt/storage/immich/profile
     server: 10.13.25.10
   video:
     type: nfs
-    path: /mnt/storage/immich-clone/encoded-video
+    path: /mnt/storage/immich/encoded-video
     server: 10.13.25.10
 
-workload:
+cnpg:
   main:
-    enabled: "true"
+    creds:
+      password: "Z*z#ehVCwjy#GX7EEidN5fj5wKQ5K@BLemRi&*$obQPL4Y%GCX5Ak&Mai&kJ83CS"

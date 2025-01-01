@@ -10,7 +10,37 @@ spec:
   eventSources:
     - kind: GitRepository
       name: '*'
+      namespace: flux-system
     - kind: Kustomization
       name: '*'
+      namespace: flux-system
     - kind: HelmRelease
       name: '*'
+      namespace: actualserver
+    - kind: HelmRelease
+      name: '*'
+      namespace: adguard-home
+    - kind: HelmRelease
+      name: '*'
+      namespace: media
+    - kind: HelmRelease
+      name: '*'
+      namespace: cloudflareddns
+    - kind: HelmRelease
+      name: '*'
+      namespace: nextcloud
+    - kind: HelmRelease
+      name: '*'
+      namespace: torrents
+    - kind: HelmRelease
+      name: '*'
+      namespace: default
+    - kind: HelmRelease
+      name: '*'
+      namespace: unifi
+    - kind: HelmRelease
+      name: '*'
+      namespace: vaultwarden
+    - kind: HelmRelease
+      name: '*'
+      namespace: prometheus-operator

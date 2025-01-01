@@ -51,4 +51,4 @@ persistence:
 
 workload:
   main:
-    enabled: "false"
+    enabled: "true"

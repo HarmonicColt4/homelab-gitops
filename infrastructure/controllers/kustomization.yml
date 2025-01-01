@@ -6,3 +6,4 @@ resources:
   - longhorn.yml 
   - traefik.yml
   - intel-gpu-plugin.yml
+  - notifications-provider.yml

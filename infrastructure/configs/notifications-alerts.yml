@@ -44,3 +44,5 @@ spec:
     - kind: HelmRelease
       name: '*'
       namespace: prometheus-operator
+  exclusionList:
+    - "Dependencies do not meet ready condition, retrying in 30s"

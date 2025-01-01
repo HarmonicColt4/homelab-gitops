@@ -21,6 +21,7 @@ ingress:
 global:
   fallbackDefaults:
     pvcSize: 10Gi
+    vctSize: 10Gi
 
 persistence:
   library:

@@ -1,0 +1,22 @@
+---
+# Source: tc-helmrelease-chart/templates/release.yml
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: actualserver-test
+spec:
+  releaseName: actualserver-test
+  targetNamespace: actualserver
+  interval: 24h
+  chart:
+    spec:
+      chart: actualserver
+      version: 12.*
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: default
+      interval: 5m
+  valuesFrom:
+    - kind: ConfigMap
+      name: values

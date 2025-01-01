@@ -19,4 +19,4 @@ spec:
       interval: 5m
   valuesFrom:
     - kind: ConfigMap
-      name: values
+      name: test-values

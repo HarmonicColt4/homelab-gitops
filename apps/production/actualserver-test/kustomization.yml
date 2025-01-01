@@ -9,7 +9,7 @@ resources:
   - release.yml
 
 configMapGenerator:
-  - name: values
+  - name: test-values
     files:
       - values.yaml=values.yml
 

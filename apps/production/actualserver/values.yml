@@ -23,6 +23,10 @@ global:
     pvcSize: 1Gi
     vctSize: 1Gi
 persistence:
+  server-files:
+    enabled: false
+  user-files:
+    enabled: false
   files:
     enabled: true
     mountPath: /data

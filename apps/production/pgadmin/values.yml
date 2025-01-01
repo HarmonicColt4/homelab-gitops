@@ -29,3 +29,4 @@ workload:
           env:
             PGADMIN_DEFAULT_EMAIL: "guyfrank@outlook.com"
             PGADMIN_DEFAULT_PASSWORD: "F19hters"
+            PGADMIN_CONFIG_ENABLE_PSQL: True

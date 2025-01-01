@@ -51,8 +51,4 @@ persistence:
 
 workload:
   main:
-    podSpec:
-      containers:
-        main:
-          env:
-            DB_SKIP_MIGRATIONS: "true"
+    enabled: "false"

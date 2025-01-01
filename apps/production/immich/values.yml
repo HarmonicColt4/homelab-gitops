@@ -48,7 +48,3 @@ persistence:
     type: nfs
     path: /mnt/storage/immich-clone/encoded-video
     server: 10.13.25.10
-
-workload:
-  main:
-    enabled: "false"

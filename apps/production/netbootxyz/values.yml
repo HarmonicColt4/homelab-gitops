@@ -23,6 +23,6 @@ global:
     pvcSize: 10Gi
 service:
   tftp:
-    typetype: LoadBalancer
+    type: LoadBalancer
     annotations:
       metallb.universe.tf/loadBalancerIPs: 10.13.25.26

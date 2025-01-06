@@ -1,0 +1,28 @@
+---
+# Source: tc-helmrelease-chart/templates/values.yml
+ingress:
+  main:
+    integrations:
+      traefik:
+        enabled: false
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      cert-manager.io/cluster-issuer: letsencrypt
+    enabled: true
+    hosts:
+      - host: netbootxyz.weirdrussiandomain.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+        - netbootxyz.weirdrussiandomain.com
+        secretName: netbootxyz-cert
+global:
+  fallbackDefaults:
+    pvcSize: 10Gi
+service:
+  tftp:
+    typetype: LoadBalancer
+    annotations:
+      metallb.universe.tf/loadBalancerIPs: 10.13.25.26

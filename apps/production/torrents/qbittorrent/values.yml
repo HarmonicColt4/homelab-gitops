@@ -18,6 +18,11 @@ ingress:
       - hosts:
         - qbittorrent.weirdrussiandomain.com
         secretName: qbittorrent-cert
+service:
+  torrent:
+    type: LoadBalancer
+    annotations:
+      metallb.universe.tf/loadBalancerIPs: 10.13.25.25
 global:
   fallbackDefaults:
     pvcSize: 1Gi

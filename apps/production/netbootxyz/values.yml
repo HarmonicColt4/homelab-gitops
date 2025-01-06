@@ -22,23 +22,16 @@ global:
   fallbackDefaults:
     pvcSize: 10Gi
 service:
-  main:
-    type: LoadBalancer
-    externalTrafficPolicy: Local
-    annotations:
-      metallb.universe.tf/loadBalancerIPs: 10.13.25.26
-      metallb.universe.tf/allow-shared-ip: netboot
-  assets:
-    type: LoadBalancer
-    externalTrafficPolicy: Local
-    annotations:
-      metallb.universe.tf/loadBalancerIPs: 10.13.25.26
-      metallb.universe.tf/allow-shared-ip: netboot
   tftp:
     type: LoadBalancer
     externalTrafficPolicy: Local
     annotations:
       metallb.universe.tf/loadBalancerIPs: 10.13.25.26
-      metallb.universe.tf/allow-shared-ip: netboot
-
+workload:
+  main:
+    podSpec:
+      containers:
+        main:
+          env:
+            TFTPD_OPTS: '--tftp-single-port'
 TZ: NZ

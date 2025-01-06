@@ -40,3 +40,5 @@ service:
     annotations:
       metallb.universe.tf/loadBalancerIPs: 10.13.25.26
       metallb.universe.tf/allow-shared-ip: netboot
+
+TZ: NZ

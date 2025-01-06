@@ -24,7 +24,8 @@ global:
 service:
   tftp:
     ports:
-      tftp: 69
+      tftp:
+        hostPort: 69
     type: LoadBalancer
     externalTrafficPolicy: Local
     annotations:

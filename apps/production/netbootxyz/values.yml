@@ -23,6 +23,8 @@ global:
     pvcSize: 10Gi
 service:
   tftp:
+    ports:
+      tftp: 69
     type: LoadBalancer
     externalTrafficPolicy: Local
     annotations:

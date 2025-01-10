@@ -36,6 +36,10 @@ spec:
         kind: HelmRepository
         name: nvidia-device-plugin
       interval: 24h
+  install:
+    disableWait: true
+  upgrade:
+    disableWait: true
   values:
     runtimeClassName: nvidia
     config:

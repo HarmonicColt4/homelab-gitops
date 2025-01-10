@@ -7,3 +7,4 @@ resources:
   - traefik.yml
   - intel-gpu-plugin.yml
   - notifications-provider.yml
+  - nvidia-device-plugin.yml

@@ -1,0 +1,6 @@
+---
+# Source: tc-helmrelease-chart/templates/namespace.yml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ollama

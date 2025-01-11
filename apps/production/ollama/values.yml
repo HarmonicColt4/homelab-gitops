@@ -37,8 +37,7 @@ ingress:
         secretName: ollama-cert
 ollama:
   rag:
-    model_device_type: "cuda"
-
+    model_device_type: "cpu"
 resources:
   limits:
     nvidia.com/gpu: 1

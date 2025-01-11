@@ -10,14 +10,14 @@ ingress:
       cert-manager.io/cluster-issuer: letsencrypt
     enabled: true
     hosts:
-      - host: ollama.weirdrussiandomain.com
+      - host: open-webui.weirdrussiandomain.com
         paths:
           - path: /
             pathType: Prefix
     tls:
       - hosts:
-        - ollama.weirdrussiandomain.com
-        secretName: ollama-cert
+          - open-webui.weirdrussiandomain.com
+        secretName: open-webui-cert
   api:
     integrations:
       traefik:
@@ -27,14 +27,22 @@ ingress:
       cert-manager.io/cluster-issuer: letsencrypt
     enabled: true
     hosts:
-      - host: ollama-api.weirdrussiandomain.com
+      - host: ollama.weirdrussiandomain.com
         paths:
           - path: /
             pathType: Prefix
     tls:
       - hosts:
-        - ollama-api.weirdrussiandomain.com
-        secretName: ollama-api-cert
+          - ollama.weirdrussiandomain.com
+        secretName: ollama-cert
 ollama:
   rag:
     model_device_type: "cuda"
+
+resources:
+  limits:
+    nvidia.com/gpu: 1
+workload:
+  main:
+    podSpec:
+    runtimeClassName: "nvidia"

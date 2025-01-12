@@ -45,3 +45,8 @@ workload:
   main:
     podSpec:
     runtimeClassName: "nvidia"
+persistence:
+  config:
+    size: 20Gi
+  data:
+    size: 20Gi

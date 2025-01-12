@@ -37,11 +37,11 @@ ingress:
         secretName: ollama-cert
 ollama:
   rag:
-    model_device_type: "cpu"
-# resources:
-#   limits:
-#     nvidia.com/gpu: 1
-# workload:
-#   main:
-#     podSpec:
-#     runtimeClassName: "nvidia"
+    model_device_type: "cuda"
+resources:
+  limits:
+    nvidia.com/gpu: 1
+workload:
+  main:
+    podSpec:
+    runtimeClassName: "nvidia"

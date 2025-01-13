@@ -44,7 +44,16 @@ resources:
 workload:
   main:
     podSpec:
-    runtimeClassName: "nvidia"
+      runtimeClassName: "nvidia"
+      containers:
+        main:
+          probes:
+            liveness:
+              port: 11434
+            readiness:
+              port: 11434
+            startup:
+              port: 11434
 persistence:
   config:
     size: 40Gi

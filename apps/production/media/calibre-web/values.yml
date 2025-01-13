@@ -21,3 +21,9 @@ ingress:
 persistence:
   config:
     size: 1Gi
+  media:
+    enabled: true
+    type: nfs
+    path: /mnt/storage/media/books/library
+    server: 10.13.25.10
+    mountPath: /books/library

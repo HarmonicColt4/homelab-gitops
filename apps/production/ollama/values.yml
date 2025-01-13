@@ -25,7 +25,7 @@ ingress:
     annotations:
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
       cert-manager.io/cluster-issuer: letsencrypt
-    enabled: false
+    enabled: true
     hosts:
       - host: ollama.weirdrussiandomain.com
         paths:
@@ -47,6 +47,6 @@ workload:
     runtimeClassName: "nvidia"
 persistence:
   config:
-    size: 20Gi
+    size: 40Gi
   data:
     size: 20Gi

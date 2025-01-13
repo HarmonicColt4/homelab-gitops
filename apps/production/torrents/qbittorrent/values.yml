@@ -46,6 +46,12 @@ persistence:
     path: /mnt/storage/media/anime/torrents
     server: 10.13.25.10
     mountPath: /anime/torrents
+  books:
+    enabled: true
+    type: nfs
+    path: /mnt/storage/media/books/torrents
+    server: 10.13.25.10
+    mountPath: /books/torrents
   downloads:
     enabled: true
     type: nfs

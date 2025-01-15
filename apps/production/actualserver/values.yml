@@ -22,3 +22,9 @@ global:
   fallbackDefaults:
     pvcSize: 1Gi
     vctSize: 1Gi
+persistence:
+  data:
+    enabled: false
+  files:
+    enabled: true
+    mountPath: /data

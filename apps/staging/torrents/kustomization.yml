@@ -4,7 +4,6 @@ kind: Kustomization
 namespace: flaresolverr
 
 resources:
-  - namespace.yml
   - flaresolverr
 
 patches:

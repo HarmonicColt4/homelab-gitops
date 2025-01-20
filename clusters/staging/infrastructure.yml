@@ -13,6 +13,17 @@ spec:
   path: ./infrastructure/controllers
   prune: true
   wait: true
+  patches:
+    - target:
+        kind: HelmRelease
+        name: traefik
+        namespace: default
+      patch: |
+        - op: add
+          path: /spec/values/service/annotations
+          value:  
+            metallb.universe.tf/loadBalancerIPs: 10.13.13.11
+
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -30,3 +41,15 @@ spec:
   path: ./infrastructure/configs
   prune: true
   wait: true
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/addresses
+          value:
+            - 10.13.13.2/32
+            - 10.13.13.3/32
+            - 10.13.13.11/32
+      target:
+        kind: IPAddressPool
+        name: ip-pool
+        namespace: metallb-system

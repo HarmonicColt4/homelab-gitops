@@ -7,3 +7,8 @@ resources:
 
 configurations:
   - kustomizeconfig.yml
+
+configMapGenerator:
+  - name: flaresolverr-common-values
+    files:
+      - values.yaml=values.yml

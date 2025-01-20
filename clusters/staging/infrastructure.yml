@@ -23,6 +23,15 @@ spec:
           path: /spec/values/service/annotations
           value:  
             metallb.universe.tf/loadBalancerIPs: 10.13.13.11
+    - target:
+        kind: Secret
+        name: discord-webhook
+        namespace: default
+      patch: |
+        - op: replace
+          path: /stringData
+          value:  
+            address: "https://discord.com/api/webhooks/1330790654380343296/4rV4xI-5VDoaOhl266nleVdxFGBc2acCVvUyhKfVlWrUSfUi4dhWqzEVGavE8siWY4NA"
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1

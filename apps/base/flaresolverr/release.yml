@@ -1,5 +1,4 @@
 ---
-# Source: tc-helmrelease-chart/templates/release.yml
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -18,4 +17,4 @@ spec:
       interval: 5m
   valuesFrom:
     - kind: ConfigMap
-      name: flaresolverr-common-values
+      name: common-values

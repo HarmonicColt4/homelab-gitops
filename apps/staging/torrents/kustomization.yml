@@ -1,7 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: torrents
+namespace: flaresolverr
 
 resources:
   - namespace.yml
@@ -11,6 +11,9 @@ patches:
   - target:
       kind: HelmRelease
     patch: |-
+      - op: add
+        path: /spec/targetNamespace
+        value: torrents
       - op: add
         path: /spec/storageNamespace
         value: torrents

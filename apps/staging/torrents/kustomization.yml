@@ -1,9 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: flaresolverr
-
 resources:
+  - namespace.yml
   - flaresolverr
 
 patches:
@@ -16,3 +15,12 @@ patches:
       - op: add
         path: /spec/storageNamespace
         value: torrents
+
+transformers:
+  - |-
+    apiVersion: builtin
+    kind: NamespaceTransformer
+    metadata:
+      name: notImportantHere
+      namespace: flaresolverr
+    unsetOnly: true

@@ -13,9 +13,9 @@ patches:
         path: /spec/valuesFrom/-
         value:
           kind: ConfigMap
-          name: env-values
+          name: prowlarr-env-values
 
 configMapGenerator:
-  - name: env-values
+  - name: prowlarr-env-values
     files:
       - values.yaml=values.yml

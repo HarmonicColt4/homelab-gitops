@@ -6,8 +6,7 @@ resources:
   - release.yml
 
 configMapGenerator:
-  - name: common-values
-    namespace: flaresolverr
+  - name: flaresolverr-common-values
     files:
       - values.yaml=values.yml
       

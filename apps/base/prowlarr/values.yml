@@ -8,3 +8,9 @@ ingress:
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
       cert-manager.io/cluster-issuer: letsencrypt
     enabled: true
+metrics:
+  main:
+    enabled: false
+persistence:
+  config:
+    size: 1Gi

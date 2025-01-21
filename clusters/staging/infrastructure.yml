@@ -24,6 +24,19 @@ spec:
           value:  
             metallb.universe.tf/loadBalancerIPs: 10.13.13.11
     - target:
+        kind: HelmRelease
+        name: longhorn
+        namespace: default
+      patch: |-
+        - op: add
+          path: /spec/values
+          value:
+            persistence:
+              defaultDataLocality: best-effort
+            defaultSettings:
+              createDefaultDiskLabeledNodes: true
+              backupTarget: nfs://10.13.25.10:/mnt/storage/longhorn-staging
+    - target:
         kind: Secret
         name: discord-webhook
         namespace: default

@@ -9,7 +9,6 @@ configMapGenerator:
   - name: flaresolverr-common-values
     files:
       - default-values=../default-values.yml
-      - values.yaml=values.yml
       
 configurations:
   - kustomizeconfig.yml

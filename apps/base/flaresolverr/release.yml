@@ -19,5 +19,3 @@ spec:
     - kind: ConfigMap
       name: flaresolverr-common-values
       valuesKey: default-values
-    - kind: ConfigMap
-      name: flaresolverr-common-values

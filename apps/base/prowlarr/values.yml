@@ -11,6 +11,3 @@ ingress:
 metrics:
   main:
     enabled: false
-persistence:
-  config:
-    size: 1Gi

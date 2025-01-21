@@ -7,6 +7,7 @@ resources:
 
 configMapGenerator:
   - name: common-values
+    namespace: prowlarr
     files:
       - values.yaml=values.yml
 

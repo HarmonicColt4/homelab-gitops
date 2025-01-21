@@ -1,6 +1,7 @@
 ---
 ingress:
   main:
+    enabled: true
     hosts:
       - host: prowlarr.staging.weirdrussiandomain.com
         paths:

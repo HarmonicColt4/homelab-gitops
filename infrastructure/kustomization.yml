@@ -1,9 +1,0 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-  - cluster-issuers.yml
-  - ip-address-pools.yml
-  - longorn-auth.yml
-  - l2-advertisements.yml
-  - traefik.yml
-  - notifications-alerts.yml

@@ -4,3 +4,13 @@ global:
   fallbackDefaults:
     pvcSize: 1Gi
     vctSize: 1Gi
+
+ingress:
+  main:
+    integrations:
+      traefik:
+        enabled: false
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      cert-manager.io/cluster-issuer: letsencrypt
+    enabled: true

@@ -21,3 +21,4 @@ spec:
       valuesKey: default-values
     - kind: ConfigMap
       name: prowlarr-common-values
+      valuesKey: common-values

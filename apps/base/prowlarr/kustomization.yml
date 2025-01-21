@@ -9,7 +9,7 @@ configMapGenerator:
   - name: prowlarr-common-values
     files:
       - default-values=../default-values.yml    
-      - values.yaml=values.yml
+      - common-values=common-values.yml
 
 configurations:
-  - kustomizeconfig.yml
+  - ../kustomizeconfig.yml

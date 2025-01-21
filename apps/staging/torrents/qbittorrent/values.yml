@@ -1,0 +1,12 @@
+---
+ingress:
+  main:
+    hosts:
+      - host: qbittorrent.staging.weirdrussiandomain.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+        - qbittorrent.staging.weirdrussiandomain.com
+        secretName: qbittorrent-cert

@@ -11,4 +11,4 @@ configMapGenerator:
       - default-values=../default-values.yml
       
 configurations:
-  - kustomizeconfig.yml
+  - ../kustomizeconfig.yml

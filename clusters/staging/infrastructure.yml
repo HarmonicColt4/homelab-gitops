@@ -33,6 +33,9 @@ spec:
           value:
             persistence:
               defaultDataLocality: best-effort
+              recurringJobSelector:
+                enable: true
+                jobList: '[{"name":"backup", "isGroup":true}]'
             defaultSettings:
               createDefaultDiskLabeledNodes: true
               backupTarget: nfs://10.13.25.10:/mnt/storage/longhorn-staging

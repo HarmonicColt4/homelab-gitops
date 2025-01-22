@@ -79,6 +79,14 @@ spec:
         namespace: longhorn-system
     - patch: |
         - op: replace
+          path: /spec/task
+          value: backup-new
+      target:
+        kind: RecurringJob
+        name: backup
+        namespace: longhorn-system
+    - patch: |
+        - op: replace
           path: /spec/acme/server
           value: https://acme-v02.api.letsencrypt.org/directory
       target:

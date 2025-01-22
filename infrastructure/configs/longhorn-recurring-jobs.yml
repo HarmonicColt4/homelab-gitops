@@ -11,4 +11,4 @@ spec:
   retain: 7
   concurrency: 2
   parameters:
-    full-backup-interval: 1
+    full-backup-interval: "1"

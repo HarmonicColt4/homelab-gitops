@@ -29,16 +29,9 @@ spec:
         namespace: default
       patch: |-
         - op: add
-          path: /spec/values
+          path: /spec/values/defaultSettings/backupTarget
           value:
-            persistence:
-              defaultDataLocality: best-effort
-              recurringJobSelector:
-                enable: true
-                jobList: '[{"name":"backup", "isGroup":true}]'
-            defaultSettings:
-              createDefaultDiskLabeledNodes: true
-              backupTarget: nfs://10.13.25.10:/mnt/storage/longhorn-staging
+            nfs://10.13.25.10:/mnt/storage/longhorn-staging
     - target:
         kind: Secret
         name: discord-webhook
@@ -78,12 +71,3 @@ spec:
         kind: IPAddressPool
         name: ip-pool
         namespace: metallb-system
-    - patch: |
-        - op: replace
-          path: /spec/groups
-          value:
-            - backup
-      target:
-        kind: RecurringJob
-        name: backup
-        namespace: longhorn-system

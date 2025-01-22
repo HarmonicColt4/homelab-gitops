@@ -34,6 +34,15 @@ spec:
         kind: HelmRelease
         name: traefik
         namespace: default
+    - target:
+        kind: HelmRelease
+        name: longhorn
+        namespace: default
+      patch: |-
+        - op: add
+          path: /spec/values/defaultSettings/backupTarget
+          value:
+            nfs://10.13.25.10:/mnt/storage/longhorn
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

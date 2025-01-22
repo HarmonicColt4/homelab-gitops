@@ -32,9 +32,9 @@ spec:
       interval: 24h
   values:
     persistence:
-      reclaimPolicy: Retain
+      defaultDataLocality: best-effort
+      recurringJobSelector:
+        enable: true
+        jobList: '[{"name":"backup", "isGroup":true}]'
     defaultSettings:
       createDefaultDiskLabeledNodes: true
-      defaultDataPath: /var/lib/longhorn/
-      defaultReplicaCount: 3
-      defaultLonghornStaticStorageClass: longhorn-static

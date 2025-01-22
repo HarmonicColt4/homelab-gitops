@@ -42,7 +42,7 @@ spec:
         - op: add
           path: /spec/values/defaultSettings/backupTarget
           value:
-            nfs://10.13.25.10:/mnt/storage/longhorn
+            nfs://10.13.25.10:/mnt/storage/longhorn/production
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

@@ -30,5 +30,11 @@ spec:
     - kind: Kustomization
       name: '*'
       namespace: flux-system
+    - kind: HelmRelease
+      name: '*'
+      namespace: default
+    - kind: HelmRelease
+      name: '*'
+      namespace: truecharts
   exclusionList:
     - "Dependencies do not meet ready condition, retrying in 30s"

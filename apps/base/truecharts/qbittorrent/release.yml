@@ -4,7 +4,11 @@ kind: HelmRelease
 metadata:
   name: qbittorrent
 spec:
+  dependsOn:
+    - name: cloudnative-pg
   releaseName: qbittorrent
+  targetNamespace: qbittorrent
+  storageNamespace: qbittorrent  
   interval: 24h
   chart:
     spec:
@@ -13,10 +17,4 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: truecharts
-        namespace: default
       interval: 5m
-  valuesFrom:
-    - kind: ConfigMap
-      name: qbittorrent-common-values
-      valuesKey: default-values
-

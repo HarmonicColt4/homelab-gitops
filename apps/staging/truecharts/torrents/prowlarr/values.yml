@@ -1,4 +1,7 @@
----
+metrics:
+  main:
+    enabled: false
+
 ingress:
   main:
     enabled: true

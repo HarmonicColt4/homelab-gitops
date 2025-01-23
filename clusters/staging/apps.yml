@@ -10,14 +10,14 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./apps/truecharts/setup
+  path: ./apps/staging/truecharts/setup
   prune: true
   wait: true
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: apps
+  name: tc-apps
   namespace: flux-system
 spec:
   dependsOn:
@@ -28,6 +28,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./apps/staging
+  path: ./apps/staging/truecharts
   prune: true
   wait: true

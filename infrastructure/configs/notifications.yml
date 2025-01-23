@@ -20,12 +20,12 @@ stringData:
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
 metadata:
-  name: alerts
+  name: kustomization-errors
   namespace: flux-system
 spec:
   providerRef:
     name: discord
-  eventSeverity: info
+  eventSeverity: error
   eventSources:
     - kind: Kustomization
       name: '*'
@@ -38,3 +38,20 @@ spec:
       namespace: truecharts
   exclusionList:
     - "Dependencies do not meet ready condition, retrying in 30s"
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: helmrelease-info
+  namespace: flux-system
+spec:
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+    - kind: HelmRelease
+      name: '*'
+      namespace: default
+    - kind: HelmRelease
+      name: '*'
+      namespace: truecharts

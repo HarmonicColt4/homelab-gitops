@@ -32,12 +32,6 @@ spec:
           path: /spec/values/defaultSettings/backupTarget
           value:
             nfs://10.13.25.10:/mnt/storage/longhorn/staging
-    - target:
-        kind: HelmRelease
-        name: metallb
-      patch: |-
-        - op: remove
-          path: /spec/values
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

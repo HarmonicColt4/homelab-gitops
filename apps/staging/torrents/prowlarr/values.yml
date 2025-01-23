@@ -1,0 +1,13 @@
+---
+ingress:
+  main:
+    enabled: true
+    hosts:
+      - host: prowlarr.staging.weirdrussiandomain.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+        - prowlarr.staging.weirdrussiandomain.com
+        secretName: prowlarr-cert

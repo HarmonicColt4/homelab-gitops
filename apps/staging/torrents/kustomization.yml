@@ -6,8 +6,8 @@ namespace: torrents
 resources:
   - namespace.yml
   - flaresolverr
-  # - prowlarr
-  # - qbittorrent
+  - prowlarr
+  - qbittorrent
 
 patches:
   - target:
@@ -19,3 +19,7 @@ patches:
       - op: add
         path: /spec/storageNamespace
         value: torrents
+
+configMapGenerator:
+  - name: default-values
+    behavior: create

@@ -9,6 +9,8 @@ spec:
   targetNamespace: cloudnative-pg
   storageNamespace: cloudnative-pg
   interval: 24h
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: cloudnative-pg

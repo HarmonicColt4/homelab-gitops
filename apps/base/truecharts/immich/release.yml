@@ -6,6 +6,8 @@ spec:
   releaseName: immich
   targetNamespace: immich
   interval: 24h
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: immich

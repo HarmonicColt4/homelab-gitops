@@ -7,6 +7,8 @@ spec:
   targetNamespace: nextcloud
   storageNamespace: nextcloud
   interval: 24h
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: nextcloud

@@ -7,6 +7,8 @@ spec:
   targetNamespace: prometheus-operator
   storageNamespace: prometheus-operator
   interval: 24h
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: prometheus-operator

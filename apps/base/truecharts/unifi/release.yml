@@ -6,6 +6,8 @@ spec:
   releaseName: unifi
   targetNamespace: unifi
   interval: 24h
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: unifi

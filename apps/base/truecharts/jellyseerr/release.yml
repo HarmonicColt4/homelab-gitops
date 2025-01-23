@@ -7,6 +7,8 @@ spec:
   targetNamespace: jellyseerr
   storageNamespace: jellyseerr
   interval: 24h
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: jellyseerr

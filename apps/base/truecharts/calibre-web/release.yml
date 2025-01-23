@@ -7,6 +7,8 @@ spec:
   targetNamespace: calibre-web
   storageNamespace: calibre-web
   interval: 24h
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: calibre-web

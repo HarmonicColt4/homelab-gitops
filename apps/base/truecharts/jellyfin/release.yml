@@ -7,6 +7,8 @@ spec:
   targetNamespace: jellyfin
   storageNamespace: jellyfin
   interval: 24h
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: jellyfin

@@ -7,6 +7,8 @@ spec:
   targetNamespace: actualserver
   storageNamespace: actualserver
   interval: 24h
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: actualserver

@@ -6,6 +6,8 @@ spec:
   releaseName: cloudflareddns
   targetNamespace: cloudflareddns
   interval: 24h
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: cloudflareddns
@@ -14,3 +16,5 @@ spec:
         kind: HelmRepository
         name: truecharts
       interval: 24h
+  driftDetection:
+    mode: warn

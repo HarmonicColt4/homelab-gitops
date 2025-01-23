@@ -7,6 +7,8 @@ spec:
   targetNamespace: qbittorrent
   storageNamespace: qbittorrent  
   interval: 24h
+  driftDetection:
+    mode: warn
   chart:
     spec:
       chart: qbittorrent

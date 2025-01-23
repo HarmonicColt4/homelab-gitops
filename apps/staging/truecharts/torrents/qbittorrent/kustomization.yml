@@ -13,6 +13,13 @@ patches:
         value:
           - kind: ConfigMap
             name: qbittorrent-values
+  - patch: |-
+      $patch: delete
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: qbittorrent
+
 
 configMapGenerator:
   - name: qbittorrent-values

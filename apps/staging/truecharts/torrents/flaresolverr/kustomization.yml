@@ -13,6 +13,12 @@ patches:
         value:
           - kind: ConfigMap
             name: flaresolverr-values
+  - patch: |-
+      $patch: delete
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: flaresolverr            
 
 configMapGenerator:
   - name: flaresolverr-values

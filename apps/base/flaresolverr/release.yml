@@ -16,7 +16,3 @@ spec:
         name: truecharts
         namespace: default
       interval: 5m
-  valuesFrom:
-    - kind: ConfigMap
-      name: flaresolverr-common-values
-      valuesKey: default-values

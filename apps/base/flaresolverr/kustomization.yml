@@ -4,11 +4,3 @@ kind: Kustomization
 
 resources:
   - release.yml
-
-configMapGenerator:
-  - name: flaresolverr-common-values
-    files:
-      - default-values=../default-values.yml
-      
-configurations:
-  - ../kustomizeconfig.yml

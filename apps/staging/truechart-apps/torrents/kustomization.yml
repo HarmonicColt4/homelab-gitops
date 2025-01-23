@@ -6,8 +6,8 @@ namespace: torrents
 resources:
   - namespace.yml
   - flaresolverr
-  - prowlarr
-  - qbittorrent
+  # - prowlarr
+  # - qbittorrent
 
 patches:
   - target:

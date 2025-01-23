@@ -1,11 +1,8 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: prowlarr
 spec:
-  dependsOn:
-    - name: cloudnative-pg
   releaseName: prowlarr
   targetNamespace: prowlarr
   storageNamespace: prowlarr  

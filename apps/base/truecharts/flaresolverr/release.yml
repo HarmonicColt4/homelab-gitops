@@ -1,11 +1,8 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: flaresolverr
 spec:
-  dependsOn:
-    - name: cloudnative-pg
   releaseName: flaresolverr
   targetNamespace: flaresolverr
   storageNamespace: flaresolverr

@@ -82,3 +82,6 @@ spec:
       target:
         kind: ClusterIssuer
         name: letsencrypt
+  postBuild:
+    substitute:
+      public_domain: "weirdrussiandomain.com"

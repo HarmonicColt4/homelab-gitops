@@ -23,12 +23,6 @@ spec:
           path: /spec/values/service/annotations
           value:  
             metallb.universe.tf/loadBalancerIPs: 10.13.13.11
-        - op: add
-          path: /spec/values/tlsStore
-          value:
-            default:
-              defaultCertificate:
-                secretName: cert
     - target:
         kind: HelmRelease
         name: longhorn
@@ -73,3 +67,6 @@ spec:
         - op: replace
           path: /stringData/address
           value: "https://discord.com/api/webhooks/1330790654380343296/4rV4xI-5VDoaOhl266nleVdxFGBc2acCVvUyhKfVlWrUSfUi4dhWqzEVGavE8siWY4NA"
+  postBuild:
+    substitute:
+      public_domain: "staging.weirdrussiandomain.com"

@@ -41,6 +41,10 @@ spec:
                       loadBalancer:
                         servers:
                           - url: https://10.13.25.10
+                    proxmox:
+                      loadBalancer:
+                        servers:
+                          - url: https://10.13.25.9:8006
     - target:
         kind: HelmRelease
         name: longhorn

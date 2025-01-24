@@ -36,7 +36,7 @@ spec:
                       - web
                       - websecure
                       service: truenas
-                      rule: Host(`truenas.weirdrussiandomain.com`) && PathPrefix(`/`)
+                      rule: Host(`truenas.staging.weirdrussiandomain.com`) && PathPrefix(`/`)
                   services:
                     truenas:
                       loadBalancer:

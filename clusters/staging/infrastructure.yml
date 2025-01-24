@@ -23,6 +23,25 @@ spec:
           path: /spec/values/service/annotations
           value:  
             metallb.universe.tf/loadBalancerIPs: 10.13.13.11
+        - op: add
+          path: /spec/values/providers
+          value:  
+            file:
+              enabled: true
+              content: |
+                http:
+                  routers:
+                    truenas:
+                      entryPoints:
+                      - web
+                      - websecure
+                      service: truenas
+                      rule: Host(`truenas.weirdrussiandomain.com`) && PathPrefix(`/`)
+                  services:
+                    truenas:
+                      loadBalancer:
+                        servers:
+                        - url: https://10.13.25.10/        
     - target:
         kind: HelmRelease
         name: longhorn

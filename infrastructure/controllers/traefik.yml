@@ -35,8 +35,6 @@ spec:
   upgrade:
     disableWait: true
   values:
-    deployment:
-      kind: DaemonSet
     ports:
       web:
         redirections:

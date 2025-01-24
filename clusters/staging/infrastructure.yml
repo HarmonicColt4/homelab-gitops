@@ -23,6 +23,12 @@ spec:
           path: /spec/values/service/annotations
           value:  
             metallb.universe.tf/loadBalancerIPs: 10.13.13.11
+        - op: add
+          path: /spec/values/tlsStore
+          value:
+            default:
+              defaultCertificate:
+                secretName: cert
     - target:
         kind: HelmRelease
         name: longhorn

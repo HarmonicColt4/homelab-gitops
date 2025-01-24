@@ -36,13 +36,13 @@ spec:
                       - web
                       - websecure
                       service: truenas
-                      rule: Host(`truenas.staging.weirdrussiandomain.com`) && PathPrefix(`/`)
+                      rule: Host(`truenas.staging.weirdrussiandomain.com`)
                   services:
                     truenas:
                       loadBalancer:
                         servers:
-                        - url: https://10.13.25.10/
-                        passHostHeader: false    
+                          - url: https://10.13.25.10
+                        passHostHeader: true    
     - target:
         kind: HelmRelease
         name: longhorn

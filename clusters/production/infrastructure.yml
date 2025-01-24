@@ -14,26 +14,15 @@ spec:
   prune: true
   wait: true
   patches:
-    - patch: |
-        - op: replace
-          path: /spec/values
-          value:
-            deployment:
-              kind: DaemonSet
-            ports:
-              web:
-                redirectTo:
-                  port: websecure
-            ingressRoute:
-              dashboard:
-                enabled: true
-            service:
-              annotations:
-                metallb.universe.tf/loadBalancerIPs: 10.13.25.21
-      target:
+    - target:
         kind: HelmRelease
         name: traefik
         namespace: default
+      patch: |-
+        - op: add
+          path: /spec/values/service/annotations
+          value:  
+            metallb.universe.tf/loadBalancerIPs: 10.13.13.11
     - target:
         kind: HelmRelease
         name: longhorn

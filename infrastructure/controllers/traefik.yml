@@ -39,8 +39,10 @@ spec:
       kind: DaemonSet
     ports:
       web:
-        redirectTo:
-          port: websecure
+        redirections:
+          entrypoint:
+            to: websecure
+            scheme: https
       traefik:
         expose:
           default: true

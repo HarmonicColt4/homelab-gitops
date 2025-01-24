@@ -42,7 +42,11 @@ spec:
                       loadBalancer:
                         servers:
                           - url: https://10.13.25.10
-                        passHostHeader: true    
+                        passHostHeader: true
+                        serversTransport: transport
+                  serversTransports:
+                    transport:
+                      insecureSkipVerify: true                        
     - target:
         kind: HelmRelease
         name: longhorn

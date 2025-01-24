@@ -43,6 +43,7 @@ spec:
           entrypoint:
             to: websecure
             scheme: https
+            permanent: true
       traefik:
         expose:
           default: true

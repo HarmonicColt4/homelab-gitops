@@ -41,7 +41,8 @@ spec:
                     truenas:
                       loadBalancer:
                         servers:
-                        - url: https://10.13.25.10/        
+                        - url: https://10.13.25.10/
+                        passHostHeader: false    
     - target:
         kind: HelmRelease
         name: longhorn

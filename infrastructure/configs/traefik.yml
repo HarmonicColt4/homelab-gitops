@@ -3,6 +3,5 @@ kind: ServersTransport
 metadata:
   name: insecure
   namespace: traefik
-
 spec:
   insecureSkipVerify: true

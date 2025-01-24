@@ -22,7 +22,7 @@ spec:
         - op: add
           path: /spec/values/service/annotations
           value:  
-            metallb.universe.tf/loadBalancerIPs: 10.13.13.11
+            metallb.universe.tf/loadBalancerIPs: 10.13.25.21
     - target:
         kind: HelmRelease
         name: longhorn

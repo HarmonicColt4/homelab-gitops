@@ -69,4 +69,4 @@ spec:
           value: "https://discord.com/api/webhooks/1330790654380343296/4rV4xI-5VDoaOhl266nleVdxFGBc2acCVvUyhKfVlWrUSfUi4dhWqzEVGavE8siWY4NA"
   postBuild:
     substitute:
-      public_domain: "staging.weirdrussiandomain.com"
+      domain: "staging.weirdrussiandomain.com"

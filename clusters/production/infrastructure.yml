@@ -84,4 +84,4 @@ spec:
         name: letsencrypt
   postBuild:
     substitute:
-      public_domain: "weirdrussiandomain.com"
+      domain: "weirdrussiandomain.com"

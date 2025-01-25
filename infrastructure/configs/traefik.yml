@@ -15,8 +15,8 @@ metadata:
 spec:
   secretName: cert
   dnsNames:
-    - "${public_domain}"
-    - "*.${public_domain}"
+    - "${domain}"
+    - "*.${domain}"
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer

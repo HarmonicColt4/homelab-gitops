@@ -16,5 +16,4 @@ spec:
         kind: HelmRepository
         name: truecharts
       interval: 24h
-  driftDetection:
-    mode: warn
+  valuesFrom: []

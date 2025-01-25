@@ -17,3 +17,4 @@ spec:
         kind: HelmRepository
         name: truecharts
       interval: 5m
+  valuesFrom: []

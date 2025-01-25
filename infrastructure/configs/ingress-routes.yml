@@ -45,3 +45,33 @@ spec:
     services:
     - name: gitea
       port: 30008
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: netbootxyz
+  namespace: traefik
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`minio.${domain}`)
+    kind: Rule
+    services:
+    - name: minio
+      port: 9002
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: netbootxyz
+  namespace: traefik
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`netbootxyz.${domain}`)
+    kind: Rule
+    services:
+    - name: netbootxyz
+      port: 31010

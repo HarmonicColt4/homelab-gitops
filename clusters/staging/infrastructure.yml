@@ -35,12 +35,16 @@ spec:
                       entryPoints:
                       - websecure
                       service: truenas
-                      rule: Host(`truenas.staging.weirdrussiandomain.com`)          
+                      rule: Host(`truenas.staging.weirdrussiandomain.com`)
                   services:
                     truenas:
                       loadBalancer:
                         servers:
                         - url: https://10.13.25.10/
+                        serversTransport: insecureSkipVerify
+                  serversTransports:
+                    insecureSkipVerify:
+                      insecureSkipVerify: true
     - target:
         kind: HelmRelease
         name: longhorn

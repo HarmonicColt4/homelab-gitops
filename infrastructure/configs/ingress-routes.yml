@@ -45,4 +45,3 @@ spec:
     services:
     - name: gitea
       port: 30008
-      serversTransport: insecure

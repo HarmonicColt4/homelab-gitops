@@ -31,6 +31,6 @@ metadata:
 spec:
   type: ExternalName
   ports:
-    - name: https
+    - name: http
       port: 30008
   externalName: 10.13.25.10

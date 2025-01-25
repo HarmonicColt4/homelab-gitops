@@ -54,13 +54,3 @@ spec:
       default:
         defaultCertificate:
           secretName: cert
-    providers:
-      file:
-        enabled: true
-        content: |
-          http:
-            services:
-              truenas:
-                loadBalancer:
-                  servers:
-                  - url: https://10.13.25.10/

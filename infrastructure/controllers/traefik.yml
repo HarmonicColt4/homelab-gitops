@@ -54,3 +54,6 @@ spec:
       default:
         defaultCertificate:
           secretName: cert
+    providers:
+      kubernetesCRD:
+        allowExternalNameServices: true

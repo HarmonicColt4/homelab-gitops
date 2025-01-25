@@ -31,3 +31,6 @@ spec:
   path: ./apps/staging/truecharts
   prune: true
   wait: true
+  postBuild:
+    substitute:
+      domain: "staging.weirdrussiandomain.com"

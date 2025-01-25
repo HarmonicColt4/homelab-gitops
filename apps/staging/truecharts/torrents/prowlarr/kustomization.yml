@@ -3,24 +3,12 @@ kind: Kustomization
 
 resources:
   - ../../../../base/truecharts/prowlarr
+  - ingress-route.yml
 
 patches:
-  - target:
-      kind: HelmRelease
-    patch: |-
-      - op: add
-        path: /spec/valuesFrom
-        value:
-          - kind: ConfigMap
-            name: prowlarr-values
   - patch: |-
       $patch: delete
       apiVersion: v1
       kind: Namespace
       metadata:
-        name: prowlarr            
-
-configMapGenerator:
-  - name: prowlarr-values
-    files:
-      - values.yaml=values.yml
+        name: prowlarr

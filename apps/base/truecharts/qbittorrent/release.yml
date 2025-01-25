@@ -5,14 +5,13 @@ metadata:
 spec:
   releaseName: qbittorrent
   targetNamespace: qbittorrent
-  storageNamespace: qbittorrent  
+  storageNamespace: qbittorrent
   interval: 24h
   driftDetection:
     mode: warn
   chart:
     spec:
       chart: qbittorrent
-      version: 22.3.1
       sourceRef:
         kind: HelmRepository
         name: truecharts

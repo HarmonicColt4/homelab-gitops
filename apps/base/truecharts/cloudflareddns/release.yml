@@ -11,7 +11,6 @@ spec:
   chart:
     spec:
       chart: cloudflareddns
-      version: 11.4.2
       sourceRef:
         kind: HelmRepository
         name: truecharts

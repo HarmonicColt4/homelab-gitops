@@ -6,6 +6,7 @@ metadata:
 spec:
   releaseName: cloudflareddns
   targetNamespace: cloudflareddns
+  storageNamespace: cloudflareddns
   interval: 24h
   driftDetection:
     mode: warn

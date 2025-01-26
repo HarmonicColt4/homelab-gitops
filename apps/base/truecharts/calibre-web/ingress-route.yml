@@ -1,3 +1,4 @@
+---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
@@ -7,8 +8,8 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`calibre-web.${domain}`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: calibre-web
-      port: 8083
+    - match: Host(`calibre-web.${domain}`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: calibre-web
+          port: 8083

@@ -11,4 +11,5 @@ spec:
     kind: Rule
     services:
     - name: calibre-web
+      namespace: calibre-web
       port: 8083

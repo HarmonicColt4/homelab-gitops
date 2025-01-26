@@ -11,4 +11,5 @@ spec:
     kind: Rule
     services:
     - name: adguard-home
+      namespace: adguard-home
       port: 10232

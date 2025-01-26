@@ -11,4 +11,5 @@ spec:
     kind: Rule
     services:
     - name: qbittorrent
+      namespace: qbittorrent
       port: 10095

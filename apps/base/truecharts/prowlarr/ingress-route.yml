@@ -11,4 +11,5 @@ spec:
     kind: Rule
     services:
     - name: prowlarr
+      namespace: prowlarr
       port: 9696

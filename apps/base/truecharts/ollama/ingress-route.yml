@@ -11,4 +11,5 @@ spec:
     kind: Rule
     services:
     - name: ollama
+      namespace: ollama
       port: 10686

@@ -11,4 +11,5 @@ spec:
     kind: Rule
     services:
     - name: vaultwarden
+      namespace: vaultwarden
       port: 10102

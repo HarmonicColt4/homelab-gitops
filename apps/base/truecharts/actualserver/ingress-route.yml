@@ -11,4 +11,5 @@ spec:
     kind: Rule
     services:
     - name: actualserver
+      namespace: actualserver
       port: 10293

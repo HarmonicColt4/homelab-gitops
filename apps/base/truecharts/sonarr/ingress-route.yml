@@ -11,4 +11,5 @@ spec:
     kind: Rule
     services:
     - name: sonarr
+      namespace: sonarr
       port: 8989

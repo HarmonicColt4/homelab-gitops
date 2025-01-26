@@ -11,4 +11,5 @@ spec:
     kind: Rule
     services:
     - name: unifi
+      namespace: unifi
       port: 8443

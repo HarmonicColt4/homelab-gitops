@@ -11,4 +11,5 @@ spec:
     kind: Rule
     services:
     - name: calibre
+      namespace: calibre
       port: 8084

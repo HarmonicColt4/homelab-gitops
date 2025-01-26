@@ -11,4 +11,5 @@ spec:
     kind: Rule
     services:
     - name: pgadmin
+      namespace: pgadmin
       port: 10024

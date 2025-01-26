@@ -11,4 +11,5 @@ spec:
     kind: Rule
     services:
     - name: jellyseerr
+      namespace: jellyseerr
       port: 10241

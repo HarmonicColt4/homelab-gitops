@@ -11,6 +11,5 @@ resources:
   - ollama
   - pgadmin
   - searxng
-  - torrents
   - unifi
   - vaultwarden

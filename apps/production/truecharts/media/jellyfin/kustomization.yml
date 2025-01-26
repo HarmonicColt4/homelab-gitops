@@ -4,6 +4,12 @@ kind: Kustomization
 resources:
   - ../../../../base/truecharts/jellyfin
 patches:
+  - patch: |-
+      $patch: delete
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: jellyfin  
   - target:
       kind: HelmRelease
     patch: |-

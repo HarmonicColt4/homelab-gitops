@@ -6,6 +6,7 @@ resources:
   - adguard-home
   - cloudflareddns
   - ollama
+  - searxng
   - torrents
   - unifi
   - vaultwarden

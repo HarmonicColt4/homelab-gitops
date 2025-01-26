@@ -16,9 +16,12 @@ patches:
       - op: replace
         path: /spec/routes/0/match
         value: Host(`radarr-anime.${domain}`) && PathPrefix(`/`)
+      - op: replace
+        path: /spec/routes/0/services/0/name
+        value: radarr-anime
   - target:
       kind: HelmRelease
     patch: |-
       - op: add
         path: /spec/releaseName
-        value: radarr-anime        
+        value: radarr-anime

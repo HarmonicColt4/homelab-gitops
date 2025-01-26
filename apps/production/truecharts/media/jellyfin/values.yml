@@ -1,0 +1,26 @@
+---
+persistence:
+  media:
+    enabled: true
+    type: nfs
+    path: /mnt/storage/media
+    server: 10.13.25.10
+    mountPath: /mnt/storage/media
+service:
+  main:
+    type: LoadBalancer
+    annotations:
+      metallb.universe.tf/loadBalancerIPs: 10.13.25.29
+      metallb.universe.tf/allow-shared-ip: jellyfin
+  autodiscovery:
+    enabled: false
+workload:
+  main:
+    podSpec:
+      containers:
+        main:
+          resources:
+            limits:
+              gpu.intel.com/i915: 1
+          env:
+            JELLYFIN_PublishedServerUrl: jellyfin.weirdrussiandomain.com

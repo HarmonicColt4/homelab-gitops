@@ -6,3 +6,4 @@ persistence:
     path: /mnt/storage/media/movies
     server: 10.13.25.10
     mountPath: /movies
+    readOnly: true

@@ -5,6 +5,7 @@ resources:
   - actualserver
   - adguard-home
   - cloudflareddns
+  - ollama
   - torrents
   - unifi
   - vaultwarden

@@ -3,3 +3,11 @@ kind: Kustomization
 
 resources:
   - ../../../base/truecharts/actualserver
+
+patches:
+  - target:
+      kind: HelmRelease
+    patch: |-
+      - op: add
+        path: /spec/chart/spec/version
+        value: "13.x"  

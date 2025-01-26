@@ -5,6 +5,7 @@ resources:
   - namespace.yml
   - jellyfin
   - jellyseerr
+  - recyclarr
 patches:
   - target:
       kind: HelmRelease

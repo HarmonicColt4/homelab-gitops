@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`calibre.${domain}`)
+  - match: Host(`calibre.${domain}`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: calibre

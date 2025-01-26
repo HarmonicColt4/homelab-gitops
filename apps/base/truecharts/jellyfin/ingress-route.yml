@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`jellyfin.${domain}`)
+  - match: Host(`jellyfin.${domain}`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: jellyfin

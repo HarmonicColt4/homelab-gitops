@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`radarr.${domain}`)
+  - match: Host(`radarr.${domain}`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: radarr

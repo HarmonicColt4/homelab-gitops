@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`vaultwarden.${domain}`)
+  - match: Host(`vaultwarden.${domain}`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: vaultwarden

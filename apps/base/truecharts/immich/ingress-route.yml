@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`immich.${domain}`)
+  - match: Host(`immich.${domain}`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: immich

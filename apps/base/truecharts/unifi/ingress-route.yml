@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`unifi.${domain}`)
+  - match: Host(`unifi.${domain}`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: unifi

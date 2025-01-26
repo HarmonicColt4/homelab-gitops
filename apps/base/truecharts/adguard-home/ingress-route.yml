@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`adguard-home.${domain}`)
+  - match: Host(`adguard-home.${domain}`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: adguard-home

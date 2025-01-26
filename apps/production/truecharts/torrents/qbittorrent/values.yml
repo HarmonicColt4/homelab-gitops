@@ -1,3 +1,4 @@
+---
 service:
   torrent:
     type: LoadBalancer

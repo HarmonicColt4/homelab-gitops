@@ -1,12 +1,12 @@
+---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-
 resources:
   - actualserver
-  - adguard-home  
+  - adguard-home
   - cloudflareddns
   - torrents
-
+  - vaultwarden
 patches:
   - target:
       kind: HelmRelease
@@ -16,15 +16,12 @@ patches:
         value:
           kind: ConfigMap
           name: global-values
-
 configMapGenerator:
   - name: global-values
     files:
       - values.yaml=global-values.yml
-
 configurations:
   - kustomizeconfig.yml
-
 transformers:
   - |-
     apiVersion: builtin

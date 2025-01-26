@@ -9,4 +9,4 @@ resources:
   - pgadmin
   - searxng
   - unifi
-  - vaultwarden
+  # - vaultwarden

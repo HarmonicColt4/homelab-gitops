@@ -17,3 +17,9 @@ patches:
       - op: add
         path: /spec/storageNamespace
         value: torrents
+  - target:
+      kind: IngressRoute
+    patch: |-
+      - op: replace
+        path: /spec/routes/0/services/0/namespace
+        value: torrents

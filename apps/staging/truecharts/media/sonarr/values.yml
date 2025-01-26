@@ -6,3 +6,4 @@ persistence:
     path: /mnt/storage/media/series
     server: 10.13.25.10
     mountPath: /series
+    readOnly: true

@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`qbittorrent.${domain}`)
+  - match: Host(`qbittorrent.${domain}`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: qbittorrent

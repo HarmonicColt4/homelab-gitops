@@ -18,9 +18,8 @@ patches:
         value:
           kind: ConfigMap
           name: radarr-values
-      - op: add
-        path: /spec/chart/spec/version
-        value: "23.x"
+      - op: remove
+        path: /spec/releaseName
 configMapGenerator:
   - name: radarr-values
     files:

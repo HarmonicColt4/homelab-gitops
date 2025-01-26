@@ -8,6 +8,7 @@ resources:
   # - jellyfin
   # - jellyseerr
   - radarr
+  - radarr-anime
   # - recyclarr
   # - sonarr
 patches:

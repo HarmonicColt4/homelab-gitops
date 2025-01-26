@@ -15,6 +15,12 @@ patches:
       - op: add
         path: /spec/chart/spec/version
         value: "22.x"
+  - target:
+      kind: IngressRoute
+    patch: |-
+      - op: add
+        path: /spec/routes/0/services/0/serversTransport
+        value: insecure
 configMapGenerator:
   - name: unifi-values
     files:

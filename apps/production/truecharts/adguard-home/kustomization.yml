@@ -6,7 +6,15 @@ resources:
 patches:
   - target:
       kind: HelmRelease
-    patch: "- op: add\n  path: /spec/valuesFrom/-\n  value:\n    kind: ConfigMap\n    name: adguard-home-values\n- op: add\n  path: /spec/chart/spec/version\n  value: \"11.x\"          "
+    patch: |-
+      - op: add
+        path: /spec/valuesFrom/-
+        value:
+          kind: ConfigMap
+          name: adguard-home-values
+      - op: add
+        path: /spec/chart/spec/version
+        value: "11.x"
 configMapGenerator:
   - name: adguard-home-values
     files:

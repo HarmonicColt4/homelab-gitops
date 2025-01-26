@@ -10,3 +10,14 @@ patches:
       - op: add
         path: /spec/chart/spec/version
         value: "28.x"
+      - op: add
+        path: /spec/valuesFrom/-
+        value:
+          kind: ConfigMap
+          name: vaultwarden-values
+configMapGenerator:
+  - name: vaultwarden-values
+    files:
+      - values.yaml=values.yml
+configurations:
+  - ../kustomizeconfig.yml

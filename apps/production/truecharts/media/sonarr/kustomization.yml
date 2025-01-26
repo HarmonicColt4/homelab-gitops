@@ -9,7 +9,7 @@ patches:
       apiVersion: v1
       kind: Namespace
       metadata:
-        name: recyclarr  
+        name: sonarr  
   - target:
       kind: HelmRelease
     patch: |-

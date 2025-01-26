@@ -5,6 +5,7 @@ resources:
   - namespace.yml
   - flaresolverr
   - prowlarr
+  - qbittorrent
 
 patches:
   - target:

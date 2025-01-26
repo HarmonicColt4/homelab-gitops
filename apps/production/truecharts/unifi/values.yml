@@ -1,8 +1,5 @@
 ---
 service:
-  main:
-    annotations:
-      traefik.ingress.kubernetes.io/service.serverstransport: traefik-insecure@kubernetescrd
   comm:
     type: LoadBalancer
     annotations:

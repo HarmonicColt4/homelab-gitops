@@ -21,4 +21,4 @@ spec:
   values:
     metrics:
       main:
-        enabled: true
+        enabled: false

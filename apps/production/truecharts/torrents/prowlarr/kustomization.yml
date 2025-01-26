@@ -12,3 +12,9 @@ patches:
       kind: Namespace
       metadata:
         name: prowlarr
+  - target:
+      kind: HelmRelease
+    patch: |-
+      - op: add
+        path: /spec/chart/spec/version
+        value: 18.12.1

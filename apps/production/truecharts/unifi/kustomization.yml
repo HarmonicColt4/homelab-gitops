@@ -20,7 +20,7 @@ patches:
     patch: |-
       - op: add
         path: /spec/routes/0/services/0/serversTransport
-        value: insecure
+        value: traefik-insecure@kubernetescrd
 configMapGenerator:
   - name: unifi-values
     files:

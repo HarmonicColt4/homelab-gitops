@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`traefik.${domain}`)
+  - match: Host(`traefik.${domain}`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: traefik
@@ -23,7 +23,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`truenas.${domain}`)
+  - match: Host(`truenas.${domain}`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: truenas
@@ -39,7 +39,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`pve.${domain}`)
+  - match: Host(`pve.${domain}`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: proxmox
@@ -70,7 +70,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`minio.${domain}`)
+  - match: Host(`minio.${domain}`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: minio
@@ -85,7 +85,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`netbootxyz.${domain}`)
+  - match: Host(`netbootxyz.${domain}`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: netbootxyz

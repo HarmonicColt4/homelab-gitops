@@ -36,5 +36,6 @@ spec:
       recurringJobSelector:
         enable: true
         jobList: '[{"name":"backup", "isGroup":true}]'
+      reclaimPolicy: "Retain"
     defaultSettings:
       createDefaultDiskLabeledNodes: true

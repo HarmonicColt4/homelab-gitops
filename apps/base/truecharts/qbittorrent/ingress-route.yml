@@ -2,7 +2,7 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: qbittorrent
-  namespace: traefik
+  namespace: qbittorrent
 spec:
   entryPoints:
     - websecure
@@ -11,5 +11,4 @@ spec:
     kind: Rule
     services:
     - name: qbittorrent
-      namespace: qbittorrent
       port: 10095

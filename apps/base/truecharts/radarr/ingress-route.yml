@@ -2,7 +2,7 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: radarr
-  namespace: traefik
+  namespace: radarr
 spec:
   entryPoints:
     - websecure
@@ -11,5 +11,4 @@ spec:
     kind: Rule
     services:
     - name: radarr
-      namespace: radarr
       port: 7878

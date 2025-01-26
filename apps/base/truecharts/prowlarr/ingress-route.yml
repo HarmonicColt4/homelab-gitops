@@ -2,7 +2,7 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: prowlarr
-  namespace: traefik
+  namespace: prowlarr
 spec:
   entryPoints:
     - websecure
@@ -11,5 +11,4 @@ spec:
     kind: Rule
     services:
     - name: prowlarr
-      namespace: prowlarr
       port: 9696

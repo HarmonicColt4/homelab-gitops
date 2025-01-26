@@ -2,7 +2,7 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: ollama
-  namespace: traefik
+  namespace: ollama
 spec:
   entryPoints:
     - websecure
@@ -11,5 +11,4 @@ spec:
     kind: Rule
     services:
     - name: ollama
-      namespace: ollama
       port: 10686

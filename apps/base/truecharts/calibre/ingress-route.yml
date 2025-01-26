@@ -2,7 +2,7 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: calibre
-  namespace: traefik
+  namespace: calibre
 spec:
   entryPoints:
     - websecure
@@ -11,5 +11,4 @@ spec:
     kind: Rule
     services:
     - name: calibre
-      namespace: calibre
       port: 8084

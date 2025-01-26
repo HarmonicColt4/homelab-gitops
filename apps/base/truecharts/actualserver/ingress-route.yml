@@ -2,7 +2,7 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: actualserver
-  namespace: traefik
+  namespace: actualserver
 spec:
   entryPoints:
     - websecure
@@ -11,5 +11,4 @@ spec:
     kind: Rule
     services:
     - name: actualserver
-      namespace: actualserver
       port: 10293

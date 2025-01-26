@@ -2,7 +2,7 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: pgadmin
-  namespace: traefik
+  namespace: pgadmin
 spec:
   entryPoints:
     - websecure
@@ -11,5 +11,4 @@ spec:
     kind: Rule
     services:
     - name: pgadmin
-      namespace: pgadmin
       port: 10024

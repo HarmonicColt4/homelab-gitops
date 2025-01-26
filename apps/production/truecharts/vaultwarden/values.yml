@@ -33,7 +33,7 @@ vaultwarden:
 
   admin:
     # Enable admin portal.
-    enabled: true
+    enabled: false
     # Disabling the admin token will make the admin portal accessible to anyone, use carefully: https://github.com/dani-garcia/bitwarden_rs/wiki/Disable-admin-token
     disableAdminToken: true
     ## Token for admin login, will be generated if not defined. https://github.com/dani-garcia/bitwarden_rs/wiki/Enabling-admin-page

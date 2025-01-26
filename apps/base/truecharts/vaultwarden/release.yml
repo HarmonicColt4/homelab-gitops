@@ -18,3 +18,15 @@ spec:
         name: truecharts
       interval: 5m
   valuesFrom: []
+  values:
+    ingress:
+      main:
+        integrations:
+          traefik:
+            enabled: false
+        enabled: true
+        hosts:
+          - host: vaultwarden.weirdrussiandomain.com
+            paths:
+              - path: /
+                pathType: Prefix

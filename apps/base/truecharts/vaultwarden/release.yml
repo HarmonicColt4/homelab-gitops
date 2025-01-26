@@ -21,12 +21,12 @@ spec:
   values:
     ingress:
       main:
+        enabled: true
         integrations:
           traefik:
             enabled: false
-        enabled: true
         hosts:
-          - host: vaultwarden.weirdrussiandomain.com
+          - host: vaultwarden.test.com
             paths:
               - path: /
                 pathType: Prefix

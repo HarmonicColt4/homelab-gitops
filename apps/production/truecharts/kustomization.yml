@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
   - actualserver
+  - cloudflareddns
   - torrents
 
 patches:

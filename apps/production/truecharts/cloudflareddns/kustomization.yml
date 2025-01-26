@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../../base/truecharts/cloudflareddns
+
+patches:
+  - target:
+      kind: HelmRelease
+    patch: |-
+      - op: add
+        path: /spec/valuesFrom/-
+        value:
+          kind: ConfigMap
+          name: cloudflareddns-values
+configMapGenerator:
+  - name: cloudflareddns-values
+    files:
+      - values.yaml=values.yml
+
+configurations:
+  - ../kustomizeconfig.yml  

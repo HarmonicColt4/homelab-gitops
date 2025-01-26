@@ -6,7 +6,7 @@ resources:
   - adguard-home
   - cloudflareddns
   - torrents
-  - vaultwarden
+  # - vaultwarden
 patches:
   - target:
       kind: HelmRelease

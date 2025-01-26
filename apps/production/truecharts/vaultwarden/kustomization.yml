@@ -10,9 +10,3 @@ patches:
       - op: add
         path: /spec/chart/spec/version
         value: "28.x"
-      - op: add
-        path: /spec/values
-        value:
-          ingress:
-            main:
-              enabled: true

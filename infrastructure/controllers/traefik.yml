@@ -59,3 +59,27 @@ spec:
       kubernetesCRD:
         allowExternalNameServices: true
         allowCrossNamespace: true
+      file:
+        enabled: true
+        content: |
+          services:
+            truenas:
+              loadBalancer:
+                servers:
+                - url: https://10.13.25.10/
+            proxmox:
+              loadBalancer:
+                servers:
+                - url: https://10.13.25.9:8006/
+            gitea:
+              loadBalancer:
+                servers:
+                - url: https://10.13.25.10:30008/
+            minio:
+              loadBalancer:
+                servers:
+                - url: https://10.13.25.10:9002/
+            netbootxyz:
+              loadBalancer:
+                servers:
+                - url: https://10.13.25.10:31010/

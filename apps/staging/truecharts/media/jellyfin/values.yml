@@ -10,11 +10,6 @@ persistence:
     mountPath: /mnt/storage/media
     readOnly: true
 service:
-  main:
-    type: LoadBalancer
-    annotations:
-      metallb.universe.tf/loadBalancerIPs: 10.13.25.29
-      metallb.universe.tf/allow-shared-ip: jellyfin
   autodiscovery:
     enabled: false
 workload:
@@ -23,4 +18,4 @@ workload:
       containers:
         main:
           env:
-            JELLYFIN_PublishedServerUrl: jellyfin.weirdrussiandomain.com
+            JELLYFIN_PublishedServerUrl: jellyfin.staging.weirdrussiandomain.com

@@ -44,6 +44,7 @@ spec:
             permanent: true
     ingressRoute:
       dashboard:
+        matchRule: Host(`traefik.${domain}`) && ( PathPrefix(`/`) || PathPrefix(`/api`))
         enabled: true
         entryPoints:
         - websecure

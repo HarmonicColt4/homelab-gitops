@@ -23,9 +23,6 @@ spec:
           path: /spec/values/service/annotations
           value:  
             metallb.universe.tf/loadBalancerIPs: 10.13.25.21
-        - op: replace
-          path: /spec/values/ingressRoute/dashboard/matchRule
-          value: Host(`traefik.weirdrussiandomain.com`) && PathPrefix(`/dashboard`)
     - target:
         kind: HelmRelease
         name: longhorn
@@ -34,7 +31,10 @@ spec:
         - op: add
           path: /spec/values/defaultSettings/backupTarget
           value:
-            nfs://10.13.25.10:/mnt/storage/longhorn/production      
+            nfs://10.13.25.10:/mnt/storage/longhorn/production
+  postBuild:
+    substitute:
+      domain: "weirdrussiandomain.com"
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -85,3 +85,6 @@ spec:
       target:
         kind: ClusterIssuer
         name: letsencrypt
+  postBuild:
+    substitute:
+      domain: "weirdrussiandomain.com"

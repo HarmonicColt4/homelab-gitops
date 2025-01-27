@@ -34,7 +34,10 @@ spec:
             nfs://10.13.25.10:/mnt/storage/longhorn/staging
         - op: add
           path: /spec/values/persistence/reclaimPolicy
-          value: "Delete"    
+          value: "Delete"
+  postBuild:
+    substitute:
+      domain: "staging.weirdrussiandomain.com"
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

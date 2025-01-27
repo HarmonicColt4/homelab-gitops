@@ -5,7 +5,7 @@ resources:
   - namespace.yml
   - calibre
   - calibre-web
-  - jellyfin
+  # - jellyfin
   - jellyseerr
   - radarr
   - radarr-anime

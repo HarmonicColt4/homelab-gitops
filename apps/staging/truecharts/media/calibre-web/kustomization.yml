@@ -18,9 +18,6 @@ patches:
         value:
           kind: ConfigMap
           name: calibre-web-values
-      - op: add
-        path: /spec/chart/spec/version
-        value: "20.x"
 configMapGenerator:
   - name: calibre-web-values
     files:

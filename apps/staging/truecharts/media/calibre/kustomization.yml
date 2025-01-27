@@ -18,9 +18,6 @@ patches:
         value:
           kind: ConfigMap
           name: calibre-values
-      - op: add
-        path: /spec/chart/spec/version
-        value: "16.x"
 configMapGenerator:
   - name: calibre-values
     files:

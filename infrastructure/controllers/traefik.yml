@@ -44,7 +44,7 @@ spec:
             permanent: true
     ingressRoute:
       dashboard:
-        matchRule: Host(`traefik.${domain}`) && PathPrefix(`/dashboard`)
+        matchRule: Host(`traefik.staging.weirdrussiandomain.com`) && PathPrefix(`/dashboard`)
         enabled: true
         entryPoints:
         - websecure

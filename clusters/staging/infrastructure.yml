@@ -32,6 +32,9 @@ spec:
           path: /spec/values/defaultSettings/backupTarget
           value:
             nfs://10.13.25.10:/mnt/storage/longhorn/staging
+        - op: add
+          path: /spec/values/persistence/reclaimPolicy
+          value: "Delete"
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

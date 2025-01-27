@@ -8,6 +8,7 @@ persistence:
     path: /mnt/storage/media
     server: 10.13.25.10
     mountPath: /mnt/storage/media
+    readOnly: true
 service:
   main:
     type: LoadBalancer

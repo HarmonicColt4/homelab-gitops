@@ -74,12 +74,12 @@ spec:
             gitea:
               loadBalancer:
                 servers:
-                - url: https://10.13.25.10:30008/
+                - url: http://10.13.25.10:30008/
             minio:
               loadBalancer:
                 servers:
-                - url: https://10.13.25.10:9002/
+                - url: http://10.13.25.10:9002/
             netbootxyz:
               loadBalancer:
                 servers:
-                - url: https://10.13.25.10:31010/
+                - url: http://10.13.25.10:31010/

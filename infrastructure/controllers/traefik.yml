@@ -61,7 +61,7 @@ spec:
         allowCrossNamespace: true
       file:
         enabled: true
-        content: |
+        content: |-
           services:
             truenas:
               loadBalancer:

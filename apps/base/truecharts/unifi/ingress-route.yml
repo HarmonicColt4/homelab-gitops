@@ -13,3 +13,4 @@ spec:
       services:
         - name: unifi
           port: 8443
+          scheme: https

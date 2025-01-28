@@ -1,0 +1,46 @@
+---
+persistence:
+  library:
+    type: nfs
+    path: /mnt/storage/immich/library
+    server: 10.13.25.10
+    readOnly: true
+  uploads:
+    type: nfs
+    path: /mnt/storage/immich/upload
+    server: 10.13.25.10
+    readOnly: true
+  backups:
+    type: nfs
+    path: /mnt/storage/immich/backups
+    server: 10.13.25.10
+    readOnly: true
+  thumbs:
+    type: nfs
+    path: /mnt/storage/immich/thumbs
+    server: 10.13.25.10
+    readOnly: true
+  profile:
+    type: nfs
+    path: /mnt/storage/immich/profile
+    server: 10.13.25.10
+    readOnly: true
+  video:
+    type: nfs
+    path: /mnt/storage/immich/encoded-video
+    server: 10.13.25.10
+    readOnly: true
+global:
+  fallbackDefaults:
+    vctSize: 10Gi
+workload:
+  main:
+    replicas: 0
+  machinelearning:
+    replicas: 0
+  microservices:
+    replicas: 0
+cnpg:
+  main:
+    creds:
+      password: "Z*z#ehVCwjy#GX7EEidN5fj5wKQ5K@BLemRi&*$obQPL4Y%GCX5Ak&Mai&kJ83CS"

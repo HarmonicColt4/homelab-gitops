@@ -1,0 +1,6 @@
+---
+service:
+  comm:
+    type: LoadBalancer
+    annotations:
+      metallb.universe.tf/loadBalancerIPs: 10.13.13.2

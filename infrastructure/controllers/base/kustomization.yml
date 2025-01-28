@@ -3,8 +3,6 @@ kind: Kustomization
 
 resources:
   - cert-manager.yml
-  - intel-gpu-plugin.yml
   - longhorn.yml
   - metallb.yml
-  - nvidia-device-plugin.yml
   - traefik.yml

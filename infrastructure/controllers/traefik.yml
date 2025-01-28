@@ -63,6 +63,36 @@ spec:
         enabled: true
         content: |-
           http:
+            routers:
+              truenas:
+                entryPoints:
+                - websecure
+                service: truenas
+                rule: Host(`truenas.${domain}`) && PathPrefix(`/`)
+              
+              proxmox:
+                entryPoints:
+                - websecure
+                service: proxmox
+                rule: Host(`proxmox.${domain}`) && PathPrefix(`/`)
+              
+              gitea:
+                entryPoints:
+                - websecure
+                service: gitea
+                rule: Host(`gitea.${domain}`) && PathPrefix(`/`)
+              
+              minio:
+                entryPoints:
+                - websecure
+                service: minio
+                rule: Host(`minio.${domain}`) && PathPrefix(`/`)
+              
+              netbootxyz:
+                entryPoints:
+                - websecure
+                service: netbootxyz
+                rule: Host(`netbootxyz.${domain}`) && PathPrefix(`/`)            
             services:
               truenas:
                 loadBalancer:

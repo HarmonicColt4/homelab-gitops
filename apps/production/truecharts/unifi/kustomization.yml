@@ -14,7 +14,7 @@ patches:
           name: unifi-values
       - op: add
         path: /spec/chart/spec/version
-        value: "22.x"
+        value: "23.x"
 configMapGenerator:
   - name: unifi-values
     files:

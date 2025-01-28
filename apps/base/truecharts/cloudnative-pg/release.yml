@@ -9,7 +9,7 @@ spec:
   releaseName: cloudnative-pg
   targetNamespace: cloudnative-pg
   storageNamespace: cloudnative-pg
-  interval: 24h
+  interval: 30m
   driftDetection:
     mode: warn
   chart:
@@ -18,5 +18,5 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: truecharts
-      interval: 5m
+      interval: 1h
   valuesFrom: []

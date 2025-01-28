@@ -10,28 +10,9 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/controllers
+  path: ./infrastructure/controllers/production
   prune: true
   wait: true
-  patches:
-    - target:
-        kind: HelmRelease
-        name: traefik
-        namespace: default
-      patch: |-
-        - op: add
-          path: /spec/values/service/annotations
-          value:  
-            metallb.universe.tf/loadBalancerIPs: 10.13.25.21
-    - target:
-        kind: HelmRelease
-        name: longhorn
-        namespace: default
-      patch: |-
-        - op: add
-          path: /spec/values/defaultSettings/backupTarget
-          value:
-            nfs://10.13.25.10:/mnt/storage/longhorn/production
   postBuild:
     substitute:
       domain: "weirdrussiandomain.com"

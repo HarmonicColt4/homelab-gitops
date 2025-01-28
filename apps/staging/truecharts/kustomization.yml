@@ -5,6 +5,7 @@ resources:
   - actualserver
   # - immich
   - media
+  - pgadmin
   - torrents
   - unifi
 

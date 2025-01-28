@@ -45,7 +45,7 @@ spec:
   - match: Host(`gitea.${domain}`) && PathPrefix(`/`)
     kind: Rule
     services:
-    - name: gitea
+    - name: gitea@file
       port: 30008
       kind: TraefikService
 ---
@@ -61,7 +61,7 @@ spec:
   - match: Host(`minio.${domain}`) && PathPrefix(`/`)
     kind: Rule
     services:
-    - name: minio
+    - name: minio@file
       port: 9002
       kind: TraefikService
 ---
@@ -77,6 +77,6 @@ spec:
   - match: Host(`netbootxyz.${domain}`) && PathPrefix(`/`)
     kind: Rule
     services:
-    - name: netbootxyz
+    - name: netbootxyz@file
       port: 31010
       kind: TraefikService

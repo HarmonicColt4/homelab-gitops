@@ -29,7 +29,7 @@ global:
     vctSize: 10Gi
 workload:
   main:
-    replicas: 0
+    replicas: 1
 cnpg:
   main:
     creds:

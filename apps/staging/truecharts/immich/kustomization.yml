@@ -4,12 +4,6 @@ kind: Kustomization
 resources:
   - ../../../base/truecharts/immich
 patches:
-  - patch: |-
-      $patch: delete
-      apiVersion: v1
-      kind: Namespace
-      metadata:
-        name: immich  
   - target:
       kind: HelmRelease
     patch: |-

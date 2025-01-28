@@ -1,5 +1,26 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-
 resources:
   - ../base
+patches:
+  - target:
+      kind: HelmRelease
+      name: traefik
+      namespace: default
+    patch: |
+      - op: add
+        path: /spec/values/service/annotations
+        value:  
+          metallb.universe.tf/loadBalancerIPs: 10.13.13.11
+  - target:
+      kind: HelmRelease
+      name: longhorn
+      namespace: default
+    patch: |-
+      - op: add
+        path: /spec/values/defaultSettings/backupTarget
+        value:
+          nfs://10.13.25.10:/mnt/storage/longhorn/staging
+      - op: add
+        path: /spec/values/persistence/reclaimPolicy
+        value: "Delete"

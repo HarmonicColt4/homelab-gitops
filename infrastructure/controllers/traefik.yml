@@ -76,7 +76,7 @@ spec:
                 entryPoints:
                 - websecure
                 service: proxmox
-                rule: Host(`proxmox.${domain}`) && PathPrefix(`/`)              
+                rule: Host(`pve.${domain}`) && PathPrefix(`/`)              
               gitea:
                 entryPoints:
                 - websecure

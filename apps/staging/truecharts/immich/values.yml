@@ -2,43 +2,33 @@
 persistence:
   library:
     type: nfs
-    path: /mnt/storage/immich/library
+    path: /mnt/storage/immich-staging/library
     server: 10.13.25.10
-    readOnly: true
   uploads:
     type: nfs
-    path: /mnt/storage/immich/upload
+    path: /mnt/storage/immich-staging/upload
     server: 10.13.25.10
-    readOnly: true
   backups:
     type: nfs
-    path: /mnt/storage/immich/backups
+    path: /mnt/storage/immich-staging/backups
     server: 10.13.25.10
-    readOnly: true
   thumbs:
     type: nfs
-    path: /mnt/storage/immich/thumbs
+    path: /mnt/storage/immich-staging/thumbs
     server: 10.13.25.10
-    readOnly: true
   profile:
     type: nfs
-    path: /mnt/storage/immich/profile
+    path: /mnt/storage/immich-staging/profile
     server: 10.13.25.10
-    readOnly: true
   video:
     type: nfs
-    path: /mnt/storage/immich/encoded-video
+    path: /mnt/storage/immich-staging/encoded-video
     server: 10.13.25.10
-    readOnly: true
 global:
   fallbackDefaults:
     vctSize: 10Gi
 workload:
   main:
-    replicas: 0
-  machinelearning:
-    replicas: 0
-  microservices:
     replicas: 0
 cnpg:
   main:

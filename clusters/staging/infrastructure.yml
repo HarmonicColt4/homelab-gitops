@@ -73,6 +73,13 @@ spec:
         - op: replace
           path: /stringData/address
           value: "https://discord.com/api/webhooks/1330790654380343296/4rV4xI-5VDoaOhl266nleVdxFGBc2acCVvUyhKfVlWrUSfUi4dhWqzEVGavE8siWY4NA"
+    - patch: |-
+        $patch: delete
+        apiVersion: longhorn.io/v1beta1
+        kind: RecurringJob
+        metadata:
+          name: backup
+          namespace: longhorn-system
   postBuild:
     substitute:
       domain: "staging.weirdrussiandomain.com"

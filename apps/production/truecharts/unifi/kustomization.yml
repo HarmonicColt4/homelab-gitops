@@ -15,15 +15,6 @@ patches:
       - op: add
         path: /spec/chart/spec/version
         value: "22.x"
-  - target:
-      kind: IngressRoute
-    patch: |-
-      - op: add
-        path: /spec/routes/0/services/0/serversTransport
-        value: traefik-insecure@kubernetescrd
-      - op: add
-        path: /spec/routes/0/services/0/scheme
-        value: https
 configMapGenerator:
   - name: unifi-values
     files:

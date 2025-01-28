@@ -11,7 +11,7 @@ spec:
     - match: Host(`longhorn.${domain}`) && PathPrefix(`/`)
       kind: Rule
       services:
-        - name: longhorn
+        - name: longhorn-frontend
           port: 80
 ---
 apiVersion: longhorn.io/v1beta1

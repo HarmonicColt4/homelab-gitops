@@ -25,7 +25,7 @@ spec:
   chart:
     spec:
       chart: traefik
-      version: '34.1.0'
+      version: "34.1.0"
       sourceRef:
         kind: HelmRepository
         name: traefik
@@ -47,7 +47,7 @@ spec:
         matchRule: Host(`traefik.${domain}`) && ( PathPrefix(`/`) || PathPrefix(`/api`))
         enabled: true
         entryPoints:
-        - websecure
+          - websecure
     service:
       annotations:
         metallb.universe.tf/loadBalancerIPs: 10.13.25.31
@@ -55,6 +55,9 @@ spec:
       default:
         defaultCertificate:
           secretName: cert
+    globalArguments:
+      - --global.checknewversion
+      - --serversTransport.insecureSkipVerify=true
     providers:
       kubernetesCRD:
         allowExternalNameServices: true
@@ -68,26 +71,22 @@ spec:
                 entryPoints:
                 - websecure
                 service: truenas
-                rule: Host(`truenas.${domain}`) && PathPrefix(`/`)
-              
+                rule: Host(`truenas.${domain}`) && PathPrefix(`/`)              
               proxmox:
                 entryPoints:
                 - websecure
                 service: proxmox
-                rule: Host(`proxmox.${domain}`) && PathPrefix(`/`)
-              
+                rule: Host(`proxmox.${domain}`) && PathPrefix(`/`)              
               gitea:
                 entryPoints:
                 - websecure
                 service: gitea
-                rule: Host(`gitea.${domain}`) && PathPrefix(`/`)
-              
+                rule: Host(`gitea.${domain}`) && PathPrefix(`/`)              
               minio:
                 entryPoints:
                 - websecure
                 service: minio
-                rule: Host(`minio.${domain}`) && PathPrefix(`/`)
-              
+                rule: Host(`minio.${domain}`) && PathPrefix(`/`)              
               netbootxyz:
                 entryPoints:
                 - websecure

@@ -11,6 +11,7 @@ resources:
   - radarr-anime
   - recyclarr
   - sonarr
+  - sonarr-anime
 patches:
   - target:
       kind: HelmRelease

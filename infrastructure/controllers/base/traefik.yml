@@ -35,13 +35,13 @@ spec:
   upgrade:
     disableWait: true
   values:
+    deployment:
+      kind: DaemonSet
     ports:
       web:
         redirections:
           entrypoint:
             to: websecure
-            scheme: https
-            permanent: true
     ingressRoute:
       dashboard:
         matchRule: Host(`traefik.${domain}`) && ( PathPrefix(`/`) || PathPrefix(`/api`))

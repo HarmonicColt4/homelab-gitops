@@ -5,6 +5,8 @@ metadata:
   name: tc-setup
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: infra-configs  
   interval: 10m
   timeout: 5m
   sourceRef:

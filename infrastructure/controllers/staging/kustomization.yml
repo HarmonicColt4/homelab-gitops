@@ -24,13 +24,3 @@ patches:
       - op: add
         path: /spec/values/persistence/reclaimPolicy
         value: "Delete"
-  - target:
-      kind: HelmRelease
-      name: metallb
-      namespace: default
-    patch: |-
-      - op: add
-        path: /spec/values
-        value:
-          speaker:
-            tolerateMaster: false

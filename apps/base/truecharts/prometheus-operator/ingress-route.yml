@@ -6,10 +6,9 @@ metadata:
   namespace: prometheus-operator
 spec:
   entryPoints:
-    - web
     - websecure
   routes:
-    - match: Host(`grafana.staging.weirdrussiandomain.com`) && PathPrefix(`/`)
+    - match: Host(`grafana.${domain}`) && PathPrefix(`/`)
       kind: Rule
       services:
         - name: prometheus-operator-grafana

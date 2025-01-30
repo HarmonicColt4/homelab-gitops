@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - release.yml
   - namespace.yml
+  - ingress-route.yml

@@ -4,6 +4,7 @@ kind: Kustomization
 
 resources:
   - ../../../../base/truecharts/prometheus-operator
+  - ingress-route.yml
 
 patches:
   - target:

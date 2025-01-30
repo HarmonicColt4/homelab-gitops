@@ -6,4 +6,3 @@ resources:
   - namespace.yml
   - ingress-route.yml
   - helm-repository.yml
-namespace: monitoring

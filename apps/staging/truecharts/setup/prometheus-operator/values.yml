@@ -57,27 +57,27 @@ kps:
   ## Flag to disable all the kubernetes component scrapers
   ##
   kubernetesServiceMonitors:
-    enabled: false
+    enabled: true
 
   ## Component scraping the kube api server
   ##
   kubeApiServer:
-    enabled: false
+    enabled: true
 
   ## Component scraping the kubelet and kubelet-hosted cAdvisor
   ##
   kubelet:
-    enabled: false
+    enabled: true
 
   ## Component scraping the kube controller manager
   ##
   kubeControllerManager:
-    enabled: false
+    enabled: true
 
   ## Component scraping coreDns. Use either this or kubeDns
   ##
   coreDns:
-    enabled: false
+    enabled: true
 
   ## Component scraping kubeDns. Use either this or coreDns
   ##
@@ -87,22 +87,22 @@ kps:
   ## Component scraping etcd
   ##
   kubeEtcd:
-    enabled: false
+    enabled: true
 
   ## Component scraping kube scheduler
   ##
   kubeScheduler:
-    enabled: false
+    enabled: true
 
   ## Component scraping kube proxy
   ##
   kubeProxy:
-    enabled: false
+    enabled: true
 
   ## Component scraping kube state metrics
   ##
   kubeStateMetrics:
-    enabled: false
+    enabled: true
 
   ## dontDeploy node exporter as a daemonset to all nodes
   ##

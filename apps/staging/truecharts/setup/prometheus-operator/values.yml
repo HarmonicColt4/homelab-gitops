@@ -107,7 +107,7 @@ kps:
   ## dontDeploy node exporter as a daemonset to all nodes
   ##
   nodeExporter:
-    enabled: false
+    enabled: true
 
   ## dont Deploy a Prometheus instance
   ##

@@ -1,0 +1,19 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+spec:
+  releaseName: kps
+  targetNamespace: kube-prometheus-stack
+  storageNamespace: kube-prometheus-stack
+  interval: 30m
+  driftDetection:
+    mode: warn
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+      interval: 1h

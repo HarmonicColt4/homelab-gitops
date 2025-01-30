@@ -52,7 +52,7 @@ kps:
   grafana:
     enabled: true
     forceDeployDashboards: false
-    defaultDashboardsEnabled: false
+    defaultDashboardsEnabled: true
 
   ## Flag to disable all the kubernetes component scrapers
   ##

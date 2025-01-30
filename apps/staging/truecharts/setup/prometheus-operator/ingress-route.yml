@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`grafana.${domain}`) && PathPrefix(`/`)
+    - match: Host(`grafana.staging.weirdrussiandomain.com`) && PathPrefix(`/`)
       kind: Rule
       services:
         - name: prometheus-operator-grafana

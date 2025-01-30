@@ -13,6 +13,9 @@ spec:
   path: ./apps/production/truecharts/setup
   prune: true
   wait: true
+  postBuild:
+    substitute:
+      domain: "weirdrussiandomain.com"
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

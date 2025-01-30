@@ -4,3 +4,21 @@ kind: Kustomization
 
 resources:
   - ../../../../base/truecharts/prometheus-operator
+
+patches:
+  - target:
+      kind: HelmRelease
+    patch: |-
+      - op: add
+        path: /spec/valuesFrom/-
+        value:
+          kind: ConfigMap
+          name: kps-values
+
+configMapGenerator:
+  - name: kps-values
+    files:
+      - values.yaml=values.yml
+
+configurations:
+  - ../../kustomizeconfig.yml

@@ -7,7 +7,7 @@ patches:
   - patch: |
       - op: add
         path: /spec/template/spec/containers/0/args/-
-        value: --concurrent=10
+        value: --concurrent=2
       - op: add
         path: /spec/template/spec/containers/0/args/-
         value: --requeue-dependency=5s
@@ -43,4 +43,4 @@ patches:
         value: --helm-cache-purge-interval=5m
     target:
       kind: Deployment
-      name: source-controller       
+      name: source-controller

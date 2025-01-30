@@ -40,7 +40,7 @@ spec:
     ports:
       web:
         redirections:
-          entrypoint:
+          entryPoint:
             to: websecure
     ingressRoute:
       dashboard:

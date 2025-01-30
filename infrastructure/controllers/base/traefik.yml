@@ -42,6 +42,7 @@ spec:
         redirections:
           entryPoint:
             to: websecure
+            scheme: https
     ingressRoute:
       dashboard:
         matchRule: Host(`traefik.${domain}`) && ( PathPrefix(`/`) || PathPrefix(`/api`))

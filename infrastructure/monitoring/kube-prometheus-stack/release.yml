@@ -16,3 +16,13 @@ spec:
         name: prometheus-community
       interval: 1h
       version: 68.x
+  values:
+    prometheus:
+      prometheusSpec:
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 20Gi

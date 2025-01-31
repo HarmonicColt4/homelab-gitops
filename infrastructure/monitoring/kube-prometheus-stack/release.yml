@@ -26,3 +26,5 @@ spec:
               resources:
                 requests:
                   storage: 10Gi
+    grafana:
+      adminPassword: F19hters

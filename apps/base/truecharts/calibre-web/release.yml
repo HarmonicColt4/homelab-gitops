@@ -18,3 +18,5 @@ spec:
         name: truecharts
       interval: 1h
   valuesFrom: []
+  values:
+    TZ: Pacific/Auckland

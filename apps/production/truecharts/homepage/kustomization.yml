@@ -10,3 +10,12 @@ patches:
       - op: add
         path: /spec/chart/spec/version
         value: "9.x"
+configMapGenerator:
+  - name: homepage-services
+    files:
+      - services.yaml=services.yml
+  - name: homepage-settings
+    files:
+      - settings.yaml=settings.yml
+configurations:
+  - ../kustomizeconfig.yml

@@ -5,6 +5,7 @@ resources:
   - actualserver
   - adguard-home
   - cloudflareddns
+  - homepage
   - immich
   - media
   - ollama

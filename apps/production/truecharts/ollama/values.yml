@@ -20,6 +20,6 @@ workload:
               port: 11434
 persistence:
   config:
-    size: 40Gi
+    size: 80Gi
   data:
     size: 20Gi

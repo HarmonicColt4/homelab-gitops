@@ -1,0 +1,23 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../../base/truecharts/sabnzbd
+patches:
+  - target:
+      kind: HelmRelease
+    patch: |-
+      - op: add
+        path: /spec/valuesFrom/-
+        value:
+          kind: ConfigMap
+          name: sabnzbd-values
+      - op: add
+        path: /spec/chart/spec/version
+        value: "21.x"
+configMapGenerator:
+  - name: sabnzbd-values
+    files:
+      - values.yaml=values.yml
+configurations:
+  - ../kustomizeconfig.yml

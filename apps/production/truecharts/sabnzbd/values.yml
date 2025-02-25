@@ -1,0 +1,31 @@
+persistence:
+  series:
+    enabled: true
+    type: nfs
+    path: /mnt/storage/media/series/torrents
+    server: 10.13.25.10
+    mountPath: /series/torrents
+  movies:
+    enabled: true
+    type: nfs
+    path: /mnt/storage/media/movies/torrents
+    server: 10.13.25.10
+    mountPath: /movies/torrents
+  anime:
+    enabled: true
+    type: nfs
+    path: /mnt/storage/media/anime/torrents
+    server: 10.13.25.10
+    mountPath: /anime/torrents
+  books:
+    enabled: true
+    type: nfs
+    path: /mnt/storage/media/books/torrents
+    server: 10.13.25.10
+    mountPath: /books/torrents
+  downloads:
+    enabled: true
+    type: nfs
+    path: /mnt/storage/downloads
+    server: 10.13.25.10
+    mountPath: /downloads

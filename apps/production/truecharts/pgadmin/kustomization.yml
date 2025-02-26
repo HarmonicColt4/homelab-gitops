@@ -14,7 +14,7 @@ patches:
           name: pgadmin-values
       - op: add
         path: /spec/chart/spec/version
-        value: "17.x"
+        value: "18.x"
 configMapGenerator:
   - name: pgadmin-values
     files:

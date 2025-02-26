@@ -6,3 +6,9 @@ persistence:
     path: /mnt/storage/media/movies
     server: 10.13.25.10
     mountPath: /movies
+  movies-1080p:
+    enabled: true
+    type: nfs
+    path: /mnt/storage/media/movies-1080p
+    server: 10.13.25.10
+    mountPath: /movies-1080p

@@ -1,8 +1,14 @@
 ---
 persistence:
-  media:
+  anime:
     enabled: true
     type: nfs
     path: /mnt/storage/media/anime
     server: 10.13.25.10
     mountPath: /anime
+  anime-old:
+    enabled: true
+    type: nfs
+    path: /mnt/storage/media/anime-old
+    server: 10.13.25.10
+    mountPath: /anime-old

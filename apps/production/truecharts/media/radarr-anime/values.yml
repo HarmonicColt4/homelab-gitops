@@ -1,6 +1,6 @@
 ---
 persistence:
-  media:
+  anime:
     enabled: true
     type: nfs
     path: /mnt/storage/media/anime

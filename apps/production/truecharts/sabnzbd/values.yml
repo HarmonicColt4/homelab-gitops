@@ -6,24 +6,30 @@ workload:
           env:
             SABNZBD__HOST_WHITELIST_ENTRIES: "sabnzbd.weirdrussiandomain.com"
 persistence:
-  series:
+  series-1080p:
     enabled: true
     type: nfs
-    path: /mnt/storage/media/series/torrents
+    path: /mnt/storage/media/series-1080p/torrents
     server: 10.13.25.10
-    mountPath: /series/torrents
-  movies:
+    mountPath: /series-1080p/torrents
+  series-4k:
     enabled: true
     type: nfs
-    path: /mnt/storage/media/movies/torrents
+    path: /mnt/storage/media/series-4k/torrents
     server: 10.13.25.10
-    mountPath: /movies/torrents
-  anime:
+    mountPath: /series-4k/torrents
+  movies-1080p:
     enabled: true
     type: nfs
-    path: /mnt/storage/media/anime/torrents
+    path: /mnt/storage/media/movies-1080p/torrents
     server: 10.13.25.10
-    mountPath: /anime/torrents
+    mountPath: /movies-1080p/torrents
+  movies-4k:
+    enabled: true
+    type: nfs
+    path: /mnt/storage/media/movies-4k/torrents
+    server: 10.13.25.10
+    mountPath: /movies-4k/torrents
   books:
     enabled: true
     type: nfs

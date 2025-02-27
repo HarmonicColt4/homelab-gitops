@@ -41,12 +41,18 @@ persistence:
     path: /mnt/storage/media/movies-4k/torrents
     server: 10.13.25.10
     mountPath: /movies-4k/torrents
+  anime-old:
+    enabled: true
+    type: nfs
+    path: /mnt/storage/media/anime-old/torrents
+    server: 10.13.25.10
+    mountPath: /anime-old/torrents
   anime:
     enabled: true
     type: nfs
-    path: /mnt/storage/media/anime/torrents
+    path: /mnt/storage/media/anime/downloads
     server: 10.13.25.10
-    mountPath: /anime/torrents
+    mountPath: /anime/downloads
   books:
     enabled: true
     type: nfs

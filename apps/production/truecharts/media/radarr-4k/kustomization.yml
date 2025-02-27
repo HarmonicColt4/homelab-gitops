@@ -1,0 +1,49 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../../../base/truecharts/radarr
+patches:
+  - patch: |-
+      $patch: delete
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: radarr
+  - target:
+      kind: HelmRelease
+    patch: |-
+      - op: add
+        path: /spec/valuesFrom/-
+        value:
+          kind: ConfigMap
+          name: radarr-4k-values
+      - op: add
+        path: /spec/chart/spec/version
+        value: 23.x
+      - op: replace
+        path: /spec/releaseName
+        value: radarr-4k
+      - op: replace
+        path: /metadata/name
+        value: radarr-4k
+  - target:
+      kind: IngressRoute
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: radarr-4k
+      - op: replace
+        path: /spec/routes/0
+        value:
+          match: Host(`radarr-4k.${domain}`) && PathPrefix(`/`)
+          kind: Rule
+          services:
+            - name: radarr-4k
+              port: 7878
+configMapGenerator:
+  - name: radarr-4k-values
+    files:
+      - values.yaml=values.yml
+configurations:
+  - ../../kustomizeconfig.yml

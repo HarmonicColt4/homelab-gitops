@@ -2,12 +2,12 @@
 persistence:
   config:
     size: 10Gi
-  media:
+  anime:
     enabled: true
     type: nfs
-    path: /mnt/storage/media
+    path: /mnt/storage/media/anime
     server: 10.13.25.10
-    mountPath: /mnt/storage/media
+    mountPath: /anime
   movies-1080p:
     enabled: true
     type: nfs

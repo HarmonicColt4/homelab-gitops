@@ -1,0 +1,7 @@
+---
+workload:
+  main:
+    podSpec:
+      initContainers:
+        initconfig:
+          enabled: false

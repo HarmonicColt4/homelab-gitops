@@ -1,0 +1,10 @@
+---
+persistence:
+  config:
+    size: 1Gi
+  media:
+    enabled: true
+    type: nfs
+    path: /mnt/storage/media/books
+    server: 10.13.25.10
+    mountPath: /books

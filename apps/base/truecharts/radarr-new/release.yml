@@ -1,0 +1,21 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: radarr
+spec:
+  interval: 30m
+  driftDetection:
+    mode: warn
+  chart:
+    spec:
+      chart: radarr
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+      interval: 1h
+  valuesFrom: []
+  values:
+    metrics:
+      main:
+        enabled: false

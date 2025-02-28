@@ -1,8 +1,8 @@
 ---
 persistence:
-  media:
+  series-4k:
     enabled: true
     type: nfs
-    path: /mnt/storage/media/series
+    path: /mnt/storage/media/series-4k
     server: 10.13.25.10
-    mountPath: /series
+    mountPath: /series-4k

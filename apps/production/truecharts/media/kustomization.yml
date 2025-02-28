@@ -12,6 +12,7 @@ resources:
   - radarr-anime
   - recyclarr
   - sonarr
+  - sonarr-4k
   - sonarr-anime
 patches:
   - target:

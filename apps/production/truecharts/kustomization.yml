@@ -8,6 +8,7 @@ resources:
   - homepage
   - immich
   - media
+  - media-new
   - ollama
   - pgadmin
   - sabnzbd

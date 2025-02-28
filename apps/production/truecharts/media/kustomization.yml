@@ -7,9 +7,9 @@ resources:
   - calibre-web
   - jellyfin
   - jellyseerr
-  # - radarr
-  # - radarr-4k
-  # - radarr-anime
+  - radarr
+  - radarr-4k
+  - radarr-anime
   - recyclarr
   - sonarr
   - sonarr-anime

@@ -1,8 +1,8 @@
 ---
 persistence:
-  media:
+  series-1080p:
     enabled: true
     type: nfs
-    path: /mnt/storage/media/series
+    path: /mnt/storage/media/series-1080p
     server: 10.13.25.10
-    mountPath: /series
+    mountPath: /series-1080p

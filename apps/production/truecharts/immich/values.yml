@@ -25,6 +25,7 @@ persistence:
     path: /mnt/storage/immich/encoded-video
     server: 10.13.25.10
   archive-guy:
+    enabled: true
     type: nfs
     path: /mnt/storage/archive/Guy
     server: 10.13.25.10

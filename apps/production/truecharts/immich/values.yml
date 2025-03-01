@@ -41,6 +41,13 @@ global:
 workload:
   main:
     replicas: 1
+  microservices:
+    podSpec:
+      containers:
+        microservices:
+          resources:
+            limits:
+              nvidia.com/gpu: 1    
 cnpg:
   main:
     creds:

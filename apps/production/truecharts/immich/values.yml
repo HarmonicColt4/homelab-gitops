@@ -30,6 +30,11 @@ persistence:
     path: /mnt/storage/archive/Guy
     server: 10.13.25.10
     mountPath: /archive/Guy
+    targetSelector:
+      main:
+        main: {}
+      microservices:
+        microservices: {}
 global:
   fallbackDefaults:
     vctSize: 10Gi

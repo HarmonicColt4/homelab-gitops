@@ -35,6 +35,17 @@ persistence:
         main: {}
       microservices:
         microservices: {}
+  archive-gabrielle:
+    enabled: true
+    type: nfs
+    path: /mnt/storage/archive/Gabrielle
+    server: 10.13.25.10
+    mountPath: /archive/Gabrielle
+    targetSelector:
+      main:
+        main: {}
+      microservices:
+        microservices: {}
 global:
   fallbackDefaults:
     vctSize: 10Gi

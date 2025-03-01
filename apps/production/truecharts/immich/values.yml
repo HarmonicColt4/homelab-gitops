@@ -24,6 +24,11 @@ persistence:
     type: nfs
     path: /mnt/storage/immich/encoded-video
     server: 10.13.25.10
+  archive-guy:
+    type: nfs
+    path: /mnt/storage/archive/Guy
+    server: 10.13.25.10
+    mountPath: /archive/Guy
 global:
   fallbackDefaults:
     vctSize: 10Gi

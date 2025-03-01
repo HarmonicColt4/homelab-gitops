@@ -38,16 +38,15 @@ persistence:
 global:
   fallbackDefaults:
     vctSize: 10Gi
+resources:
+  limits:
+    nvidia.com/gpu: 1    
 workload:
   main:
     replicas: 1
   microservices:
     podSpec:
-      containers:
-        microservices:
-          resources:
-            limits:
-              nvidia.com/gpu: 1    
+      runtimeClassName: "nvidia"
 cnpg:
   main:
     creds:

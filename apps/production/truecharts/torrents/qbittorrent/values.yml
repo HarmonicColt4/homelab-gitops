@@ -5,12 +5,6 @@ service:
     annotations:
       metallb.universe.tf/loadBalancerIPs: 10.13.25.25
 persistence:
-  series:
-    enabled: true
-    type: nfs
-    path: /mnt/storage/media/series/torrents
-    server: 10.13.25.10
-    mountPath: /series/torrents
   series-1080p:
     enabled: true
     type: nfs
@@ -23,12 +17,6 @@ persistence:
     path: /mnt/storage/media/series-4k/torrents
     server: 10.13.25.10
     mountPath: /series-4k/torrents
-  movies:
-    enabled: true
-    type: nfs
-    path: /mnt/storage/media/movies/torrents
-    server: 10.13.25.10
-    mountPath: /movies/torrents
   movies-1080p:
     enabled: true
     type: nfs
@@ -41,12 +29,6 @@ persistence:
     path: /mnt/storage/media/movies-4k/torrents
     server: 10.13.25.10
     mountPath: /movies-4k/torrents
-  anime-old:
-    enabled: true
-    type: nfs
-    path: /mnt/storage/media/anime-old/torrents
-    server: 10.13.25.10
-    mountPath: /anime-old/torrents
   anime:
     enabled: true
     type: nfs

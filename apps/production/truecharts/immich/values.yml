@@ -47,6 +47,11 @@ workload:
   microservices:
     podSpec:
       runtimeClassName: "nvidia"
+  machinelearning:
+    podSpec:
+      runtimeClassName: "nvidia"
+immich:
+  mlImageType: mlCudaImage
 cnpg:
   main:
     creds:

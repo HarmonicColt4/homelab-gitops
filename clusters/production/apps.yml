@@ -20,24 +20,6 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: tc-setup-new
-  namespace: flux-system
-spec:
-  interval: 10m
-  timeout: 5m
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./apps/production/truecharts-new/setup
-  prune: true
-  wait: true
-  postBuild:
-    substitute:
-      domain: "weirdrussiandomain.com"
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
   name: apps
   namespace: flux-system
 spec:
@@ -68,27 +50,6 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./apps/production/truecharts
-  prune: true
-  wait: true
-  postBuild:
-    substitute:
-      domain: "weirdrussiandomain.com"
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: tc-apps-new
-  namespace: flux-system
-spec:
-  dependsOn:
-    - name: tc-setup-new
-    - name: infra-configs
-  interval: 10m
-  timeout: 5m
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./apps/production/truecharts-new
   prune: true
   wait: true
   postBuild:

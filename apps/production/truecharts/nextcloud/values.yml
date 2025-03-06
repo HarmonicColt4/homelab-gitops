@@ -26,13 +26,9 @@ nextcloud:
     default_phone_region: NZ
     accessIP: 10.13.25.21
   clamav:
-    enabled: false
-  notify_push:
-    enabled: false
-  previews:
-    enabled: false
+    enabled: true
   collabora:
-    enabled: false
+    enabled: true
     username: gpenda
     password: wj@i35g3y3@U&A
 persistence:

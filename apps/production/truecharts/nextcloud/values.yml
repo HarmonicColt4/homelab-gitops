@@ -27,6 +27,8 @@ nextcloud:
     accessIP: 10.13.25.21
   clamav:
     enabled: true
+  notify_push:
+    enabled: false
   collabora:
     enabled: true
     username: gpenda

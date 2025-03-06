@@ -4,3 +4,12 @@ kind: Kustomization
 resources:
   - ../../../../base/truecharts-new/cloudnative-pg
 namespace: cloudnative-pg
+patches:
+  - target:
+      kind: HelmRelease
+    patch: |-
+      - op: add
+        path: /spec/dependsOn
+        value:
+          - name: prometheus-operator
+            namespace: prometheus-operator

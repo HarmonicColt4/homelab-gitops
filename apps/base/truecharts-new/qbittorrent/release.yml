@@ -1,0 +1,21 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: qbittorrent
+spec:
+  releaseName: qbittorrent
+  targetNamespace: qbittorrent
+  storageNamespace: qbittorrent
+  interval: 30m
+  driftDetection:
+    mode: warn
+  chart:
+    spec:
+      chart: qbittorrent
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: truecharts
+      interval: 1h
+  valuesFrom: []

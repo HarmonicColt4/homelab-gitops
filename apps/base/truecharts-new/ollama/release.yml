@@ -1,0 +1,21 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ollama
+spec:
+  releaseName: ollama
+  targetNamespace: ollama
+  storageNamespace: ollama
+  interval: 30m
+  driftDetection:
+    mode: warn
+  chart:
+    spec:
+      chart: ollama
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: truecharts
+      interval: 1h
+  valuesFrom: []

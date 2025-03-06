@@ -1,0 +1,21 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cloudnative-pg
+spec:
+  dependsOn:
+    - name: prometheus-operator
+  releaseName: cloudnative-pg
+  interval: 30m
+  driftDetection:
+    mode: warn
+  chart:
+    spec:
+      chart: cloudnative-pg
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: truecharts
+      interval: 1h
+  valuesFrom: []

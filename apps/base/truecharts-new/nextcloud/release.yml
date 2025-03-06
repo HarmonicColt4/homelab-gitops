@@ -1,0 +1,21 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nextcloud
+spec:
+  releaseName: nextcloud
+  targetNamespace: nextcloud
+  storageNamespace: nextcloud
+  interval: 30m
+  driftDetection:
+    mode: warn
+  chart:
+    spec:
+      chart: nextcloud
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: truecharts
+      interval: 1h
+  valuesFrom: []

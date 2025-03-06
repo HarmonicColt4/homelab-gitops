@@ -1,0 +1,19 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: prometheus-operator
+spec:
+  releaseName: prometheus-operator
+  interval: 30m
+  driftDetection:
+    mode: warn
+  chart:
+    spec:
+      chart: prometheus-operator
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: truecharts
+      interval: 1h
+  valuesFrom: []

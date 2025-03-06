@@ -1,0 +1,21 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: searxng
+spec:
+  releaseName: searxng
+  targetNamespace: searxng
+  storageNamespace: searxng
+  interval: 30m
+  driftDetection:
+    mode: warn
+  chart:
+    spec:
+      chart: searxng
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: truecharts
+      interval: 1h
+  valuesFrom: []

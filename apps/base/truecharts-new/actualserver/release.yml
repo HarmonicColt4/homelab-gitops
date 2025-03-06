@@ -5,8 +5,6 @@ metadata:
   name: actualserver
 spec:
   releaseName: actualserver
-  targetNamespace: actualserver
-  storageNamespace: actualserver
   interval: 30m
   driftDetection:
     mode: warn

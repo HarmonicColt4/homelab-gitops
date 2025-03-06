@@ -1,0 +1,59 @@
+---
+# Source: tc-helmrelease-chart/templates/values.yml
+ingress:
+  main:
+    integrations:
+      traefik:
+        enabled: false
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      cert-manager.io/cluster-issuer: letsencrypt
+    enabled: true
+    hosts:
+      - host: nextcloud.weirdrussiandomain.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+          - nextcloud.weirdrussiandomain.com
+        secretName: nextcloud-cert
+nextcloud:
+  credentials:
+    initialAdminUser: gpenda
+    initialAdminPassword: wj@i35g3y3@U&A
+  general:
+    default_phone_region: NZ
+    accessIP: 10.13.25.21
+  clamav:
+    enabled: true
+  collabora:
+    enabled: true
+    username: gpenda
+    password: wj@i35g3y3@U&A
+persistence:
+  data:
+    enabled: true
+    type: nfs
+    path: /mnt/storage/nextcloud
+    server: 10.13.25.10
+    targetSelector:
+      main:
+        main:
+          mountPath: /var/www/html/data
+        init-perms:
+          mountPath: /var/www/html/data
+      nextcloud-cron:
+        nextcloud-cron:
+          mountPath: /var/www/html/data
+      preview-cron:
+        preview-cron:
+          mountPath: /var/www/html/data
+      nginx:
+        nginx:
+          mountPath: /var/www/html/data
+          readOnly: true
+  html:
+    size: 2Gi
+  config:
+    size: 1Gi

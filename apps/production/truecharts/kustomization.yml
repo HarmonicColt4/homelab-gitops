@@ -8,6 +8,7 @@ resources:
   - homepage
   - immich
   - media
+  - nextcloud
   - ollama
   - pgadmin
   - sabnzbd

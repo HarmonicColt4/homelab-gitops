@@ -24,8 +24,10 @@ patches:
         value:
           kind: ConfigMap
           name: global-values
+          namespace: truecharts
 configMapGenerator:
   - name: global-values
+    namespace: truecharts
     files:
       - values.yaml=global-values.yml
 configurations:

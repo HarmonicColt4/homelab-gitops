@@ -29,6 +29,8 @@ nextcloud:
     enabled: true
   notify_push:
     enabled: false
+  previews:
+    enabled: false
   collabora:
     enabled: true
     username: gpenda

@@ -61,6 +61,10 @@ workload:
   machinelearning:
     podSpec:
       runtimeClassName: "nvidia"
+      containers:
+        machinelearning:
+          resources:
+            requests: {}
 immich:
   mlImageType: mlCudaImage
 cnpg:

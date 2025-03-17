@@ -11,9 +11,22 @@ configmap:
     data:
       sonarr_4k.yml: |
         sonarr:
-          sonarr_4k:
+          sonarr-4k:
             include:
-              - template: web-2160p-v4        
+              - template: sonarr-quality-definition-series
+              - template: sonarr-v4-quality-profile-web-2160p
+              - template: sonarr-v4-custom-formats-web-2160p
+            custom_formats:
+              - trash_ids:
+                  - 9b27ab6498ec0f31a3353992e19434ca # DV (WEBDL)
+                  - 0dad0a507451acddd754fe6dc3a7f5e7 # HDR10+ Boost
+                  - 385e9e8581d33133c3961bdcdeffb7b4 # DV HDR10+ Boost
+                assign_scores_to:
+                  - name: WEB-2160p
+              - trash_ids:
+                  - 83304f261cf516bb208c18c54c0adf97 # SDR (no WEBDL)
+                assign_scores_to:
+                  - name: WEB-2160p
 secret:
   instance-secrets:
     enabled: true

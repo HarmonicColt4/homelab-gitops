@@ -10,7 +10,7 @@ resources:
   - radarr
   - radarr-4k
   - radarr-anime
-  # - recyclarr
+  - recyclarr
   - sonarr
   - sonarr-4k
   - sonarr-anime

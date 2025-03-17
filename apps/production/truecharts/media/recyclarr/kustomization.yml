@@ -25,5 +25,15 @@ configMapGenerator:
   - name: recyclarr-values
     files:
       - values.yaml=values.yml
+  - name: recyclarr-configs
+    files:
+      - sonarr.yml=configs/sonarr.yml
+      - radarr.yml=configs/radarr.yml
+      - sonarr-anime.yml=configs/sonarr-anime.yml
+      - radarr-anime.yml=configs/radarr-anime.yml
+      - sonarr-4k.yml=configs/sonarr-4k.yml
+      - radarr-4k.yml=configs/radarr-4k.yml
+    options:
+      disableNameSuffixHash: true
 configurations:
   - ../../kustomizeconfig.yml

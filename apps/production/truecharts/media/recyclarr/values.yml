@@ -5,44 +5,6 @@ workload:
       initContainers:
         initconfig:
           enabled: false
-configmap:
-  sonarr-4k:
-    enabled: true
-    data:
-      sonarr_4k.yml: |
-        sonarr:
-          sonarr_4k:
-            include:
-              - template: sonarr-quality-definition-series
-              - template: sonarr-v4-quality-profile-web-2160p
-              - template: sonarr-v4-custom-formats-web-2160p
-            replace_existing_custom_formats: true
-            custom_formats:
-              - trash_ids:
-                  - 0dad0a507451acddd754fe6dc3a7f5e7 # HDR10+ Boost
-                  - 385e9e8581d33133c3961bdcdeffb7b4 # DV HDR10+ Boost
-                  - 6d0d8de7b57e35518ac0308b0ddf404e # DV
-                  - 7878c33f1963fefb3d6c8657d46c2f0a # DV HDR10
-                  - 2b239ed870daba8126a53bd5dc8dc1c8 # DV HDR10+
-                  - 1f733af03141f068a540eec352589a89 # DV HLG
-                  - 27954b0a80aab882522a88a4d9eae1cd # DV SDR
-                  - 3e2c4e748b64a1a1118e0ea3f4cf6875 # HDR
-                  - bb019e1cd00f304f80971c965de064dc # HDR (undefined)
-                  - 3497799d29a085e2ac2df9d468413c94 # HDR10
-                  - a3d82cbef5039f8d295478d28a887159 # HDR10+
-                  - 17e889ce13117940092308f48b48b45b # HLG
-                  - 2a7e3be05d3861d6df7171ec74cad727 # PQ                  
-                assign_scores_to:
-                  - name: WEB-2160p
-              - trash_ids:
-                  - 9b27ab6498ec0f31a3353992e19434ca # DV (WEBDL)
-                assign_scores_to:
-                  - name: WEB-2160p
-                    score: -10000
-              - trash_ids:
-                  - 83304f261cf516bb208c18c54c0adf97 # SDR (no WEBDL)
-                assign_scores_to:
-                  - name: WEB-2160p
 secret:
   instance-secrets:
     enabled: true
@@ -75,5 +37,5 @@ persistence:
   configs:
     enabled: true
     type: configmap
-    objectName: sonarr-4k
+    objectName: recyclarr-configs
     mountPath: /config/configs

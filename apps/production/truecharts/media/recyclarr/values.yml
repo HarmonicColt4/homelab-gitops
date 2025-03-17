@@ -38,7 +38,6 @@ persistence:
     enabled: true
     type: configmap
     objectName: configs
-    optional: true
     mountPath: /config/configs
     items:
       - key: sonarr.yml

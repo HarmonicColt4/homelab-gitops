@@ -43,8 +43,8 @@ persistence:
     objectName: instance-secrets
     mountPath: /config/secrets.yml
     subPath: secrets.yml
-  configs:
-    enabled: true
-    type: configmap
-    objectName: sonarr-4k
-    mountPath: /config/configs
+  # configs:
+  #   enabled: true
+  #   type: configmap
+  #   objectName: sonarr-4k
+  #   mountPath: /config/configs

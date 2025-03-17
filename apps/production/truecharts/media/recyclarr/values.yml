@@ -27,4 +27,8 @@ secret:
 
         sonarr_4k_url: http://sonarr-4k:8989
         sonarr_4k_apikey: fd4d8f9eb1814318b318d1bff51e3037
-        
+persistence:
+  secrets:
+    enabled: true
+    objectName: instance-secrets
+    mountPath: /test

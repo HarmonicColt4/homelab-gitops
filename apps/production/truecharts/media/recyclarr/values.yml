@@ -33,4 +33,3 @@ persistence:
     type: secret
     objectName: instance-secrets
     mountPath: /config/secrets.yml
-    subPath: secrets.yml

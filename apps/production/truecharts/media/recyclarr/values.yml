@@ -5,6 +5,15 @@ workload:
       initContainers:
         initconfig:
           enabled: false
+configmap:
+  sonarr-4k:
+    enabled: true
+    data:
+      sonarr_4k.yml: |
+        sonarr:
+          sonarr_4k:
+            include:
+              - template: web-2160p-v4        
 secret:
   instance-secrets:
     enabled: true
@@ -22,11 +31,11 @@ secret:
         sonarr_anime_url: http://sonarr-anime:8989
         sonarr_anime_apikey: 139546b93ce8443e8ea5a7e38b099619
 
-        radarr_4k_url: http://radarr-4k:7878
-        radarr_4k_apikey: 36e8c881092c4c3082771455cfeff0a0
+        radarr_4k_base_url: http://radarr-4k:7878
+        radarr_4k_api_key: 36e8c881092c4c3082771455cfeff0a0
 
-        sonarr_4k_url: http://sonarr-4k:8989
-        sonarr_4k_apikey: fd4d8f9eb1814318b318d1bff51e3037
+        sonarr_4k_base_url: http://sonarr-4k:8989
+        sonarr_4k_api_key: fd4d8f9eb1814318b318d1bff51e3037
 persistence:
   secrets:
     enabled: true
@@ -34,3 +43,8 @@ persistence:
     objectName: instance-secrets
     mountPath: /config/secrets.yml
     subPath: secrets.yml
+  configs:
+    enabled: true
+    type: configmap
+    objectName: sonarr-4k
+    mountPath: /config/configs

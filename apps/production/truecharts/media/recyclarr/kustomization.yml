@@ -26,6 +26,7 @@ configMapGenerator:
     files:
       - values.yaml=values.yml
   - name: recyclarr-configs
+    namespace: media
     files:
       - sonarr.yml=configs/sonarr.yml
       - radarr.yml=configs/radarr.yml

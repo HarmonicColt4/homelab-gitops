@@ -32,7 +32,7 @@ persistence:
     enabled: true
     type: secret
     objectName: instance-secrets
-    mountPath: /config
+    mountPath: /configs
     items:
       - key: secrets.yml
-        path: secrets.yml
+        path: test.yml

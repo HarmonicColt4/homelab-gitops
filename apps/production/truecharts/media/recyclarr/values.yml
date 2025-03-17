@@ -32,4 +32,4 @@ persistence:
     enabled: true
     type: secret
     objectName: instance-secrets
-    mountPath: /config/configs
+    mountPath: /config/configs-new

@@ -38,4 +38,5 @@ persistence:
     enabled: true
     type: configmap
     objectName: recyclarr-configs
+    optional: true
     mountPath: /config/configs

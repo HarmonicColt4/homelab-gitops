@@ -40,3 +40,16 @@ persistence:
     objectName: recyclarr-configs
     optional: true
     mountPath: /config/configs
+    items:
+      - key: sonarr.yml
+        path: sonarr.yml
+      - key: radarr.yml
+        path: radarr.yml
+      - key: sonarr-anime.yml
+        path: sonarr-anime.yml
+      - key: radarr-anime.yml
+        path: radarr-anime.yml
+      - key: sonarr-4k.yml
+        path: sonarr-4k.yml
+      - key: radarr-4k.yml
+        path: radarr-4k.yml

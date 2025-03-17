@@ -30,5 +30,6 @@ secret:
 persistence:
   secrets:
     enabled: true
+    type: secret
     objectName: instance-secrets
     mountPath: /test

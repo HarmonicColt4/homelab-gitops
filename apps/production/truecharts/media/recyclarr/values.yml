@@ -11,7 +11,7 @@ configmap:
     data:
       sonarr_4k.yml: |
         sonarr:
-          sonarr-4k:
+          sonarr_4k:
             include:
               - template: sonarr-quality-definition-series
               - template: sonarr-v4-quality-profile-web-2160p

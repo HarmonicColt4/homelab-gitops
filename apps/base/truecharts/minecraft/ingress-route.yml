@@ -5,7 +5,7 @@ metadata:
   name: minecraft
 spec:
   entryPoints:
-    - websecure
+    - minecraft
   routes:
     - match: Host(`minecraft.${domain}`) && PathPrefix(`/`)
       kind: Rule

@@ -41,3 +41,6 @@ persistence:
     size: 2Gi
   config:
     size: 1Gi
+global:
+  fallbackDefaults:
+    vctSize: 4Gi

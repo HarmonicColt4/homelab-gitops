@@ -14,7 +14,7 @@ patches:
           name: nextcloud-values
       - op: add
         path: /spec/chart/spec/version
-        value: 32.6.5
+        value: 32.x
 configMapGenerator:
   - name: nextcloud-values
     files:

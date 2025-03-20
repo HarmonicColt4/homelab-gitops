@@ -6,6 +6,7 @@ workload:
           env:
             MOTD: "Welcome to ECBAFC's Minecraft!"
             MEMORY: 10240M
+            GUI: "TRUE"
         mcbackup:
           enabled: false
 persistence:

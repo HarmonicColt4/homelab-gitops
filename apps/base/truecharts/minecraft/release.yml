@@ -17,4 +17,17 @@ spec:
         namespace: truecharts
       interval: 24h
   values:
+    service:
+      main:
+        annotations:
+          metallb.universe.tf/loadBalancerIPs: 10.19.53.9
+        ports:
+          main:
+            enabled: true
+            protocol: tcp
+            port: 25565
+          query:
+            enabled: true
+            protocol: udp
+            port: 25565    
   valuesFrom: []

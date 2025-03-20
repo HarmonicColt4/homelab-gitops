@@ -19,3 +19,7 @@ resources:
     memory: 12Gi
   requests:
     memory: 4Gi
+service:
+  main:
+    annotations:
+      metallb.universe.tf/loadBalancerIPs: 10.19.53.9          

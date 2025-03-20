@@ -50,6 +50,13 @@ spec:
       target:
         kind: ClusterIssuer
         name: letsencrypt
+    - target:
+        kind: Secret
+        name: discord-webhook
+      patch: |
+        - op: replace
+          path: /stringData/address
+          value: "https://discord.com/api/webhooks/1352104225412218891/WQ96PMj7FLFeFKdKzCR8LmnZVx47sFE3INr647mTdivzAUDuM3FwQG1bI_YKEO3ZKgzp"
   postBuild:
     substitute:
       domain: "ecbafc.weirdrussiandomain.com"

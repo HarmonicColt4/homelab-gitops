@@ -8,7 +8,6 @@ nextcloud:
     initialAdminPassword: wj@i35g3y3@U&A
   general:
     default_phone_region: NZ
-    accessIP: 10.13.25.21
   clamav:
     enabled: true
   collabora:

@@ -11,5 +11,3 @@ spec:
       services:
         - name: minecraft-java
           port: 25565
-  tls:
-    passthrough: true

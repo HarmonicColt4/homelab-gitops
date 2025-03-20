@@ -12,3 +12,4 @@ spec:
         - name: minecraft-java
           port: 25565
           tls: false
+  tls: {}

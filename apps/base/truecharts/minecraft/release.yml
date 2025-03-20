@@ -7,7 +7,7 @@ spec:
   releaseName: minecraft-java
   interval: 30m
   driftDetection:
-    mode: warn
+    mode: enabled
   chart:
     spec:
       chart: minecraft-java

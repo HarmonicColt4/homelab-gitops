@@ -1,0 +1,15 @@
+workload:
+  main:
+    podSpec:
+      containers:
+        main:
+          env:
+            MOTD: "Welcome to ECBAFC's Minecraft!"
+            MEMORY: 10240M
+        mcbackup:
+          enabled: false
+persistence:
+  data:
+    size: 80Gi
+  backups:
+    enabled: false

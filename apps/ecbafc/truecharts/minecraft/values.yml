@@ -13,3 +13,8 @@ persistence:
     size: 80Gi
   backups:
     enabled: false
+resources:
+  limits:
+    memory: 12Gi
+  requests:
+    memory: 4Gi

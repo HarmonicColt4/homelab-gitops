@@ -39,6 +39,7 @@ spec:
           path: /spec/addresses
           value:
             - 10.19.53.2-10.19.53.9
+            - 10.19.53.11/32
       target:
         kind: IPAddressPool
         name: ip-pool

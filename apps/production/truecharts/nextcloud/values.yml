@@ -1,10 +1,7 @@
 ---
 ingress:
   main:
-    integrations:
-      traefik:
-        enabled: false
-    enabled: true
+    required: false
 nextcloud:
   credentials:
     initialAdminUser: gpenda

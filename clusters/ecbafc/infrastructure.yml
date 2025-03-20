@@ -58,6 +58,16 @@ spec:
         - op: replace
           path: /stringData/address
           value: "https://discord.com/api/webhooks/1352104225412218891/WQ96PMj7FLFeFKdKzCR8LmnZVx47sFE3INr647mTdivzAUDuM3FwQG1bI_YKEO3ZKgzp"
+    - target:
+        kind: Alert
+        name: helmrelease-info
+      patch: |
+        - op: add
+          path: /spec/eventSources/-
+          value:
+            kind: HelmRelease
+            name: '*'
+            namespace: minecraft
   postBuild:
     substitute:
       domain: "ecbafc.weirdrussiandomain.com"

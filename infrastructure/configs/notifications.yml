@@ -49,8 +49,5 @@ spec:
     - kind: HelmRelease
       name: '*'
       namespace: truecharts
-    - kind: HelmRelease
-      name: '*'
-      namespace: monitoring
   exclusionList:
     - "dependency.*is not ready"

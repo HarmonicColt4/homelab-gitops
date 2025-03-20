@@ -1,7 +1,22 @@
 ---
 ingress:
   main:
-    required: false
+    integrations:
+      traefik:
+        enabled: false
+    annotations:
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      cert-manager.io/cluster-issuer: letsencrypt
+    enabled: true
+    hosts:
+      - host: nextcloud.weirdrussiandomain.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+          - nextcloud.weirdrussiandomain.com
+        secretName: nextcloud-cert
 nextcloud:
   credentials:
     initialAdminUser: gpenda

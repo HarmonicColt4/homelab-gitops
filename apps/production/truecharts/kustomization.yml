@@ -5,14 +5,14 @@ resources:
   - actualserver
   - adguard-home
   - cloudflareddns
-  - homepage
+  # - homepage
   - immich
   - media
   - nextcloud
-  - ollama
+  # - ollama
   - pgadmin
-  - sabnzbd
-  - searxng
+  # - sabnzbd
+  # - searxng
   - torrents
   - unifi
   - vaultwarden

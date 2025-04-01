@@ -2,40 +2,37 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - actualserver
-  - adguard-home
-  - cloudflareddns
-  # - homepage
-  - immich
-  - media
-  - nextcloud
-  # - ollama
-  - pgadmin
-  # - sabnzbd
-  # - searxng
-  - torrents
-  - unifi
-  - vaultwarden
+- actualserver
+- adguard-home
+- cloudflareddns
+- firefox
+- immich
+- media
+- nextcloud
+- pgadmin
+- torrents
+- unifi
+- vaultwarden
 patches:
-  - target:
-      kind: HelmRelease
-    patch: |-
-      - op: add
-        path: /spec/valuesFrom/0
-        value:
-          kind: ConfigMap
-          name: global-values
+- target:
+    kind: HelmRelease
+  patch: |-
+    - op: add
+      path: /spec/valuesFrom/0
+      value:
+        kind: ConfigMap
+        name: global-values
 configMapGenerator:
-  - name: global-values
-    files:
-      - values.yaml=global-values.yml
+- name: global-values
+  files:
+  - values.yaml=global-values.yml
 configurations:
-  - kustomizeconfig.yml
+- kustomizeconfig.yml
 transformers:
-  - |-
-    apiVersion: builtin
-    kind: NamespaceTransformer
-    metadata:
-      name: notImportantHere
-      namespace: truecharts
-    unsetOnly: true
+- |-
+  apiVersion: builtin
+  kind: NamespaceTransformer
+  metadata:
+    name: notImportantHere
+    namespace: truecharts
+  unsetOnly: true

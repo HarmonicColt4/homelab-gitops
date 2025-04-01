@@ -1,0 +1,20 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: firefox
+spec:
+  releaseName: firefox
+  targetNamespace: firefox
+  storageNamespace: firefox
+  interval: 30m
+  driftDetection:
+    mode: warn
+  chart:
+    spec:
+      chart: firefox
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+      interval: 1h
+  valuesFrom: []

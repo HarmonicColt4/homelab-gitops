@@ -31,3 +31,8 @@ service:
   main:
     annotations:
       metallb.universe.tf/loadBalancerIPs: 10.19.53.9
+    ports:
+      bedrock:
+        enabled: true
+        port: 19132
+        protocol: udp

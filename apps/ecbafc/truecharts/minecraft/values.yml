@@ -12,10 +12,11 @@ workload:
             ENABLE_AUTOPAUSE: 'TRUE'
             ENABLE_ROLLING_LOGS: true
             TYPE: 'PAPER'
-            VERSION: '1.21.5'
+            VERSION: 'LATEST'
             PLUGINS: |
               https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
               https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
+              https://hangarcdn.papermc.io/plugins/ViaVersion/ViaVersion/versions/5.3.1/PAPER/ViaVersion-5.3.1.jar
         mcbackup:
           enabled: false
 persistence:

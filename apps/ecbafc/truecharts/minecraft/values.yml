@@ -11,6 +11,7 @@ workload:
             RCON_PASSWORD: 'F19hters'
             ENABLE_AUTOPAUSE: 'TRUE'
             ENABLE_ROLLING_LOGS: true
+            TYPE: 'PAPER'
         mcbackup:
           enabled: false
 persistence:

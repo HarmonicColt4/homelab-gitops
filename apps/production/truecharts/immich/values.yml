@@ -65,8 +65,8 @@ global:
 #         machinelearning:
 #           resources:
 #             requests: {}
-immich:
-  mlImageType: mlCudaImage
+# immich:
+#   mlImageType: mlCudaImage
 cnpg:
   main:
     creds:

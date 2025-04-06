@@ -45,8 +45,8 @@ workload:
     podSpec:
       containers:
         main:
-          # resources:
-          #   limits:
-          #     gpu.intel.com/i915: 1
+          resources:
+            limits:
+              gpu.intel.com/i915: 1
           env:
             JELLYFIN_PublishedServerUrl: jellyfin.weirdrussiandomain.com

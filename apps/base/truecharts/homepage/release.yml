@@ -22,3 +22,7 @@ spec:
       name: global-values
     - kind: ConfigMap
       name: app-values
+  values:
+    persistence:
+      bookmarks-config:
+        objectName: config

@@ -1,3 +1,5 @@
+configmap: {}
+
 workload:
   main:
     podSpec:
@@ -5,4 +7,16 @@ workload:
         main:
           env:
             HOMEPAGE_ALLOWED_HOSTS: homepage.weirdrussiandomain.com
-configmap: {}
+
+persistence:
+  bookmarks-config:
+    enabled: true
+    mountPath: /app/config/bookmarks.yaml
+    subPath: bookmarks.yaml
+    readOnly: true
+    type: "configmap"
+    objectName: config
+    expandObjectName: false
+    targetSelector:
+      main:
+        main: {}

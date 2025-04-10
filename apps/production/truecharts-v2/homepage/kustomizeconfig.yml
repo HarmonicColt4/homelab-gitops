@@ -5,3 +5,7 @@ nameReference:
     fieldSpecs:
       - path: spec/values/persistence/bookmarks-config/objectName
         kind: HelmRelease
+      - path: spec/values/persistence/settings-config/objectName
+        kind: HelmRelease
+      - path: spec/values/persistence/services-config/objectName
+        kind: HelmRelease

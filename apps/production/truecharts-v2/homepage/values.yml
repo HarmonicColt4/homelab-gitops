@@ -5,3 +5,6 @@ workload:
         main:
           env:
             HOMEPAGE_ALLOWED_HOSTS: homepage.weirdrussiandomain.com
+configmap:
+  config:
+    enabled: false

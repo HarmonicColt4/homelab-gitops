@@ -13,6 +13,7 @@ configMapGenerator:
     files:
       - services.yaml=config/services.yml
       - bookmarks.yaml=config/bookmarks.yml
+      - settings.yaml=config/settings.yml
 configurations:
   - ../kustomizeconfig.yml
   - kustomizeconfig.yml

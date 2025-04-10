@@ -20,3 +20,25 @@ persistence:
     targetSelector:
       main:
         main: {}
+  settings-config:
+    enabled: true
+    mountPath: /app/config/settings.yaml
+    subPath: settings.yaml
+    readOnly: true
+    type: "configmap"
+    objectName: config
+    expandObjectName: false
+    targetSelector:
+      main:
+        main: {}
+  services-config:
+    enabled: true
+    mountPath: /app/config/services.yaml
+    subPath: services.yaml
+    readOnly: true
+    type: "configmap"
+    objectName: config
+    expandObjectName: false
+    targetSelector:
+      main:
+        main: {}

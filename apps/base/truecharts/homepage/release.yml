@@ -26,3 +26,7 @@ spec:
     persistence:
       bookmarks-config:
         objectName: config
+      settings-config:
+        objectName: config
+      services-config:
+        objectName: config

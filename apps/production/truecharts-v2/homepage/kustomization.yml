@@ -11,5 +11,11 @@ configMapGenerator:
       - values.yaml=values.yml
     options:
       disableNameSuffixHash: true
+  - name: config
+    files:
+      - services.yaml=config/services.yml
+      - bookmarks.yaml=config/bookmarks.yml
+    options:
+      disableNameSuffixHash: true
 configurations:
   - ../kustomizeconfig.yml

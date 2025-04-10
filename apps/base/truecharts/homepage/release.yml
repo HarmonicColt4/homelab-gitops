@@ -19,3 +19,5 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: global-values
+    - kind: ConfigMap
+      name: app-values

@@ -1,0 +1,7 @@
+workload:
+  main:
+    podSpec:
+      containers:
+        main:
+          env:
+            HOMEPAGE_ALLOWED_HOSTS: homepage.weirdrussiandomain.com

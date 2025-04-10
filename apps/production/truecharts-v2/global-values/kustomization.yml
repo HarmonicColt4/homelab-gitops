@@ -4,8 +4,8 @@ kind: Kustomization
 configMapGenerator:
   - name: global-values
     files:
-      - values.yaml=global-values.yml
+      - values.yaml=values.yml
     options:
       disableNameSuffixHash: true
 configurations:
-  - kustomizeconfig.yml
+  - ../kustomizeconfig.yml

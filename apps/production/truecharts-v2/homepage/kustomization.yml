@@ -5,3 +5,11 @@ namespace: homepage
 resources:
   - ../../../base/truecharts/homepage
   - ../global-values
+configMapGenerator:
+  - name: app-values
+    files:
+      - values.yaml=values.yml
+    options:
+      disableNameSuffixHash: true
+configurations:
+  - ../kustomizeconfig.yml

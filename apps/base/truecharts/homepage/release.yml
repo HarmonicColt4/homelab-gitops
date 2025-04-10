@@ -5,11 +5,9 @@ metadata:
   name: homepage
 spec:
   releaseName: homepage
-  targetNamespace: homepage
-  storageNamespace: homepage
   interval: 30m
   driftDetection:
-    mode: warn
+    mode: enabled
   chart:
     spec:
       chart: homepage
@@ -17,4 +15,6 @@ spec:
         kind: HelmRepository
         name: truecharts
       interval: 24h
-  valuesFrom: []
+  valuesFrom:
+    - kind: ConfigMap
+      name: global-values

@@ -13,7 +13,7 @@ workload:
 
 persistence:
   bookmarks-config:
-    enabled: true
+    enabled: false
     mountPath: /app/config/bookmarks.yaml
     subPath: bookmarks.yaml
     readOnly: false
@@ -23,7 +23,7 @@ persistence:
     targetSelectAll: true
     targetSelector: {}
   settings-config:
-    enabled: true
+    enabled: false
     mountPath: /app/config/settings.yaml
     subPath: settings.yaml
     readOnly: false
@@ -33,7 +33,7 @@ persistence:
     targetSelectAll: true
     targetSelector: {}
   services-config:
-    enabled: true
+    enabled: false
     mountPath: /app/config/services.yaml
     subPath: services.yaml
     readOnly: false

@@ -20,9 +20,7 @@ persistence:
     type: "configmap"
     objectName: config
     expandObjectName: false
-    targetSelector:
-      main:
-        main: {}
+    targetSelector: {}
   settings-config:
     enabled: true
     mountPath: /app/config/settings.yaml
@@ -31,9 +29,7 @@ persistence:
     type: "configmap"
     objectName: config
     expandObjectName: false
-    targetSelector:
-      main:
-        main: {}
+    targetSelector: {}
   services-config:
     enabled: true
     mountPath: /app/config/services.yaml
@@ -42,9 +38,7 @@ persistence:
     type: "configmap"
     objectName: config
     expandObjectName: false
-    targetSelector:
-      main:
-        main: {}
+    targetSelector: {}
 
 addons:
   codeserver:

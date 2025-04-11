@@ -16,7 +16,7 @@ persistence:
     enabled: true
     mountPath: /app/config/bookmarks.yaml
     subPath: bookmarks.yaml
-    # readOnly: true
+    readOnly: false
     type: "configmap"
     objectName: config
     expandObjectName: false
@@ -26,7 +26,7 @@ persistence:
     enabled: true
     mountPath: /app/config/settings.yaml
     subPath: settings.yaml
-    # readOnly: true
+    readOnly: false
     type: "configmap"
     objectName: config
     expandObjectName: false
@@ -36,7 +36,7 @@ persistence:
     enabled: true
     mountPath: /app/config/services.yaml
     subPath: services.yaml
-    # readOnly: true
+    readOnly: false
     type: "configmap"
     objectName: config
     expandObjectName: false

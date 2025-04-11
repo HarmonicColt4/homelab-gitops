@@ -21,6 +21,7 @@ persistence:
     objectName: config
     expandObjectName: false
     targetSelectAll: true
+    targetSelector: {}
   settings-config:
     enabled: true
     mountPath: /app/config/settings.yaml
@@ -30,6 +31,7 @@ persistence:
     objectName: config
     expandObjectName: false
     targetSelectAll: true
+    targetSelector: {}
   services-config:
     enabled: true
     mountPath: /app/config/services.yaml
@@ -39,6 +41,7 @@ persistence:
     objectName: config
     expandObjectName: false
     targetSelectAll: true
+    targetSelector: {}
 
 addons:
   codeserver:

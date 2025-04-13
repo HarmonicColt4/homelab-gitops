@@ -1,0 +1,51 @@
+configmap: {}
+
+workload:
+  main:
+    podSpec:
+      containers:
+        main:
+          env:
+            HOMEPAGE_ALLOWED_HOSTS: homepage.weirdrussiandomain.com
+      initContainers:
+        init-config:
+          enabled: false
+
+persistence:
+  bookmarks-config:
+    enabled: false
+    mountPath: /app/config/bookmarks.yaml
+    subPath: bookmarks.yaml
+    readOnly: false
+    type: "configmap"
+    objectName: config
+    expandObjectName: false
+    targetSelectAll: true
+    targetSelector: {}
+  settings-config:
+    enabled: false
+    mountPath: /app/config/settings.yaml
+    subPath: settings.yaml
+    readOnly: false
+    type: "configmap"
+    objectName: config
+    expandObjectName: false
+    targetSelectAll: true
+    targetSelector: {}
+  services-config:
+    enabled: false
+    mountPath: /app/config/services.yaml
+    subPath: services.yaml
+    readOnly: false
+    type: "configmap"
+    objectName: config
+    expandObjectName: false
+    targetSelectAll: true
+    targetSelector: {}
+
+addons:
+  codeserver:
+    enabled: true
+    service:
+      enabled: true
+      type: LoadBalancer

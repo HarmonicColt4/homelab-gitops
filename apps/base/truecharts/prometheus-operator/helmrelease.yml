@@ -19,6 +19,4 @@ spec:
       version: 11.5.1
   install:
     createNamespace: true
-  valuesFrom:
-    - kind: ConfigMap
-      name: global-values
+  valuesFrom: []

@@ -6,10 +6,9 @@ metadata:
 spec:
   releaseName: qbittorrent
   targetNamespace: qbittorrent
-  storageNamespace: qbittorrent
   interval: 30m
   driftDetection:
-    mode: warn
+    mode: enabled
   chart:
     spec:
       chart: qbittorrent
@@ -17,4 +16,11 @@ spec:
         kind: HelmRepository
         name: truecharts
       interval: 1h
-  valuesFrom: []
+      version: 22.4.9
+  install:
+    createNamespace: true
+  valuesFrom:
+    - kind: ConfigMap
+      name: global-values
+    - kind: ConfigMap
+      name: qbittorrent-values

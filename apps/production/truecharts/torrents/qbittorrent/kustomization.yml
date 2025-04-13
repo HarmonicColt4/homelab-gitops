@@ -10,17 +10,6 @@ patches:
       kind: Namespace
       metadata:
         name: qbittorrent
-  - target:
-      kind: HelmRelease
-    patch: |-
-      - op: add
-        path: /spec/valuesFrom/-
-        value:
-          kind: ConfigMap
-          name: qbittorrent-values
-      - op: add
-        path: /spec/chart/spec/version
-        value: "22.x"
 configMapGenerator:
   - name: qbittorrent-values
     files:

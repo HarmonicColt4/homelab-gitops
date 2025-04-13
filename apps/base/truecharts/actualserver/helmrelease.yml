@@ -17,4 +17,6 @@ spec:
         name: truecharts
       interval: 1h
       version: 13.4.0
+  install:
+    createNamespace: true
   valuesFrom: []

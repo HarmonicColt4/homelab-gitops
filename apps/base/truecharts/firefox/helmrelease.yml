@@ -22,3 +22,7 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: global-values
+  values:
+    persistence:
+      config:
+        size: 4Gi

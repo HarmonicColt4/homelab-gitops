@@ -9,18 +9,7 @@ patches:
       apiVersion: v1
       kind: Namespace
       metadata:
-        name: recyclarr  
-  - target:
-      kind: HelmRelease
-    patch: |-
-      - op: add
-        path: /spec/valuesFrom/-
-        value:
-          kind: ConfigMap
-          name: recyclarr-values
-      - op: add
-        path: /spec/chart/spec/version
-        value: "12.x"
+        name: recyclarr
 configMapGenerator:
   - name: recyclarr-values
     files:

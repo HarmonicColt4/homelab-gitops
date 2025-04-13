@@ -6,10 +6,9 @@ metadata:
 spec:
   releaseName: recyclarr
   targetNamespace: recyclarr
-  storageNamespace: recyclarr
   interval: 30m
   driftDetection:
-    mode: warn
+    mode: enabled
   chart:
     spec:
       chart: recyclarr
@@ -17,4 +16,11 @@ spec:
         kind: HelmRepository
         name: truecharts
       interval: 1h
-  valuesFrom: []
+      version: 12.8.2
+  install:
+    createNamespace: true
+  valuesFrom:
+    - kind: ConfigMap
+      name: global-values
+    - kind: ConfigMap
+      name: recyclarr-values

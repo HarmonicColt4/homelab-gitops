@@ -10,17 +10,6 @@ patches:
       kind: Namespace
       metadata:
         name: calibre
-  - target:
-      kind: HelmRelease
-    patch: |-
-      - op: add
-        path: /spec/valuesFrom/-
-        value:
-          kind: ConfigMap
-          name: calibre-values
-      - op: add
-        path: /spec/chart/spec/version
-        value: "16.x"
 configMapGenerator:
   - name: calibre-values
     files:

@@ -19,4 +19,6 @@ spec:
       version: 13.4.0
   install:
     createNamespace: true
-  valuesFrom: []
+  valuesFrom:
+    - kind: ConfigMap
+      name: global-values

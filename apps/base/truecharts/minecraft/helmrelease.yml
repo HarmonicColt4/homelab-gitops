@@ -16,8 +16,13 @@ spec:
         name: truecharts
         namespace: truecharts
       interval: 24h
+      version: 22.34.0
   values:
     service:
       main:
         type: LoadBalancer
-  valuesFrom: []
+  valuesFrom:
+    - kind: ConfigMap
+      name: global-values
+    - kind: ConfigMap
+      name: minecraft-values

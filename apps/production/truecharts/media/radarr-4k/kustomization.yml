@@ -18,9 +18,6 @@ patches:
         value:
           kind: ConfigMap
           name: radarr-4k-values
-      - op: add
-        path: /spec/chart/spec/version
-        value: 23.x
       - op: replace
         path: /spec/releaseName
         value: radarr-4k

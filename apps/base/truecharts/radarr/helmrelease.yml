@@ -6,10 +6,9 @@ metadata:
 spec:
   releaseName: radarr
   targetNamespace: radarr
-  storageNamespace: radarr
   interval: 30m
   driftDetection:
-    mode: warn
+    mode: enabled
   chart:
     spec:
       chart: radarr
@@ -17,7 +16,12 @@ spec:
         kind: HelmRepository
         name: truecharts
       interval: 1h
-  valuesFrom: []
+      version: 23.23.1
+  install:
+    createNamespace: true
+  valuesFrom:
+    - kind: ConfigMap
+      name: global-values
   values:
     metrics:
       main:

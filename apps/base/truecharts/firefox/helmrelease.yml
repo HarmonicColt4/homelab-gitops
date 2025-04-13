@@ -6,10 +6,9 @@ metadata:
 spec:
   releaseName: firefox
   targetNamespace: firefox
-  storageNamespace: firefox
   interval: 30m
   driftDetection:
-    mode: warn
+    mode: enabled
   chart:
     spec:
       chart: firefox
@@ -17,4 +16,9 @@ spec:
         kind: HelmRepository
         name: truecharts
       interval: 1h
-  valuesFrom: []
+      version: 23.0.5
+  install:
+    createNamespace: true
+  valuesFrom:
+    - kind: ConfigMap
+      name: global-values

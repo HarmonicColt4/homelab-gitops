@@ -6,7 +6,6 @@ metadata:
 spec:
   releaseName: adguard-home
   targetNamespace: adguard-home
-  storageNamespace: adguard-home
   interval: 30m
   driftDetection:
     mode: warn
@@ -17,4 +16,6 @@ spec:
         kind: HelmRepository
         name: truecharts
       interval: 1h
+  install:
+    createNamespace: true
   valuesFrom: []

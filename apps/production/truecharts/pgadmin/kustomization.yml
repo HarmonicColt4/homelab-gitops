@@ -3,18 +3,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ../../../base/truecharts/pgadmin
-patches:
-  - target:
-      kind: HelmRelease
-    patch: |-
-      - op: add
-        path: /spec/valuesFrom/-
-        value:
-          kind: ConfigMap
-          name: pgadmin-values
-      - op: add
-        path: /spec/chart/spec/version
-        value: "18.x"
 configMapGenerator:
   - name: pgadmin-values
     files:

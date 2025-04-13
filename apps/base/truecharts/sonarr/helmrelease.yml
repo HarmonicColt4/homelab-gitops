@@ -6,10 +6,9 @@ metadata:
 spec:
   releaseName: sonarr
   targetNamespace: sonarr
-  storageNamespace: sonarr
   interval: 30m
   driftDetection:
-    mode: warn
+    mode: enabled
   chart:
     spec:
       chart: sonarr
@@ -17,7 +16,12 @@ spec:
         kind: HelmRepository
         name: truecharts
       interval: 1h
-  valuesFrom: []
+      version: 23.7.0
+  install:
+    createNamespace: true
+  valuesFrom:
+    - kind: ConfigMap
+      name: global-values
   values:
     metrics:
       main:

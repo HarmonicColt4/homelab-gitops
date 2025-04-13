@@ -24,3 +24,5 @@ spec:
       name: global-values
     - kind: ConfigMap
       name: calibre-web-values
+  values:
+    TZ: Pacific/Auckland

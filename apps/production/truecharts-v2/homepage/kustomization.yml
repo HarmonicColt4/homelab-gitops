@@ -6,7 +6,7 @@ resources:
   - ../../../base/truecharts/homepage
   - ../global-values
 configMapGenerator:
-  - name: app-values
+  - name: homepage-values
     files:
       - values.yaml=values.yml
   - name: config

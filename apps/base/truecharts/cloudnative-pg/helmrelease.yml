@@ -21,4 +21,3 @@ spec:
       version: 8.2.0
   install:
     createNamespace: true
-  valuesFrom: []

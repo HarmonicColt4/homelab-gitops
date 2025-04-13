@@ -6,10 +6,9 @@ metadata:
 spec:
   releaseName: jellyseerr
   targetNamespace: jellyseerr
-  storageNamespace: jellyseerr
   interval: 30m
   driftDetection:
-    mode: warn
+    mode: enabled
   chart:
     spec:
       chart: jellyseerr
@@ -17,4 +16,9 @@ spec:
         kind: HelmRepository
         name: truecharts
       interval: 1h
-  valuesFrom: []
+      version: 12.7.2
+  install:
+    createNamespace: true
+  valuesFrom:
+    - kind: ConfigMap
+      name: global-values

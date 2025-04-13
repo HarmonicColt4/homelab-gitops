@@ -9,10 +9,4 @@ patches:
       apiVersion: v1
       kind: Namespace
       metadata:
-        name: jellyseerr  
-  - target:
-      kind: HelmRelease
-    patch: |-
-      - op: add
-        path: /spec/chart/spec/version
-        value: "12.x"
+        name: jellyseerr

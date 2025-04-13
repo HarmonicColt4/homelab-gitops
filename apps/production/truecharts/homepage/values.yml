@@ -1,5 +1,3 @@
-configmap: {}
-
 workload:
   main:
     podSpec:
@@ -10,38 +8,6 @@ workload:
       initContainers:
         init-config:
           enabled: false
-
-persistence:
-  bookmarks-config:
-    enabled: false
-    mountPath: /app/config/bookmarks.yaml
-    subPath: bookmarks.yaml
-    readOnly: false
-    type: "configmap"
-    objectName: config
-    expandObjectName: false
-    targetSelectAll: true
-    targetSelector: {}
-  settings-config:
-    enabled: false
-    mountPath: /app/config/settings.yaml
-    subPath: settings.yaml
-    readOnly: false
-    type: "configmap"
-    objectName: config
-    expandObjectName: false
-    targetSelectAll: true
-    targetSelector: {}
-  services-config:
-    enabled: false
-    mountPath: /app/config/services.yaml
-    subPath: services.yaml
-    readOnly: false
-    type: "configmap"
-    objectName: config
-    expandObjectName: false
-    targetSelectAll: true
-    targetSelector: {}
 
 addons:
   codeserver:

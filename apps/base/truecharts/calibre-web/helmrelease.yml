@@ -6,10 +6,9 @@ metadata:
 spec:
   releaseName: calibre-web
   targetNamespace: calibre-web
-  storageNamespace: calibre-web
   interval: 30m
   driftDetection:
-    mode: warn
+    mode: enabled
   chart:
     spec:
       chart: calibre-web
@@ -17,6 +16,11 @@ spec:
         kind: HelmRepository
         name: truecharts
       interval: 1h
-  valuesFrom: []
-  values:
-    TZ: Pacific/Auckland
+      version: 20.5.12
+  install:
+    createNamespace: true
+  valuesFrom:
+    - kind: ConfigMap
+      name: global-values
+    - kind: ConfigMap
+      name: calibre-web-values

@@ -9,18 +9,7 @@ patches:
       apiVersion: v1
       kind: Namespace
       metadata:
-        name: calibre-web  
-  - target:
-      kind: HelmRelease
-    patch: |-
-      - op: add
-        path: /spec/valuesFrom/-
-        value:
-          kind: ConfigMap
-          name: calibre-web-values
-      - op: add
-        path: /spec/chart/spec/version
-        value: "20.x"
+        name: calibre-web
 configMapGenerator:
   - name: calibre-web-values
     files:

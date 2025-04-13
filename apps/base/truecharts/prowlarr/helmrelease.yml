@@ -6,10 +6,9 @@ metadata:
 spec:
   releaseName: prowlarr
   targetNamespace: prowlarr
-  storageNamespace: prowlarr
   interval: 30m
   driftDetection:
-    mode: warn
+    mode: enabled
   chart:
     spec:
       chart: prowlarr
@@ -17,4 +16,9 @@ spec:
         kind: HelmRepository
         name: truecharts
       interval: 1h
-  valuesFrom: []
+      version: 18.18.3
+  install:
+    createNamespace: true
+  valuesFrom:
+    - kind: ConfigMap
+      name: global-values

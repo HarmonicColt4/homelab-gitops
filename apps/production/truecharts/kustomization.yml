@@ -10,7 +10,6 @@ resources:
 - immich
 - media
 - pgadmin
-- torrents
 - torrents-new
 - unifi
 - vaultwarden

@@ -15,6 +15,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: truecharts
+        namespace: truecharts
       interval: 1h
       version: 11.5.4
   valuesFrom:

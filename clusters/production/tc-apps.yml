@@ -33,7 +33,7 @@ spec:
     name: flux-system
   path: ./apps/production/truecharts
   prune: true
-  # wait: true
+  wait: false
   postBuild:
     substitute:
       domain: "weirdrussiandomain.com"

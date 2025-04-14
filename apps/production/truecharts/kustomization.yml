@@ -15,15 +15,6 @@ resources:
 - qbittorrent
 - unifi
 - vaultwarden
-patches:
-- target:
-    kind: HelmRelease
-  patch: |-
-    - op: add
-      path: /spec/valuesFrom/0
-      value:
-        kind: ConfigMap
-        name: global-values
 configMapGenerator:
 - name: global-values
   files:

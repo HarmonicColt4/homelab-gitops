@@ -17,8 +17,6 @@ spec:
         name: truecharts
       interval: 1h
       version: 23.0.5
-  install:
-    createNamespace: true
   valuesFrom:
     - kind: ConfigMap
       name: global-values

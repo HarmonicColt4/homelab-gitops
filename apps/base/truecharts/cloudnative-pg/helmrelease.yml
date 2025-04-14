@@ -19,5 +19,3 @@ spec:
         name: truecharts
       interval: 1h
       version: 8.2.0
-  install:
-    createNamespace: true

@@ -9,6 +9,7 @@ resources:
 - homepage
 - immich
 - media
+- media-new
 - pgadmin
 - torrents
 - unifi

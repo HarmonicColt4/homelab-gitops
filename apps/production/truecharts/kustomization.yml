@@ -5,12 +5,14 @@ resources:
 - actualserver
 - adguard-home
 - cloudflareddns
+- flaresolverr
 - firefox
 - homepage
 - immich
 - media
 - pgadmin
-- torrents
+- prowlarr
+- qbittorrent
 - unifi
 - vaultwarden
 patches:

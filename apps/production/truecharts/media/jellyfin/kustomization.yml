@@ -9,18 +9,7 @@ patches:
       apiVersion: v1
       kind: Namespace
       metadata:
-        name: jellyfin  
-  - target:
-      kind: HelmRelease
-    patch: |-
-      - op: add
-        path: /spec/valuesFrom/-
-        value:
-          kind: ConfigMap
-          name: jellyfin-values
-      - op: add
-        path: /spec/chart/spec/version
-        value: "20.x"
+        name: jellyfin
 configMapGenerator:
   - name: jellyfin-values
     files:

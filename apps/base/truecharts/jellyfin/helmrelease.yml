@@ -6,10 +6,9 @@ metadata:
 spec:
   releaseName: jellyfin
   targetNamespace: jellyfin
-  storageNamespace: jellyfin
   interval: 30m
   driftDetection:
-    mode: warn
+    mode: enabled
   chart:
     spec:
       chart: jellyfin
@@ -17,4 +16,11 @@ spec:
         kind: HelmRepository
         name: truecharts
       interval: 1h
-  valuesFrom: []
+      version: 20.6.18
+  install:
+    createNamespace: true
+  valuesFrom:
+    - kind: ConfigMap
+      name: global-values
+    - kind: ConfigMap
+      name: jellyfin-values

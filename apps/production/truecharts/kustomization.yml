@@ -11,6 +11,7 @@ resources:
 - media
 - pgadmin
 - torrents
+- torrents-new
 - unifi
 - vaultwarden
 patches:

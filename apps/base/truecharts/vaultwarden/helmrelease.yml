@@ -9,7 +9,7 @@ spec:
   storageNamespace: vaultwarden
   interval: 30m
   driftDetection:
-    mode: warn
+    mode: enabled
   chart:
     spec:
       chart: vaultwarden
@@ -17,7 +17,10 @@ spec:
         kind: HelmRepository
         name: truecharts
       interval: 1h
-  valuesFrom: []
+      version: 28.8.3
+  valuesFrom:
+    - kind: ConfigMap
+      name: global-values
   values:
     ingress:
       main:

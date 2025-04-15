@@ -20,6 +20,7 @@ resources:
 - radarr-anime
 - radarr-4k
 - recyclarr
+- sonarr
 - unifi
 - vaultwarden
 configMapGenerator:

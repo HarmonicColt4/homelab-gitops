@@ -17,6 +17,7 @@ resources:
 - pgadmin
 - prowlarr
 - qbittorrent
+- radarr
 - recyclarr
 - unifi
 - vaultwarden

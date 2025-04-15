@@ -10,22 +10,22 @@ secret:
     enabled: true
     data:
       secrets.yml: |
-        radarr_base_url: http://radarr:7878
+        radarr_base_url: http://radarr.radarr.svc.cluster.local:7878
         radarr_api_key: 7b600f7d43ef4d33857760f81f069820
 
-        radarr_anime_base_url: http://radarr-anime:7878
+        radarr_anime_base_url: http://radarr-anime.radarr.svc.cluster.local:7878
         radarr_anime_api_key: c13648ff726d4680a7d20323ccd9626d
 
-        sonarr_base_url: http://sonarr:8989
+        sonarr_base_url: http://sonarr.sonarr.svc.cluster.local:8989
         sonarr_api_key: 63d7a3fedf474ed48f56dda7e237c82f
 
-        sonarr_anime_base_url: http://sonarr-anime:8989
+        sonarr_anime_base_url: http://sonarr-anime.sonarr.svc.cluster.local:8989
         sonarr_anime_api_key: 139546b93ce8443e8ea5a7e38b099619
 
-        radarr_4k_base_url: http://radarr-4k:7878
+        radarr_4k_base_url: http://radarr-4k.radarr.svc.cluster.local:7878
         radarr_4k_api_key: 36e8c881092c4c3082771455cfeff0a0
 
-        sonarr_4k_base_url: http://sonarr-4k:8989
+        sonarr_4k_base_url: http://sonarr-4k.sonarr.svc.cluster.local:8989
         sonarr_4k_api_key: fd4d8f9eb1814318b318d1bff51e3037
 persistence:
   secrets:

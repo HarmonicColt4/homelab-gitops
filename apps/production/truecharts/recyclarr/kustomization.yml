@@ -18,5 +18,3 @@ configMapGenerator:
       - radarr-4k.yml=configs/radarr-4k.yml
     options:
       disableNameSuffixHash: true
-configurations:
-  - ../kustomizeconfig.yml

@@ -13,7 +13,6 @@ resources:
 - immich
 - jellyfin
 - jellyseerr
-- media
 - pgadmin
 - prowlarr
 - qbittorrent

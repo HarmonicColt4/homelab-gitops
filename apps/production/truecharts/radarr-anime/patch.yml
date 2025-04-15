@@ -1,0 +1,11 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: not-used
+spec:
+  routes:
+    - kind: Rule
+      match: Host(`radarr-anime.${domain}`) && PathPrefix(`/`)
+      services:
+        - name: radarr-anime
+          port: 7878

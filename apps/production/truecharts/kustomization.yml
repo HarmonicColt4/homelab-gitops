@@ -18,7 +18,8 @@ resources:
 - prowlarr
 - qbittorrent
 - radarr
-# - radarr-anime
+- radarr-anime
+- radarr-4k
 - recyclarr
 - unifi
 - vaultwarden

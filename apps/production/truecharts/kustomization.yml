@@ -11,10 +11,13 @@ resources:
 - firefox
 - homepage
 - immich
+- jellyfin
+- jellyseerr
 - media
 - pgadmin
 - prowlarr
 - qbittorrent
+- recyclarr
 - unifi
 - vaultwarden
 configMapGenerator:

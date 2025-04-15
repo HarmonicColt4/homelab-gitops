@@ -5,51 +5,18 @@ workload:
       initContainers:
         initconfig:
           enabled: false
-secret:
-  instance-secrets:
-    enabled: true
-    data:
-      secrets.yml: |
-        radarr_base_url: http://radarr.radarr.svc.cluster.local:7878
-        radarr_api_key: 7b600f7d43ef4d33857760f81f069820
-
-        radarr_anime_base_url: http://radarr-anime.radarr.svc.cluster.local:7878
-        radarr_anime_api_key: c13648ff726d4680a7d20323ccd9626d
-
-        sonarr_base_url: http://sonarr.sonarr.svc.cluster.local:8989
-        sonarr_api_key: 63d7a3fedf474ed48f56dda7e237c82f
-
-        sonarr_anime_base_url: http://sonarr-anime.sonarr.svc.cluster.local:8989
-        sonarr_anime_api_key: 139546b93ce8443e8ea5a7e38b099619
-
-        radarr_4k_base_url: http://radarr-4k.radarr.svc.cluster.local:7878
-        radarr_4k_api_key: 36e8c881092c4c3082771455cfeff0a0
-
-        sonarr_4k_base_url: http://sonarr-4k.sonarr.svc.cluster.local:8989
-        sonarr_4k_api_key: fd4d8f9eb1814318b318d1bff51e3037
 persistence:
+  config:
+    enabled: false
   secrets:
     enabled: true
     type: secret
-    objectName: instance-secrets
+    objectName: recyclarr-secrets
     mountPath: /config/secrets.yml
     subPath: secrets.yml
   configs:
     enabled: true
     type: configmap
-    objectName: configs
+    objectName: recyclarr-configs
     optional: true
     mountPath: /config/configs
-    items:
-      - key: sonarr.yml
-        path: sonarr.yml
-      - key: radarr.yml
-        path: radarr.yml
-      - key: sonarr-anime.yml
-        path: sonarr-anime.yml
-      - key: radarr-anime.yml
-        path: radarr-anime.yml
-      - key: sonarr-4k.yml
-        path: sonarr-4k.yml
-      - key: radarr-4k.yml
-        path: radarr-4k.yml

@@ -16,5 +16,8 @@ configMapGenerator:
       - radarr-anime.yml=configs/radarr-anime.yml
       - sonarr-4k.yml=configs/sonarr-4k.yml
       - radarr-4k.yml=configs/radarr-4k.yml
-    options:
-      disableNameSuffixHash: true
+secretGenerator:
+  - name: recyclarr-secrets
+    namespace: recyclarr
+    files:
+      - settings.yml=configs/settings.yml

@@ -8,9 +8,13 @@ configMapGenerator:
   - name: radarr-values
     files:
       - values.yaml=values.yml
-configurations:
-  - kustomizeconfig.yml
 patches:
   - path: patch.yml
     target:
       kind: IngressRoute
+  - patch: |-
+      $patch: delete
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: radarr

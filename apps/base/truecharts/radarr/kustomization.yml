@@ -5,3 +5,5 @@ resources:
   - helmrelease.yml
   - ingress-route.yml
   - namespace.yml
+configurations:
+  - kustomizeconfig.yml

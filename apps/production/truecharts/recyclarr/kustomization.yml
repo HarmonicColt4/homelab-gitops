@@ -20,4 +20,4 @@ secretGenerator:
   - name: recyclarr-secrets
     namespace: recyclarr
     files:
-      - settings.yml=configs/settings.yml
+      - secrets.yml=configs/secrets.yml

@@ -14,5 +14,3 @@ configMapGenerator:
   - name: calibre-web-values
     files:
       - values.yaml=values.yml
-configurations:
-  - ../../kustomizeconfig.yml

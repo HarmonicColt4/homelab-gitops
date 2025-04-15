@@ -4,6 +4,8 @@ kind: Kustomization
 resources:
 - actualserver
 - adguard-home
+- calibre
+- calibre-web
 - cloudflareddns
 - flaresolverr
 - firefox

@@ -5,12 +5,12 @@ resources:
   - namespace.yml
   # - calibre
   # - calibre-web
-  - jellyfin
-  - jellyseerr
+  # - jellyfin
+  # - jellyseerr
   - radarr
   - radarr-4k
   - radarr-anime
-  - recyclarr
+  # - recyclarr
   - sonarr
   - sonarr-4k
   - sonarr-anime

@@ -21,6 +21,8 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: global-values
+    - kind: ConfigMap
+      name: sonarr-values
   values:
     metrics:
       main:

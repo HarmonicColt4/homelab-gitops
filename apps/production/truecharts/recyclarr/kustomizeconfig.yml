@@ -1,8 +1,0 @@
----
-nameReference:
-  - fieldSpecs:
-      - path: spec/values/persistence/configs/objectName
-        kind: HelmRelease
-  - fieldSpecs:
-      - path: spec/values/persistence/secrets/objectName
-        kind: HelmRelease

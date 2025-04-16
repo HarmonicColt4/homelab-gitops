@@ -11,12 +11,14 @@ persistence:
   secrets:
     enabled: true
     type: secret
-    objectName: recyclarr-secrets
+    objectName: instance-secrets
+    expandObjectName: false
     mountPath: /config/secrets.yml
     subPath: secrets.yml
   configs:
     enabled: true
     type: configmap
-    objectName: recyclarr-configs
+    objectName: instance-configs
+    expandObjectName: false
     optional: true
     mountPath: /config/configs

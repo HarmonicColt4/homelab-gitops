@@ -21,24 +21,5 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: global-values
-  values:
-    workload:
-      main:
-        podSpec:
-          initContainers:
-            initconfig:
-              enabled: false
-    persistence:
-      config:
-        enabled: false
-      secrets:
-        enabled: true
-        type: secret
-        objectName: recyclarr-secrets
-        mountPath: /config/secrets.yml
-        subPath: secrets.yml
-      configs:
-        enabled: true
-        type: configmap
-        objectName: recyclarr-configs
-        mountPath: /config/configs
+    - kind: ConfigMap
+      name: recyclarr-values

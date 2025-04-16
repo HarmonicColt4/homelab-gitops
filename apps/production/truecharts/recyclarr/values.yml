@@ -6,8 +6,6 @@ workload:
         initconfig:
           enabled: false
 persistence:
-  config:
-    enabled: false
   secrets:
     enabled: true
     type: secret

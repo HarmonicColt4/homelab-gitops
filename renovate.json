@@ -1,9 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "flux": {
-    "fileMatch": [
-      "(?:^|/)gotk-components\\.ya?ml$",
-      "apps/.+\\.yml$"
-    ]
-  }
+    "fileMatch": ["(?:^|/)gotk-components\\.ya?ml$", "apps/.+\\.yml$"]
+  },
+  "extends": ["config:recommended", ":automergeMinor"]
 }

@@ -17,10 +17,11 @@ resources:
 - prowlarr
 - qbittorrent
 - radarr
-- radarr-anime
 - radarr-4k
+- radarr-anime
 - recyclarr
 - sonarr
+- sonarr-4k
 - sonarr-anime
 - unifi
 - vaultwarden

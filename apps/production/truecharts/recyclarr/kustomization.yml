@@ -4,9 +4,6 @@ kind: Kustomization
 resources:
   - ../../../base/truecharts/recyclarr
 configMapGenerator:
-  - name: recyclarr-values
-    files:
-      - values.yaml=values.yml
   - name: recyclarr-configs
     namespace: recyclarr
     files:
@@ -21,3 +18,5 @@ secretGenerator:
     namespace: recyclarr
     files:
       - secrets.yml=configs/secrets.yml
+configurations:
+  - kustomizeconfig.yml

@@ -3,7 +3,7 @@
   "flux": {
     "fileMatch": [
       "(?:^|/)gotk-components\\.ya?ml$",
-      "apps/base/truecharts/.+/helmrelease.yml$"
+      "apps/.+\\.yml$"
     ]
   }
 }

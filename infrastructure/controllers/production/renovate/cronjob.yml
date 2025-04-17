@@ -9,6 +9,10 @@ spec:
     spec:
       template:
         spec:
+          hostAliases:
+          - ip: "10.13.25.21"
+            hostnames:
+            - "gitea.weirdrussiandomain.com"          
           containers:
             - name: renovate
               # Update this to the latest available and then enable Renovate on

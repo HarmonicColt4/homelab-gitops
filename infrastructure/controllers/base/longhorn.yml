@@ -39,3 +39,4 @@ spec:
       reclaimPolicy: "Retain"
     defaultSettings:
       createDefaultDiskLabeledNodes: true
+      concurrentAutomaticEngineUpgradePerNodeLimit: 3

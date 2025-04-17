@@ -3,5 +3,9 @@
   "flux": {
     "fileMatch": ["(?:^|/)gotk-components\\.ya?ml$", "apps/.+\\.yml$"]
   },
-  "extends": ["config:recommended"]
+  "extends": [
+    "config:recommended",
+    "schedule:daily",
+    ":disableDependencyDashboard"
+  ]
 }

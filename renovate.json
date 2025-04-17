@@ -6,6 +6,7 @@
   "extends": [
     "config:recommended",
     "schedule:daily",
-    ":disableDependencyDashboard"
+    ":disableDependencyDashboard",
+    ":automergeMinor"
   ]
 }

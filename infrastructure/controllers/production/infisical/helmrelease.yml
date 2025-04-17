@@ -2,6 +2,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: secrets-operator
+  namespace: secrets-operator
 spec:
   releaseName: secrets-operator
   interval: 24h

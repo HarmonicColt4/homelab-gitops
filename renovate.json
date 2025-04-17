@@ -9,5 +9,8 @@
     ":automergeMinor"
   ],
   "ignoreTests": true,
-  "automergeType": "branch"
+  "automergeType": "branch",
+  "kubernetes": {
+    "fileMatch": ["infrastructure/controllers/production/renovate/cronjob.yml"]
+  }
 }

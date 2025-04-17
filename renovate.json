@@ -3,10 +3,5 @@
   "flux": {
     "fileMatch": ["(?:^|/)gotk-components\\.ya?ml$", "apps/.+\\.yml$"]
   },
-  "extends": [
-    "config:recommended",
-    "schedule:daily",
-    ":disableDependencyDashboard",
-    ":automergeMinor"
-  ]
+  "extends": ["config:recommended", ":disableDependencyDashboard", ":automergeMinor"]
 }

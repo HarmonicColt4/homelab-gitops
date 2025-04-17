@@ -3,8 +3,6 @@ kind: Kustomization
 resources:
   - ../base
   - renovate
-  # - intel-gpu-plugin.yml
-  # - nvidia-device-plugin.yml
 patches:
   - target:
       kind: HelmRelease

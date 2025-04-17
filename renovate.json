@@ -1,11 +1,12 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "flux": {
-    "fileMatch": ["(?:^|/)gotk-components\\.ya?ml$", ".+\\.yml$"]
+    "fileMatch": ["(?:^|/)gotk-components\\.ya?ml$", "apps/.+\\.yml$"]
   },
   "extends": [
     "config:recommended",
-    ":disableDependencyDashboard"
+    ":disableDependencyDashboard",
+    ":automergeMinor"
   ],
   "ignoreTests": true,
   "automergeType": "branch",

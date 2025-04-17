@@ -5,8 +5,7 @@
   },
   "extends": [
     "config:recommended",
-    ":disableDependencyDashboard",
-    ":automergeMinor"
+    ":disableDependencyDashboard"
   ],
   "ignoreTests": true,
   "automergeType": "branch",

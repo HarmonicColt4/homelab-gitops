@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - ../base
   - renovate
+  - infisical
 patches:
   - target:
       kind: HelmRelease

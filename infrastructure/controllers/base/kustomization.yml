@@ -6,3 +6,4 @@ resources:
   - longhorn.yml
   - metallb.yml
   - traefik.yml
+  - namespace.yml

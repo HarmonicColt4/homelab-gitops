@@ -15,14 +15,6 @@ spec:
           port: 80
 ---
 apiVersion: v1
-stringData:
-  token: dad4b5af058a4f9ef6c840d2c234b7e5f9cad0d4
-kind: Secret
-metadata:
-  name: webhook-token
-  namespace: flux-system
----
-apiVersion: v1
 kind: Service
 metadata:
   name: receiver

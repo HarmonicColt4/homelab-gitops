@@ -11,11 +11,15 @@ spec:
       secretsScope:
         projectSlug: homelab-deoo
         envSlug: prod
-        secretsPath: '/flux/webhook-token'
+        secretsPath: '/flux'
       credentialsRef:
         secretName: universal-auth-credentials
         secretNamespace: secrets-operator
   managedKubeSecretReferences:
-    - secretName: webhook-token-managed
+    - secretName: webhook-token
       secretNamespace: flux-system
       creationPolicy: 'Orphan'
+      template:
+        includeAllSecrets: false
+        data:
+          address: "{{ .webhook_token.Value }}" 

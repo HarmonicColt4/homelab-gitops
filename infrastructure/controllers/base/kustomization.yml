@@ -7,3 +7,4 @@ resources:
   - metallb.yml
   - traefik.yml
   - namespace.yml
+  - secrets-operator

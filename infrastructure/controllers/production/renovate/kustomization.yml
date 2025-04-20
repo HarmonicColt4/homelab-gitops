@@ -5,3 +5,4 @@ resources:
   - namespace.yml
   - cronjob.yml
   - configmap.yml
+  - secret.yml

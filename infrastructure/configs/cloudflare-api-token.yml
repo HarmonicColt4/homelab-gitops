@@ -16,7 +16,7 @@ spec:
         secretName: universal-auth-credentials
         secretNamespace: secrets-operator
   managedKubeSecretReferences:
-    - secretName: cloudflare-api-token-managed
+    - secretName: cloudflare-api-token
       secretNamespace: cert-manager
       creationPolicy: 'Orphan'
       template:

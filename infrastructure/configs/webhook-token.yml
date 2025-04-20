@@ -22,4 +22,4 @@ spec:
       template:
         includeAllSecrets: false
         data:
-          address: "{{ .webhook_token.Value }}" 
+          token: "{{ .webhook_token.Value }}" 

@@ -4,3 +4,4 @@ resources:
   - namespace.yml
   - helmrelease.yml
   - repository.yml
+  - secrets

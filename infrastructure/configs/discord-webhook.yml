@@ -22,4 +22,4 @@ spec:
       template:
         includeAllSecrets: false
         data:
-          address: "{{ .discord-webhook.Value }}" 
+          address: '{{ "discord-webhook" "Value" }}'

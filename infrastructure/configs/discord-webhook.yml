@@ -16,10 +16,10 @@ spec:
         secretName: universal-auth-credentials
         secretNamespace: secrets-operator
   managedKubeSecretReferences:
-    - secretName: discord-webhook-managed-new
+    - secretName: discord-webhook-managed
       secretNamespace: flux-system
       creationPolicy: 'Orphan'
       template:
         includeAllSecrets: false
         data:
-          address: '{{ "discord-webhook" "Value" }}'
+          address: "{{ .discord_webhook.Value }}" 

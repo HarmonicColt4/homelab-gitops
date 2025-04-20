@@ -1,0 +1,25 @@
+apiVersion: secrets.infisical.com/v1alpha1
+kind: InfisicalSecret
+metadata:
+  name: cloudflare-api-token
+  namespace: cert-manager
+spec:
+  hostAPI: https://app.infisical.com/api
+  resyncInterval: 10
+  authentication:
+    universalAuth:
+      secretsScope:
+        projectSlug: homelab-deoo
+        envSlug: prod
+        secretsPath: '/'
+      credentialsRef:
+        secretName: universal-auth-credentials
+        secretNamespace: secrets-operator
+  managedKubeSecretReferences:
+    - secretName: cloudflare-api-token-managed
+      secretNamespace: cert-manager
+      creationPolicy: 'Orphan'
+      template:
+        includeAllSecrets: false
+        data:
+          api-token: '{{ .cloudflare_api_token.Value }}'

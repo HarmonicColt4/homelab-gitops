@@ -11,7 +11,7 @@ spec:
       secretsScope:
         projectSlug: homelab-deoo
         envSlug: prod
-        secretsPath: '/flux/discord-webhook'
+        secretsPath: '/flux'
       credentialsRef:
         secretName: universal-auth-credentials
         secretNamespace: secrets-operator
@@ -19,3 +19,7 @@ spec:
     - secretName: discord-webhook-managed
       secretNamespace: flux-system
       creationPolicy: 'Orphan'
+      template:
+        includeAllSecrets: false
+        data:
+          address: "{{ .discord-webhook.Value }}" 

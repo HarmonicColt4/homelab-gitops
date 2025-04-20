@@ -16,7 +16,7 @@ spec:
         secretName: universal-auth-credentials
         secretNamespace: secrets-operator
   managedKubeSecretReferences:
-    - secretName: discord-webhook-managed
+    - secretName: discord-webhook
       secretNamespace: flux-system
       creationPolicy: 'Orphan'
       template:

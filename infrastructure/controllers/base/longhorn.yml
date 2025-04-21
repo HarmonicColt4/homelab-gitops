@@ -35,7 +35,7 @@ spec:
       defaultDataLocality: best-effort
       recurringJobSelector:
         enable: true
-        jobList: '[{"name":"backup", "isGroup":true}]'
+        jobList: '[{"name":"backup", "isGroup":true}, {"name":"snapshot", "isGroup":true}]'
       reclaimPolicy: "Retain"
     defaultSettings:
       createDefaultDiskLabeledNodes: true

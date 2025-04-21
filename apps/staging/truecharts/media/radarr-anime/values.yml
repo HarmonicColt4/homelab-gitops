@@ -1,9 +1,0 @@
----
-persistence:
-  media:
-    enabled: true
-    type: nfs
-    path: /mnt/storage/media/anime
-    server: 10.13.25.10
-    mountPath: /anime
-    readOnly: true

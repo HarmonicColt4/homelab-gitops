@@ -52,12 +52,12 @@ spec:
         kind: ClusterIssuer
         name: letsencrypt
     - target:
-        kind: Secret
+        kind: InfisicalSecret
         name: discord-webhook
       patch: |
         - op: replace
-          path: /stringData/address
-          value: "https://discord.com/api/webhooks/1352104225412218891/WQ96PMj7FLFeFKdKzCR8LmnZVx47sFE3INr647mTdivzAUDuM3FwQG1bI_YKEO3ZKgzp"
+          path: /spec/authentication/universalAuth/secretsScope/envSlug
+          value: ecbafc
     - target:
         kind: Alert
         name: helmrelease-info

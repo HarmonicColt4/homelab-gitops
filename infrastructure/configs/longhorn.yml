@@ -24,10 +24,10 @@ spec:
   task: "backup"
   groups:
   - backup
-  retain: 7
+  retain: 1
   concurrency: 2
   parameters:
-    full-backup-interval: "1"
+    full-backup-interval: "30"
 ---
 apiVersion: longhorn.io/v1beta1
 kind: RecurringJob

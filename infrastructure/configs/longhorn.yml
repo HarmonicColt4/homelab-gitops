@@ -20,7 +20,7 @@ metadata:
   name: backup
   namespace: longhorn-system
 spec:
-  cron: "0 11 * * *"
+  cron: "0 12 * * 1"
   task: "backup"
   groups:
   - backup
@@ -35,7 +35,7 @@ metadata:
   name: snapshot
   namespace: longhorn-system
 spec:
-  cron: "0 12 * * *"
+  cron: "0 11 * * *"
   task: "snapshot"
   groups:
   - snapshot

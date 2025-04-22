@@ -9,3 +9,5 @@ configMapGenerator:
     namespace: default
     files:
       - values.yaml=values.yml
+configurations:
+- kustomizeconfig.yml

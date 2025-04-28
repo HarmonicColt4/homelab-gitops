@@ -12,3 +12,12 @@ patches:
         path: /spec/values/defaultSettings/backupTarget
         value:
           nfs://10.25.25.10:/mnt/storage/longhorn/production
+  - patch: |
+      - op: replace
+        path: /spec/values/service/annotations
+        value:
+          metallb.universe.tf/loadBalancerIPs: 10.25.25.11
+    target:
+      kind: HelmRelease
+      name: traefik
+      namespace: default

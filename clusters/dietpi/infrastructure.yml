@@ -50,6 +50,14 @@ spec:
       target:
         kind: ClusterIssuer
         name: letsencrypt
+    - patch: |
+        - op: replace
+          path: /metadata/annotations
+          value:
+            metallb.universe.tf/loadBalancerIPs: 10.25.25.9
+      target:
+        kind: Service
+        name: receiver
   postBuild:
     substitute:
       domain: "weirdrussiandomain.com"

@@ -16,3 +16,40 @@ spec:
   postBuild:
     substitute:
       domain: 'weirdrussiandomain.com'
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-configs
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-controllers
+  interval: 10m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/configs
+  prune: true
+  wait: true
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/addresses
+          value:
+            - 10.25.25.2-10.25.25.10
+      target:
+        kind: IPAddressPool
+        name: ip-pool
+        namespace: metallb-system
+    - patch: |
+        - op: replace
+          path: /spec/acme/server
+          value: https://acme-v02.api.letsencrypt.org/directory
+      target:
+        kind: ClusterIssuer
+        name: letsencrypt
+  postBuild:
+    substitute:
+      domain: "weirdrussiandomain.com"

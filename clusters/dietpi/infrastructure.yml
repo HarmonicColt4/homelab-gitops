@@ -16,8 +16,9 @@ spec:
   patches:
   - patch: |
       - op: replace
-        path: /spec/values/service/annotations/metallb.universe.tf/loadBalancerIPs
-        value:10.25.25.10
+        path: /spec/values/service/annotations
+        value:
+          metallb.universe.tf/loadBalancerIPs: 10.25.25.10
     target:
       kind: HelmRelease
       name: traefik

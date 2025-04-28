@@ -3,7 +3,7 @@ service:
   torrent:
     type: LoadBalancer
     annotations:
-      metallb.universe.tf/loadBalancerIPs: 10.13.25.25
+      metallb.universe.tf/loadBalancerIPs: 10.13.25.30
 persistence:
   series-1080p:
     enabled: true

@@ -3,15 +3,15 @@ kind: Kustomization
 resources:
   - ../base
 patches:
-  - target:
-      kind: HelmRelease
-      name: longhorn
-      namespace: default
-    patch: |-
+  - patch: |-
       - op: add
         path: /spec/values/defaultSettings/backupTarget
         value:
           nfs://10.25.25.10:/mnt/storage/longhorn/production
+    target:
+      kind: HelmRelease
+      name: longhorn
+      namespace: default
   - patch: |
       - op: replace
         path: /spec/values/service/annotations

@@ -75,7 +75,6 @@ patches:
                   loadBalancer:
                     servers:
                     - url: http://10.13.25.10:31010/
-
   - target:
       kind: HelmRelease
       name: longhorn

@@ -38,7 +38,7 @@ spec:
         - op: replace
           path: /spec/addresses
           value:
-            - 10.25.25.2-10.25.25.10
+            - 10.25.25.2-10.25.25.19
       target:
         kind: IPAddressPool
         name: ip-pool

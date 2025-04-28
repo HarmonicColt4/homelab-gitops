@@ -13,6 +13,15 @@ spec:
   path: ./infrastructure/controllers/dietpi
   prune: true
   wait: true
+  patches:
+  - patch: |
+      - op: replace
+        path: /spec/values/service/annotations/metallb.universe.tf/loadBalancerIPs
+        value:10.25.25.10
+    target:
+      kind: HelmRelease
+      name: traefik
+      namespace: default
   postBuild:
     substitute:
       domain: 'weirdrussiandomain.com'

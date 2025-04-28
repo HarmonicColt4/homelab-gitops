@@ -30,6 +30,8 @@ spec:
         kind: HelmRepository
         name: longhorn
       interval: 24h
+  driftDetection:
+    enabled: true
   values:
     persistence:
       defaultDataLocality: best-effort

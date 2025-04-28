@@ -58,6 +58,13 @@ spec:
       target:
         kind: Service
         name: receiver
+    - patch: |
+        - op: replace
+          path: /spec/routes/0/match
+          value: Host(`longhorn-dietpi.${domain}`) && PathPrefix(`/`)
+      target:
+        kind: IngressRoute
+        name: longhorn
   postBuild:
     substitute:
       domain: "weirdrussiandomain.com"

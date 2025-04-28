@@ -19,7 +19,7 @@ patches:
           metallb.universe.tf/loadBalancerIPs: 10.25.25.11
       - op: replace
         path: /spec/values/ingressRoute/dashboard/matchRule
-        value: Host(`traefik.dietpi.${domain}`) && ( PathPrefix(`/`) || PathPrefix(`/api`))
+        value: Host(`traefik-dietpi.${domain}`) && ( PathPrefix(`/`) || PathPrefix(`/api`))
     target:
       kind: HelmRelease
       name: traefik

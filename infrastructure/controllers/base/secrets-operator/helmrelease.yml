@@ -14,5 +14,4 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: infisical-helm-charts
-        namespace: helm-repository
       interval: 24h

@@ -6,6 +6,7 @@ resources:
   # - unifi
 configMapGenerator:
   - name: global-values
+    namespace: default
     files:
       - values.yaml=global-values.yml
 configurations:

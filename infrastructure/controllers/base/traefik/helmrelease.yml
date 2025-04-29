@@ -1,0 +1,50 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: default
+spec:
+  targetNamespace: traefik
+  releaseName: traefik
+  interval: 24h
+  chart:
+    spec:
+      chart: traefik
+      version: 35.0.0
+      sourceRef:
+        kind: HelmRepository
+        name: traefik
+      interval: 24h
+  install:
+    disableWait: true
+  upgrade:
+    disableWait: true
+  values:
+    deployment:
+      kind: DaemonSet
+    ports:
+      web:
+        redirections:
+          entryPoint:
+            to: websecure
+            scheme: https
+    ingressRoute:
+      dashboard:
+        matchRule: Host(`traefik.${domain}`) && ( PathPrefix(`/`) || PathPrefix(`/api`))
+        enabled: true
+        entryPoints:
+          - websecure
+    service:
+      annotations:
+        metallb.universe.tf/loadBalancerIPs: 10.13.25.31
+    tlsStore:
+      default:
+        defaultCertificate:
+          secretName: cert
+    globalArguments:
+      - --global.checknewversion
+      - --serversTransport.insecureSkipVerify=true
+    providers:
+      kubernetesCRD:
+        allowExternalNameServices: true
+        allowCrossNamespace: true

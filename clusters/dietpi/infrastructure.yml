@@ -65,6 +65,13 @@ spec:
       target:
         kind: IngressRoute
         name: longhorn
+    - patch: |
+        - op: replace
+          path: /spec/authentication/universalAuth/secretsScope/envSlug
+          value: dietpi
+      target:
+        kind: InfisicalSecret
+        name: discord-webhook
   postBuild:
     substitute:
       domain: "weirdrussiandomain.com"

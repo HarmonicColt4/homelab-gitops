@@ -7,3 +7,9 @@ service:
 persistence:
   data:
     size: 10Gi
+workload:
+  main:
+    podSpec:
+      initContainers:
+        migrate:
+          enabled: false

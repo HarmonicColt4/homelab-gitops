@@ -5,4 +5,5 @@ global:
     pvcSize: 1Gi
     vctSize: 1Gi
 podOptions:
-  nodeSelector: {}
+  nodeSelector:
+    kubernetes.io/arch: "arm64"

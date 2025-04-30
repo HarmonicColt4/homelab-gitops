@@ -44,4 +44,3 @@ service:
 persistence:
   data:
     size: 5Gi
-    volumeName: adguard-home-data

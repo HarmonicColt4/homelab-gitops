@@ -23,4 +23,4 @@ spec:
     - kind: ConfigMap
       name: global-values
     - kind: ConfigMap
-      name: blokcy-values
+      name: blocky-values

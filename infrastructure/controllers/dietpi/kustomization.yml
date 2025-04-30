@@ -8,6 +8,9 @@ patches:
         path: /spec/values/defaultSettings/backupTarget
         value:
           nfs://10.25.25.10:/mnt/storage/longhorn/production
+      - op: add
+        path: /spec/values/persistence/defaultClassReplicaCount
+        value: 1
     target:
       kind: HelmRelease
       name: longhorn

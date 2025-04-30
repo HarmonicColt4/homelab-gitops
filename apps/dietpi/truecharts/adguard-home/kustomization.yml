@@ -11,6 +11,9 @@ patches:
       - op: add
         path: /metadata/namespace
         value: default
+      - op: replace
+        path: /spec/chart/spec/sourceRef/namespace
+        value: default
 configMapGenerator:
   - name: adguard-home-values
     namespace: default

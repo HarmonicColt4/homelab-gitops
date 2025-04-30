@@ -1,7 +1,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: tc-apps
+  name: apps
   namespace: flux-system
 spec:
   dependsOn:
@@ -11,7 +11,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./apps/dietpi/truecharts
+  path: ./apps/dietpi
   prune: true
   wait: true
   postBuild:

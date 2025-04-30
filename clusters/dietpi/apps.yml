@@ -13,7 +13,7 @@ spec:
     name: flux-system
   path: ./apps/dietpi
   prune: true
-  wait: true
+  wait: false
   postBuild:
     substitute:
       domain: 'weirdrussiandomain.com'

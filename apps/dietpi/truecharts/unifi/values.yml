@@ -1,4 +1,5 @@
----
+image:
+  tag: unifi:9.0.114-ubuntu
 service:
   comm:
     type: LoadBalancer

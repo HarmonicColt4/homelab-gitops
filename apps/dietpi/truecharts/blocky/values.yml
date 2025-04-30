@@ -385,8 +385,8 @@ metrics:
       #     severity: critical
 
 redis:
-  enabled: true
-  includeCommon: true
+  enabled: false
+  includeCommon: false
 # CANNOT be defined in above yaml section
 queryLog:
   # optional one of: mysql, postgresql, csv, csv-client. If empty, log to console

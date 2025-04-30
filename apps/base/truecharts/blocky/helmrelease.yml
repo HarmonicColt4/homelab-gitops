@@ -1,0 +1,26 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: blocky
+  namespace: default
+spec:
+  releaseName: blocky
+  targetNamespace: blocky
+  interval: 30m
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: blocky
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: default
+      interval: 1h
+      version: 16.13.18
+  valuesFrom:
+    - kind: ConfigMap
+      name: global-values
+    - kind: ConfigMap
+      name: blokcy-valcky

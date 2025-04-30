@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - repository.yml
   - cloudnative-pg
+  - adguard-home
   - unifi
 configMapGenerator:
   - name: global-values

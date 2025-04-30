@@ -6,6 +6,8 @@ service:
     annotations:
       metallb.universe.tf/loadBalancerIPs: 10.25.25.2
 persistence:
+  config:
+    enabled: false
   data:
     size: 10Gi
 workload:

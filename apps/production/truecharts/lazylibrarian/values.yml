@@ -5,3 +5,10 @@ persistence:
     path: /mnt/storage/media/books
     server: 10.13.25.10
     mountPath: /books
+workload:
+  main:
+    podSpec:
+      containers:
+        main:
+          env:
+            DOCKER_MODS: linuxserver/mods:universal-calibre

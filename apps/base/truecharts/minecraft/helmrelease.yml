@@ -16,7 +16,7 @@ spec:
         name: truecharts
         namespace: truecharts
       interval: 24h
-      version: 22.34.1
+      version: 22.34.11
   values:
     service:
       main:

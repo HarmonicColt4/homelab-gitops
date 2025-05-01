@@ -1,0 +1,5 @@
+persistence:
+  audiobooks:
+    type: nfs
+    path: /mnt/storage/media/books/audio
+    server: 10.13.25.10

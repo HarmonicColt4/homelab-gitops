@@ -4,6 +4,9 @@ service:
     type: LoadBalancer
     annotations:
       metallb.universe.tf/loadBalancerIPs: 10.13.25.30
+    ports:
+      torrent:
+        port: 23507
 persistence:
   series-1080p:
     enabled: true

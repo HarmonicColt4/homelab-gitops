@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - repository.yml
   - cloudnative-pg
+  - cloudflareddns
   - adguard-home
   - unifi
 configMapGenerator:

@@ -3,9 +3,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - repository.yml
+  - adguard-home
   - cloudnative-pg
   - cloudflareddns
-  - adguard-home
+  - prometheus-operator
   - unifi
 configMapGenerator:
   - name: global-values

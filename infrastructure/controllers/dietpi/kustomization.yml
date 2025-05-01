@@ -24,6 +24,68 @@ patches:
       - op: replace
         path: /spec/values/ingressRoute/dashboard/matchRule
         value: Host(`traefik-dietpi.${domain}`) && ( PathPrefix(`/`) || PathPrefix(`/api`))
+      - op: add
+        path: /spec/values/providers/file
+        value:  
+          enabled: true
+          content: |-
+            http:
+              routers:
+                truenas:
+                  entryPoints:
+                  - websecure
+                  service: truenas
+                  rule: Host(`truenas.${domain}`) && PathPrefix(`/`)              
+                proxmox:
+                  entryPoints:
+                  - websecure
+                  service: proxmox
+                  rule: Host(`pve.${domain}`) && PathPrefix(`/`)              
+                pikvm:
+                  entryPoints:
+                  - websecure
+                  service: pikvm
+                  rule: Host(`pikvm.${domain}`) && PathPrefix(`/`)
+                gitea:
+                  entryPoints:
+                  - websecure
+                  service: gitea
+                  rule: Host(`gitea.${domain}`) && PathPrefix(`/`)              
+                minio:
+                  entryPoints:
+                  - websecure
+                  service: minio
+                  rule: Host(`minio.${domain}`) && PathPrefix(`/`)              
+                netbootxyz:
+                  entryPoints:
+                  - websecure
+                  service: netbootxyz
+                  rule: Host(`netbootxyz.${domain}`) && PathPrefix(`/`)            
+              services:
+                truenas:
+                  loadBalancer:
+                    servers:
+                    - url: https://10.13.25.10/
+                proxmox:
+                  loadBalancer:
+                    servers:
+                    - url: https://10.13.25.9:8006/
+                pikvm:
+                  loadBalancer:
+                    servers:
+                    - url: https://10.13.25.98/
+                gitea:
+                  loadBalancer:
+                    servers:
+                    - url: http://10.13.25.10:30008/
+                minio:
+                  loadBalancer:
+                    servers:
+                    - url: http://10.13.25.10:9002/
+                netbootxyz:
+                  loadBalancer:
+                    servers:
+                    - url: http://10.13.25.10:31010/        
     target:
       kind: HelmRelease
       name: traefik

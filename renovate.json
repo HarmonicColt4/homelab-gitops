@@ -11,6 +11,6 @@
   "ignoreTests": true,
   "automergeType": "branch",
   "kubernetes": {
-    "fileMatch": ["infrastructure/controllers/production/renovate/cronjob.yml"]
+    "fileMatch": ["infrastructure/controllers/dietpi/renovate/cronjob.yml"]
   }
 }

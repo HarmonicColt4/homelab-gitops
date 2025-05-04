@@ -6,6 +6,7 @@ metadata:
   namespace: default
 spec:
   releaseName: minecraft-java
+  targetNamespace: minecraft
   interval: 30m
   driftDetection:
     mode: enabled

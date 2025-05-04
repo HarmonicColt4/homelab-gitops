@@ -68,6 +68,14 @@ spec:
             kind: HelmRelease
             name: '*'
             namespace: minecraft
+    - patch: |
+        - op: replace
+          path: /metadata/annotations
+          value:
+            metallb.universe.tf/loadBalancerIPs: 10.19.53.8
+      target:
+        kind: Service
+        name: receiver            
   postBuild:
     substitute:
       domain: "ecbafc.weirdrussiandomain.com"

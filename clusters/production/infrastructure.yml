@@ -37,6 +37,7 @@ spec:
   postBuild:
     substitute:
       domain: "weirdrussiandomain.com"
+      infisical_envSlug: prod
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

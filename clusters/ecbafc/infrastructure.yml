@@ -52,16 +52,6 @@ spec:
       target:
         kind: ClusterIssuer
         name: letsencrypt
-    - target:
-        kind: Alert
-        name: helmrelease-info
-      patch: |
-        - op: add
-          path: /spec/eventSources/-
-          value:
-            kind: HelmRelease
-            name: '*'
-            namespace: minecraft
     - patch: |
         - op: replace
           path: /metadata/annotations

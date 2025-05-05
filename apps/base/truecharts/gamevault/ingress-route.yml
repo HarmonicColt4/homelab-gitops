@@ -2,8 +2,8 @@
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: gamevault
-  namespace: gamevault
+  name: gamevault-backend
+  namespace: gamevault-backend
 spec:
   entryPoints:
     - websecure
@@ -11,5 +11,5 @@ spec:
     - match: Host(`gamevault.${domain}`) && PathPrefix(`/`)
       kind: Rule
       services:
-        - name: gamevault
+        - name: gamevault-backend
           port: 8080

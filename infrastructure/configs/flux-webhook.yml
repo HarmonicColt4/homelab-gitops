@@ -59,7 +59,7 @@ spec:
     universalAuth:
       secretsScope:
         projectSlug: homelab-deoo
-        envSlug: prod
+        envSlug: ${infisical_envSlug}
         secretsPath: '/flux'
       credentialsRef:
         secretName: universal-auth-credentials

@@ -16,4 +16,5 @@ spec:
   wait: true
   postBuild:
     substitute:
-      domain: "weirdrussiandomain.com"
+      domain: 'weirdrussiandomain.com'
+      infisical_envSlug: prod

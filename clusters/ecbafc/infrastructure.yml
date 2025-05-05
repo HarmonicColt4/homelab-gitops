@@ -16,6 +16,7 @@ spec:
   postBuild:
     substitute:
       domain: "ecbafc.weirdrussiandomain.com"
+      infisical_envSlug: ecbafc
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -79,3 +80,4 @@ spec:
   postBuild:
     substitute:
       domain: "ecbafc.weirdrussiandomain.com"
+      infisical_envSlug: ecbafc

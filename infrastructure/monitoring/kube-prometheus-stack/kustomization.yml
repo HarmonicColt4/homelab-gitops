@@ -4,6 +4,7 @@ resources:
   - namespace.yml
   - helmrelease.yml
   - repository.yml
+  - secret.yml
 configMapGenerator:
   - name: kube-prometheus-stack-values
     namespace: default

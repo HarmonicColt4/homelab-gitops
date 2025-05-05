@@ -2,11 +2,14 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+- namespace.yml
+- repository.yml
 - actualserver
 - audiobookshelf
 # - adguard-home
 - calibre
 - calibre-web
+- cloudnative-pg
 # - cloudflareddns
 - flaresolverr
 # - firefox

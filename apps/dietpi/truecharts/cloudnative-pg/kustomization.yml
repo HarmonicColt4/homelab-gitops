@@ -14,5 +14,3 @@ patches:
       - op: replace
         path: /spec/chart/spec/sourceRef/namespace
         value: default
-      - op: remove
-        path: /spec/dependsOn

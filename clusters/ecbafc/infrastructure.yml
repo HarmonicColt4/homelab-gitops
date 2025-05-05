@@ -53,13 +53,6 @@ spec:
         kind: ClusterIssuer
         name: letsencrypt
     - target:
-        kind: InfisicalSecret
-        name: discord-webhook
-      patch: |
-        - op: replace
-          path: /spec/authentication/universalAuth/secretsScope/envSlug
-          value: ecbafc
-    - target:
         kind: Alert
         name: helmrelease-info
       patch: |

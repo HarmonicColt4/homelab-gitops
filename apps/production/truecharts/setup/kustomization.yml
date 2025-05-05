@@ -5,7 +5,7 @@ resources:
   - repository.yml
   - namespace.yml
   - cloudnative-pg
-  - prometheus-operator
+  # - prometheus-operator
 transformers:
   - |-
     apiVersion: builtin

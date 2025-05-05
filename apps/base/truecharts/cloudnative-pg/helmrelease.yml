@@ -4,8 +4,6 @@ kind: HelmRelease
 metadata:
   name: cloudnative-pg
 spec:
-  dependsOn:
-    - name: prometheus-operator
   releaseName: cloudnative-pg
   targetNamespace: cloudnative-pg
   interval: 30m

@@ -9,7 +9,7 @@ resources:
 - calibre-web
 # - cloudflareddns
 - flaresolverr
-- firefox
+# - firefox
 - homepage
 - immich
 - jellyfin

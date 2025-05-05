@@ -25,3 +25,6 @@ spec:
     metrics:
       main:
         enabled: false
+    configmap:
+      dashboard:
+        enabled: false        

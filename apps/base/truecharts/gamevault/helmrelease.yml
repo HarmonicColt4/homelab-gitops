@@ -2,10 +2,10 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: gamevault
+  name: gamevault-backend
 spec:
-  releaseName: gamevault
-  targetNamespace: gamevault
+  releaseName: gamevault-backend
+  targetNamespace: gamevault-backend
   interval: 30m
   driftDetection:
     mode: enabled

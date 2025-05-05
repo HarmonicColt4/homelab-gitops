@@ -11,7 +11,7 @@ spec:
     mode: enabled
   chart:
     spec:
-      chart: gamevault
+      chart: gamevault-backend
       sourceRef:
         kind: HelmRepository
         name: truecharts

@@ -19,4 +19,4 @@ spec:
     - kind: ConfigMap
       name: kube-prometheus-stack-values
     - kind: Secret
-      name: kube-prometheus-stack-values
+      name: kps-values

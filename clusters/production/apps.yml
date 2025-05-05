@@ -11,7 +11,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./apps/production/truecharts/setup
-  prune: true
+  prune: false
   wait: true
   postBuild:
     substitute:
@@ -32,7 +32,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./apps/production/truecharts
-  prune: true
+  prune: false
   wait: true
   postBuild:
     substitute:

@@ -21,3 +21,7 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: global-values
+  values:
+    metrics:
+      main:
+        enabled: false

@@ -11,7 +11,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./apps/production/truecharts
+  path: ./apps/production
   prune: true
   wait: true
   postBuild:

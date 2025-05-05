@@ -1,0 +1,10 @@
+gamevault:
+  server:
+    admin_username: gpenda
+    admin_password: F19hters
+persistence:
+  games:
+    type: nfs
+    server: 10.13.25.10
+    path: /mnt/storage/downloads/Games
+    mountPath: /games

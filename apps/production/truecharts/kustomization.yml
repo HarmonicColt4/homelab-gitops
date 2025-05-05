@@ -6,14 +6,10 @@ resources:
 - repository.yml
 - actualserver
 - audiobookshelf
-# - adguard-home
 - calibre
 - calibre-web
 - cloudnative-pg
-# - cloudflareddns
 - flaresolverr
-# - firefox
-- gamevault
 - homepage
 - immich
 - jellyfin
@@ -29,7 +25,6 @@ resources:
 - sonarr
 - sonarr-4k
 - sonarr-anime
-# - unifi
 - vaultwarden
 configMapGenerator:
 - name: global-values

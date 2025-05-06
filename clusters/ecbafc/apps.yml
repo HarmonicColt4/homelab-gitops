@@ -13,8 +13,8 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./apps/ecbafc
-  prune: false
-  wait: true
+  prune: true
+  wait: false
   postBuild:
     substitute:
       domain: "ecbafc.weirdrussiandomain.com"

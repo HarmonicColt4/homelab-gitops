@@ -5,5 +5,6 @@ resources:
   - ../../../base/truecharts/audiobookshelf
 configMapGenerator:
   - name: audiobookshelf-values
+    namespace: flux-system
     files:
       - values.yaml=values.yml

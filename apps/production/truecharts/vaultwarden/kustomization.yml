@@ -5,5 +5,6 @@ resources:
   - ../../../base/truecharts/vaultwarden
 configMapGenerator:
   - name: vaultwarden-values
+    namespace: flux-system
     files:
       - values.yaml=values.yml

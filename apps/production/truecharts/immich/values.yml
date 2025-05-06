@@ -49,14 +49,9 @@ persistence:
 global:
   fallbackDefaults:
     vctSize: 10Gi
-workload:
-  main:
-    podSpec:
-      containers:
-        main:
-          resources:
-            limits:
-              gpu.intel.com/i915: 1
+resources:
+  limits:
+    gpu.intel.com/i915: 1
 cnpg:
   main:
     creds:

@@ -9,7 +9,7 @@
   "extends": [
     "config:recommended",
     ":disableDependencyDashboard",
-    ":automergeMinor"
+    ":automergeStableNonMajor"
   ],
   "ignoreTests": true,
   "automergeType": "branch",

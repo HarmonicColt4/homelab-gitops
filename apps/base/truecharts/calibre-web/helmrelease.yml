@@ -17,7 +17,7 @@ spec:
         name: truecharts
         namespace: truecharts
       interval: 1h
-      version: 20.5.15
+      version: 20.5.16
   valuesFrom:
     - kind: ConfigMap
       name: global-values

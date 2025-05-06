@@ -53,7 +53,7 @@ workload:
   main:
     podSpec:
       containers:
-        main:
+        immich:
           resources:
             limits:
               gpu.intel.com/i915: 1

@@ -3,6 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: flaresolverr
+  namespace: flux-system
 spec:
   releaseName: flaresolverr
   targetNamespace: flaresolverr
@@ -17,7 +18,6 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: truecharts
-        namespace: truecharts
       interval: 1h
       version: 15.5.1
   valuesFrom:

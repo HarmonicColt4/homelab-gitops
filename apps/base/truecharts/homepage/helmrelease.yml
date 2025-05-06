@@ -3,6 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: homepage
+  namespace: flux-system
 spec:
   releaseName: homepage
   targetNamespace: homepage
@@ -17,7 +18,6 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: truecharts
-        namespace: truecharts
       interval: 24h
       version: 10.2.0
   valuesFrom:

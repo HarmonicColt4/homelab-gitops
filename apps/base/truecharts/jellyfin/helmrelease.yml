@@ -3,6 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: jellyfin
+  namespace: flux-system
 spec:
   releaseName: jellyfin
   targetNamespace: jellyfin
@@ -17,7 +18,6 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: truecharts
-        namespace: truecharts
       interval: 1h
       version: 20.6.21
   valuesFrom:

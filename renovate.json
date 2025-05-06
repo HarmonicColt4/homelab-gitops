@@ -3,11 +3,7 @@
   "flux": {
     "managerFilePatterns": ["/.+(?:helmrelease|repository)\\.yml/"]
   },
-  "extends": [
-    "config:recommended",
-    ":disableDependencyDashboard",
-    ":automergeStableNonMajor"
-  ],
+  "extends": ["config:recommended", ":automergeStableNonMajor"],
   "ignoreTests": true,
   "automergeType": "branch",
   "kubernetes": {

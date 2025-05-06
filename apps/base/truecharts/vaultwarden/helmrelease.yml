@@ -7,7 +7,6 @@ metadata:
 spec:
   releaseName: vaultwarden
   targetNamespace: vaultwarden
-  storageNamespace: vaultwarden
   interval: 30m
   driftDetection:
     mode: enabled

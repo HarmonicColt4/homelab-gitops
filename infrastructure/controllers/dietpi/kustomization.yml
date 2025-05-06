@@ -15,7 +15,6 @@ patches:
     target:
       kind: HelmRelease
       name: longhorn
-      namespace: default
   - patch: |
       - op: replace
         path: /spec/values/service/annotations

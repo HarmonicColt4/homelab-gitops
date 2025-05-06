@@ -13,8 +13,5 @@
   },
   "helm-values": {
     "enabled": false
-  },
-  "kustomize": {
-    "enabled": false
   }
 }

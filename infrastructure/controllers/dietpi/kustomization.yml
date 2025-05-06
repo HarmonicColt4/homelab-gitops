@@ -89,4 +89,3 @@ patches:
     target:
       kind: HelmRelease
       name: traefik
-      namespace: default

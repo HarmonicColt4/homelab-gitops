@@ -6,7 +6,6 @@ patches:
   - target:
       kind: HelmRelease
       name: traefik
-      namespace: default
     patch: |-
       - op: add
         path: /spec/values/service/annotations

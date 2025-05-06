@@ -15,8 +15,3 @@ spec:
         kind: HelmRepository
         name: nfd
       interval: 24h
-  upgrade:
-    crds: CreateReplace
-  values:
-    crds:
-      enabled: true

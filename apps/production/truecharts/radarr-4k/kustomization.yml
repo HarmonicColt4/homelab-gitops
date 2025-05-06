@@ -6,6 +6,7 @@ resources:
 nameSuffix: -4k
 configMapGenerator:
   - name: radarr-values
+    namespace: flux-system
     files:
       - values.yaml=values.yml
 patches:

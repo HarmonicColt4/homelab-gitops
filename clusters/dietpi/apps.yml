@@ -12,7 +12,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./apps/dietpi
-  prune: true
+  prune: false
   wait: false
   postBuild:
     substitute:

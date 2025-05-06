@@ -56,8 +56,13 @@ workload:
         main:
           resources:
             limits:
-              gpu.intel.com/i915: "1"
-            requests:
+              gpu.intel.com/i915: 1
+  microservices:
+    podSpec:
+      containers:
+        microservices:
+          resources:
+            limits:
               gpu.intel.com/i915: "1"
 cnpg:
   main:

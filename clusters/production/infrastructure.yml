@@ -11,7 +11,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/controllers/production
-  prune: false
+  prune: true
   wait: true
   postBuild:
     substitute:
@@ -32,8 +32,8 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/monitoring
-  prune: false
-  wait: false
+  prune: true
+  wait: true
   postBuild:
     substitute:
       domain: 'weirdrussiandomain.com'

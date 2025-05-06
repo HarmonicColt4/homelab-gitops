@@ -27,19 +27,8 @@ resources:
 - vaultwarden
 configMapGenerator:
 - name: global-values
-  files:
-  - values.yaml=global-values.yml
-- name: global-values
   namespace: flux-system
   files:
   - values.yaml=global-values.yml
 configurations:
 - kustomizeconfig.yml
-transformers:
-- |-
-  apiVersion: builtin
-  kind: NamespaceTransformer
-  metadata:
-    name: notImportantHere
-    namespace: truecharts
-  unsetOnly: true

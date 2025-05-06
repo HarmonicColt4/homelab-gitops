@@ -2,8 +2,8 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "flux": {
     "managerFilePatterns": [
-      "apps/base/.*\\.yml",
-      "infrastructure/monitoring/.*\\.yml"
+      "/apps/base/.*\\.yml/",
+      "/infrastructure/monitoring/.*\\.yml/"
     ]
   },
   "extends": [

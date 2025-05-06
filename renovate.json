@@ -9,8 +9,7 @@
   "extends": [
     "config:recommended",
     ":disableDependencyDashboard",
-    ":automergeMinor",
-    "schedule:daily"
+    ":automergeMinor"
   ],
   "ignoreTests": true,
   "automergeType": "branch",

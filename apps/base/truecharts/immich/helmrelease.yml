@@ -10,6 +10,11 @@ spec:
   interval: 30m
   driftDetection:
     mode: enabled
+    ignore:
+      - paths: ["/spec/template/spec/containers/0/resources/limits"]
+        target:
+          kind: Deployment
+          name: immich
   uninstall:
     deletionPropagation: orphan
   chart:

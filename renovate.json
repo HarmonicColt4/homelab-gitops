@@ -15,7 +15,7 @@
   "automergeType": "branch",
   "kubernetes": {
     "managerFilePatterns": [
-      "infrastructure/controllers/dietpi/renovate/cronjob.yml"
+      "/infrastructure/controllers/dietpi/renovate/cronjob.yml/"
     ]
   }
 }

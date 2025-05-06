@@ -5,5 +5,6 @@ resources:
   - ../../../base/truecharts/immich
 configMapGenerator:
   - name: immich-values
+    namespace: flux-system
     files:
       - values.yaml=values.yml

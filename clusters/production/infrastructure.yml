@@ -11,11 +11,11 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/controllers/production
-  prune: true
+  prune: false
   wait: true
   postBuild:
     substitute:
-      domain: "weirdrussiandomain.com"
+      domain: 'weirdrussiandomain.com'
       infisical_envSlug: prod
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -36,7 +36,7 @@ spec:
   wait: false
   postBuild:
     substitute:
-      domain: "weirdrussiandomain.com"
+      domain: 'weirdrussiandomain.com'
       infisical_envSlug: prod
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -53,7 +53,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/configs
-  prune: true
+  prune: false
   wait: true
   patches:
     - patch: |
@@ -77,5 +77,5 @@ spec:
         name: letsencrypt
   postBuild:
     substitute:
-      domain: "weirdrussiandomain.com"
+      domain: 'weirdrussiandomain.com'
       infisical_envSlug: prod

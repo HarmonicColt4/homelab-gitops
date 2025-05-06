@@ -5,5 +5,5 @@ resources:
   - namespace.yml
   - https://github.com/intel/intel-device-plugins-for-kubernetes/deployments/nfd/overlays/node-feature-rules?ref=v0.32.0
   - https://github.com/intel/intel-device-plugins-for-kubernetes/deployments/gpu_plugin/overlays/nfd_labeled_nodes?ref=v0.32.0
-# patches:
-#   - path: add-args.yml
+patches:
+  - path: add-args.yml

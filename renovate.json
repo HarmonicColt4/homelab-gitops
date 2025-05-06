@@ -2,8 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "flux": {
     "managerFilePatterns": [
-      "/apps/.+(?:helmrelease|repository)\\.yml/",
-      "/infrastructure/monitoring/.*\\.yml/"
+      "/.+(?:helmrelease|repository)\\.yml/"
     ]
   },
   "extends": [

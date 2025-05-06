@@ -29,6 +29,10 @@ configMapGenerator:
 - name: global-values
   files:
   - values.yaml=global-values.yml
+- name: global-values
+  namespace: flux-system
+  files:
+  - values.yaml=global-values.yml
 configurations:
 - kustomizeconfig.yml
 transformers:

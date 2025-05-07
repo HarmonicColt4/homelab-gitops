@@ -10,8 +10,5 @@
     "managerFilePatterns": [
       "/infrastructure/controllers/dietpi/renovate/cronjob.yml/"
     ]
-  },
-  "helm-values": {
-    "enabled": false
   }
 }

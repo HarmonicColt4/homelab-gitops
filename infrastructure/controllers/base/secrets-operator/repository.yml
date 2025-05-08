@@ -4,5 +4,5 @@ metadata:
   name: infisical-helm-charts
   namespace: flux-system
 spec:
-  interval: 24h
+  interval: 5m
   url: https://dl.cloudsmith.io/public/infisical/helm-charts/helm/charts/

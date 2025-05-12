@@ -1,7 +1,0 @@
----
-cloudflareddns:
-  api_token: B-AwTbX9tOe-RUQXB1pAGh2JG7P8doUt8faSy4BP
-  host_zone_record:
-    - domain: weirdrussiandomain.com
-      record: A
-      zone: 43bc917a30243f4dd627f85a2faff775

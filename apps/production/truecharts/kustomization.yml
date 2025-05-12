@@ -4,16 +4,16 @@ kind: Kustomization
 resources:
 - namespace.yml
 - repository.yml
-- actualserver
+- ../../base/truecharts/actualserver
+- ../../base/truecharts/cloudnative-pg
+- ../../base/truecharts/flaresolverr
+- ../../base/truecharts/jellyseerr
 - audiobookshelf
 - calibre
 - calibre-web
-- cloudnative-pg
-- flaresolverr
 - homepage
 - immich
 - jellyfin
-- jellyseerr
 - pgadmin
 - prowlarr
 - qbittorrent

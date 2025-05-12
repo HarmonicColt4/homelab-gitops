@@ -24,6 +24,7 @@ resources:
 - sonarr
 - sonarr-4k
 - sonarr-anime
+- truecommand
 - vaultwarden
 configMapGenerator:
 - name: global-values

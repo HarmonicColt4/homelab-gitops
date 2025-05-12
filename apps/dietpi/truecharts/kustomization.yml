@@ -7,7 +7,6 @@ resources:
   - cloudnative-pg
   - cloudflareddns
   - prometheus-operator
-  - truecommand
   - unifi
 configMapGenerator:
   - name: global-values

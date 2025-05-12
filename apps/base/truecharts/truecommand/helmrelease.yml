@@ -1,0 +1,25 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: truecommand
+  namespace: flux-system
+spec:
+  releaseName: truecommand
+  targetNamespace: truecommand
+  interval: 30m
+  driftDetection:
+    mode: enabled
+  uninstall:
+    deletionPropagation: orphan
+  chart:
+    spec:
+      chart: truecommand
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+      interval: 1h
+      version: 21.6.0
+  valuesFrom:
+    - kind: ConfigMap
+      name: global-values

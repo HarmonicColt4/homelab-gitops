@@ -1,0 +1,15 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: truecommand
+  namespace: truecommand
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`truecommand.${domain}`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: truecommand
+          port: 10031

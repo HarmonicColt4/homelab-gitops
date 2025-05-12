@@ -25,6 +25,7 @@ spec:
   exclusionList:
     - "Dependencies do not meet ready condition"
     - "HelmRelease.* configured"
+    - "Service/truecommand/truenas-penda configured"
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert

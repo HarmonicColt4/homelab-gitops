@@ -24,8 +24,8 @@ metadata:
   name: infra-monitoring
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: infra-controllers
+  # dependsOn:
+  #   - name: infra-controllers
   interval: 10m
   timeout: 5m
   sourceRef:
@@ -45,8 +45,8 @@ metadata:
   name: infra-configs
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: infra-controllers
+  # dependsOn:
+  #   - name: infra-controllers
   interval: 10m
   timeout: 5m
   sourceRef:

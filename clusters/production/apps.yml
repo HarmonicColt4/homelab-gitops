@@ -4,8 +4,8 @@ metadata:
   name: apps
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: infra-configs
+  # dependsOn:
+  #   - name: infra-configs
   interval: 10m
   timeout: 5m
   sourceRef:

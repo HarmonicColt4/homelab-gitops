@@ -6,6 +6,7 @@ resources:
   - adguard-home
   - cloudflareddns
   - unifi
+  - uptime-kuma
   - ../../base/truecharts/cloudnative-pg
   - ../../base/truecharts/prometheus-operator
 configMapGenerator:

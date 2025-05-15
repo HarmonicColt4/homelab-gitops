@@ -4,10 +4,10 @@ kind: Kustomization
 resources:
   - repository.yml
   - adguard-home
-  - cloudnative-pg
   - cloudflareddns
-  - prometheus-operator
   - unifi
+  - ../../base/truecharts/cloudnative-pg
+  - ../../base/truecharts/prometheus-operator
 configMapGenerator:
   - name: global-values
     namespace: flux-system

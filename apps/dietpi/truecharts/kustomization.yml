@@ -8,6 +8,7 @@ resources:
   - unifi
   - ../../base/truecharts/cloudnative-pg
   - ../../base/truecharts/prometheus-operator
+  - ../../base/truecharts/uptime-kuma
 configMapGenerator:
   - name: global-values
     namespace: flux-system

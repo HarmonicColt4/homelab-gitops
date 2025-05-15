@@ -6,9 +6,9 @@ resources:
   - adguard-home
   - cloudflareddns
   - unifi
-  - uptime-kuma
   - ../../base/truecharts/cloudnative-pg
   - ../../base/truecharts/prometheus-operator
+  - ../../base/truecharts/uptime-kuma
 configMapGenerator:
   - name: global-values
     namespace: flux-system

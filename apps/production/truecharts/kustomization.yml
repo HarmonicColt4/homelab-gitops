@@ -14,7 +14,7 @@ resources:
 - homepage
 - immich
 - jellyfin
-- nextcloud
+# - nextcloud
 - pgadmin
 - prowlarr
 - qbittorrent

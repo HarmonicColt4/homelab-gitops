@@ -10,5 +10,16 @@
     "managerFilePatterns": [
       "/infrastructure/controllers/dietpi/renovate/cronjob.yml/"
     ]
-  }
+  },
+  "packageRules": [
+    {
+      "matchManagers": ["flux"],
+      "matchFileNames": [
+        "**/adguard-home/helmrelease.yml",
+        "**/jellyfin/helmrelease.yml",
+        "**/minecraft/helmrelease.yml"
+      ],
+      "schedule": ["* 2-6 * * *"]
+    }
+  ]
 }

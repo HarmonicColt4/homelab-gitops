@@ -19,7 +19,7 @@ spec:
               # Environment Variables
               env:
                 - name: LOG_LEVEL
-                  value: info
+                  value: debug
               envFrom:
                 - secretRef:
                     name: renovate-env

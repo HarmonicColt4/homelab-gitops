@@ -4,6 +4,9 @@ sonarr:
       - template: sonarr-quality-definition-series
       - template: sonarr-v4-quality-profile-web-2160p
       - template: sonarr-v4-custom-formats-web-2160p
+        
+    replace_existing_custom_formats: true
+
     custom_formats:
       # HDR Formats
       - trash_ids:

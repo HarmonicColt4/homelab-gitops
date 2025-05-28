@@ -5,6 +5,8 @@ radarr:
       - template: radarr-quality-definition-movie
       - template: radarr-quality-profile-remux-web-2160p
       - template: radarr-custom-formats-remux-web-2160p
+        
+    replace_existing_custom_formats: true
 
     # Custom Formats: https://recyclarr.dev/wiki/yaml/config-reference/custom-formats/
     custom_formats:

@@ -6,6 +6,8 @@ radarr:
       - template: radarr-quality-profile-hd-bluray-web
       - template: radarr-custom-formats-hd-bluray-web
 
+    replace_existing_custom_formats: true
+
     custom_formats:
       # Movie Versions
       - trash_ids:

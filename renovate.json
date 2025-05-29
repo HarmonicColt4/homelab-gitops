@@ -1,10 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "flux": {
-    "managerFilePatterns": [
-      "/.+(?:helmrelease|repository|unifi/values)\\.yml/"
-    ],
-    "versioning": "helm"
+    "managerFilePatterns": ["/.+(?:helmrelease|repository|unifi/values)\\.yml/"]
   },
   "extends": ["config:recommended", ":automergeStableNonMajor"],
   "ignoreTests": true,

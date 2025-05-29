@@ -14,7 +14,7 @@ spec:
         - name: longhorn-frontend
           port: 80
 ---
-apiVersion: longhorn.io/v1beta1
+apiVersion: longhorn.io/v1beta2
 kind: RecurringJob
 metadata:
   name: backup
@@ -29,7 +29,7 @@ spec:
   parameters:
     full-backup-interval: "30"
 ---
-apiVersion: longhorn.io/v1beta1
+apiVersion: longhorn.io/v1beta2
 kind: RecurringJob
 metadata:
   name: snapshot

@@ -14,7 +14,7 @@
   "packageRules": [
     {
       "matchManagers": ["flux"],
-      "matchDepNames": ["adguard-home", "jellyfin", "minecraft"],
+      "matchDepNames": ["adguard-home", "jellyfin", "minecraft-java"],
       "schedule": ["* 2-6 * * *"]
     }
   ]

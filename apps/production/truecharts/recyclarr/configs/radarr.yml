@@ -8,6 +8,10 @@ radarr:
 
     replace_existing_custom_formats: true
 
+    quality_profiles:
+      - name: HD Bluray + WEB
+        min_format_score: 100
+
     custom_formats:
       # Movie Versions
       - trash_ids:

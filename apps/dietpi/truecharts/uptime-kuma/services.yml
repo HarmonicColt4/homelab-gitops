@@ -4,7 +4,7 @@ kind: Service
 metadata:
   annotations:
     tailscale.com/tailnet-fqdn: truenas-scale-penda.tail023022.ts.net
-  name: truenas-scale-penda.tail023022.ts.net
+  name: truenas-penda
   namespace: uptime-kuma
 spec:
   externalName: placeholder
@@ -15,7 +15,7 @@ kind: Service
 metadata:
   annotations:
     tailscale.com/tailnet-fqdn: pikvm-penda.tail023022.ts.net
-  name: pikvm-penda.tail023022.ts.net
+  name: pikvm-penda
   namespace: uptime-kuma
 spec:
   externalName: placeholder

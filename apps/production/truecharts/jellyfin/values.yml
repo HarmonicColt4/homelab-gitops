@@ -43,6 +43,8 @@ service:
 workload:
   main:
     podSpec:
+      nodeselector:
+        kubernetes.io/hostname: montreal
       containers:
         main:
           resources:

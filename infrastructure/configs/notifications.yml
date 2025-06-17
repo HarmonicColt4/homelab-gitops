@@ -12,12 +12,12 @@ spec:
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
 metadata:
-  name: kustomization-info
+  name: kustomization-error
   namespace: flux-system
 spec:
   providerRef:
     name: discord
-  eventSeverity: info
+  eventSeverity: error
   eventSources:
     - kind: Kustomization
       name: '*'
@@ -32,12 +32,12 @@ spec:
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
 metadata:
-  name: helmrelease-info
+  name: helmrelease-error
   namespace: flux-system
 spec:
   providerRef:
     name: discord
-  eventSeverity: info
+  eventSeverity: error
   eventSources:
     - kind: HelmRelease
       name: '*'

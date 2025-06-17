@@ -5,7 +5,7 @@ metadata:
   name: jellyfin-test
   namespace: flux-system
 spec:
-  releaseName: jellyfin
+  releaseName: jellyfin-test
   targetNamespace: jellyfin-test
   interval: 30m
   driftDetection:

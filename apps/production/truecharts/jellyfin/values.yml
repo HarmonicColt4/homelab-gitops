@@ -37,7 +37,6 @@ service:
     type: LoadBalancer
     annotations:
       metallb.universe.tf/loadBalancerIPs: 10.13.25.29
-      metallb.universe.tf/allow-shared-ip: jellyfin
   autodiscovery:
     enabled: false
 workload:
@@ -50,6 +49,3 @@ workload:
               gpu.intel.com/i915: 1
           env:
             JELLYFIN_PublishedServerUrl: jellyfin.weirdrussiandomain.com
-podOptions:      
-  nodeselector:
-    kubernetes.io/hostname: montreal

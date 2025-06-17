@@ -43,8 +43,6 @@ service:
 workload:
   main:
     podSpec:
-      nodeselector:
-        kubernetes.io/hostname: montreal
       containers:
         main:
           resources:
@@ -52,3 +50,6 @@ workload:
               gpu.intel.com/i915: 1
           env:
             JELLYFIN_PublishedServerUrl: jellyfin.weirdrussiandomain.com
+podOptions:      
+  nodeselector:
+    kubernetes.io/hostname: montreal

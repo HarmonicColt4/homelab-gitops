@@ -42,8 +42,6 @@ service:
 workload:
   main:
     podSpec:
-      nodeselector:
-        kubernetes.io/hostname: talos-wpx-v32
       containers:
         main:
           resources:
@@ -51,3 +49,6 @@ workload:
               gpu.intel.com/i915: 1
           env:
             JELLYFIN_PublishedServerUrl: jellyfin.weirdrussiandomain.com
+podOptions:
+  nodeselector:
+    kubernetes.io/hostname: talos-wpx-v32

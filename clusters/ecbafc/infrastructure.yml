@@ -64,3 +64,4 @@ spec:
     substitute:
       domain: "ecbafc.weirdrussiandomain.com"
       infisical_envSlug: ecbafc
+      cluster_name: ecbafc

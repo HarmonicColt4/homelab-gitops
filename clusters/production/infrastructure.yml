@@ -79,3 +79,4 @@ spec:
     substitute:
       domain: 'weirdrussiandomain.com'
       infisical_envSlug: prod
+      cluster_name: production

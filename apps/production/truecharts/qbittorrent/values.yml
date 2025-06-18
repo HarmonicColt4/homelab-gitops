@@ -50,3 +50,7 @@ persistence:
     path: /mnt/storage/downloads
     server: 10.13.25.10
     mountPath: /downloads
+resources:
+  limits:
+    cpu: 4000m
+    memory: 2Gi    

@@ -17,6 +17,4 @@ configMapGenerator:
       - sonarr.yml=configs/sonarr.yml
       - radarr.yml=configs/radarr.yml
       - sonarr-anime.yml=configs/sonarr-anime.yml
-      - radarr-anime.yml=configs/radarr-anime.yml
       - sonarr-4k.yml=configs/sonarr-4k.yml
-      - radarr-4k.yml=configs/radarr-4k.yml

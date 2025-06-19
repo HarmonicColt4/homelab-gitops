@@ -44,6 +44,12 @@ persistence:
     path: /mnt/storage/media/books/torrents
     server: 10.13.25.10
     mountPath: /books/torrents
+  games:
+    enabled: true
+    type: nfs
+    path: /mnt/storage/media/games
+    server: 10.13.25.10
+    mountPath: /games
   downloads:
     enabled: true
     type: nfs

@@ -19,7 +19,7 @@ spec:
         kind: HelmRepository
         name: truecharts
       interval: 24h
-      version: 22.54.2
+      version: 22.54.3
   values:
     service:
       main:

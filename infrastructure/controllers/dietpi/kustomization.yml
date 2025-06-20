@@ -67,7 +67,6 @@ patches:
                     - url: https://10.13.25.10/
                 proxmox:
                   loadBalancer:
-                    serversTransport: "traefik-transport@kubernetescrd"
                     servers:
                     - url: https://10.13.25.9:8006/
                 pikvm:

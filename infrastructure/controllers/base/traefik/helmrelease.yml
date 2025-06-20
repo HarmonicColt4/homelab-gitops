@@ -41,9 +41,9 @@ spec:
       default:
         defaultCertificate:
           secretName: cert
-    globalArguments:
-      - --global.checknewversion
-      - --serversTransport.insecureSkipVerify=true
+    global:
+      checkNewVersion: true
+      sendAnonymousUsage: false
     providers:
       kubernetesCRD:
         allowExternalNameServices: true

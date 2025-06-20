@@ -19,5 +19,4 @@ metadata:
   name: transport
   namespace: traefik
 spec:
-  serverName: example.org
   insecureSkipVerify: true

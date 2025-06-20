@@ -20,7 +20,7 @@ metadata:
   name: backup
   namespace: longhorn-system
 spec:
-  cron: "0 12/6 * * *"
+  cron: "0 0/6 * * *"
   task: "backup"
   retain: 14
   concurrency: 2

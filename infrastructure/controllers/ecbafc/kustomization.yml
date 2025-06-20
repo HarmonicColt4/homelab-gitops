@@ -22,4 +22,4 @@ patches:
       - op: add
         path: /spec/values/defaultSettings/backupTarget
         value:
-          nfs://10.13.25.10:/mnt/storage/longhorn/ecbafc
+          nfs://10.13.25.10:/mnt/storage/longhorn/production

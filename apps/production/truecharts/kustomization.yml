@@ -23,7 +23,6 @@ resources:
 - sonarr
 - truecommand
 - vaultwarden
-- vaultwarden-test
 configMapGenerator:
 - name: global-values
   namespace: flux-system

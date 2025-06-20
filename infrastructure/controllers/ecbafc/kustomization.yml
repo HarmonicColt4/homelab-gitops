@@ -11,10 +11,6 @@ patches:
         path: /spec/values/service/annotations
         value:  
           metallb.universe.tf/loadBalancerIPs: 10.19.53.11
-      - op: add
-        path: /spec/values/globalArguments/-
-        value:  
-          --entryPoints.minecraft.address=:25565
   - target:
       kind: HelmRelease
       name: longhorn

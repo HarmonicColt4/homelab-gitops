@@ -84,7 +84,7 @@ patches:
                 netbootxyz:
                   loadBalancer:
                     servers:
-                    - url: http://10.25.25.10:31010/        
+                    - url: http://10.13.25.10:31010/        
     target:
       kind: HelmRelease
       name: traefik

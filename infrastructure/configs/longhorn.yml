@@ -24,6 +24,8 @@ spec:
   task: "backup"
   retain: 14
   concurrency: 2
+  groups:
+    - default  
   # parameters:
   #   full-backup-interval: "30"
 ---
@@ -37,3 +39,18 @@ spec:
   task: "snapshot"
   retain: 24
   concurrency: 2
+  groups:
+    - default  
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: filesystem-trim
+  namespace: longhorn-system
+spec:
+  cron: "0 0 * * *"
+  task: "filesystem-trim"
+  retain: 0
+  concurrency: 2
+  groups:
+    - default

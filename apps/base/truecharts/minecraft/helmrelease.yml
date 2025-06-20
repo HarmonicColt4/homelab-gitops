@@ -10,8 +10,6 @@ spec:
   interval: 30m
   driftDetection:
     mode: enabled
-  uninstall:
-    deletionPropagation: orphan
   chart:
     spec:
       chart: minecraft-java

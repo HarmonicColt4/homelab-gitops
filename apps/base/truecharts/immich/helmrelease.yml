@@ -15,8 +15,6 @@ spec:
     #     target:
     #       kind: Deployment
     #       name: immich-microservices
-  uninstall:
-    deletionPropagation: orphan
   chart:
     spec:
       chart: immich

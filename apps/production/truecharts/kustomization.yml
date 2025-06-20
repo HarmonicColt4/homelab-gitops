@@ -21,8 +21,6 @@ resources:
 - radarr
 - recyclarr
 - sonarr
-- sonarr-4k
-- sonarr-anime
 - truecommand
 - vaultwarden
 configMapGenerator:

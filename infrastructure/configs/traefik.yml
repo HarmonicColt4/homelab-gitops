@@ -16,7 +16,7 @@ spec:
 apiVersion: traefik.io/v1alpha1
 kind: ServersTransport
 metadata:
-  name: insecureSkipVerify
+  name: transport
   namespace: traefik
 spec:
   serverName: example.org

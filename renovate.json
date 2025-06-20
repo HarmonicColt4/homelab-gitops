@@ -16,6 +16,16 @@
       "matchManagers": ["flux"],
       "matchDepNames": ["adguard-home", "jellyfin", "minecraft-java"],
       "schedule": ["* 2-6 * * *"]
+    },
+    {
+      "matchManagers": ["flux"],
+      "matchDepNames": [
+        "fluxcd/flux2",
+        "secrets-operator",
+        "cert-manager",
+        "metallb"
+      ],
+      "automerge": false
     }
   ]
 }

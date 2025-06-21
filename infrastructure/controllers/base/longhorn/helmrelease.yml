@@ -22,8 +22,8 @@ spec:
       defaultDataLocality: best-effort
       recurringJobSelector:
         enable: true
-      removeSnapshotsDuringFilesystemTrim: enabled
       reclaimPolicy: 'Retain'
     defaultSettings:
       createDefaultDiskLabeledNodes: true
       concurrentAutomaticEngineUpgradePerNodeLimit: 3
+      removeSnapshotsDuringFilesystemTrim: true

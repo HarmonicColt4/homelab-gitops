@@ -22,7 +22,7 @@ spec:
       defaultDataLocality: best-effort
       recurringJobSelector:
         enable: true
-        jobList: '[{"name":"backup", "isGroup":false}, {"name":"snapshot", "isGroup":false}]'
+      removeSnapshotsDuringFilesystemTrim: enabled
       reclaimPolicy: 'Retain'
     defaultSettings:
       createDefaultDiskLabeledNodes: true

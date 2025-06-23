@@ -52,3 +52,7 @@ workload:
 podOptions:
   nodeSelector:
     kubernetes.io/hostname: montreal
+  tolerations:
+    - key: node.kubernetes.io/unschedulable
+      operator: Exists
+      effect: NoSchedule

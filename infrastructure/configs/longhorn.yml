@@ -20,14 +20,14 @@ metadata:
   name: backup
   namespace: longhorn-system
 spec:
-  cron: '0 0 * * 5'
-  task: 'backup'
-  retain: 2
+  cron: "0 0 * * *"
+  task: "backup"
+  retain: 7
   concurrency: 2
   groups:
     - default
-  # parameters:
-  #   full-backup-interval: "30"
+  parameters:
+    full-backup-interval: "30"
 ---
 apiVersion: longhorn.io/v1beta2
 kind: RecurringJob
@@ -35,9 +35,9 @@ metadata:
   name: snapshot
   namespace: longhorn-system
 spec:
-  cron: '0 0 * * *'
-  task: 'snapshot'
-  retain: 7
+  cron: "15/30 * * * *"
+  task: "snapshot"
+  retain: 24
   concurrency: 2
   groups:
     - default
@@ -48,8 +48,8 @@ metadata:
   name: filesystem-trim
   namespace: longhorn-system
 spec:
-  cron: '0 0 * * *'
-  task: 'filesystem-trim'
+  cron: "0 0 * * *"
+  task: "filesystem-trim"
   retain: 0
   concurrency: 2
   groups:

@@ -20,10 +20,12 @@ spec:
   values:
     persistence:
       defaultDataLocality: best-effort
+
       recurringJobSelector:
         enable: true
-      reclaimPolicy: 'Retain'
+      reclaimPolicy: "Retain"
     defaultSettings:
       createDefaultDiskLabeledNodes: true
       concurrentAutomaticEngineUpgradePerNodeLimit: 3
       removeSnapshotsDuringFilesystemTrim: true
+      replicaAutoBalance: best-effort

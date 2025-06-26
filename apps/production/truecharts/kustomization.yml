@@ -2,31 +2,30 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- namespace.yml
-- repository.yml
-- ../../base/truecharts/actualserver
-- ../../base/truecharts/cloudnative-pg
-# - ../../base/truecharts/flaresolverr
-- ../../base/truecharts/jellyseerr
-- audiobookshelf
-- calibre
-- calibre-web
-- homepage
-- immich
-- jellyfin
-# - nextcloud
-- pgadmin
-- prowlarr
-- qbittorrent
-- radarr
-- recyclarr
-- sonarr
-- truecommand
-- vaultwarden
+  - namespace.yml
+  - repository.yml
+  - ../../base/truecharts/actualserver
+  - ../../base/truecharts/cloudnative-pg
+  - ../../base/truecharts/jellyseerr
+  - audiobookshelf
+  - calibre
+  - calibre-web
+  - homepage
+  - immich
+  - jellyfin
+  - pgadmin
+  - prowlarr
+  - qbittorrent
+  - radarr
+  - recyclarr
+  - sonarr
+  - truecommand
+  - tdarr
+  - vaultwarden
 configMapGenerator:
-- name: global-values
-  namespace: flux-system
-  files:
-  - values.yaml=global-values.yml
+  - name: global-values
+    namespace: flux-system
+    files:
+      - values.yaml=global-values.yml
 configurations:
-- kustomizeconfig.yml
+  - kustomizeconfig.yml

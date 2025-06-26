@@ -12,4 +12,4 @@ spec:
       kind: Rule
       services:
         - name: tdarr
-          port: 8625
+          port: 8265

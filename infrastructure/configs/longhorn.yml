@@ -35,7 +35,7 @@ metadata:
   name: snapshot
   namespace: longhorn-system
 spec:
-  cron: "15/30 * * * *"
+  cron: "15 * * * *"
   task: "snapshot"
   retain: 24
   concurrency: 2

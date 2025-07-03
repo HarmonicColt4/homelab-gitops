@@ -35,8 +35,7 @@ persistence:
 service:
   main:
     type: LoadBalancer
-    annotations:
-      metallb.universe.tf/loadBalancerIPs: 10.13.25.29
+    loadBalancerIP: 10.13.25.29
   autodiscovery:
     enabled: false
 workload:

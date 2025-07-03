@@ -20,7 +20,7 @@ metadata:
   name: receiver
   namespace: flux-system
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 10.13.25.26
+    metallb.io/loadBalancerIPs: 10.13.25.26
 spec:
   type: LoadBalancer
   selector:
@@ -60,15 +60,15 @@ spec:
       secretsScope:
         projectSlug: homelab-deoo
         envSlug: ${infisical_envSlug}
-        secretsPath: '/flux'
+        secretsPath: "/flux"
       credentialsRef:
         secretName: universal-auth-credentials
         secretNamespace: secrets-operator
   managedKubeSecretReferences:
     - secretName: webhook-token
       secretNamespace: flux-system
-      creationPolicy: 'Orphan'
+      creationPolicy: "Orphan"
       template:
         includeAllSecrets: false
         data:
-          token: "{{ .webhook_token.Value }}"       
+          token: "{{ .webhook_token.Value }}"

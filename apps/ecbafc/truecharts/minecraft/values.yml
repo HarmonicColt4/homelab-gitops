@@ -6,14 +6,14 @@ workload:
           env:
             MOTD: "Welcome to ECBAFC's Minecraft!"
             MEMORY: 10240M
-            GUI: 'TRUE'
-            MAX_PLAYERS: '20'
-            RCON_PASSWORD: 'F19hters'
-            ENABLE_AUTOPAUSE: 'TRUE'
+            GUI: "TRUE"
+            MAX_PLAYERS: "20"
+            RCON_PASSWORD: "F19hters"
+            ENABLE_AUTOPAUSE: "TRUE"
             ENABLE_ROLLING_LOGS: true
-            TYPE: 'PAPER'
-            VERSION: 'LATEST'
-            PVP: 'TRUE'
+            TYPE: "PAPER"
+            VERSION: "LATEST"
+            PVP: "TRUE"
             PLUGINS: |
               https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
               https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
@@ -33,7 +33,7 @@ resources:
 service:
   main:
     annotations:
-      metallb.universe.tf/loadBalancerIPs: 10.19.53.9
+      metallb.io/loadBalancerIPs: 10.19.53.9
     ports:
       bedrock:
         enabled: true

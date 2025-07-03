@@ -3,7 +3,7 @@ service:
   torrent:
     type: LoadBalancer
     annotations:
-      metallb.universe.tf/loadBalancerIPs: 10.13.25.30
+      metallb.io/loadBalancerIPs: 10.13.25.30
     ports:
       torrent:
         port: 23507
@@ -59,4 +59,4 @@ persistence:
 resources:
   limits:
     cpu: 4000m
-    memory: 2Gi    
+    memory: 2Gi

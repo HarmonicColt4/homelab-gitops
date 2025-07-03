@@ -56,10 +56,10 @@ spec:
         - op: replace
           path: /metadata/annotations
           value:
-            metallb.universe.tf/loadBalancerIPs: 10.19.53.8
+            metallb.io/loadBalancerIPs: 10.19.53.8
       target:
         kind: Service
-        name: receiver            
+        name: receiver
   postBuild:
     substitute:
       domain: "ecbafc.weirdrussiandomain.com"

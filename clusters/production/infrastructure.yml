@@ -15,7 +15,7 @@ spec:
   wait: true
   postBuild:
     substitute:
-      domain: 'weirdrussiandomain.com'
+      domain: "weirdrussiandomain.com"
       infisical_envSlug: prod
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -36,7 +36,7 @@ spec:
   wait: true
   postBuild:
     substitute:
-      domain: 'weirdrussiandomain.com'
+      domain: "weirdrussiandomain.com"
       infisical_envSlug: prod
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -60,8 +60,6 @@ spec:
         - op: replace
           path: /spec/addresses
           value:
-            - 10.13.25.2/32
-            - 10.13.25.3/32
             - 10.13.25.21/32
             - 10.13.25.26-10.13.25.90
       target:
@@ -77,6 +75,6 @@ spec:
         name: letsencrypt
   postBuild:
     substitute:
-      domain: 'weirdrussiandomain.com'
+      domain: "weirdrussiandomain.com"
       infisical_envSlug: prod
       cluster_name: production

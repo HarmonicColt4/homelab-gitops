@@ -16,5 +16,5 @@ spec:
         name: metallb
       interval: 24h
   values:
-speaker:
-  ignoreExcludeLB: true
+    speaker:
+      ignoreExcludeLB: true

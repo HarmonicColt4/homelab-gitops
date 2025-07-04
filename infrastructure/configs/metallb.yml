@@ -6,11 +6,11 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-  - 10.13.25.31/32
-  - 10.13.25.35-10.13.25.90
+    - 10.13.25.31/32
+    - 10.13.25.35-10.13.25.90
 ---
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
-  name: l2adv
+  name: l2advertisement
   namespace: metallb-system

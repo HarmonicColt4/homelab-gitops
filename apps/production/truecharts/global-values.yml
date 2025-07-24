@@ -4,3 +4,6 @@ global:
   fallbackDefaults:
     pvcSize: 1Gi
     vctSize: 1Gi
+resources:
+  requests:
+    cpu: 10m

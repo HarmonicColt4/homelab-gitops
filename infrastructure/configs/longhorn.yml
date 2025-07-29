@@ -26,8 +26,6 @@ spec:
   concurrency: 2
   groups:
     - default
-  parameters:
-    full-backup-interval: "30"
 ---
 apiVersion: longhorn.io/v1beta2
 kind: RecurringJob

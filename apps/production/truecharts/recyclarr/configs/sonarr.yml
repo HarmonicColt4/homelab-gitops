@@ -8,8 +8,8 @@ sonarr:
       - template: sonarr-v4-custom-formats-web-2160p
       - template: sonarr-quality-definition-anime
       - template: sonarr-v4-quality-profile-anime
-      - template: sonarr-v4-custom-formats-anime        
-        
+      - template: sonarr-v4-custom-formats-anime
+
     replace_existing_custom_formats: true
 
     # Custom Formats: https://recyclarr.dev/wiki/yaml/config-reference/custom-formats/
@@ -34,7 +34,7 @@ sonarr:
         # - 9b64dff695c2115facf1b6ea59c9bd07 # x265 (no HDR/DV)
         assign_scores_to:
           - name: WEB-1080p
-            
+
       - trash_ids:
           # Comment out the next line if you and all of your users' setups are fully DV compatible
           - 9b27ab6498ec0f31a3353992e19434ca # DV (WEBDL)

@@ -8,15 +8,22 @@ radarr:
       - template: radarr-quality-profile-remux-web-2160p
       - template: radarr-custom-formats-remux-web-2160p
       - template: radarr-quality-profile-anime
-      - template: radarr-custom-formats-anime                
+      - template: radarr-custom-formats-anime
 
     replace_existing_custom_formats: true
 
     quality_profiles:
       - name: HD Bluray + WEB
         min_format_score: 100
+        upgrade:
+          allowed: false
       - name: Remux + WEB 2160p
-        min_format_score: 1000        
+        min_format_score: 1000
+        upgrade:
+          allowed: false
+      - name: Remux-1080p - Anime
+        upgrade:
+          allowed: false
 
     custom_formats:
       # Movie Versions
@@ -55,7 +62,7 @@ radarr:
         # - 839bea857ed2c0a8e084f3cbdbd65ecb # x265 (no HDR/DV)
         assign_scores_to:
           - name: HD Bluray + WEB
-            
+
       - trash_ids:
           # Audio
           # Uncomment the next section to enable Advanced Audio Formats

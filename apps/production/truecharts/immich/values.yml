@@ -1,4 +1,3 @@
----
 persistence:
   library:
     type: nfs
@@ -48,7 +47,7 @@ persistence:
         microservices: {}
 global:
   fallbackDefaults:
-    vctSize: 10Gi   
+    vctSize: 10Gi
 cnpg:
   main:
     creds:

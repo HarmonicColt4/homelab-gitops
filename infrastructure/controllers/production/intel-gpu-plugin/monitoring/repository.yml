@@ -12,5 +12,6 @@ spec:
   ignore: |
     /*
     !/deployment/kubernetes/daemonset/base
-    !/deployment/kubernetes/monitoring/service-intel-xpum.yaml
-    !/deployment/kubernetes/monitoring/servicemonitor-intel-xpum.yaml
+    !/deployment/kubernetes/monitoring
+    /deployment/kubernetes/monitoring/kube-prometheus-stack.values.yaml
+    /deployment/kubernetes/monitoring/grafana-dashboard.json

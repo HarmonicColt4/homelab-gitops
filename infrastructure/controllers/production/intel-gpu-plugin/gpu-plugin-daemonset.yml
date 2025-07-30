@@ -30,4 +30,3 @@ spec:
                 - name: intel-gpu-plugin
                   args:
                     - '-shared-dev-num=5'
-                    - '-enable-monitoring'

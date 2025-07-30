@@ -5,4 +5,3 @@ resources:
   - repository.yml
   - node-feature-rules.yml
   - gpu-plugin-daemonset.yml
-  - monitoring

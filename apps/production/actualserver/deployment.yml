@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: actualserver
+  name: actualserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: actualserver
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: actualserver
+    spec:
+      containers:
+        - image: ghcr.io/actualbudget/actual:25.7.1
+          name: actualserver
+          ports:
+            - containerPort: 5006
+          resources:
+            requests:
+              cpu: 10m
+              memory: 120Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - mountPath: /data
+              name: data
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: actualserver-data

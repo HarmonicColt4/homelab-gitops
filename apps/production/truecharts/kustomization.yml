@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
   - namespace.yml
   - repository.yml
-  - ../../base/truecharts/actualserver
+  # - ../../base/truecharts/actualserver
   - ../../base/truecharts/cloudnative-pg
   - ../../base/truecharts/jellyseerr
   - audiobookshelf

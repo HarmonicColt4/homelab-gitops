@@ -9,7 +9,7 @@
   "kubernetes": {
     "managerFilePatterns": [
       "/infrastructure/controllers/dietpi/renovate/cronjob.yml/",
-      "/**/deployment.yml/"
+      "apps/production/*/deployment.yml"
     ]
   },
   "packageRules": [

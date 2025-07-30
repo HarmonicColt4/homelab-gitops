@@ -20,6 +20,7 @@ spec:
   values:
     persistence:
       defaultDataLocality: best-effort
+      defaultClassReplicaCount: 1
       recurringJobSelector:
         enable: true
       reclaimPolicy: "Retain"

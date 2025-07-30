@@ -9,3 +9,8 @@ spec:
   ref:
     tag: V1.3.1
   url: https://github.com/intel/xpumanager
+  ignore: |
+    /*
+    !/deployment/kubernetes/daemonset/base
+    !/deployment/kubernetes/monitoring/service-intel-xpum.yaml
+    !/deployment/kubernetes/monitoring/servicemonitor-intel-xpum.yaml

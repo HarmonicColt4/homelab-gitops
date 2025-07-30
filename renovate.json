@@ -8,7 +8,8 @@
   "automergeType": "branch",
   "kubernetes": {
     "managerFilePatterns": [
-      "/infrastructure/controllers/dietpi/renovate/cronjob.yml/"
+      "/infrastructure/controllers/dietpi/renovate/cronjob.yml/",
+      "/**/deployment.yml"
     ]
   },
   "packageRules": [
@@ -23,7 +24,8 @@
         "fluxcd/flux2",
         "secrets-operator",
         "cert-manager",
-        "metallb"
+        "metallb",
+        "longhorn"
       ],
       "automerge": false
     }

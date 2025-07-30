@@ -33,9 +33,6 @@ spec:
             - mountPath: /config/secrets.yml
               subPath: secrets.yml
               name: secrets
-          env:
-            - name: TZ
-              value: Pacific/Auckland
       securityContext:
         fsGroup: 1000
         runAsGroup: 1000

@@ -32,9 +32,6 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: data
-          env:
-            - name: TZ
-              value: Pacific/Auckland
       securityContext:
         fsGroup: 1000
         runAsGroup: 1000

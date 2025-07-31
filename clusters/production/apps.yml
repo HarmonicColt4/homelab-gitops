@@ -12,9 +12,9 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./apps/production
-  prune: true
+  prune: false
   wait: false
   postBuild:
     substitute:
-      domain: 'weirdrussiandomain.com'
+      domain: "weirdrussiandomain.com"
       infisical_envSlug: prod

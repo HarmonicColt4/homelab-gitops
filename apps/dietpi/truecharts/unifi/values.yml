@@ -1,6 +1,6 @@
 image:
   repository: ghcr.io/goofball222/unifi
-  tag: 9.3.43-ubuntu
+  tag: 9.3.45-ubuntu
 service:
   comm:
     type: LoadBalancer

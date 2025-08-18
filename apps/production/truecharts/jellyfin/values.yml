@@ -5,31 +5,31 @@ persistence:
   anime:
     enabled: true
     type: nfs
-    path: /mnt/storage/media/anime
+    path: /mnt/temp/media/anime
     server: 10.13.25.10
     mountPath: /anime
   movies-1080p:
     enabled: true
     type: nfs
-    path: /mnt/storage/media/movies-1080p
+    path: /mnt/temp/media/movies-1080p
     server: 10.13.25.10
     mountPath: /movies-1080p
   movies-4k:
     enabled: true
     type: nfs
-    path: /mnt/storage/media/movies-4k
+    path: /mnt/temp/media/movies-4k
     server: 10.13.25.10
     mountPath: /movies-4k
   series-1080p:
     enabled: true
     type: nfs
-    path: /mnt/storage/media/series-1080p
+    path: /mnt/temp/media/series-1080p
     server: 10.13.25.10
     mountPath: /series-1080p
   series-4k:
     enabled: true
     type: nfs
-    path: /mnt/storage/media/series-4k
+    path: /mnt/temp/media/series-4k
     server: 10.13.25.10
     mountPath: /series-4k
 service:

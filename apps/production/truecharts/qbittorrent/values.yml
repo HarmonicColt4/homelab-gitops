@@ -11,48 +11,48 @@ persistence:
   series-1080p:
     enabled: true
     type: nfs
-    path: /mnt/storage/media/series-1080p/torrents
+    path: /mnt/temp/media/series-1080p/torrents
     server: 10.13.25.10
     mountPath: /series-1080p/torrents
   series-4k:
     enabled: true
     type: nfs
-    path: /mnt/storage/media/series-4k/torrents
+    path: /mnt/temp/media/series-4k/torrents
     server: 10.13.25.10
     mountPath: /series-4k/torrents
   movies-1080p:
     enabled: true
     type: nfs
-    path: /mnt/storage/media/movies-1080p/torrents
+    path: /mnt/temp/media/movies-1080p/torrents
     server: 10.13.25.10
     mountPath: /movies-1080p/torrents
   movies-4k:
     enabled: true
     type: nfs
-    path: /mnt/storage/media/movies-4k/torrents
+    path: /mnt/temp/media/movies-4k/torrents
     server: 10.13.25.10
     mountPath: /movies-4k/torrents
   anime:
     enabled: true
     type: nfs
-    path: /mnt/storage/media/anime/downloads
+    path: /mnt/temp/media/anime/downloads
     server: 10.13.25.10
     mountPath: /anime/downloads
   books:
     enabled: true
     type: nfs
-    path: /mnt/storage/media/books/torrents
+    path: /mnt/temp/media/books/torrents
     server: 10.13.25.10
     mountPath: /books/torrents
   games:
     enabled: true
     type: nfs
-    path: /mnt/storage/media/games
+    path: /mnt/temp/media/games
     server: 10.13.25.10
     mountPath: /games
   downloads:
     enabled: true
     type: nfs
-    path: /mnt/storage/downloads
+    path: /mnt/temp/downloads
     server: 10.13.25.10
     mountPath: /downloads

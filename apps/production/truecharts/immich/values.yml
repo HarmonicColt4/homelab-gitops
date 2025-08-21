@@ -1,32 +1,32 @@
 persistence:
   library:
     type: nfs
-    path: /mnt/storage/immich/library
+    path: /mnt/media/immich/library
     server: 10.13.25.10
   uploads:
     type: nfs
-    path: /mnt/storage/immich/upload
+    path: /mnt/media/immich/upload
     server: 10.13.25.10
   backups:
     type: nfs
-    path: /mnt/storage/immich/backups
+    path: /mnt/media/immich/backups
     server: 10.13.25.10
   thumbs:
     type: nfs
-    path: /mnt/storage/immich/thumbs
+    path: /mnt/media/immich/thumbs
     server: 10.13.25.10
   profile:
     type: nfs
-    path: /mnt/storage/immich/profile
+    path: /mnt/media/immich/profile
     server: 10.13.25.10
   video:
     type: nfs
-    path: /mnt/storage/immich/encoded-video
+    path: /mnt/media/immich/encoded-video
     server: 10.13.25.10
   archive-guy:
     enabled: true
     type: nfs
-    path: /mnt/storage/archive/Guy
+    path: /mnt/media/archive/Guy
     server: 10.13.25.10
     mountPath: /archive/Guy
     targetSelector:
@@ -37,7 +37,7 @@ persistence:
   archive-gabrielle:
     enabled: true
     type: nfs
-    path: /mnt/storage/archive/Gabrielle
+    path: /mnt/media/archive/Gabrielle
     server: 10.13.25.10
     mountPath: /archive/Gabrielle
     targetSelector:

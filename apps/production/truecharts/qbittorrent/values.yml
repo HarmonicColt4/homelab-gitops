@@ -56,3 +56,9 @@ persistence:
     path: /mnt/media/downloads
     server: 10.13.25.10
     mountPath: /downloads
+  prowlarr:
+    enabled: true
+    type: nfs
+    path: /mnt/media/prowlarr
+    server: 10.13.25.10
+    mountPath: /prowlarr

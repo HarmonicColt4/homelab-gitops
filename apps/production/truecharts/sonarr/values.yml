@@ -2,18 +2,18 @@ persistence:
   series-1080p:
     enabled: true
     type: nfs
-    path: /mnt/storage/media/series-1080p
+    path: /mnt/media/series-1080p
     server: 10.13.25.10
     mountPath: /series-1080p
   series-4k:
     enabled: true
     type: nfs
-    path: /mnt/storage/media/series-4k
+    path: /mnt/media/series-4k
     server: 10.13.25.10
     mountPath: /series-4k
   anime:
     enabled: true
     type: nfs
-    path: /mnt/storage/media/anime
+    path: /mnt/media/anime
     server: 10.13.25.10
     mountPath: /anime

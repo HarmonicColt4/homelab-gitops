@@ -53,6 +53,6 @@ persistence:
   downloads:
     enabled: true
     type: nfs
-    path: /mnt/downloads
+    path: /mnt/media/downloads
     server: 10.13.25.10
     mountPath: /downloads

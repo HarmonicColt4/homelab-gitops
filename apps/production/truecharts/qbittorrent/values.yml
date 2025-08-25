@@ -66,4 +66,4 @@ persistence:
     enabled: true
     type: pvc
     mountPath: /vuetorrent
-    size: 100Mi
+    size: 200Mi

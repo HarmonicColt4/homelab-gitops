@@ -62,3 +62,8 @@ persistence:
     path: /mnt/media/prowlarr
     server: 10.13.25.10
     mountPath: /prowlarr
+  vuetorrent:
+    enabled: true
+    type: pvc
+    mountPath: /vuetorrent
+    size: 100Mi

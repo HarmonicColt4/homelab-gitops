@@ -12,13 +12,13 @@ resources:
 - calibre-web
 - homepage
 - immich
-- jellyfin
+# - jellyfin
 - prowlarr
 - qbittorrent
 - radarr
 - recyclarr
 - sonarr
-- tdarr
+# - tdarr
 - truecommand
 - vaultwarden
 configMapGenerator:

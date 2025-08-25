@@ -1,90 +1,63 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ../base
-  - renovate
+- ../base
+- renovate
 patches:
-  - patch: |-
-      - op: add
-        path: /spec/values/defaultSettings/backupTarget
-        value:
-          nfs://10.25.25.10:/mnt/media/longhorn/production
-      - op: add
-        path: /spec/values/persistence/defaultClassReplicaCount
-        value: 1
-    target:
-      kind: HelmRelease
-      name: longhorn
-  - patch: |
-      - op: replace
-        path: /spec/values/service/annotations
-        value:
-          metallb.io/loadBalancerIPs: 10.25.25.11
-      - op: replace
-        path: /spec/values/ingressRoute/dashboard/matchRule
-        value: Host(`traefik-dietpi.${domain}`) && ( PathPrefix(`/`) || PathPrefix(`/api`))
-      - op: add
-        path: /spec/values/providers/file
-        value:  
-          enabled: true
-          content: |-
-            http:
-              routers:
-                truenas:
-                  entryPoints:
-                  - websecure
-                  service: truenas
-                  rule: Host(`truenas.${domain}`) && PathPrefix(`/`)              
-                proxmox:
-                  entryPoints:
-                  - websecure
-                  service: proxmox
-                  rule: Host(`pve.${domain}`) && PathPrefix(`/`)              
-                pikvm:
-                  entryPoints:
-                  - websecure
-                  service: pikvm
-                  rule: Host(`pikvm.${domain}`) && PathPrefix(`/`)
-                gitea:
-                  entryPoints:
-                  - websecure
-                  service: gitea
-                  rule: Host(`gitea.${domain}`) && PathPrefix(`/`)              
-                minio:
-                  entryPoints:
-                  - websecure
-                  service: minio
-                  rule: Host(`minio.${domain}`) && PathPrefix(`/`)              
-                netbootxyz:
-                  entryPoints:
-                  - websecure
-                  service: netbootxyz
-                  rule: Host(`netbootxyz.${domain}`) && PathPrefix(`/`)            
-              services:
-                truenas:
-                  loadBalancer:
-                    servers:
-                    - url: https://10.13.25.10/
-                proxmox:
-                  loadBalancer:
-                    servers:
-                    - url: https://10.13.25.9:8006/
-                pikvm:
-                  loadBalancer:
-                    servers:
-                    - url: https://10.13.25.98/
-                gitea:
-                  loadBalancer:
-                    servers:
-                    - url: http://10.13.25.10:30008/
-                minio:
-                  loadBalancer:
-                    servers:
-                    - url: http://10.13.25.10:9002/
-                netbootxyz:
-                  loadBalancer:
-                    servers:
-                    - url: http://10.13.25.10:31010/
-    target:
-      kind: HelmRelease
-      name: traefik
+- patch: |-
+    - op: add
+      path: /spec/values/defaultSettings/backupTarget
+      value:
+        nfs://10.25.25.10:/mnt/media/longhorn/production
+    - op: add
+      path: /spec/values/persistence/defaultClassReplicaCount
+      value: 1
+  target:
+    kind: HelmRelease
+    name: longhorn
+- patch: |
+    - op: replace
+      path: /spec/values/service/annotations
+      value:
+        metallb.io/loadBalancerIPs: 10.25.25.11
+    - op: replace
+      path: /spec/values/ingressRoute/dashboard/matchRule
+      value: Host(`traefik-dietpi.${domain}`) && ( PathPrefix(`/`) || PathPrefix(`/api`))
+    - op: add
+      path: /spec/values/providers/file
+      value:  
+        enabled: true
+        content: |-
+          http:
+            routers:
+              truenas:
+                entryPoints:
+                - websecure
+                service: truenas
+                rule: Host(`truenas.${domain}`) && PathPrefix(`/`)
+              gitea:
+                entryPoints:
+                - websecure
+                service: gitea
+                rule: Host(`gitea.${domain}`) && PathPrefix(`/`)
+              jellyfin:
+                entryPoints:
+                - websecure
+                service: jellyfin
+                rule: Host(`jellyfin.${domain}`) && PathPrefix(`/`)
+            services:
+              truenas:
+                loadBalancer:
+                  servers:
+                  - url: https://10.13.25.10/
+              gitea:
+                loadBalancer:
+                  servers:
+                  - url: http://10.13.25.10:30008/
+              jellyfin:
+                loadBalancer:
+                  servers:
+                  - url: http://10.13.25.10:30013/
+  target:
+    kind: HelmRelease
+    name: traefik

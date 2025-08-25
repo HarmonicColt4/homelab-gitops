@@ -13,18 +13,17 @@ sonarr:
     replace_existing_custom_formats: true
 
     quality_profiles:
-    - name: HD Bluray + WEB
+    - name: WEB-1080p
       min_format_score: 100
       upgrade:
         allowed: false
-    - name: Remux + WEB 2160p
+    - name: WEB-2160p
       min_format_score: 1000
       upgrade:
         allowed: false
     - name: Remux-1080p - Anime
       upgrade:
         allowed: false
-
     # Custom Formats: https://recyclarr.dev/wiki/yaml/config-reference/custom-formats/
     custom_formats:
     # Optional

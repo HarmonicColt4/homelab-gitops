@@ -42,3 +42,6 @@ workload:
           resources:
             limits:
               gpu.intel.com/i915: 1
+resources:
+  limits:
+    cpu: 4000m

@@ -66,5 +66,5 @@ persistence:
     enabled: true
     type: pvc
     mountPath: /vuetorrent
-    accessMode: ReadWriteMany
+    accessModes: ReadWriteMany
     size: 200Mi

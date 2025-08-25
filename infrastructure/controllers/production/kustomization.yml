@@ -12,14 +12,6 @@ patches:
       path: /spec/values/service/annotations
       value:  
         metallb.io/loadBalancerIPs: 10.13.25.21
-- target:
-    kind: HelmRelease
-    name: longhorn
-  patch: |-
-    - op: add
-      path: /spec/values/defaultSettings/backupTarget
-      value:
-        nfs://10.13.25.10:/mnt/media/longhorn/production
     - op: add
       path: /spec/values/providers/file
       value:  
@@ -37,3 +29,11 @@ patches:
                 loadBalancer:
                   servers:
                   - url: http://10.13.25.10:30013/
+- target:
+    kind: HelmRelease
+    name: longhorn
+  patch: |-
+    - op: add
+      path: /spec/values/defaultSettings/backupTarget
+      value:
+        nfs://10.13.25.10:/mnt/media/longhorn/production

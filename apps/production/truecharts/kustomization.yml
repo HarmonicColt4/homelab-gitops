@@ -18,7 +18,7 @@ resources:
 - radarr
 - recyclarr
 - sonarr
-# - tdarr
+- tdarr
 - truecommand
 - vaultwarden
 configMapGenerator:

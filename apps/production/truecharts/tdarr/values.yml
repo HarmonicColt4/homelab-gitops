@@ -32,6 +32,12 @@ persistence:
     path: /mnt/media/series-4k
     server: 10.13.25.10
     mountPath: /series-4k
+  archive:
+    enabled: true
+    type: nfs
+    path: /mnt/media/archive
+    server: 10.13.25.10
+    mountPath: /archive
   transcode-cache:
     type: "emptyDir"
 workload:

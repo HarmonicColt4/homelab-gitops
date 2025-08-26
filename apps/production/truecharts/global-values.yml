@@ -7,3 +7,6 @@ global:
 # resources:
 #   requests:
 #     cpu: 10m
+service:
+  main:
+    externalTrafficPolicy: Local

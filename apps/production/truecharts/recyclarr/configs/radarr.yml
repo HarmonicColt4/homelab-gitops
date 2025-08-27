@@ -60,9 +60,9 @@ radarr:
         score: 0
     - trash_ids:
       - 839bea857ed2c0a8e084f3cbdbd65ecb # x265 (no HDR/DV)
-      - score: 0
       assign_scores_to:
       - name: HD Bluray + WEB
+        score: 0
 
     - trash_ids:
       # Audio

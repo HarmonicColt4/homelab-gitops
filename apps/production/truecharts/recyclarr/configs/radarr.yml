@@ -14,11 +14,9 @@ radarr:
 
     quality_profiles:
     - name: HD Bluray + WEB
-      min_format_score: 100
       upgrade:
         allowed: false
     - name: Remux + WEB 2160p
-      min_format_score: 1000
       upgrade:
         allowed: false
     - name: Remux-1080p - Anime

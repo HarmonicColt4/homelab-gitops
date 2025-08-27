@@ -13,7 +13,7 @@ spec:
             - name: renovate
               # Update this to the latest available and then enable Renovate on
               # the manifest
-              image: renovate/renovate:41.87.2
+              image: renovate/renovate:41.87.3
               args:
                 - gpenda/fluxcd
               # Environment Variables

@@ -1,0 +1,15 @@
+addons:
+  codeserver:
+    enabled: true
+    service:
+      enabled: true
+      type: LoadBalancer
+workload:
+  main:
+    podSpec:
+      containers:
+        main:
+          env:
+            USE_CUSTOM_CONFIG_FILE: false
+            ZIGBEE2MQTT_CONFIG_MQTT_SERVER: "mqtt://mosquitto"
+            ZIGBEE2MQTT_CONFIG_MQTT_BASE_TOPIC: "zigbee2mqtt"

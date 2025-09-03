@@ -9,6 +9,6 @@ configMapGenerator:
   - name: home-assistant-values
     files:
       - values.yaml=home-assistant-values.yml
-  - name: home-assistant-values
+  - name: zigbee2mqtt-values
     files:
       - values.yaml=zigbee2mqtt-values.yml

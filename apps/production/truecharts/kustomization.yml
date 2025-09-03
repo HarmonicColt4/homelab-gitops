@@ -11,6 +11,7 @@ resources:
 - calibre
 - calibre-web
 - homepage
+- home-assistant
 - immich
 # - jellyfin
 - prowlarr

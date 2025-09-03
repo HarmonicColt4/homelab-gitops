@@ -4,3 +4,6 @@ addons:
     service:
       enabled: true
       type: LoadBalancer
+
+homeassistant:
+  trusted_proxies: [ 10.13.25.21 ]

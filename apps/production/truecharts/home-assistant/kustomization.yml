@@ -8,6 +8,7 @@ configMapGenerator:
 - name: home-assistant-values
   files:
   - values.yaml=values.yml
-- name: global-values
-  files:
-  - values.yaml=../global-values.yml
+
+# - name: global-values
+#   files:
+#   - values.yaml=../global-values.yml

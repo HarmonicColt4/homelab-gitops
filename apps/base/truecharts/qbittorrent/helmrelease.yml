@@ -19,7 +19,9 @@ spec:
       interval: 1h
       version: 23.3.4
   valuesFrom:
-    - kind: ConfigMap
-      name: global-values
-    - kind: ConfigMap
-      name: qbittorrent-values
+  - kind: ConfigMap
+    name: global-values
+  - kind: ConfigMap
+    name: qbittorrent-values
+  uninstall:
+    deletionPropagation: orphan

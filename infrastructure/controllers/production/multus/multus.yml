@@ -10,3 +10,19 @@ spec:
   sourceRef:
     kind: GitRepository
     name: multus-cni
+  patches:
+  - patch: |-
+      apiVersion: apps/v1
+      kind: DaemonSet
+      metadata:
+        name: not-used
+      spec:
+        template:
+          spec:
+            volumes:
+            - name: host-run-netns
+              hostPath:
+                path: /var/run/netns/
+    target:
+      kind: DaemonSet
+      name: kube-multus-ds

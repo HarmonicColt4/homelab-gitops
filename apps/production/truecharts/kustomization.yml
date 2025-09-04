@@ -14,7 +14,7 @@ resources:
 - home-assistant
 - immich
 # - jellyfin
-- prowlarr
+# - prowlarr
 - qbittorrent
 - radarr
 - recyclarr

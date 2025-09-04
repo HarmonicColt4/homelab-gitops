@@ -1,5 +1,0 @@
----
-nameReference:
-  - fieldSpecs:
-      - path: spec/releaseName
-        kind: HelmRelease

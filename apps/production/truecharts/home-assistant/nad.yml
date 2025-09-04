@@ -3,4 +3,4 @@ kind: NetworkAttachmentDefinition
 metadata:
   name: vlan-iot
 spec:
-  config: '{ "name": "iot", "type": "bridge", "master": "enp88s0", "bridge": "br0", "ipam": { "type": "dhcp" } }'
+  config: '{ "name": "iot", "type": "bridge", "master": "enp88s0", "bridge": "br0", "ipam": { "type": "static", "addresses": [{"address": "10.13.25.8/24", "gateway": "10.13.25.1"}], "routes": [{"dst": "0.0.0.0/0"}], "dns": {"nameservers": ["10.13.25.3", "10.13.25.1"]} } }'

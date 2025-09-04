@@ -6,14 +6,13 @@ resources:
 - repository.yml
 - actualserver
 - ../../base/truecharts/cloudnative-pg
-- jellyseerr
 - audiobookshelf
 - calibre
 - calibre-web
 - homepage
 - home-assistant
 - immich
-# - jellyfin
+- jellyfin
 - prowlarr
 - qbittorrent
 - radarr

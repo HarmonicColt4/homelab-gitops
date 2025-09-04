@@ -3,4 +3,4 @@ kind: NetworkAttachmentDefinition
 metadata:
   name: vlan-iot
 spec:
-  config: '{ "name": "iot", "type": "vlan", "master": "enp88s0", "vlanId": 6, "ipam": { "type": "dhcp" } }'
+  config: '{ "name": "iot", "type": "bridge", "master": "enp88s0", "bridge": "br0", "ipam": { "type": "dhcp" } }'

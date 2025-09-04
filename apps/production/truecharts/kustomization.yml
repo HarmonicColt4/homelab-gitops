@@ -6,7 +6,7 @@ resources:
 - repository.yml
 - actualserver
 - ../../base/truecharts/cloudnative-pg
-- ../../base/truecharts/jellyseerr
+- jellyseerr
 - audiobookshelf
 - calibre
 - calibre-web

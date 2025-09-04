@@ -1,0 +1,70 @@
+---
+service:
+  torrent:
+    type: LoadBalancer
+    annotations:
+      metallb.io/loadBalancerIPs: 10.13.25.30
+    ports:
+      torrent:
+        port: 23507
+persistence:
+  series-1080p:
+    enabled: true
+    type: nfs
+    path: /mnt/media/series-1080p/torrents
+    server: 10.13.25.10
+    mountPath: /series-1080p/torrents
+  series-4k:
+    enabled: true
+    type: nfs
+    path: /mnt/media/series-4k/torrents
+    server: 10.13.25.10
+    mountPath: /series-4k/torrents
+  movies-1080p:
+    enabled: true
+    type: nfs
+    path: /mnt/media/movies-1080p/torrents
+    server: 10.13.25.10
+    mountPath: /movies-1080p/torrents
+  movies-4k:
+    enabled: true
+    type: nfs
+    path: /mnt/media/movies-4k/torrents
+    server: 10.13.25.10
+    mountPath: /movies-4k/torrents
+  anime:
+    enabled: true
+    type: nfs
+    path: /mnt/media/anime/downloads
+    server: 10.13.25.10
+    mountPath: /anime/downloads
+  books:
+    enabled: true
+    type: nfs
+    path: /mnt/media/books/torrents
+    server: 10.13.25.10
+    mountPath: /books/torrents
+  games:
+    enabled: true
+    type: nfs
+    path: /mnt/media/games
+    server: 10.13.25.10
+    mountPath: /games
+  downloads:
+    enabled: true
+    type: nfs
+    path: /mnt/media/downloads
+    server: 10.13.25.10
+    mountPath: /downloads
+  prowlarr:
+    enabled: true
+    type: nfs
+    path: /mnt/media/prowlarr
+    server: 10.13.25.10
+    mountPath: /prowlarr
+  vuetorrent:
+    enabled: true
+    type: pvc
+    mountPath: /vuetorrent
+    accessModes: ReadWriteMany
+    size: 200Mi

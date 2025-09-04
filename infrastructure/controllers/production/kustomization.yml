@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
 - ../base
 - intel-gpu-plugin
+- multus
 patches:
 - target:
     kind: HelmRelease

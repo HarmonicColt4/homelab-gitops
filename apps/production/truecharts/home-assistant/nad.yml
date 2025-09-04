@@ -3,4 +3,4 @@ kind: NetworkAttachmentDefinition
 metadata:
   name: vlan-iot
 spec:
-  config: '{ "name": "iot", "type": "bridge", "master": "enp88s0", "bridge": "br0", "ipam": { "type": "host-local", "ranges": [{"subnet": "10.13.25.0/24", "rangeStart": "10.13.25.7", "rangeEnd": "10.13.25.8", "gateway": "10.13.25.1"}], "routes": [{"dst": "0.0.0.0/0"}] } }'
+  config: '{ "name": "iot", "type": "macvlan", "master": "enp88s0", "mode": "bridge", "ipam": { "type": "host-local", "ranges": [{"subnet": "10.13.25.0/24", "rangeStart": "10.13.25.7", "rangeEnd": "10.13.25.8", "gateway": "10.13.25.1"}], "routes": [{"dst": "0.0.0.0/0"}] } }'

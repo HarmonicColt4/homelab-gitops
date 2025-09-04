@@ -3,6 +3,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
 - ../../../base/truecharts/qbittorrent
+- ../../../base/truecharts/flaresolverr
 - ../global-values
 namespace: qbittorrent
 configMapGenerator:

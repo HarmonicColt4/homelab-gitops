@@ -18,13 +18,15 @@ spec:
         name: truecharts
       interval: 1h
       version: 20.4.5
+  uninstall:
+    deletionPropagation: orphan
   valuesFrom:
-    - kind: ConfigMap
-      name: global-values
+  - kind: ConfigMap
+    name: global-values
   values:
     metrics:
       main:
         enabled: false
     configmap:
       dashboard:
-        enabled: false        
+        enabled: false

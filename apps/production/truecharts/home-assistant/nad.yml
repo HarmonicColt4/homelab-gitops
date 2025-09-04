@@ -1,0 +1,6 @@
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: macvlan-iot
+spec:
+  config: '{ "name": "iot", "type": "macvlan", "master": "enp88s0", "mode": "bridge", "ipam": { "type": "dhcp" } }'

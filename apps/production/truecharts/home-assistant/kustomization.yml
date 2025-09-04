@@ -2,13 +2,14 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ../../../base/truecharts/home-assistant
-  - ../global-values
+- ../../../base/truecharts/home-assistant
+- ../global-values
+- nad.yml
 namespace: home-assistant
 configMapGenerator:
-  - name: home-assistant-values
-    files:
-      - values.yaml=home-assistant-values.yml
-  - name: zigbee2mqtt-values
-    files:
-      - values.yaml=zigbee2mqtt-values.yml
+- name: home-assistant-values
+  files:
+  - values.yaml=home-assistant-values.yml
+- name: zigbee2mqtt-values
+  files:
+  - values.yaml=zigbee2mqtt-values.yml

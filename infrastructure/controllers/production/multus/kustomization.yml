@@ -1,4 +1,4 @@
-namespace: multus
+namespace: flux-system
 resources:
 - namespace.yml
 - repository.yml

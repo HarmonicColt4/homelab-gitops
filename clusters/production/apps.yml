@@ -12,7 +12,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./apps/production
-  prune: false
+  prune: true
   wait: false
   postBuild:
     substitute:

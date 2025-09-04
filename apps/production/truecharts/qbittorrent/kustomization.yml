@@ -2,9 +2,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ../../../base/truecharts/qbittorrent
+- ../../../base/truecharts/qbittorrent
+- ../global-values
+namespace: qbittorrent
 configMapGenerator:
-  - name: qbittorrent-values
-    namespace: flux-system
-    files:
-      - values.yaml=values.yml
+- name: qbittorrent-values
+  files:
+  - values.yaml=values.yml

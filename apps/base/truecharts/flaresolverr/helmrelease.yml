@@ -4,7 +4,6 @@ kind: HelmRelease
 metadata:
   name: flaresolverr
 spec:
-  releaseName: flaresolverr
   interval: 30m
   driftDetection:
     mode: enabled

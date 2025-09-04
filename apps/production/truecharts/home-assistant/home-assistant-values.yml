@@ -7,3 +7,9 @@ addons:
 
 homeassistant:
   trusted_proxies: [ 10.13.25.21 ]
+
+workload:
+  main:
+    podSpec:
+      annotations:
+        k8s.v1.cni.cncf.io/networks: vlan-iot

@@ -1,7 +1,0 @@
-apiVersion: k8s.cni.cncf.io/v1
-kind: NetworkAttachmentDefinition
-metadata:
-  name: vlan-iot
-spec:
-  config: |-
-    { "name": "iot", "type": "macvlan", "master": "enp88s0", "ipam": { "type": "static", "routes": [ { "dst": "0.0.0.0/0", "gw": "10.13.25.1" } ] } }

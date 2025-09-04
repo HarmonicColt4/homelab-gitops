@@ -9,13 +9,6 @@ workload:
         init-config:
           enabled: false
 
-persistence:
-  cnicni:
-    type: hostPath
-    hostPath: /opt/cni/bin
-    mountPath: /host/opt/cni/bin
-    enabled: true
-
 addons:
   codeserver:
     enabled: true

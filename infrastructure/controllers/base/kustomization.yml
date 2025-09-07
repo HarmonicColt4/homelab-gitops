@@ -7,4 +7,3 @@ resources:
   - node-feature-discovery
   - traefik
   - secrets-operator
-  - github.com/metallb/metallb/config/native?ref=v0.15.2

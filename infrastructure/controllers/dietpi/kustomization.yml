@@ -1,63 +1,28 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- ../base
-- renovate
+  - ../base
+  - renovate
 patches:
-- patch: |-
-    - op: add
-      path: /spec/values/defaultSettings/backupTarget
-      value:
-        nfs://10.25.25.10:/mnt/media/longhorn/production
-    - op: add
-      path: /spec/values/persistence/defaultClassReplicaCount
-      value: 1
-  target:
-    kind: HelmRelease
-    name: longhorn
-- patch: |
-    - op: replace
-      path: /spec/values/service/annotations
-      value:
-        metallb.io/loadBalancerIPs: 10.25.25.11
-    - op: replace
-      path: /spec/values/ingressRoute/dashboard/matchRule
-      value: Host(`traefik-dietpi.${domain}`) && ( PathPrefix(`/`) || PathPrefix(`/api`))
-    - op: add
-      path: /spec/values/providers/file
-      value:  
-        enabled: true
-        content: |-
-          http:
-            routers:
-              truenas:
-                entryPoints:
-                - websecure
-                service: truenas
-                rule: Host(`truenas.${domain}`) && PathPrefix(`/`)
-              gitea:
-                entryPoints:
-                - websecure
-                service: gitea
-                rule: Host(`gitea.${domain}`) && PathPrefix(`/`)
-              jellyfin:
-                entryPoints:
-                - websecure
-                service: jellyfin
-                rule: Host(`jellyfin.${domain}`) && PathPrefix(`/`)
-            services:
-              truenas:
-                loadBalancer:
-                  servers:
-                  - url: https://10.13.25.10/
-              gitea:
-                loadBalancer:
-                  servers:
-                  - url: http://10.13.25.10:30008/
-              jellyfin:
-                loadBalancer:
-                  servers:
-                  - url: http://10.13.25.10:30013/
-  target:
-    kind: HelmRelease
-    name: traefik
+  - patch: |-
+      - op: add
+        path: /spec/values/defaultSettings/backupTarget
+        value:
+          nfs://10.25.25.10:/mnt/media/longhorn/production
+      - op: add
+        path: /spec/values/persistence/defaultClassReplicaCount
+        value: 1
+    target:
+      kind: HelmRelease
+      name: longhorn
+  - patch: |
+      - op: replace
+        path: /spec/values/service/annotations
+        value:
+          metallb.io/loadBalancerIPs: 10.25.25.11
+      - op: replace
+        path: /spec/values/ingressRoute/dashboard/matchRule
+        value: Host(`traefik-dietpi.${domain}`) && ( PathPrefix(`/`) || PathPrefix(`/api`))
+    target:
+      kind: HelmRelease
+      name: traefik

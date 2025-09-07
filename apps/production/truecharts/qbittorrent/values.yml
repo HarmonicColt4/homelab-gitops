@@ -2,8 +2,7 @@
 service:
   torrent:
     type: LoadBalancer
-    annotations:
-      metallb.io/loadBalancerIPs: 10.13.25.30
+    loadBalancerIP: 10.13.25.30
     ports:
       torrent:
         port: 23507

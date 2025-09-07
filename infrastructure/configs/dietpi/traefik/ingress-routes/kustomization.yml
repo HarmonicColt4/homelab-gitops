@@ -4,5 +4,5 @@ resources:
   - gitea.yml
   - jellyfin.yml
   - nextcloud.yml
-  - traefik-prod.yml
+  # - traefik-prod.yml
   - truenas.yml

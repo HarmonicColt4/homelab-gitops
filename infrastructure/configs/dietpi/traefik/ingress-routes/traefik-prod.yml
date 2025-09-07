@@ -12,3 +12,4 @@ spec:
       match: HostRegexp(`^.+\.weirdrussiandomain\.com$`) && PathPrefix(`/`)
       services:
         - name: traefik-prod
+          port: 443

@@ -4,6 +4,7 @@ resources:
 - ../base
 - intel-gpu-plugin
 - multus
+- traefik
 patches:
 - target:
     kind: HelmRelease

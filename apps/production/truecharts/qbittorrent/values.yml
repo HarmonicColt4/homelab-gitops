@@ -2,7 +2,7 @@
 service:
   torrent:
     type: LoadBalancer
-    loadBalancerIP: 10.13.25.30
+    loadBalancerIPs: 10.13.25.30
     ports:
       torrent:
         port: 23507

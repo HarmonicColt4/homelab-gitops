@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: truenas
+  namespace: traefik
+spec:
+  externalName: 10.13.25.10
+  type: ExternalName

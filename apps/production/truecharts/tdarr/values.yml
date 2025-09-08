@@ -6,37 +6,37 @@ persistence:
     enabled: true
     type: nfs
     path: /mnt/media/anime
-    server: 10.13.25.10
+    server: truenas.home
     mountPath: /anime
   movies-1080p:
     enabled: true
     type: nfs
     path: /mnt/media/movies-1080p
-    server: 10.13.25.10
+    server: truenas.home
     mountPath: /movies-1080p
   movies-4k:
     enabled: true
     type: nfs
     path: /mnt/media/movies-4k
-    server: 10.13.25.10
+    server: truenas.home
     mountPath: /movies-4k
   series-1080p:
     enabled: true
     type: nfs
     path: /mnt/media/series-1080p
-    server: 10.13.25.10
+    server: truenas.home
     mountPath: /series-1080p
   series-4k:
     enabled: true
     type: nfs
     path: /mnt/media/series-4k
-    server: 10.13.25.10
+    server: truenas.home
     mountPath: /series-4k
   archive:
     enabled: true
     type: nfs
     path: /mnt/media/archive
-    server: 10.13.25.10
+    server: truenas.home
     mountPath: /archive
   transcode-cache:
     type: "emptyDir"

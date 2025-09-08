@@ -3,17 +3,17 @@ persistence:
     enabled: true
     type: nfs
     path: /mnt/media/series-1080p
-    server: 10.13.25.10
+    server: truenas.home
     mountPath: /series-1080p
   series-4k:
     enabled: true
     type: nfs
     path: /mnt/media/series-4k
-    server: 10.13.25.10
+    server: truenas.home
     mountPath: /series-4k
   anime:
     enabled: true
     type: nfs
     path: /mnt/media/anime
-    server: 10.13.25.10
+    server: truenas.home
     mountPath: /anime

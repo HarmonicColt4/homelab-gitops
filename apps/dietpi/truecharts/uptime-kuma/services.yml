@@ -9,14 +9,3 @@ metadata:
 spec:
   externalName: placeholder
   type: ExternalName
----
-apiVersion: v1
-kind: Service
-metadata:
-  annotations:
-    tailscale.com/tailnet-fqdn: pikvm-penda.tail023022.ts.net
-  name: pikvm-penda
-  namespace: uptime-kuma
-spec:
-  externalName: placeholder
-  type: ExternalName

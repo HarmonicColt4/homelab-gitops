@@ -13,3 +13,4 @@ spec:
       services:
         - name: traefik-prod
           port: 443
+      priority: 1

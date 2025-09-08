@@ -2,32 +2,32 @@ persistence:
   library:
     type: nfs
     path: /mnt/media/immich/library
-    server: 10.13.25.10
+    server: truenas.home
   uploads:
     type: nfs
     path: /mnt/media/immich/upload
-    server: 10.13.25.10
+    server: truenas.home
   backups:
     type: nfs
     path: /mnt/media/immich/backups
-    server: 10.13.25.10
+    server: truenas.home
   thumbs:
     type: nfs
     path: /mnt/media/immich/thumbs
-    server: 10.13.25.10
+    server: truenas.home
   profile:
     type: nfs
     path: /mnt/media/immich/profile
-    server: 10.13.25.10
+    server: truenas.home
   video:
     type: nfs
     path: /mnt/media/immich/encoded-video
-    server: 10.13.25.10
+    server: truenas.home
   archive-guy:
     enabled: true
     type: nfs
     path: /mnt/media/archive/Guy
-    server: 10.13.25.10
+    server: truenas.home
     mountPath: /archive/Guy
     targetSelector:
       main:
@@ -38,7 +38,7 @@ persistence:
     enabled: true
     type: nfs
     path: /mnt/media/archive/Gabrielle
-    server: 10.13.25.10
+    server: truenas.home
     mountPath: /archive/Gabrielle
     targetSelector:
       main:

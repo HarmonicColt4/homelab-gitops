@@ -4,5 +4,5 @@ metadata:
   name: truenas
   namespace: traefik
 spec:
-  externalName: 10.13.25.10
+  externalName: truenas.home
   type: ExternalName

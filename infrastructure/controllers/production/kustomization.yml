@@ -20,4 +20,4 @@ patches:
       - op: add
         path: /spec/values/defaultSettings/backupTarget
         value:
-          nfs://10.13.25.10:/mnt/media/longhorn/production
+          nfs://truenas.home:/mnt/media/longhorn/production

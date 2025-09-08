@@ -13,23 +13,6 @@ patches:
         path: /spec/values/service/annotations
         value:  
           metallb.io/loadBalancerIPs: 10.13.25.21
-      - op: add
-        path: /spec/values/providers/file
-        value:  
-          enabled: true
-          content: |-
-            http:
-              routers:
-                jellyfin:
-                  entryPoints:
-                  - websecure
-                  service: jellyfin
-                  rule: Host(`jellyfin.${domain}`) && PathPrefix(`/`)
-              services:
-                jellyfin:
-                  loadBalancer:
-                    servers:
-                    - url: http://10.13.25.10:30013/
   - target:
       kind: HelmRelease
       name: longhorn

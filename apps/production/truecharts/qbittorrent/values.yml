@@ -56,12 +56,6 @@ persistence:
     path: /mnt/media/downloads
     server: truenas.home
     mountPath: /downloads
-  prowlarr:
-    enabled: true
-    type: nfs
-    path: /mnt/media/prowlarr
-    server: truenas.home
-    mountPath: /prowlarr
   vuetorrent:
     enabled: true
     type: pvc

@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - truenas.yml
   - traefik-prod.yml
+  - truenas-penda.yml

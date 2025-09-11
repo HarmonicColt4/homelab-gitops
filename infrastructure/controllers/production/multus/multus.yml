@@ -11,26 +11,71 @@ spec:
     kind: GitRepository
     name: multus-cni
   patches:
-  - patch: |-
-      apiVersion: apps/v1
-      kind: DaemonSet
-      metadata:
-        name: not-used
-      spec:
-        template:
-          spec:
-            volumes:
-            - name: host-run-netns
-              hostPath:
-                path: /var/run/netns/
-            initContainers:
-            - name: install-multus-binary
-              command:
-              - "/usr/src/multus-cni/bin/install_multus"
-              - "-d"
-              - "/host/opt/cni/bin"
-              - "-t"
-              - "thick"
-    target:
-      kind: DaemonSet
-      name: kube-multus-ds
+    - patch: |-
+        apiVersion: apps/v1
+        kind: DaemonSet
+        metadata:
+          name: not-used
+        spec:
+          template:
+            spec:
+              volumes:
+              - name: host-run-netns
+                hostPath:
+                  path: /var/run/netns/
+              initContainers:
+              - name: install-multus-binary
+                command:
+                - "/usr/src/multus-cni/bin/install_multus"
+                - "-d"
+                - "/host/opt/cni/bin"
+                - "-t"
+                - "thick"
+              containers:
+              - command:
+                - /usr/src/multus-cni/bin/multus-daemon
+                env:
+                - name: MULTUS_NODE_NAME
+                  valueFrom:
+                    fieldRef:
+                      apiVersion: v1
+                      fieldPath: spec.nodeName
+                image: ghcr.io/k8snetworkplumbingwg/multus-cni:snapshot-thick
+                imagePullPolicy: IfNotPresent
+                name: kube-multus
+                resources:
+                  requests:
+                    cpu: 100m
+                    memory: 50Mi
+                securityContext:
+                  privileged: true
+                terminationMessagePath: /dev/termination-log
+                terminationMessagePolicy: FallbackToLogsOnError
+                volumeMounts:
+                - mountPath: /host/etc/cni/net.d
+                  name: cni
+                - mountPath: /opt/cni/bin
+                  name: cnibin
+                - mountPath: /host/run
+                  name: host-run
+                - mountPath: /var/lib/cni/multus
+                  name: host-var-lib-cni-multus
+                - mountPath: /var/lib/kubelet
+                  mountPropagation: HostToContainer
+                  name: host-var-lib-kubelet
+                - mountPath: /run/k8s.cni.cncf.io
+                  name: host-run-k8s-cni-cncf-io
+                - mountPath: /run/netns
+                  mountPropagation: HostToContainer
+                  name: host-run-netns
+                - mountPath: /etc/cni/net.d/multus.d
+                  name: multus-daemon-config
+                  readOnly: true
+                - mountPath: /hostroot
+                  mountPropagation: HostToContainer
+                  name: hostroot
+                - mountPath: /etc/cni/multus/net.d
+                  name: multus-conf-dir
+      target:
+        kind: DaemonSet
+        name: kube-multus-ds

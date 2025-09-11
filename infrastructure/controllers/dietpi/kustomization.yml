@@ -22,7 +22,12 @@ patches:
           metallb.io/loadBalancerIPs: 10.25.25.11
       - op: replace
         path: /spec/values/ingressRoute/dashboard/matchRule
-        value: Host(`traefik-dietpi.${domain}`) && ( PathPrefix(`/`) || PathPrefix(`/api`))
+        value: Host(`traefik-dietpi.${domain}`)
+      - op: replace
+        path: /spec/values/additionalArguments
+        value:
+          - "--serverstransport.insecureskipverify=true"
+          - "--entrypoints.truenas-penda-ssh.address=:50022"
     target:
       kind: HelmRelease
       name: traefik

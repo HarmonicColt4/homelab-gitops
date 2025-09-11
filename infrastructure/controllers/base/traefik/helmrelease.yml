@@ -34,9 +34,6 @@ spec:
         enabled: true
         entryPoints:
           - websecure
-    service:
-      annotations:
-        metallb.io/loadBalancerIPs: 10.13.25.31
     tlsStore:
       default:
         defaultCertificate:

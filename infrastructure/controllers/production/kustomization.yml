@@ -10,9 +10,12 @@ patches:
       name: traefik
     patch: |-
       - op: add
-        path: /spec/values/service/annotations
-        value:  
-          metallb.io/loadBalancerIPs: 10.13.25.21
+        path: /spec/values/service
+        value:
+          spec:
+            externalTrafficPolicy: Local
+          annotations:
+            metallb.io/loadBalancerIPs: 10.13.25.21
   - target:
       kind: HelmRelease
       name: longhorn

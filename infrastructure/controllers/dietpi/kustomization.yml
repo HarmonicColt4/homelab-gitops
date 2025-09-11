@@ -17,9 +17,12 @@ patches:
       name: longhorn
   - patch: |
       - op: replace
-        path: /spec/values/service/annotations
+        path: /spec/values/service
         value:
-          metallb.io/loadBalancerIPs: 10.25.25.11
+          spec:
+            externalTrafficPolicy: Local
+          annotations:
+            metallb.io/loadBalancerIPs: 10.25.25.11
       - op: replace
         path: /spec/values/ingressRoute/dashboard/matchRule
         value: Host(`traefik-dietpi.${domain}`)

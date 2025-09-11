@@ -1,0 +1,13 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: truenas-penda
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`truenas-penda.${domain}`) && PathPrefix(`/`)
+      services:
+        - name: truenas-penda
+          port: 443

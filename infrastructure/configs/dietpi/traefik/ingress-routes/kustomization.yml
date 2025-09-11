@@ -6,3 +6,4 @@ resources:
   - nextcloud.yml
   - traefik-prod.yml
   - truenas.yml
+  - truenas-penda.yml

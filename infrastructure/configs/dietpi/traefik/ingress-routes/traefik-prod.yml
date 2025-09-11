@@ -3,7 +3,6 @@ kind: IngressRoute
 metadata:
   name: traefik-prod
   namespace: traefik
-
 spec:
   entryPoints:
     - websecure

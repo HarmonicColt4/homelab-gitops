@@ -7,4 +7,3 @@ resources:
   - namespace.yml
   - repository.yml
   - secret.yml
-  - services.yml

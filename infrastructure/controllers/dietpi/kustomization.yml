@@ -35,7 +35,6 @@ patches:
             exposedPort: 50022
             port: 50022
             protocol: TCP
-
     target:
       kind: HelmRelease
       name: traefik

@@ -26,11 +26,16 @@ patches:
       - op: replace
         path: /spec/values/ingressRoute/dashboard/matchRule
         value: Host(`traefik-dietpi.${domain}`)
-      - op: replace
-        path: /spec/values/additionalArguments
+      - op: add
+        path: /spec/values/ports
         value:
-          - "--serverstransport.insecureskipverify=true"
-          - "--entrypoints.truenas-penda-ssh.address=:50022"
+          tsp-ssh:
+            expose:
+              default: true
+            exposedPort: 50022
+            port: 50022
+            protocol: TCP
+
     target:
       kind: HelmRelease
       name: traefik

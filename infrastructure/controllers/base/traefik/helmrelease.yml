@@ -41,8 +41,6 @@ spec:
     global:
       checkNewVersion: true
       sendAnonymousUsage: false
-    additionalArguments:
-      - "--serverstransport.insecureskipverify=true"
     providers:
       kubernetesCRD:
         allowExternalNameServices: true

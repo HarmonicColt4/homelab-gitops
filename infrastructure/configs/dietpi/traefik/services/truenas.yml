@@ -3,5 +3,5 @@ kind: Service
 metadata:
   name: truenas
 spec:
-  externalName: truenas.home
+  externalName: truenas.home.auckland
   type: ExternalName

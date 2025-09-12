@@ -12,49 +12,49 @@ persistence:
     enabled: true
     type: nfs
     path: /mnt/media/series-1080p/torrents
-    server: truenas.home
+    server: truenas.home.auckland
     mountPath: /series-1080p/torrents
   series-4k:
     enabled: true
     type: nfs
     path: /mnt/media/series-4k/torrents
-    server: truenas.home
+    server: truenas.home.auckland
     mountPath: /series-4k/torrents
   movies-1080p:
     enabled: true
     type: nfs
     path: /mnt/media/movies-1080p/torrents
-    server: truenas.home
+    server: truenas.home.auckland
     mountPath: /movies-1080p/torrents
   movies-4k:
     enabled: true
     type: nfs
     path: /mnt/media/movies-4k/torrents
-    server: truenas.home
+    server: truenas.home.auckland
     mountPath: /movies-4k/torrents
   anime:
     enabled: true
     type: nfs
     path: /mnt/media/anime/downloads
-    server: truenas.home
+    server: truenas.home.auckland
     mountPath: /anime/downloads
   books:
     enabled: true
     type: nfs
     path: /mnt/media/books/torrents
-    server: truenas.home
+    server: truenas.home.auckland
     mountPath: /books/torrents
   games:
     enabled: true
     type: nfs
     path: /mnt/media/games
-    server: truenas.home
+    server: truenas.home.auckland
     mountPath: /games
   downloads:
     enabled: true
     type: nfs
     path: /mnt/media/downloads
-    server: truenas.home
+    server: truenas.home.auckland
     mountPath: /downloads
   vuetorrent:
     enabled: true

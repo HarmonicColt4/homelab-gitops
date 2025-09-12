@@ -6,5 +6,5 @@ persistence:
     enabled: true
     type: nfs
     path: /mnt/media/books/library
-    server: truenas.home
+    server: truenas.home.auckland
     mountPath: /books/library

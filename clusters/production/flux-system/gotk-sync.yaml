@@ -11,7 +11,7 @@ spec:
     branch: main
   secretRef:
     name: flux-system
-  url: ssh://git@truenas.home:30009/gpenda/fluxcd.git
+  url: ssh://git@truenas.home.auckland:30009/gpenda/fluxcd.git
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization

@@ -2,4 +2,4 @@ persistence:
   audiobooks:
     type: nfs
     path: /mnt/media/books/audio
-    server: truenas.home
+    server: truenas.home.auckland

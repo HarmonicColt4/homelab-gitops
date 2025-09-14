@@ -16,8 +16,6 @@ patches:
             externalTrafficPolicy: Local
           annotations:
             metallb.io/loadBalancerIPs: 10.13.25.21
-      - op: remove
-        path: /spec/values/ingressRoute
   - target:
       kind: HelmRelease
       name: longhorn

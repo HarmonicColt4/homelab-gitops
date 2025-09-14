@@ -23,9 +23,6 @@ patches:
             externalTrafficPolicy: Local
           annotations:
             metallb.io/loadBalancerIPs: 10.25.25.11
-      - op: replace
-        path: /spec/values/ingressRoute/dashboard/matchRule
-        value: Host(`traefik-dietpi.${domain}`)
       - op: add
         path: /spec/values/ports
         value:

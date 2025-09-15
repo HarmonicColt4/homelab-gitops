@@ -9,5 +9,5 @@ spec:
     - match: Host(`grafana.${domain}`) && PathPrefix(`/`)
       kind: Rule
       services:
-        - name: kube-prometheus-stack-grafana
+        - name: kps-grafana
           port: 80

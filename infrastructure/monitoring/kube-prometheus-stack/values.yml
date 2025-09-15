@@ -19,3 +19,8 @@ defaultRules:
     kubeControllerManager: false
     kubeProxy: false
 fullnameOverride: kps
+
+alertmanager:
+  config:
+    receivers:
+      - name: discord

@@ -4,8 +4,18 @@ prometheus:
       volumeClaimTemplate:
         spec:
           storageClassName: longhorn
-          accessModes: [ "ReadWriteOnce" ]
           resources:
             requests:
               storage: 20Gi
     retention: 30d
+kubeProxy:
+  enabled: false
+kubeControllerManager:
+  enabled: false
+kubeScheduler:
+  enabled: false
+defaultRules:
+  rules:
+    kubeControllerManager: false
+    kubeProxy: false
+fullnameOverride: kps

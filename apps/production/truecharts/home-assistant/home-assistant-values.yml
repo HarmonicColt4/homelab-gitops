@@ -6,7 +6,7 @@ addons:
       type: LoadBalancer
 
 homeassistant:
-  trusted_proxies: [10.13.25.21]
+  trusted_proxies: [10.25.25.21]
 
 workload:
   main:

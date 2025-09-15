@@ -20,7 +20,7 @@ metadata:
   name: receiver
   namespace: flux-system
   annotations:
-    metallb.io/loadBalancerIPs: 10.13.25.26
+    metallb.io/loadBalancerIPs: 10.25.25.26
 spec:
   type: LoadBalancer
   selector:

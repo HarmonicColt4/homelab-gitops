@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: traefik-prod
 spec:
-  externalName: 10.13.25.21
+  externalName: 10.25.25.21
   type: ExternalName
   ports:
     - port: 443

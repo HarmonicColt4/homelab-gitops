@@ -8,14 +8,14 @@ patches:
       - op: add
         path: /spec/values/defaultSettings/backupTarget
         value:
-          nfs://10.25.25.10:/mnt/media/longhorn/production
+          nfs://truenas.home.auckland:/mnt/media/longhorn/production
       - op: add
         path: /spec/values/persistence/defaultClassReplicaCount
         value: 1
     target:
       kind: HelmRelease
       name: longhorn
-  - patch: |
+  - patch: |-
       - op: replace
         path: /spec/values/service
         value:
@@ -24,14 +24,13 @@ patches:
           annotations:
             metallb.io/loadBalancerIPs: 10.25.25.11
       - op: add
-        path: /spec/values/ports
+        path: /spec/values/ports/tsp-ssh
         value:
-          tsp-ssh:
-            expose:
-              default: true
-            exposedPort: 50022
-            port: 50022
-            protocol: TCP
+          expose:
+            default: true
+          exposedPort: 50022
+          port: 50022
+          protocol: TCP
     target:
       kind: HelmRelease
       name: traefik

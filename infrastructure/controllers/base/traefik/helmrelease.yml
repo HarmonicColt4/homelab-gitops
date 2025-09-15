@@ -30,7 +30,8 @@ spec:
             scheme: https
       websecure:
         transport:
-          respondingTimeouts: 3600s
+          respondingTimeouts:
+            readTimeout: 3600s
     ingressRoute:
       dashboard:
         matchRule: Host(`traefik.${domain}`)

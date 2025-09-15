@@ -31,7 +31,9 @@ spec:
       websecure:
         transport:
           respondingTimeouts:
-            readTimeout: 3600s
+            readTimeout: 600s
+            idleTimeout: 600s
+            writeTimeout: 600s
     ingressRoute:
       dashboard:
         matchRule: Host(`traefik.${domain}`)

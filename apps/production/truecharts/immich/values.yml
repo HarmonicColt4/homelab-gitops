@@ -50,5 +50,4 @@ global:
     vctSize: 10Gi
 cnpg:
   main:
-    creds:
-      password: "Z*z#ehVCwjy#GX7EEidN5fj5wKQ5K@BLemRi&*$obQPL4Y%GCX5Ak&Mai&kJ83CS"
+    password: "Z*z#ehVCwjy#GX7EEidN5fj5wKQ5K@BLemRi&*$obQPL4Y%GCX5Ak&Mai&kJ83CS"

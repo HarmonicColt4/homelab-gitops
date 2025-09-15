@@ -22,13 +22,12 @@ fullnameOverride: kps
 
 alertmanager:
   config:
-    global:
-      route:
-        receiver: discord
-        routes:
-          - receiver: discord
-            matchers:
-              - alertname = "Watchdog"
+    route:
+      receiver: discord
+      routes:
+        - receiver: discord
+          matchers:
+            - alertname = "Watchdog"
     receivers:
       - name: discord
         discord_configs:

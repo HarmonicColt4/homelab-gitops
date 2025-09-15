@@ -1,3 +1,35 @@
 resources:
   - ../base
   - traefik
+patches:
+  - patch: |
+      - op: replace
+        path: /spec/addresses
+        value:
+          - 10.25.25.2-10.25.25.11
+    target:
+      kind: IPAddressPool
+      name: ip-pool
+      namespace: metallb-system
+  - patch: |
+      - op: replace
+        path: /spec/acme/server
+        value: https://acme-v02.api.letsencrypt.org/directory
+    target:
+      kind: ClusterIssuer
+      name: letsencrypt
+  - patch: |
+      - op: replace
+        path: /metadata/annotations
+        value:
+          metallb.io/loadBalancerIPs: 10.25.25.9
+    target:
+      kind: Service
+      name: receiver
+  - patch: |
+      - op: replace
+        path: /spec/routes/0/match
+        value: Host(`longhorn-dietpi.${domain}`) && PathPrefix(`/`)
+    target:
+      kind: IngressRoute
+      name: longhorn

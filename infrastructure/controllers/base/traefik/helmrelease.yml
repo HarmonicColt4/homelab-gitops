@@ -28,6 +28,9 @@ spec:
           entryPoint:
             to: websecure
             scheme: https
+      websecure:
+        transport:
+          respondingTimeouts: 3600s
     ingressRoute:
       dashboard:
         matchRule: Host(`traefik.${domain}`)

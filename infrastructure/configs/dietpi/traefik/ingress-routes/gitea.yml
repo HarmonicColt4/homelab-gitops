@@ -1,4 +1,3 @@
----
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
@@ -12,16 +11,3 @@ spec:
       services:
         - name: truenas
           port: 30008
----
-apiVersion: traefik.io/v1alpha1
-kind: IngressRouteTCP
-metadata:
-  name: gitea-ssh
-spec:
-  entryPoints:
-    - tsp-ssh
-  routes:
-    - match: HostSNI(`*`)
-      services:
-        - name: truenas
-          port: 30009

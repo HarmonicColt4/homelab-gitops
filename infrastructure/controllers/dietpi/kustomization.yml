@@ -31,6 +31,14 @@ patches:
           exposedPort: 50022
           port: 50022
           protocol: TCP
+      - op: add
+        path: /spec/values/ports/gitea-ssh
+        value:
+          expose:
+            default: true
+          exposedPort: 30009
+          port: 30009
+          protocol: TCP
     target:
       kind: HelmRelease
       name: traefik

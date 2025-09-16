@@ -1,5 +1,6 @@
-namespace: flux-system
+namespace: multus-cni
+
 resources:
 - namespace.yml
 - repository.yml
-- multus.yml
+- multus-cni.yml

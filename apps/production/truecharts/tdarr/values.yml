@@ -41,7 +41,7 @@ persistence:
   football:
     enabled: true
     type: nfs
-    path: /mnt/media/football
+    path: /mnt/media/archive/football
     server: truenas.home.auckland
     mountPath: /football
   transcode-cache:

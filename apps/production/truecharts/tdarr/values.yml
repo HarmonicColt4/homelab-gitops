@@ -38,6 +38,12 @@ persistence:
     path: /mnt/media/archive
     server: truenas.home.auckland
     mountPath: /archive
+  football:
+    enabled: true
+    type: nfs
+    path: /mnt/media/football
+    server: truenas.home.auckland
+    mountPath: /football
   transcode-cache:
     type: "emptyDir"
 workload:

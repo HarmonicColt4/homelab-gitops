@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: tailscale
       interval: 1h
-      version: 1.88.2
+      version: 1.88.3
   valuesFrom:
     - kind: Secret
       name: tailscale-values

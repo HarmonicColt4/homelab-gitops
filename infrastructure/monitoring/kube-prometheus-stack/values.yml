@@ -20,15 +20,15 @@ defaultRules:
     kubeProxy: false
 fullnameOverride: kps
 
-alertmanager:
-  config:
-    route:
-      receiver: discord
-      routes:
-        - receiver: discord
-          matchers:
-            - alertname = "Watchdog"
-    receivers:
-      - name: discord
-        discord_configs:
-          - webhook_url: https://discord.com/api/webhooks/1417076643461202012/HdH5WG-QOP2DO5sy_xpm3CNZQ8bjx_PU6MB2jeOQ87S7TjTihwDwB4rPWKpKSCg02-5r
+# alertmanager:
+#   config:
+#     route:
+#       receiver: discord
+#       routes:
+#         - receiver: discord
+#           matchers:
+#             - alertname = "Watchdog"
+#     receivers:
+#       - name: discord
+#         discord_configs:
+#           - webhook_url: https://discord.com/api/webhooks/1417076643461202012/HdH5WG-QOP2DO5sy_xpm3CNZQ8bjx_PU6MB2jeOQ87S7TjTihwDwB4rPWKpKSCg02-5r

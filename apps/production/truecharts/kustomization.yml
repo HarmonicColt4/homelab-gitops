@@ -6,11 +6,7 @@ resources:
 - repository.yml
 - actualserver
 - ../../base/truecharts/cloudnative-pg
-- audiobookshelf
-- calibre
-- calibre-web
 - homepage
-- home-assistant
 - immich
 - jellyfin
 - prowlarr
@@ -18,8 +14,6 @@ resources:
 - radarr
 - recyclarr
 - sonarr
-- tdarr
-- truecommand
 - vaultwarden
 configMapGenerator:
 - name: global-values

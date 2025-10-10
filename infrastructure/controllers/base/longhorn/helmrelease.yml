@@ -26,6 +26,13 @@ spec:
       reclaimPolicy: "Retain"
     defaultSettings:
       createDefaultDiskLabeledNodes: true
-      concurrentAutomaticEngineUpgradePerNodeLimit: '3'
+      concurrentAutomaticEngineUpgradePerNodeLimit: "3"
       removeSnapshotsDuringFilesystemTrim: true
       replicaAutoBalance: best-effort
+    csi:
+      attacherReplicaCount: 1
+      provisionerReplicaCount: 1
+      resizerReplicaCount: 1
+      snapshotterReplicaCount: 1
+    longhornUI:
+      replicas: 1

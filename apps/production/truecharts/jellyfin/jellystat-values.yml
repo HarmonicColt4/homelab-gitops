@@ -12,6 +12,7 @@ cnpg:
     backups:
       enabled: true
       credentials: garage
+      destinationPath: "s3://jellystat"
     recovery:
       credentials: garage
 global:

@@ -9,9 +9,11 @@ credentials:
     encrKey: "F19hters"
 cnpg:
   main:
-    mode: recovery
     backups:
       enabled: true
       credentials: garage
     recovery:
-      credentials: garage    
+      credentials: garage
+global:
+  fallbackDefaults:
+    vctSize: 10Gi

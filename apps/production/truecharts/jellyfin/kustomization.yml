@@ -12,3 +12,8 @@ namespace: jellyfin
 # - name: jellyfin-values
 #   files:
 #   - values.yaml=values.yml
+
+configMapGenerator:
+- name: jellystat-values
+  files:
+  - values.yaml=jellystat-values.yml

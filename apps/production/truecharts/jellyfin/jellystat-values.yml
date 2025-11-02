@@ -1,0 +1,9 @@
+---
+credentials:
+  garage:
+    type: s3
+    url: http://10.13.25.10:30188
+    bucket: cnpg
+    accessKey: mysecretaccesskey
+    secretKey: mysecretkey
+    encrKey: myencryptionkey

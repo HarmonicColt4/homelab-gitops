@@ -6,7 +6,7 @@ credentials:
     bucket: jellystat
     accessKey: "GKa674a16dd9fcaf31f522f9a1"
     secretKey: "482911b3d07ae562770c14cc00f78e398a045894e0d4756a8f5990e2fbe5fc70"
-    encrKey: "F19hters"
+    encrKey: ""
 cnpg:
   main:
     backups:

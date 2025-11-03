@@ -23,6 +23,7 @@ patches:
       name: longhorn
     patch: |-
       - op: add
-        path: /spec/values/defaultSettings/backupTarget
+        path: /spec/values/defaultBackupStore
         value:
-          nfs://truenas.home.auckland:/mnt/media/longhorn/production
+          backupTarget: s3://longhorn@garage/
+          backupTargetCredentialSecret: garage

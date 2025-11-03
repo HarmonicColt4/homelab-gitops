@@ -93,3 +93,21 @@ vaultwarden:
     # cache: 2592000
     ## Cache time-to-live for icons that were not available. 0 means no purging.
     # cacheFailed: 259200
+credentials:
+  garage:
+    type: s3
+    url: http://10.13.25.10:30188
+    bucket: vaultwarden
+    accessKey: "GKa674a16dd9fcaf31f522f9a1"
+    secretKey: "482911b3d07ae562770c14cc00f78e398a045894e0d4756a8f5990e2fbe5fc70"
+    region: garage
+    encrKey: "F19hters"
+cnpg:
+  main:
+    backups:
+      enabled: true
+      credentials: garage
+      destinationPath: "s3://vaultwarden"
+    recovery:
+      credentials: garage
+      destinationPath: "s3://vaultwarden"    

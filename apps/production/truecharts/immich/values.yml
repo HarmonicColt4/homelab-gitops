@@ -48,6 +48,22 @@ persistence:
 global:
   fallbackDefaults:
     vctSize: 10Gi
+credentials:
+  garage:
+    type: s3
+    url: http://10.13.25.10:30188
+    bucket: immich
+    accessKey: "GKa674a16dd9fcaf31f522f9a1"
+    secretKey: "482911b3d07ae562770c14cc00f78e398a045894e0d4756a8f5990e2fbe5fc70"
+    region: garage
+    encrKey: "F19hters"
 cnpg:
   main:
     password: "Z*z#ehVCwjy#GX7EEidN5fj5wKQ5K@BLemRi&*$obQPL4Y%GCX5Ak&Mai&kJ83CS"
+    backups:
+      enabled: true
+      credentials: garage
+      destinationPath: "s3://immich"
+    recovery:
+      credentials: garage
+      destinationPath: "s3://immich"

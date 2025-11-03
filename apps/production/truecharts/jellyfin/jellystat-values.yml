@@ -10,10 +10,12 @@ credentials:
     encrKey: "F19hters"
 cnpg:
   main:
+    mode: recovery
     backups:
       enabled: true
       credentials: garage
       destinationPath: "s3://jellystat"
+      revision: "1"
     recovery:
       credentials: garage
       destinationPath: "s3://jellystat"

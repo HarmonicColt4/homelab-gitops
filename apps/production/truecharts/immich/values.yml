@@ -59,11 +59,13 @@ credentials:
     encrKey: "F19hters"
 cnpg:
   main:
+    mode: recovery
     password: "Z*z#ehVCwjy#GX7EEidN5fj5wKQ5K@BLemRi&*$obQPL4Y%GCX5Ak&Mai&kJ83CS"
     backups:
       enabled: true
       credentials: garage
       destinationPath: "s3://immich"
+      revision: "1"
     recovery:
       credentials: garage
       destinationPath: "s3://immich"

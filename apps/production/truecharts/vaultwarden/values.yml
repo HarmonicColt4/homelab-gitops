@@ -38,7 +38,7 @@ vaultwarden:
     disableAdminToken: true
     ## Token for admin login, will be generated if not defined. https://github.com/dani-garcia/bitwarden_rs/wiki/Enabling-admin-page
     # token:
-  # Enable SMTP. https://github.com/dani-garcia/bitwarden_rs/wiki/SMTP-configuration
+    # Enable SMTP. https://github.com/dani-garcia/bitwarden_rs/wiki/SMTP-configuration
   smtp:
     enabled: false
     # SMTP hostname, required if SMTP is enabled.
@@ -65,7 +65,7 @@ vaultwarden:
     # user: ""
     ## SMTP password. Required is user is specified, ignored if no user provided.
     # password: ""
-  ## Enable Yubico OTP authentication. https://github.com/dani-garcia/bitwarden_rs/wiki/Enabling-Yubikey-OTP-authentication
+    ## Enable Yubico OTP authentication. https://github.com/dani-garcia/bitwarden_rs/wiki/Enabling-Yubikey-OTP-authentication
   yubico:
     enabled: false
     ## Yubico server. Defaults to YubiCloud.
@@ -73,12 +73,12 @@ vaultwarden:
     ## Yubico ID and Secret Key.
     # clientId:
     # secretKey:
-  ## Enable Mobile Push Notifications. You must obtain and ID and Key here: https://bitwarden.com/host
+    ## Enable Mobile Push Notifications. You must obtain and ID and Key here: https://bitwarden.com/host
   push:
     enabled: false
     # installationId:
     # installationKey:
-  ## Logging options. https://github.com/dani-garcia/bitwarden_rs/wiki/Logging
+    ## Logging options. https://github.com/dani-garcia/bitwarden_rs/wiki/Logging
   log:
     # Log to file.
     file: ""
@@ -104,10 +104,12 @@ credentials:
     encrKey: "F19hters"
 cnpg:
   main:
+    mode: recovery
     backups:
       enabled: true
       credentials: garage
       destinationPath: "s3://vaultwarden"
+      revision: "1"
     recovery:
       credentials: garage
-      destinationPath: "s3://vaultwarden"    
+      destinationPath: "s3://vaultwarden"

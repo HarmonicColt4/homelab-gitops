@@ -16,6 +16,7 @@ cnpg:
       destinationPath: "s3://jellystat"
     recovery:
       credentials: garage
+      destinationPath: "s3://jellystat"
 global:
   fallbackDefaults:
     vctSize: 10Gi

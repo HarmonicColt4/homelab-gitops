@@ -5,6 +5,7 @@ patches:
       - op: replace
         path: /spec/addresses
         value:
+          - 10.25.25.2-10.25.25.11
           - 10.25.25.21/32
           - 10.25.25.26-10.25.25.90
     target:

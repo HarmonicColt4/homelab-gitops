@@ -4,6 +4,7 @@ resources:
   - ../base
   - intel-gpu-plugin
   - multus
+  - renovate
 patches:
   - target:
       kind: HelmRelease

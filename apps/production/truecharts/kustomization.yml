@@ -18,6 +18,7 @@ resources:
 - sonarr
 - vaultwarden
 - unifi
+- uptime-kuma
 configMapGenerator:
 - name: global-values
   namespace: flux-system

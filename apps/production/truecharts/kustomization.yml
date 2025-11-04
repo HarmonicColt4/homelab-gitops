@@ -7,6 +7,7 @@ resources:
 - adguard-home
 - actualserver
 - ../../base/truecharts/cloudnative-pg
+- cloudflareddns
 - homepage
 - immich
 - jellyfin

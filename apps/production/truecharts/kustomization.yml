@@ -16,6 +16,7 @@ resources:
 - recyclarr
 - sonarr
 - vaultwarden
+- unifi
 configMapGenerator:
 - name: global-values
   namespace: flux-system

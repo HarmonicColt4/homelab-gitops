@@ -15,9 +15,15 @@ patches:
           spec:
             externalTrafficPolicy: Local
           annotations:
-            metallb.io/loadBalancerIPs: 10.25.25.21
-      - op: remove
-        path: /spec/values/ingressRoute
+            metallb.io/loadBalancerIPs: 10.25.25.11
+      - op: add
+        path: /spec/values/ports/tsp-ssh
+        value:
+          expose:
+            default: true
+          exposedPort: 50022
+          port: 50022
+          protocol: TCP
   - target:
       kind: HelmRelease
       name: longhorn

@@ -1,0 +1,42 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: truenas-penda
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`truenas-penda.${domain}`) && PathPrefix(`/`)
+      services:
+        - name: truenas-penda
+          port: 443
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: truenas-penda-ssh
+spec:
+  entryPoints:
+    - tsp-ssh
+  routes:
+    - match: HostSNI(`*`)
+      services:
+        - name: truenas-penda
+          port: 22
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: truenas-penda-secure
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HostSNI(`truenas-penda.weirdrussiandomain.com`)
+      services:
+        - name: truenas-penda
+          port: 443
+  tls:
+    passthrough: true

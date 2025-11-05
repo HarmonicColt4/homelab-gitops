@@ -6,5 +6,4 @@ resources:
 - helmrelease.yml
 - namespace.yml
 - repository.yml
-- secret.yml
 - secret.enc.yml

@@ -4,7 +4,6 @@ kind: HelmRelease
 metadata:
   name: qbittorrent
 spec:
-  releaseName: qbittorrent
   interval: 30m
   driftDetection:
     mode: enabled

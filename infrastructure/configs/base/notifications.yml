@@ -19,15 +19,15 @@ spec:
     name: discord
   eventSeverity: error
   eventSources:
-    - kind: Kustomization
-      name: '*'
-      namespace: flux-system
+  - kind: Kustomization
+    name: '*'
+    namespace: flux-system
   eventMetadata:
     cluster: ${cluster_name:=placeholder}
   exclusionList:
-    - "Dependencies do not meet ready condition"
-    - "HelmRelease.* configured"
-    - "Service/truecommand/truenas-penda configured"
+  - "Dependencies do not meet ready condition"
+  - "HelmRelease.* configured"
+  - "Service/truecommand/truenas-penda configured"
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
@@ -39,42 +39,16 @@ spec:
     name: discord
   eventSeverity: error
   eventSources:
-    - kind: HelmRelease
-      name: '*'
-      namespace: default
-    - kind: HelmRelease
-      name: '*'
-      namespace: truecharts
-    - kind: HelmRelease
-      name: '*'
-      namespace: flux-system
+  - kind: HelmRelease
+    name: '*'
+    namespace: default
+  - kind: HelmRelease
+    name: '*'
+    namespace: truecharts
+  - kind: HelmRelease
+    name: '*'
+    namespace: flux-system
   eventMetadata:
-    cluster: ${cluster_name:=placeholder}      
+    cluster: ${cluster_name:=placeholder}
   exclusionList:
-    - "dependency.*is not ready"
----
-apiVersion: secrets.infisical.com/v1alpha1
-kind: InfisicalSecret
-metadata:
-  name: discord-webhook
-  namespace: flux-system
-spec:
-  hostAPI: https://app.infisical.com/api
-  resyncInterval: 10
-  authentication:
-    universalAuth:
-      secretsScope:
-        projectSlug: homelab-deoo
-        envSlug: ${infisical_envSlug}
-        secretsPath: '/flux'
-      credentialsRef:
-        secretName: universal-auth-credentials
-        secretNamespace: secrets-operator
-  managedKubeSecretReferences:
-    - secretName: discord-webhook
-      secretNamespace: flux-system
-      creationPolicy: 'Orphan'
-      template:
-        includeAllSecrets: false
-        data:
-          address: "{{ .discord_webhook.Value }}"
+  - "dependency.*is not ready"

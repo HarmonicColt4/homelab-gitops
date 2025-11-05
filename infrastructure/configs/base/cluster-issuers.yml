@@ -9,87 +9,8 @@ spec:
         privateKeySecretRef:
             name: letsencrypt-key
         solvers:
-            - dns01:
+          - dns01:
                 cloudflare:
                     apiTokenSecretRef:
                         name: cloudflare-api-token
                         key: api-token
-sops:
-    age:
-        - recipient: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
-          enc: |
-            -----BEGIN AGE ENCRYPTED FILE-----
-            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAwMXJYNE0zcEpPVzc3dE44
-            RzM2a01IamUwblh2bEQ1SGNyZlRiVGRJRkRJCmJOUU9MTS9nL25kVEtweUVZNXdC
-            TTdJcXVBak94eFl5b3NlRVBwdDJYOTAKLS0tIDJXVnEyZGd3bWgvZEFqVCtCYWdT
-            Rnh5YmFJZ2wzT096UjJweXBrYkFLb28KbpzwqeVuAZHJaEUAwZtBIICejl06j124
-            pwvJiTaoy3SxqOMNxX5qv4WmX0oQ8CxtTj/R4Q0bJXLxSVE8r+I3Jw==
-            -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2025-11-05T12:39:18Z"
-    mac: ENC[AES256_GCM,data:K4z+Tv/orHiVU0yjC+zrkwwGq5mZ9dYNXRsusKRecIjT2c6CksT0bSb4tex+WUQ2HkrZU1Y2t+w3VWd+GbVNry155YruSU4kFCjpd38eWrsGFuEq1ww2MGd1uun/t95Ev/mU1/V9UCtaGNLu5FIiIiZhxzZZPiS0NEkltf91w5w=,iv:RJbAiLLT2h/S4ZWohvtBcsftIRgYTwRA/LZ5vxDl/xY=,tag:W58jXnj9akb/NwT1fRlFfQ==,type:str]
-    encrypted_regex: ^(data|stringData)$
-    version: 3.11.0
----
-apiVersion: secrets.infisical.com/v1alpha1
-kind: InfisicalSecret
-metadata:
-    name: cloudflare-api-token
-    namespace: cert-manager
-spec:
-    hostAPI: https://app.infisical.com/api
-    resyncInterval: 10
-    authentication:
-        universalAuth:
-            secretsScope:
-                projectSlug: homelab-deoo
-                envSlug: ${infisical_envSlug}
-                secretsPath: /
-            credentialsRef:
-                secretName: universal-auth-credentials
-                secretNamespace: secrets-operator
-    managedKubeSecretReferences:
-        - secretName: cloudflare-api-token
-          secretNamespace: cert-manager
-          creationPolicy: Orphan
-          template:
-            includeAllSecrets: false
-            data:
-                api-token: ENC[AES256_GCM,data:cy3t+TO39HBVM20CaGCV7ChQo2ODCZxGcz2GyY4KmARZ,iv:76UP1iWrDSmqeGiVuZgb+dJL1VK/Xo/JtqGnv4x4jQY=,tag:V/XgWlHVxCmwy/7UJ7MXMA==,type:str]
-sops:
-    age:
-        - recipient: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
-          enc: |
-            -----BEGIN AGE ENCRYPTED FILE-----
-            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAwMXJYNE0zcEpPVzc3dE44
-            RzM2a01IamUwblh2bEQ1SGNyZlRiVGRJRkRJCmJOUU9MTS9nL25kVEtweUVZNXdC
-            TTdJcXVBak94eFl5b3NlRVBwdDJYOTAKLS0tIDJXVnEyZGd3bWgvZEFqVCtCYWdT
-            Rnh5YmFJZ2wzT096UjJweXBrYkFLb28KbpzwqeVuAZHJaEUAwZtBIICejl06j124
-            pwvJiTaoy3SxqOMNxX5qv4WmX0oQ8CxtTj/R4Q0bJXLxSVE8r+I3Jw==
-            -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2025-11-05T12:39:18Z"
-    mac: ENC[AES256_GCM,data:K4z+Tv/orHiVU0yjC+zrkwwGq5mZ9dYNXRsusKRecIjT2c6CksT0bSb4tex+WUQ2HkrZU1Y2t+w3VWd+GbVNry155YruSU4kFCjpd38eWrsGFuEq1ww2MGd1uun/t95Ev/mU1/V9UCtaGNLu5FIiIiZhxzZZPiS0NEkltf91w5w=,iv:RJbAiLLT2h/S4ZWohvtBcsftIRgYTwRA/LZ5vxDl/xY=,tag:W58jXnj9akb/NwT1fRlFfQ==,type:str]
-    encrypted_regex: ^(data|stringData)$
-    version: 3.11.0
----
-apiVersion: v1
-data:
-    api-token: ENC[AES256_GCM,data:C/E1l1EsahZUHGBvoXUGv9+gOaENBhufla7vUZp4ALNByf+u7IKuIzxbUbNXZ3Q5Q6RpcnnWzBA=,iv:DjFjbbyWaygJLc7nsoROJRcRo4iLikwcH9QgxBYHftQ=,tag:ntJ9Va1J0GGacMhqyZ6TnA==,type:str]
-kind: Secret
-metadata:
-    name: cloudflare-api-token
-    namespace: cert-manager
-sops:
-    age:
-        - recipient: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
-          enc: |
-            -----BEGIN AGE ENCRYPTED FILE-----
-            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAwMXJYNE0zcEpPVzc3dE44
-            RzM2a01IamUwblh2bEQ1SGNyZlRiVGRJRkRJCmJOUU9MTS9nL25kVEtweUVZNXdC
-            TTdJcXVBak94eFl5b3NlRVBwdDJYOTAKLS0tIDJXVnEyZGd3bWgvZEFqVCtCYWdT
-            Rnh5YmFJZ2wzT096UjJweXBrYkFLb28KbpzwqeVuAZHJaEUAwZtBIICejl06j124
-            pwvJiTaoy3SxqOMNxX5qv4WmX0oQ8CxtTj/R4Q0bJXLxSVE8r+I3Jw==
-            -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2025-11-05T12:39:18Z"
-    mac: ENC[AES256_GCM,data:K4z+Tv/orHiVU0yjC+zrkwwGq5mZ9dYNXRsusKRecIjT2c6CksT0bSb4tex+WUQ2HkrZU1Y2t+w3VWd+GbVNry155YruSU4kFCjpd38eWrsGFuEq1ww2MGd1uun/t95Ev/mU1/V9UCtaGNLu5FIiIiZhxzZZPiS0NEkltf91w5w=,iv:RJbAiLLT2h/S4ZWohvtBcsftIRgYTwRA/LZ5vxDl/xY=,tag:W58jXnj9akb/NwT1fRlFfQ==,type:str]
-    encrypted_regex: ^(data|stringData)$
-    version: 3.11.0

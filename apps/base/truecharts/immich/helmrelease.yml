@@ -8,13 +8,8 @@ spec:
   releaseName: immich
   targetNamespace: immich
   interval: 30m
-  # driftDetection:
-    # mode: enabled
-    # ignore:
-    #   - paths: ["/spec/template/spec/containers/0/resources/limits"]
-    #     target:
-    #       kind: Deployment
-    #       name: immich-microservices
+  driftDetection:
+    mode: enabled
   chart:
     spec:
       chart: immich

@@ -25,7 +25,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: infra-controllers
+  - name: infra-controllers
   interval: 10m
   timeout: 5m
   sourceRef:
@@ -46,7 +46,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: infra-controllers
+  - name: infra-controllers
   interval: 10m
   timeout: 5m
   sourceRef:
@@ -60,3 +60,7 @@ spec:
       domain: "weirdrussiandomain.com"
       infisical_envSlug: prod
       cluster_name: production
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

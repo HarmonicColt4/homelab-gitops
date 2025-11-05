@@ -78,4 +78,4 @@ workload:
         machinelearning:
           resources:
             limits:
-              cpu: "6"
+              cpu: "4"

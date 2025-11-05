@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
 - ../../../base/truecharts/recyclarr
 - ../global-values
-- secrets.yml
+- secrets.enc.yml
 namespace: recyclarr
 configMapGenerator:
 - name: recyclarr-values

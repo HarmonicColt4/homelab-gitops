@@ -20,6 +20,10 @@ defaultRules:
     kubeProxy: false
 fullnameOverride: kps
 
+crds:
+  upgradeJob:
+    enabled: true
+
 # alertmanager:
 #   config:
 #     route:

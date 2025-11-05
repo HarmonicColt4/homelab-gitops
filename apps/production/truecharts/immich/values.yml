@@ -71,3 +71,11 @@ cnpg:
       revision: "1"
       credentials: garage
       destinationPath: "s3://immich"
+workload:
+  machinelearning:
+    podSpec:
+      containers:
+        machinelearning:
+          resources:
+            limits:
+              cpu: "6"

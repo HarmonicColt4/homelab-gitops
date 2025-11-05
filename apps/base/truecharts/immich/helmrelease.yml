@@ -8,8 +8,8 @@ spec:
   releaseName: immich
   targetNamespace: immich
   interval: 30m
-  driftDetection:
-    mode: enabled
+  # driftDetection:
+    # mode: enabled
     # ignore:
     #   - paths: ["/spec/template/spec/containers/0/resources/limits"]
     #     target:

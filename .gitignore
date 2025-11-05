@@ -1,2 +1,5 @@
 *secret-values.yml
 *.agekey
+**/secrets/*.yml
+!**/secrets/*.enc.yml
+!**/secrets/kustomization.yml

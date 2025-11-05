@@ -59,7 +59,6 @@ credentials:
     encrKey: "F19hters"
 cnpg:
   main:
-    type: vectorchord
     mode: recovery
     password: "Z*z#ehVCwjy#GX7EEidN5fj5wKQ5K@BLemRi&*$obQPL4Y%GCX5Ak&Mai&kJ83CS"
     backups:

@@ -23,6 +23,7 @@ fullnameOverride: kps
 crds:
   upgradeJob:
     enabled: true
+    forceConflicts: false
 
 # alertmanager:
 #   config:

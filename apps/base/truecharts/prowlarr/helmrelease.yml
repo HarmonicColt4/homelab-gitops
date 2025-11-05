@@ -16,7 +16,7 @@ spec:
         name: truecharts
         namespace: flux-system
       interval: 1h
-      version: 20.12.5
+      version: 21.0.0
   uninstall:
     deletionPropagation: orphan
   valuesFrom:

@@ -12,14 +12,10 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./apps/production
+  path: ./apps
   prune: true
   wait: true
-  suspend: true
-  postBuild:
-    substitute:
-      domain: "weirdrussiandomain.com"
-      infisical_envSlug: prod
+  suspend: false
   decryption:
     provider: sops
     secretRef:

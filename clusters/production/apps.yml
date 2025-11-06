@@ -13,7 +13,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./apps/production
-  prune: false
+  prune: true
   wait: true
   suspend: true
   postBuild:
@@ -41,7 +41,7 @@ spec:
   path: ./apps
   prune: true
   wait: true
-  suspend: false
+  suspend: true
   decryption:
     provider: sops
     secretRef:

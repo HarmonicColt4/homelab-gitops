@@ -8,8 +8,7 @@
   "automergeType": "branch",
   "kubernetes": {
     "managerFilePatterns": [
-      "/infrastructure/controllers/dietpi/renovate/cronjob.yml/",
-      "apps/production/*/deployment.yml"
+      "/infrastructure/controllers/dietpi/renovate/cronjob.yml/"
     ]
   },
   "packageRules": [

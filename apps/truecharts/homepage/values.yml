@@ -1,0 +1,17 @@
+workload:
+  main:
+    podSpec:
+      containers:
+        main:
+          env:
+            HOMEPAGE_ALLOWED_HOSTS: homepage.weirdrussiandomain.com
+      initContainers:
+        init-config:
+          enabled: false
+
+addons:
+  codeserver:
+    enabled: true
+    service:
+      enabled: true
+      type: LoadBalancer

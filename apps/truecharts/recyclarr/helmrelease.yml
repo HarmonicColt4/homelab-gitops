@@ -1,0 +1,23 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: recyclarr
+spec:
+  interval: 30m
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: recyclarr
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 1h
+      version: 13.11.3
+  valuesFrom:
+  - kind: ConfigMap
+    name: global-values
+  - kind: ConfigMap
+    name: recyclarr-values

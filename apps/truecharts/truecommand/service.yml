@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/tailnet-fqdn: truenas-scale-penda.tail023022.ts.net
+  name: truenas-penda
+  namespace: truecommand
+spec:
+  externalName: placeholder
+  type: ExternalName

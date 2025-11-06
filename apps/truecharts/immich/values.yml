@@ -1,0 +1,81 @@
+persistence:
+  library:
+    type: nfs
+    path: /mnt/media/immich/library
+    server: truenas.home.auckland
+  uploads:
+    type: nfs
+    path: /mnt/media/immich/upload
+    server: truenas.home.auckland
+  backups:
+    type: nfs
+    path: /mnt/media/immich/backups
+    server: truenas.home.auckland
+  thumbs:
+    type: nfs
+    path: /mnt/media/immich/thumbs
+    server: truenas.home.auckland
+  profile:
+    type: nfs
+    path: /mnt/media/immich/profile
+    server: truenas.home.auckland
+  video:
+    type: nfs
+    path: /mnt/media/immich/encoded-video
+    server: truenas.home.auckland
+  archive-guy:
+    enabled: true
+    type: nfs
+    path: /mnt/media/archive/Guy
+    server: truenas.home.auckland
+    mountPath: /archive/Guy
+    targetSelector:
+      main:
+        main: {}
+      microservices:
+        microservices: {}
+  archive-gabrielle:
+    enabled: true
+    type: nfs
+    path: /mnt/media/archive/Gabrielle
+    server: truenas.home.auckland
+    mountPath: /archive/Gabrielle
+    targetSelector:
+      main:
+        main: {}
+      microservices:
+        microservices: {}
+global:
+  fallbackDefaults:
+    vctSize: 10Gi
+credentials:
+  garage:
+    type: s3
+    url: http://10.13.25.10:30188
+    bucket: immich
+    accessKey: "GKa674a16dd9fcaf31f522f9a1"
+    secretKey: "482911b3d07ae562770c14cc00f78e398a045894e0d4756a8f5990e2fbe5fc70"
+    region: garage
+    encrKey: "F19hters"
+cnpg:
+  main:
+    type: vectorchord
+    mode: recovery
+    password: "Z*z#ehVCwjy#GX7EEidN5fj5wKQ5K@BLemRi&*$obQPL4Y%GCX5Ak&Mai&kJ83CS"
+    backups:
+      enabled: true
+      credentials: garage
+      destinationPath: "s3://immich"
+      revision: "2"
+    recovery:
+      revision: "1"
+      credentials: garage
+      destinationPath: "s3://immich"
+workload:
+  machinelearning:
+    podSpec:
+      containers:
+        machinelearning:
+          resources:
+            limits:
+              cpu: "4"

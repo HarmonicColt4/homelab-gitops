@@ -15,6 +15,7 @@ spec:
   path: ./apps/production
   prune: false
   wait: true
+  suspend: true
   postBuild:
     substitute:
       domain: "weirdrussiandomain.com"

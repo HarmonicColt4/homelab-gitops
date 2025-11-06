@@ -10,7 +10,7 @@ credentials:
     encrKey: "F19hters"
 cnpg:
   main:
-    mode: recovery
+    # mode: recovery
     backups:
       enabled: true
       credentials: garage

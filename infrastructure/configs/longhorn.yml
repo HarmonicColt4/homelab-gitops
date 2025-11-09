@@ -1,0 +1,54 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: longhorn
+  namespace: longhorn-system
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - match: Host(`longhorn.weirdrussiandomain.com`) && PathPrefix(`/`)
+    kind: Rule
+    services:
+    - name: longhorn-frontend
+      port: 80
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: backup
+  namespace: longhorn-system
+spec:
+  cron: "0 0 * * *"
+  task: "backup"
+  retain: 7
+  concurrency: 2
+  groups:
+  - default
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: snapshot
+  namespace: longhorn-system
+spec:
+  cron: "15 * * * *"
+  task: "snapshot"
+  retain: 24
+  concurrency: 2
+  groups:
+  - default
+---
+apiVersion: longhorn.io/v1beta2
+kind: RecurringJob
+metadata:
+  name: filesystem-trim
+  namespace: longhorn-system
+spec:
+  cron: "0 0 * * *"
+  task: "filesystem-trim"
+  retain: 0
+  concurrency: 2
+  groups:
+  - default

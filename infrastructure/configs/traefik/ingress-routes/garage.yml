@@ -1,0 +1,13 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: garage
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - kind: Rule
+    match: Host(`garage.weirdrussiandomain.com`) && PathPrefix(`/`)
+    services:
+    - name: truenas
+      port: 30186

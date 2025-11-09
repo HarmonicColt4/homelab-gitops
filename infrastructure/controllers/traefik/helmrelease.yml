@@ -1,0 +1,66 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: flux-system
+spec:
+  targetNamespace: traefik
+  releaseName: traefik
+  interval: 24h
+  chart:
+    spec:
+      chart: traefik
+      version: 37.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: traefik
+      interval: 24h
+  install:
+    disableWait: true
+  upgrade:
+    disableWait: true
+  values:
+    deployment:
+      kind: DaemonSet
+    service:
+      spec:
+        externalTrafficPolicy: Local
+      annotations:
+        metallb.io/loadBalancerIPs: 10.25.25.11
+    ports:
+      web:
+        redirections:
+          entryPoint:
+            to: websecure
+            scheme: https
+      websecure:
+        transport:
+          respondingTimeouts:
+            readTimeout: 600s
+            idleTimeout: 600s
+            writeTimeout: 600s
+      tsp-ssh:
+        expose:
+          default: true
+        exposedPort: 50022
+        port: 50022
+        protocol: TCP
+    ingressRoute:
+      dashboard:
+        matchRule: Host(`traefik.weirdrussiandomain.com`)
+        enabled: true
+        entryPoints:
+        - websecure
+    tlsStore:
+      default:
+        defaultCertificate:
+          secretName: cert
+    global:
+      checkNewVersion: true
+      sendAnonymousUsage: false
+    additionalArguments:
+    - "--serverstransport.insecureskipverify=true"
+    providers:
+      kubernetesCRD:
+        allowExternalNameServices: true
+        allowCrossNamespace: true

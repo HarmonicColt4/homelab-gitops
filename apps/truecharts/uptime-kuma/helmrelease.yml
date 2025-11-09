@@ -17,5 +17,5 @@ spec:
       interval: 1h
       version: 13.11.4
   valuesFrom:
-    - kind: ConfigMap
-      name: global-values
+  - kind: ConfigMap
+    name: global-values

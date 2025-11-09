@@ -1,3 +1,4 @@
+---
 persistence:
   movies-1080p:
     enabled: true

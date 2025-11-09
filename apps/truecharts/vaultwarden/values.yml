@@ -1,3 +1,4 @@
+---
 vaultwarden:
   # -- Allow any user to sign-up
   # see: https://github.com/dani-garcia/bitwarden_rs/wiki/Disable-registration-of-new-users

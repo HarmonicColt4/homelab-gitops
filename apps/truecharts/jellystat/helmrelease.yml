@@ -19,5 +19,7 @@ spec:
   valuesFrom:
   - kind: ConfigMap
     name: global-values
+  - kind: Secret
+    name: cnpg-values
   - kind: ConfigMap
     name: jellystat-values

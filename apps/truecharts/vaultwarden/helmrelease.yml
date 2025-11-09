@@ -19,10 +19,12 @@ spec:
       interval: 1h
       version: 29.11.4
   valuesFrom:
-    - kind: ConfigMap
-      name: global-values
-    - kind: ConfigMap
-      name: vaultwarden-values
+  - kind: ConfigMap
+    name: global-values
+  - kind: Secret
+    name: cnpg-values
+  - kind: ConfigMap
+    name: vaultwarden-values
   values:
     ingress:
       main:
@@ -31,7 +33,7 @@ spec:
           traefik:
             enabled: false
         hosts:
-          - host: vaultwarden.test.com
-            paths:
-              - path: /
-                pathType: Prefix
+        - host: vaultwarden.test.com
+          paths:
+          - path: /
+            pathType: Prefix

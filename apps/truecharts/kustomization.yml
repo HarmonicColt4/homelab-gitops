@@ -14,7 +14,7 @@ resources:
 - prowlarr
 - qbittorrent
 - radarr
-- recyclarr
+# - recyclarr
 - sonarr
 - vaultwarden
 - unifi

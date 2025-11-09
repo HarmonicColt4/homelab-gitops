@@ -6,7 +6,6 @@ resources:
 - namespace.yml
 - helmrelease.yml
 - ingress-route.yml
-- ../flaresolverr
 - ../global-values
 
-namespace: prowlarr
+namespace: profilarr

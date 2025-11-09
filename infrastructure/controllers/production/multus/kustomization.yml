@@ -1,6 +1,0 @@
-namespace: multus-cni
-
-resources:
-- namespace.yml
-- repository.yml
-- multus-cni.yml

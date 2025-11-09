@@ -1,8 +1,0 @@
-resources:
-- cluster-issuers.yml
-- flux-webhook.yml
-- longhorn.yml
-- metallb.yml
-- notifications.yml
-- traefik.yml
-- secrets

@@ -32,7 +32,7 @@ spec:
     mode: enabled
   chart:
     spec:
-      chart: profilarr-anime
+      chart: profilarr
       sourceRef:
         kind: HelmRepository
         name: truecharts

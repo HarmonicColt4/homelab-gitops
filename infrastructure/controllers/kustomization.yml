@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
 - cert-manager
 - intel-gpu-plugin
-- kustomization.yml
 - longhorn
 - metallb
 - multus

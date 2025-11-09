@@ -12,6 +12,7 @@ resources:
 - immich
 - jellyfin
 - prowlarr
+- profilarr
 - qbittorrent
 - radarr
 # - recyclarr

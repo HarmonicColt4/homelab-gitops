@@ -35,10 +35,6 @@ spec:
   path: ./infrastructure/monitoring
   prune: true
   wait: true
-  postBuild:
-    substitute:
-      domain: "weirdrussiandomain.com"
-      infisical_envSlug: prod
   decryption:
     provider: sops
     secretRef:

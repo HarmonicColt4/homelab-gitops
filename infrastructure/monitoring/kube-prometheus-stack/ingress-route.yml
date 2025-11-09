@@ -4,10 +4,10 @@ metadata:
   name: grafana
 spec:
   entryPoints:
-    - websecure
+  - websecure
   routes:
-    - match: Host(`grafana.${domain}`) && PathPrefix(`/`)
-      kind: Rule
-      services:
-        - name: kps-grafana
-          port: 80
+  - match: Host(`grafana.weirdrussiandomain.com`) && PathPrefix(`/`)
+    kind: Rule
+    services:
+    - name: kps-grafana
+      port: 80

@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
 - helmrelease.yml
 - ingress-route.yml
+- ../cnpg
 
 configMapGenerator:
 - name: jellystat-values

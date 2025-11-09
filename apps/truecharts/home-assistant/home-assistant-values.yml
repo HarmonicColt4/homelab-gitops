@@ -1,3 +1,4 @@
+---
 addons:
   codeserver:
     enabled: true
@@ -6,7 +7,8 @@ addons:
       type: LoadBalancer
 
 homeassistant:
-  trusted_proxies: [ 10.25.25.11 ]
+  trusted_proxies:
+  - 10.25.25.11
 
 workload:
   main:

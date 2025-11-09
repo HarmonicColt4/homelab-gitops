@@ -61,7 +61,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/configs/production
-  prune: true
+  prune: false
   wait: true
   postBuild:
     substitute:

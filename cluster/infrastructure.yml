@@ -13,6 +13,7 @@ spec:
   path: ./infrastructure/controllers/production
   prune: true
   wait: true
+  suspend: true
   postBuild:
     substitute:
       domain: "weirdrussiandomain.com"

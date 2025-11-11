@@ -6,6 +6,7 @@ resources:
 - gitea.yml
 - jellyfin.yml
 - nextcloud.yml
+- opencloud.yml
 - truenas.yml
 - truenas-penda.yml
 - immich-penda.yml

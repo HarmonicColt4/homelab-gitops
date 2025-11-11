@@ -12,3 +12,4 @@ spec:
     services:
     - name: truenas
       port: 30259
+      scheme: https

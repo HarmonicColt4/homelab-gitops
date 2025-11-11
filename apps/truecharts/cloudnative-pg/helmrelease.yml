@@ -7,7 +7,7 @@ metadata:
 spec:
   releaseName: cloudnative-pg
   targetNamespace: cloudnative-pg
-  interval: 30m
+  interval: 24h
   driftDetection:
     mode: enabled
   chart:

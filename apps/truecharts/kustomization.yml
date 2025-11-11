@@ -18,6 +18,7 @@ resources:
 - qbittorrent
 - radarr
 - sonarr
+- stirling-pdf
 - vaultwarden
 - unifi
 - uptime-kuma

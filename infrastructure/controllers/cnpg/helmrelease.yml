@@ -2,11 +2,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: cloudnative-pg
-  namespace: flux-system
+  name: cnpg
 spec:
-  releaseName: cloudnative-pg
-  targetNamespace: cloudnative-pg
   interval: 24h
   driftDetection:
     mode: enabled
@@ -15,6 +12,6 @@ spec:
       chart: cloudnative-pg
       sourceRef:
         kind: HelmRepository
-        name: truecharts
+        name: cnpg
       interval: 1h
-      version: 8.2.0
+      version: 0.26.1

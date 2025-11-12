@@ -4,6 +4,7 @@ kind: Kustomization
 
 resources:
 - cert-manager
+- cnpg
 - intel-gpu-plugin
 - longhorn
 - metallb

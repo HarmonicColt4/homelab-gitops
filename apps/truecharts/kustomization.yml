@@ -7,7 +7,6 @@ resources:
 - repository.yml
 - adguard-home
 - actualserver
-- cloudnative-pg
 - cloudflareddns
 - cnpg
 - homepage

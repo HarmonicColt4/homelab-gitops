@@ -59,7 +59,7 @@ spec:
         name: truecharts
         namespace: flux-system
       interval: 1h
-      version: 15.12.3
+      version: 15.13.0
   valuesFrom:
   - kind: ConfigMap
     name: global-values

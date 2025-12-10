@@ -24,13 +24,7 @@
     },
     {
       "matchManagers": ["flux"],
-      "matchDepNames": [
-        "fluxcd/flux2",
-        "secrets-operator",
-        "cert-manager",
-        "metallb",
-        "longhorn"
-      ],
+      "matchDepNames": ["fluxcd/flux2", "cert-manager", "metallb"],
       "automerge": false
     }
   ]

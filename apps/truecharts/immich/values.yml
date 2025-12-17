@@ -76,3 +76,14 @@ workload:
           resources:
             limits:
               cpu: "4"
+              memory: 8Gi
+              gpu.intel.com/i915: 1
+  microservices:
+    podSpec:
+      containers:
+        microservices:
+          resources:
+            limits:
+              cpu: "4"
+              memory: 8Gi
+              gpu.intel.com/i915: 1

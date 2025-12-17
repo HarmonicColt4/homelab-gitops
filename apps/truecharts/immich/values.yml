@@ -68,6 +68,10 @@ cnpg:
       revision: "1"
       credentials: garage
       destinationPath: "s3://immich"
+
+immich:
+  mlImageType: mlOpenvinoImage
+
 workload:
   machinelearning:
     podSpec:

@@ -1,0 +1,14 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: netdata
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - match: Host(`netdata.weirdrussiandomain.com`) && PathPrefix(`/`)
+    kind: Rule
+    services:
+    - name: netdata
+      port: 19999

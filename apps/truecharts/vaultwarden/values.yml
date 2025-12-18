@@ -110,7 +110,3 @@ cnpg:
     recovery:
       credentials: garage
       destinationPath: "s3://vaultwarden"
-
-persistence:
-  data:
-    storageClass: longhorn

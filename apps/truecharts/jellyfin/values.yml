@@ -50,6 +50,7 @@ workload:
         main:
           resources:
             limits:
+              cpu: "4"
               gpu.intel.com/i915: 1
           env:
             JELLYFIN_PublishedServerUrl: jellyfin-nuc.weirdrussiandomain.com

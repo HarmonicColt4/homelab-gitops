@@ -1,7 +1,9 @@
 ---
 persistence:
+  data:
+    volumeName: jellyfin-data
   config:
-    size: 10Gi
+    volumeName: jellyfin-config
   anime:
     enabled: true
     type: nfs
@@ -32,9 +34,7 @@ persistence:
     path: /mnt/media/series-4k
     server: truenas.home.auckland
     mountPath: /series-4k
-service:
-  autodiscovery:
-    enabled: false
+
 workload:
   main:
     podSpec:
@@ -44,7 +44,7 @@ workload:
             limits:
               gpu.intel.com/i915: 1
           env:
-            JELLYFIN_PublishedServerUrl: jellyfin.weirdrussiandomain.com
-resources:
-  limits:
-    cpu: 7000m
+            JELLYFIN_PublishedServerUrl: jellyfin-nuc.weirdrussiandomain.com
+
+autodiscovery:
+  enabled: true

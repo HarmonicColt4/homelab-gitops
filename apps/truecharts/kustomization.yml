@@ -12,7 +12,7 @@ resources:
 - homepage
 - immich
 - jellyfin
-- netdata
+# - netdata
 - prowlarr
 - profilarr
 - qbittorrent

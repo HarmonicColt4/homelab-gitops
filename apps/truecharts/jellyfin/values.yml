@@ -2,8 +2,10 @@
 persistence:
   data:
     volumeName: jellyfin-data
+    storageClass: longhorn
   config:
     volumeName: jellyfin-config
+    storageClass: longhorn
   anime:
     enabled: true
     type: nfs

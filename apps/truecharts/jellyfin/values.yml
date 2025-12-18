@@ -3,6 +3,7 @@ persistence:
   data:
     volumeName: jellyfin-data
     storageClass: longhorn
+    size: 20Gi
   config:
     volumeName: jellyfin-config
     storageClass: longhorn

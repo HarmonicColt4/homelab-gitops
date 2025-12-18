@@ -47,6 +47,8 @@ workload:
               gpu.intel.com/i915: 1
           env:
             JELLYFIN_PublishedServerUrl: jellyfin-nuc.weirdrussiandomain.com
+  broadcastproxy:
+    enabled: true
 
 autodiscovery:
   enabled: true

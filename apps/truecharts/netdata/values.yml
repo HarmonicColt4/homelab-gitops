@@ -1,1 +1,69 @@
 ---
+persistence:
+  config:
+    enabled: true
+    mountPath: "/etc/netdata"
+    targetSelectAll: true
+  lib:
+    enabled: true
+    mountPath: "/var/lib/netdata"
+  cache:
+    enabled: true
+    mountPath: "/var/cache/netdata"
+  passwd:
+    enabled: true
+    type: hostPath
+    hostPath: "/var/etc/passwd"
+    mountPath: "/host/etc/passwd"
+    readOnly: true
+  group:
+    enabled: true
+    type: hostPath
+    hostPath: "/var/etc/group"
+    mountPath: "/host/etc/group"
+    readOnly: true
+  proc:
+    enabled: true
+    type: hostPath
+    hostPath: "/proc"
+    mountPath: "/host/proc"
+    readOnly: true
+  dev:
+    enabled: true
+    type: hostPath
+    hostPath: "/dev"
+    mountPath: "/host/dev"
+    readOnly: true
+  sys:
+    enabled: true
+    type: hostPath
+    hostPath: "/sys"
+    mountPath: "/host/sys"
+    readOnly: true
+  os:
+    enabled: true
+    type: hostPath
+    hostPath: "/etc/os-release"
+    mountPath: "/host/etc/os-release"
+    readOnly: true
+  netdata-configs:
+    enabled: true
+    mountPath: "/etc/netdata/truecharts-defaults/.netdata.conf"
+    subPath: "netdata-conf"
+    type: configmap
+    objectName: configs
+    targetSelectAll: true
+  go-d-configs:
+    enabled: true
+    mountPath: "/etc/netdata/truecharts-defaults/.go.d.conf"
+    subPath: "go-d-conf"
+    type: configmap
+    objectName: configs
+    targetSelectAll: true
+  go-d-k8s-state-configs:
+    enabled: true
+    mountPath: "/etc/netdata/truecharts-defaults/go.d/.k8s_state.conf"
+    subPath: "go-d-k8s-state-conf"
+    type: configmap
+    objectName: configs
+    targetSelectAll: true

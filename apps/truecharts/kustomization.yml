@@ -12,7 +12,6 @@ resources:
 - homepage
 - immich
 - jellyfin
-# - netdata
 - prowlarr
 - profilarr
 - qbittorrent
@@ -21,7 +20,6 @@ resources:
 - stirling-pdf
 - vaultwarden
 - unifi
-- unifi-copy
 - uptime-kuma
 
 configMapGenerator:

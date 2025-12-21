@@ -7,6 +7,7 @@ resources:
 - jellyfin.yml
 - nextcloud.yml
 - opencloud.yml
+- sunshine.yml
 - truenas.yml
 - truenas-penda.yml
 - immich-penda.yml

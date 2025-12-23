@@ -8,36 +8,18 @@ service:
       torrent:
         port: 23507
 persistence:
-  series-1080p:
+  shows:
     enabled: true
     type: nfs
-    path: /mnt/media/series-1080p/torrents
+    path: /mnt/media/shows/torrents
     server: truenas.home.auckland
-    mountPath: /series-1080p/torrents
-  series-4k:
+    mountPath: /shows/torrents
+  movies:
     enabled: true
     type: nfs
-    path: /mnt/media/series-4k/torrents
+    path: /mnt/media/movies/torrents
     server: truenas.home.auckland
-    mountPath: /series-4k/torrents
-  movies-1080p:
-    enabled: true
-    type: nfs
-    path: /mnt/media/movies-1080p/torrents
-    server: truenas.home.auckland
-    mountPath: /movies-1080p/torrents
-  movies-4k:
-    enabled: true
-    type: nfs
-    path: /mnt/media/movies-4k/torrents
-    server: truenas.home.auckland
-    mountPath: /movies-4k/torrents
-  anime:
-    enabled: true
-    type: nfs
-    path: /mnt/media/anime/downloads
-    server: truenas.home.auckland
-    mountPath: /anime/downloads
+    mountPath: /movies/torrents
   books:
     enabled: true
     type: nfs

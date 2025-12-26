@@ -12,36 +12,18 @@ persistence:
   config:
     volumeName: jellyfin-config
     storageClass: longhorn
-  anime:
+  movies:
     enabled: true
     type: nfs
-    path: /mnt/media/anime
+    path: /mnt/media/movies
     server: truenas.home.auckland
-    mountPath: /anime
-  movies-1080p:
+    mountPath: /movies
+  shows:
     enabled: true
     type: nfs
-    path: /mnt/media/movies-1080p
+    path: /mnt/media/shows
     server: truenas.home.auckland
-    mountPath: /movies-1080p
-  movies-4k:
-    enabled: true
-    type: nfs
-    path: /mnt/media/movies-4k
-    server: truenas.home.auckland
-    mountPath: /movies-4k
-  series-1080p:
-    enabled: true
-    type: nfs
-    path: /mnt/media/series-1080p
-    server: truenas.home.auckland
-    mountPath: /series-1080p
-  series-4k:
-    enabled: true
-    type: nfs
-    path: /mnt/media/series-4k
-    server: truenas.home.auckland
-    mountPath: /series-4k
+    mountPath: /shows
 
 workload:
   main:

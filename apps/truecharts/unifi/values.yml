@@ -7,8 +7,6 @@ service:
 persistence:
   config:
     enabled: false
-  data:
-    size: 10Gi
 workload:
   main:
     podSpec:

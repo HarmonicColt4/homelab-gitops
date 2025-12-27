@@ -23,7 +23,7 @@ spec:
     name: '*'
     namespace: flux-system
   eventMetadata:
-    cluster: ${weirdrussiandomain.com:=placeholder}
+    cluster: weird-russian-cluster
   exclusionList:
   - "Dependencies do not meet ready condition"
   - "HelmRelease.* configured"
@@ -49,6 +49,6 @@ spec:
     name: '*'
     namespace: flux-system
   eventMetadata:
-    cluster: ${weirdrussiandomain.com:=placeholder}
+    cluster: weird-russian-cluster
   exclusionList:
   - "dependency.*is not ready"

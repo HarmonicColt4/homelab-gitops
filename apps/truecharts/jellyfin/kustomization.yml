@@ -9,6 +9,7 @@ resources:
 - ../jellyseerr
 - ../jellystat
 - ../global-values
+- ../../../observability
 
 namespace: jellyfin
 

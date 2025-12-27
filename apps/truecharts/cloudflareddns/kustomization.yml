@@ -6,6 +6,7 @@ resources:
 - namespace.yml
 - helmrelease.yml
 - ../global-values
+- ../../../observability
 - secret.enc.yml
 
 namespace: cloudflareddns

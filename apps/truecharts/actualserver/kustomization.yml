@@ -7,5 +7,6 @@ resources:
 - helmrelease.yml
 - ingress-route.yml
 - ../global-values
+- ../../../observability
 
 namespace: actualserver

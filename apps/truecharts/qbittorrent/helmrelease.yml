@@ -21,9 +21,3 @@ spec:
     name: global-values
   - kind: ConfigMap
     name: qbittorrent-values
-  uninstall:
-    deletionPropagation: orphan
-  upgrade:
-    remediation:
-      retries: 3
-      strategy: rollback

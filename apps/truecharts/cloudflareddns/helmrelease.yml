@@ -5,10 +5,6 @@ metadata:
   name: cloudflareddns
 spec:
   interval: 24h
-  upgrade:
-    remediation:
-      strategy: rollback
-      remediateLastFailure: true
   driftDetection:
     mode: enabled
   chart:

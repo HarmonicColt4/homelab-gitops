@@ -17,8 +17,6 @@ spec:
         namespace: flux-system
       interval: 1h
       version: 21.3.7
-  uninstall:
-    deletionPropagation: orphan
   valuesFrom:
   - kind: ConfigMap
     name: global-values

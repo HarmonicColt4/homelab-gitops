@@ -24,7 +24,12 @@
     },
     {
       "matchManagers": ["flux"],
-      "matchDepNames": ["fluxcd/flux2", "cert-manager", "metallb"],
+      "matchDepNames": [
+        "fluxcd/flux2",
+        "cert-manager",
+        "metallb",
+        "cloudflareddns"
+      ],
       "automerge": false
     }
   ]

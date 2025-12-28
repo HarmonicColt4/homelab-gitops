@@ -8,7 +8,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`qbittorrent.weirdrussiandomain.com`) && PathPrefix(`/`)
+  - match: Host(`qbittorrent.teamg.gg`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: qbittorrent

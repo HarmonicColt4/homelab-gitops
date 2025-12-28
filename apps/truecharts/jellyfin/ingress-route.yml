@@ -7,7 +7,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`jellyfin-nuc.weirdrussiandomain.com`) && PathPrefix(`/`)
+  - match: Host(`jellyfin-nuc.teamg.gg`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: jellyfin

@@ -7,7 +7,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`grafana.weirdrussiandomain.com`) && PathPrefix(`/`)
+  - match: Host(`grafana.teamg.gg`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: kps-grafana

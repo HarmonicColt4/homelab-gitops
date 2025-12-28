@@ -7,7 +7,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`jellystat.weirdrussiandomain.com`) && PathPrefix(`/`)
+  - match: Host(`jellystat.teamg.gg`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: jellystat

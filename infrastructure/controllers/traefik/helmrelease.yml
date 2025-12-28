@@ -44,7 +44,7 @@ spec:
         protocol: TCP
     ingressRoute:
       dashboard:
-        matchRule: Host(`traefik.weirdrussiandomain.com`)
+        matchRule: Host(`traefik.teamg.gg`)
         enabled: true
         entryPoints:
         - websecure

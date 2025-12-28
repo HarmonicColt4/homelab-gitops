@@ -8,7 +8,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`prowlarr.weirdrussiandomain.com`) && PathPrefix(`/`)
+  - match: Host(`prowlarr.teamg.gg`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: prowlarr

@@ -7,7 +7,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`audiobookshelf.weirdrussiandomain.com`) && PathPrefix(`/`)
+  - match: Host(`audiobookshelf.teamg.gg`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: audiobookshelf

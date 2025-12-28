@@ -7,7 +7,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`home-assistant.weirdrussiandomain.com`) && PathPrefix(`/`)
+  - match: Host(`home-assistant.teamg.gg`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: home-assistant
@@ -21,7 +21,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`zigbee2mqtt.weirdrussiandomain.com`) && PathPrefix(`/`)
+  - match: Host(`zigbee2mqtt.teamg.gg`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: zigbee2mqtt

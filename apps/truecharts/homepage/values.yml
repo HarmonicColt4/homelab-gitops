@@ -5,7 +5,7 @@ workload:
       containers:
         main:
           env:
-            HOMEPAGE_ALLOWED_HOSTS: homepage.weirdrussiandomain.com
+            HOMEPAGE_ALLOWED_HOSTS: homepage.teamg.gg
       initContainers:
         init-config:
           enabled: false

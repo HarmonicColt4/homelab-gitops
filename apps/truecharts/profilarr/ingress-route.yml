@@ -7,7 +7,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`profilarr.weirdrussiandomain.com`) && PathPrefix(`/`)
+  - match: Host(`profilarr.teamg.gg`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: profilarr
@@ -21,7 +21,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`profilarr-anime.weirdrussiandomain.com`) && PathPrefix(`/`)
+  - match: Host(`profilarr-anime.teamg.gg`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: profilarr-anime

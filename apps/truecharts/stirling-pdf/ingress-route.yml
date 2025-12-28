@@ -7,7 +7,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`pdf.weirdrussiandomain.com`) && PathPrefix(`/`)
+  - match: Host(`pdf.teamg.gg`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: stirling-pdf

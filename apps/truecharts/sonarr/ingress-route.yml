@@ -7,7 +7,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`sonarr.weirdrussiandomain.com`) && PathPrefix(`/`)
+  - match: Host(`sonarr.teamg.gg`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: sonarr

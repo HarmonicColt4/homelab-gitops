@@ -8,7 +8,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`uptime-kuma.weirdrussiandomain.com`) && PathPrefix(`/`)
+  - match: Host(`uptime-kuma.teamg.gg`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: uptime-kuma

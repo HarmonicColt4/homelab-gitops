@@ -7,7 +7,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`netdata.weirdrussiandomain.com`) && PathPrefix(`/`)
+  - match: Host(`netdata.teamg.gg`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: netdata

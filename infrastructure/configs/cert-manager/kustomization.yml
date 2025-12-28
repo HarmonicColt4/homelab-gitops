@@ -1,0 +1,4 @@
+---
+resources:
+- ca.yml
+- cluster-issuers.yml

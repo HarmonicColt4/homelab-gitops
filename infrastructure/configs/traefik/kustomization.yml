@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
 - services
 - ingress-routes
-- default-cert.yml
+- letsencrypt-cert.yml
+- tls-store.yml
 
 namespace: traefik

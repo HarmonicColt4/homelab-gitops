@@ -16,10 +16,6 @@ spec:
         kind: HelmRepository
         name: traefik
       interval: 1h
-  install:
-    disableWait: true
-  upgrade:
-    disableWait: true
   values:
     deployment:
       kind: DaemonSet
@@ -52,12 +48,6 @@ spec:
         enabled: true
         entryPoints:
         - websecure
-    tlsStore:
-      default:
-        defaultCertificate:
-          secretName: cert
-        certificates:
-        - secretName: teamg-tls
     global:
       checkNewVersion: true
       sendAnonymousUsage: false

@@ -8,7 +8,7 @@ spec:
   - websecure
   routes:
   - kind: Rule
-    match: HostRegexp(`garage\.(teamg\.gg|weirdrussiandomain\.com)`) && PathPrefix(`/`)
+    match: Host(`garage.teamg.gg`) && PathPrefix(`/`)
     services:
     - name: truenas
       port: 30186

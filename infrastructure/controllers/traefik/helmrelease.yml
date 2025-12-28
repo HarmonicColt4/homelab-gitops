@@ -57,7 +57,7 @@ spec:
         defaultCertificate:
           secretName: cert
         certificates:
-        - "teamg-tls"
+        - secretName: teamg-tls
     global:
       checkNewVersion: true
       sendAnonymousUsage: false

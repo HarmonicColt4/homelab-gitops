@@ -8,7 +8,7 @@ spec:
   - websecure
   routes:
   - kind: Rule
-    match: Host(`truenas.weirdrussiandomain.com`) && PathPrefix(`/`)
+    match: Host(`truenas.teamg.gg`) && PathPrefix(`/`)
     services:
     - name: truenas
       port: 443

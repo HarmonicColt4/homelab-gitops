@@ -7,7 +7,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: HostRegexp(`jellyseerr\.(teamg\.gg\|weirdrussiandomain\.com)`) && PathPrefix(`/`)
+  - match: HostRegexp(`jellyseerr\.(teamg\.gg|weirdrussiandomain\.com)`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: jellyseerr

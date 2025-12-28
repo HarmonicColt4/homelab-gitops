@@ -6,6 +6,7 @@ resources:
 - services
 - ingress-routes
 - letsencrypt-cert.yml
+- teamg-cert.yml
 - tls-store.yml
 
 namespace: traefik

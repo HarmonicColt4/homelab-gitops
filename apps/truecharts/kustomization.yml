@@ -11,7 +11,7 @@ resources:
 - cnpg
 - homepage
 - immich
-# - jellyfin
+- jellyfin
 - prowlarr
 - profilarr
 - qbittorrent

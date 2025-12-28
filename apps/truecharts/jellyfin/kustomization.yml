@@ -4,8 +4,8 @@ kind: Kustomization
 
 resources:
 - namespace.yml
-- helmrelease.yml
-- ingress-route.yml
+# - helmrelease.yml
+# - ingress-route.yml
 - ../jellyseerr
 - ../jellystat
 - ../global-values

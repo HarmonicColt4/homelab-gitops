@@ -7,21 +7,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`radarr.weirdrussiandomain.com`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: radarr
-      port: 7878
----
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
-metadata:
-  name: radarr-teamg
-spec:
-  entryPoints:
-  - websecure
-  routes:
-  - match: Host(`radarr.teamg`) && PathPrefix(`/`)
+  - match: Host(`radarr.teamg.gg`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: radarr

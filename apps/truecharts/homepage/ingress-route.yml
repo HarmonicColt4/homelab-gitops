@@ -7,7 +7,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`homepage.teamg.gg`) && PathPrefix(`/`)
+  - match: Host(`teamg.gg`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: homepage

@@ -9,3 +9,4 @@ spec:
     secretName: teamg-tls
   certificates:
   - secretName: weirdrussiandomain-com-tls
+  - secretName: penda-tls

@@ -1,4 +1,5 @@
 ---
 resources:
+- bundle.yml
 - ca.yml
 - cluster-issuers.yml

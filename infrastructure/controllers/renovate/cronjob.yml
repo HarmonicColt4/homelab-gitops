@@ -22,7 +22,7 @@ spec:
               mountPath: '/home/ubuntu/.ssh'
             image: renovate/renovate:41.171.0
             args:
-            - ssh://git@truenas.home.auckland:30009/gpenda/fluxcd.git
+            - gpenda/fluxcd
             env:
             - name: LOG_LEVEL
               value: debug

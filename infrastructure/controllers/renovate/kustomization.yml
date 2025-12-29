@@ -7,6 +7,5 @@ resources:
 - cronjob.yml
 - configmap.yml
 - secret.enc.yml
-- ssh-key.enc.yml
 
 namespace: renovate

@@ -17,8 +17,6 @@ spec:
     name: discord
   eventSeverity: info
   eventSources:
-  - kind: Kustomization
-    name: '*'
   - kind: HelmRelease
     name: '*'
   exclusionList:

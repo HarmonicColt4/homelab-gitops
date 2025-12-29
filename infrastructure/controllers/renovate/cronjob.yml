@@ -10,8 +10,16 @@ spec:
     spec:
       template:
         spec:
+          volumes:
+          - name: ssh-key-volume
+            secret:
+              secretName: ssh-key-secret
           containers:
           - name: renovate
+            volumeMounts:
+            - name: ssh-key-volume
+              readOnly: true
+              mountPath: '/home/ubuntu/.ssh'
             image: renovate/renovate:41.171.0
             args:
             - gpenda/fluxcd

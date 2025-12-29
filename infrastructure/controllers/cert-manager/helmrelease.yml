@@ -33,10 +33,3 @@ spec:
         kind: HelmRepository
         name: jetstack
       interval: 1h
-  values:
-    app:
-      webhook:
-        tls:
-          approverPolicy:
-            enabled: true
-            certManagerNamespace: cert-manager

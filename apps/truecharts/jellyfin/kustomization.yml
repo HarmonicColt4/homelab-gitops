@@ -7,7 +7,6 @@ resources:
 # - helmrelease.yml
 # - ingress-route.yml
 - ../jellyseerr
-- ../jellystat
 - ../global-values
 - ../../../observability
 

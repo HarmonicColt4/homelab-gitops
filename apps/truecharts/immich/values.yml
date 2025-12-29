@@ -3,32 +3,32 @@ persistence:
   library:
     type: nfs
     path: /mnt/media/immich/library
-    server: truenas.home.auckland
+    server: truenas.home.arpa
   uploads:
     type: nfs
     path: /mnt/media/immich/upload
-    server: truenas.home.auckland
+    server: truenas.home.arpa
   backups:
     type: nfs
     path: /mnt/media/immich/backups
-    server: truenas.home.auckland
+    server: truenas.home.arpa
   thumbs:
     type: nfs
     path: /mnt/media/immich/thumbs
-    server: truenas.home.auckland
+    server: truenas.home.arpa
   profile:
     type: nfs
     path: /mnt/media/immich/profile
-    server: truenas.home.auckland
+    server: truenas.home.arpa
   video:
     type: nfs
     path: /mnt/media/immich/encoded-video
-    server: truenas.home.auckland
+    server: truenas.home.arpa
   archive-guy:
     enabled: true
     type: nfs
     path: /mnt/media/archive/Guy
-    server: truenas.home.auckland
+    server: truenas.home.arpa
     mountPath: /archive/Guy
     targetSelector:
       main:
@@ -39,7 +39,7 @@ persistence:
     enabled: true
     type: nfs
     path: /mnt/media/archive/Gabrielle
-    server: truenas.home.auckland
+    server: truenas.home.arpa
     mountPath: /archive/Gabrielle
     targetSelector:
       main:

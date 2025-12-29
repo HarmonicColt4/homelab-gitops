@@ -4,5 +4,5 @@ kind: Service
 metadata:
   name: sunshine
 spec:
-  externalName: gaming-pc.home.auckland
+  externalName: gaming-pc.home.arpa
   type: ExternalName

@@ -2,6 +2,7 @@
 resources:
 - cert-manager
 - flux-webhook.yml
+- infisical-secrets-operator
 - longhorn.yml
 - metallb.yml
 - notifications.yml

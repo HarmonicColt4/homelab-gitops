@@ -4,6 +4,7 @@ kind: Kustomization
 
 resources:
 - ca-push-secret.yml
+- home-arpa-push-secret.yml
 - teamg-push-secret.yml
 
 namespace: secrets-operator

@@ -38,7 +38,7 @@ spec:
       template:
         includeAllSecrets: false
         data:
-          truenas-gg.crt: '{{ (index . "tls.crt").Value }}'
+          truenas.crt: '{{ (index . "tls.crt").Value }}'
 
   authentication:
     universalAuth:

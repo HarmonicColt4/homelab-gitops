@@ -6,6 +6,7 @@ resources:
 - cert-manager
 - cnpg
 - external-secrets
+- infisical-secrets-operator
 - intel-gpu-plugin
 - longhorn
 - metallb

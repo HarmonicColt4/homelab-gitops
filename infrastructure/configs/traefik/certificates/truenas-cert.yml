@@ -14,6 +14,8 @@ spec:
   issuerRef:
     name: teamg-ca-issuer
     kind: ClusterIssuer
+  duration: 8760h
+  renewBefore: 1h
 ---
 apiVersion: secrets.infisical.com/v1alpha1
 kind: InfisicalPushSecret

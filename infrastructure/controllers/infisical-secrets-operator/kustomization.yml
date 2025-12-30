@@ -6,5 +6,6 @@ resources:
 - namespace.yml
 - helmrelease.yml
 - repository.yml
+- auth.enc.yml
 
 namespace: secrets-operator

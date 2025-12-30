@@ -8,3 +8,17 @@ resources:
 - penda-cert.yml
 - teamg-cert.yml
 - tls-store.yml
+
+namespace: traefik
+
+transformers:
+- |-
+  apiVersion: builtin
+  kind: NamespaceTransformer
+  metadata:
+    name: not-important-to-example
+    namespace: traefik
+  fieldSpecs:
+  - path: spec/push/secret/secretNamespace
+    kind: InfisicalPushSecret
+    create: true

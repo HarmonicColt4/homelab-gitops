@@ -2,25 +2,23 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: home
+  name: truenas
 spec:
-  secretName: home-tls
-  commonName: Home Certificate
+  secretName: truenas-tls
+  commonName: Truenas Certificate
   dnsNames:
-  - home.arpa
-  - "*.home.arpa"
+  - truenas
+  - truenas.home.arpa
+  ipAddresses:
+  - 10.13.25.10
   issuerRef:
     name: teamg-ca-issuer
     kind: ClusterIssuer
-  duration: 8760h
-  renewBefore: 1h
-  additionalOutputFormats:
-  - type: CombinedPEM
 ---
 apiVersion: secrets.infisical.com/v1alpha1
 kind: InfisicalPushSecret
 metadata:
-  name: home-arpa
+  name: truenas
 spec:
   resyncInterval: 1m
   updatePolicy: Replace
@@ -33,13 +31,12 @@ spec:
 
   push:
     secret:
-      secretName: home-tls
+      secretName: truenas-tls
 
       template:
         includeAllSecrets: false
         data:
-          home-arpa.crt: '{{ (index . "tls.crt").Value }}'
-          home-arpa-combined.pem: '{{ (index . "tls-combined.pem").Value }}'
+          truenas-gg.crt: '{{ (index . "tls.crt").Value }}'
 
   authentication:
     universalAuth:

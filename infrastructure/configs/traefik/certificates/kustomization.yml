@@ -4,9 +4,9 @@ kind: Kustomization
 
 resources:
 - letsencrypt-cert.yml
-- home-cert.yml
 - penda-cert.yml
 - teamg-cert.yml
+- truenas-cert.yml
 - tls-store.yml
 
 namespace: traefik

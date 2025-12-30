@@ -4,7 +4,7 @@ kind: Kustomization
 
 resources:
 - letsencrypt-cert.yml
-- home.arpa-cert.yml
+- home-cert.yml
 - penda-cert.yml
 - teamg-cert.yml
 - tls-store.yml

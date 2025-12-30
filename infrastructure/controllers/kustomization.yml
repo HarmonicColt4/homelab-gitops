@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
 - cert-manager
 - cnpg
+- external-secrets
 - intel-gpu-plugin
 - longhorn
 - metallb

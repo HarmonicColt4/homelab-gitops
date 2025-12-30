@@ -2,4 +2,5 @@
 resources:
 - bundle.yml
 - ca.yml
+- cf-api-token.enc.yml
 - cluster-issuers.yml

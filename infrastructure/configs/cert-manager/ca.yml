@@ -17,3 +17,33 @@ spec:
     name: selfsigned-cluster-issuer
     kind: ClusterIssuer
     group: cert-manager.io
+---
+apiVersion: secrets.infisical.com/v1alpha1
+kind: InfisicalPushSecret
+metadata:
+  name: ca-infisical-push-secret
+spec:
+  resyncInterval: 1m
+  updatePolicy: Replace
+  deletionPolicy: Delete
+
+  destination:
+    projectSlug: homelab-deoo
+    environmentSlug: production
+    secretsPath: /certificates
+
+  push:
+    secret:
+      secretName: root-secret
+      secretNamespace: cert-manager
+
+      template:
+        includeAllSecrets: false
+        data:
+          ca.crt: '{{ (index . "tls.crt").Value }}'
+
+  authentication:
+    universalAuth:
+      credentialsRef:
+        secretName: universal-auth-credentials
+        secretNamespace: secrets-operator

@@ -12,3 +12,32 @@ spec:
   issuerRef:
     name: teamg-ca-issuer
     kind: ClusterIssuer
+---
+apiVersion: secrets.infisical.com/v1alpha1
+kind: InfisicalPushSecret
+metadata:
+  name: penda-gg
+spec:
+  resyncInterval: 1m
+  updatePolicy: Replace
+  deletionPolicy: Delete
+
+  destination:
+    projectSlug: homelab-deoo
+    environmentSlug: production
+    secretsPath: /certificates
+
+  push:
+    secret:
+      secretName: penda-tls
+
+      template:
+        includeAllSecrets: false
+        data:
+          penda-gg.crt: '{{ (index . "tls.crt").Value }}'
+
+  authentication:
+    universalAuth:
+      credentialsRef:
+        secretName: universal-auth-credentials
+        secretNamespace: secrets-operator

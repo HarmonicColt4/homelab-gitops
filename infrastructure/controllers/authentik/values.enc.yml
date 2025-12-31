@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: authentik-values
+type: Opaque
+stringData:
+  values.yaml: ENC[AES256_GCM,data:CC4wUxwG3sSTl5I2NOiWDyHR/F2OWnGnGIYAG7Buy/MqY+D2iDI9UAXk1oi0bxMbsxdh5E5FvICpuq3OEsvuJfHbROtsJrvDZ1FI9Vs7N55SrQIu7JJjGejKizSV1ztmESUtjK15POTCgTJ3nMlFVITN5wEw+2SakOhHrJQHI3TDXYTrzEPn9+hGLW4Evowm4h/Gr/Ey5In/9W4xHSgTlFt6WYM1SpZPhGG0SAT6fH8HE993OSy4PLGyjMqROMGULRO23A75Ts7NOahJfGKZbgAmXMrNt00SCXhQ4uipVCd/vgxFKQ5DxNybZvqVSedHK/w3PXcbT8XRuXQo+7SY3C7apc2Bhhcc2luHhZyCdO++FEMFA0PV3dFa8b5uN8lHCI5GeQbAY6ZY/pjQlOpcnvI0YcN6c9SsdOoapQ+JZ6JbymJVJaGCg+/3FNd2h9zHqXrEmtYck8J5tiIJH1IhbUzI8OtOQcHZACtqds6Yrbrna/+fJyiio/WiDOBJHJ2FolJAZ9bnvhXMnh1pVyn88Ox/k5fZfh9hK3NlRcgbajDeW2fteSQ4hDajgXdabXktARN9s8FObZcr28a25vqXTC5744lYzlPV5flRNaA/l2j7k5hRAYUYbTh8mcGb4d/bOS4chU3GC1UyA6e3mKf/4lx0r/cDrn+VivoA362k97+IG9o+PtVHgDCVLRJDK7wXNzmb3LeNzR4OfXRgldsizCdZBR6Mnd1EpRCJw8dRpMGVxHD1EDF3ZFcuv05zve2j5Xb9g9VfM7dRtL/pfVHYxfrgEEWxCqO3jhuyBRcQvNc=,iv:lSSTTLPiIQ/YiSyF+dej0QZynybvkyNeDuqfevgMg6w=,tag:WKNNy1mxKL11scHjfdTOBw==,type:str]
+sops:
+  age:
+    - recipient: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBlZkdsWW1Ja0NpdjdsZysx
+        RFhKV3BIejRaZnRzME5QRDJSQkYzeHZSNG5RCi8xWlh3Z2N5cVR3elJUblk1WEFw
+        VmF2QkZDQ0JFQkQwVGNqK0hBeitCZmsKLS0tIE9CcjRCUHM4SFJjNncvdCtyYmhZ
+        bTZmdExUN3Q3MzY5dndueitGWmNWZTQK61Lw/P9TDMgXX6KlYwda0KV7aUV5K+jT
+        M8rLQlx5G8tgipjSWVRrclkMmAlIiNeVabQ8NFrlwZO8U8qGhGA1Vg==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2025-12-31T20:03:21Z"
+  mac: ENC[AES256_GCM,data:oelx1lt7fAOKcxPVXcBcamhZKz7zXcLRzCfhpmjF2ZvTtxkg1pj9CAT1Lm532kRTzR5+NCg4czNA57N7lXJ1204iMKJCOkgFNwRlIrRxaelh6/2kAK5mVlQLgG79SLsAGL5ct7dSrUmbfuwNqOsUNDbG/s2qnzyx6C2e2cnrTF4=,iv:NUnQh9qVBzOX5pvg8KGL9Q33Mp2+UtxhC5e5TBEF2Cc=,tag:2snrwzY2qJBudgNv0rsigA==,type:str]
+  encrypted_regex: ^(data|stringData)$
+  version: 3.11.0

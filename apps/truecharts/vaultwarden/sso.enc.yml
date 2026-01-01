@@ -3,8 +3,6 @@ kind: Secret
 metadata:
   name: sso-env
   namespace: vaultwarden
-  labels:
-    reconcile.fluxcd.io/watch: Enabled
 type: Opaque
 stringData:
   SSO_ENABLED: ENC[AES256_GCM,data:9SgkSg==,iv:xDL7LxT+EY31X8JMcwEgKOD2qETHt1uCPDZvvCH2ATw=,tag:wrCi60jifpWneNhTXw9YRA==,type:str]
@@ -20,15 +18,15 @@ stringData:
   SSO_SIGNUPS_MATCH_EMAIL: ENC[AES256_GCM,data:GzRTCg==,iv:ouikX4ahOFeeElaEGp9+er4V8SZOKLeuqW9G8IL0z9A=,tag:JywqjRhLwPK7C5KptnSGcQ==,type:str]
 sops:
   age:
-    - recipient: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
-      enc: |
-        -----BEGIN AGE ENCRYPTED FILE-----
-        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBiUlJtQ01vZFdrN3N2ZUl2
-        eFRkOFhOSWJ5L2laaVZMUlI4Y1B6NFpqeEZzCjZQRldzamw0NTNnNTlaQ3FJT2dt
-        dGJnZUU5SmYxZzY2cUxTbExCaWJ3bkEKLS0tIHZwUmFFY3hCT2xsNzNrdWxYVng1
-        UG0xRXNFUEtId1pSa0cwZ3FIemhRTXMKFzum5PlZkACPl9mZ9UiIQSOzO+gv3E6D
-        9x5pEO9VG2l1AX2gN9x1gpSiaC/IaDmBVavXSv+d9TACeXaiG1gRfQ==
-        -----END AGE ENCRYPTED FILE-----
+  - recipient: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    enc: |
+      -----BEGIN AGE ENCRYPTED FILE-----
+      YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBiUlJtQ01vZFdrN3N2ZUl2
+      eFRkOFhOSWJ5L2laaVZMUlI4Y1B6NFpqeEZzCjZQRldzamw0NTNnNTlaQ3FJT2dt
+      dGJnZUU5SmYxZzY2cUxTbExCaWJ3bkEKLS0tIHZwUmFFY3hCT2xsNzNrdWxYVng1
+      UG0xRXNFUEtId1pSa0cwZ3FIemhRTXMKFzum5PlZkACPl9mZ9UiIQSOzO+gv3E6D
+      9x5pEO9VG2l1AX2gN9x1gpSiaC/IaDmBVavXSv+d9TACeXaiG1gRfQ==
+      -----END AGE ENCRYPTED FILE-----
   lastmodified: "2026-01-01T22:47:35Z"
   mac: ENC[AES256_GCM,data:6DsXreAAy6jISbAXFby0y+zz9ofrI55ij0vEC0omxIn8JvUaVxRJSowCvVZ1j5iKLFH50k4AMp+WLmtj7UMtF9GwU0WwIHo0ZEkR8DtgVdiF8zGCoHVGORhCOs37giis1FINhy8cIYAH2vubw2ivx7bKq5xTWPCc1tPkxEoSzJU=,iv:dHMYcFUKEcpUW9Egf6wuhu4+ZDjGSt+g4V2Ya64A6Jw=,tag:Rb6dftU7Py1F4xOv/4VNyQ==,type:str]
   encrypted_regex: ^(token|password|stringData)$

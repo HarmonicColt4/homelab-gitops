@@ -15,7 +15,7 @@ vaultwarden:
     token: ENC[AES256_GCM,data:EljjeVUfrXF8P8OusQzV4DYXyS33uIiS5NPmk6QR40Xfoj0FSGlXNKBEwIWuNYAUUCcGHCf/drAom6x+3dzJoQ==,iv:dm3vtPQoFtH/E/1uuR5Ctds3iHP1dHsKxkjKtZdp76k=,tag:7N8pTyNuVG2J9hJSLZexhw==,type:str]
     # Enable SMTP. https://github.com/dani-garcia/bitwarden_rs/wiki/SMTP-configuration
   smtp:
-    enabled: false
+    enabled: true
     # SMTP hostname, required if SMTP is enabled.
     host: smtp.gmail.com
     # SMTP sender e-mail address, required if SMTP is enabled.

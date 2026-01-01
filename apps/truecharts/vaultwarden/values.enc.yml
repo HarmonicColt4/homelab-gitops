@@ -9,6 +9,7 @@ workload:
           envFrom:
           - secretRef:
               name: sso-env
+              expandObjectName: false
 vaultwarden:
   allowSignups: false
   verifySignup: true

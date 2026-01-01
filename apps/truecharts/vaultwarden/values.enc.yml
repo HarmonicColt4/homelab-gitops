@@ -1,3 +1,4 @@
+---
 workload:
   main:
     podSpec:
@@ -7,7 +8,7 @@ workload:
             DOMAIN: https://vaultwarden.weirdrussiandomain.com
 vaultwarden:
   allowSignups: false
-  verifySignup: true
+  verifySignup: false
   requireEmail: false
   allowInvitation: true
   showPasswordHint: true
@@ -93,15 +94,15 @@ cnpg:
       destinationPath: s3://vaultwarden
 sops:
   age:
-    - recipient: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
-      enc: |
-        -----BEGIN AGE ENCRYPTED FILE-----
-        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBjS0phY3d1ZjJhNThVRmVX
-        MGNmTGJINEI3Z0w4dzNzRUkwNjFWQUJNVUU0Cjlpb1ZNUVo5dDMzVmtOTWFvM2FW
-        VzZMb3JkUVk2VzVKUEhDY05RMmNxL2cKLS0tIFE1Y3J1MmlHejJpUGF6U1ZLOTU3
-        ZXlNZW03bWd2blpiM3hoYmcyUjNDOXMKQss4ttEj49W26YKSrQ1R2/nqfbX0DkRc
-        o5HuUjgCLH5ER3FB7nkzERp7lTYTmRsBonQrb6p4A7W4zC9+h9Kyyg==
-        -----END AGE ENCRYPTED FILE-----
+  - recipient: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    enc: |
+      -----BEGIN AGE ENCRYPTED FILE-----
+      YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBjS0phY3d1ZjJhNThVRmVX
+      MGNmTGJINEI3Z0w4dzNzRUkwNjFWQUJNVUU0Cjlpb1ZNUVo5dDMzVmtOTWFvM2FW
+      VzZMb3JkUVk2VzVKUEhDY05RMmNxL2cKLS0tIFE1Y3J1MmlHejJpUGF6U1ZLOTU3
+      ZXlNZW03bWd2blpiM3hoYmcyUjNDOXMKQss4ttEj49W26YKSrQ1R2/nqfbX0DkRc
+      o5HuUjgCLH5ER3FB7nkzERp7lTYTmRsBonQrb6p4A7W4zC9+h9Kyyg==
+      -----END AGE ENCRYPTED FILE-----
   lastmodified: "2026-01-01T10:39:55Z"
   mac: ENC[AES256_GCM,data:EnmM8hF/qZD+DRDGcgLWBBzVi/NJYDhCzyND1SHHfaYHZPRkqa/Z7n7uK94n7PRQFDb4KvRSqkI0PolsVfvBqsBtjYIt8eQqXzUjSdTlri4my5N76ljn7yaEyae6zLYTgBKAZly9G/rPubDer9Wk8mnlS2rTcJVJQka3wLx7e6s=,iv:7/8Kumc5igjHcavsrWsDInEK8/rmvqXMYMmp5f4AldQ=,tag:au887p3PqSa8WHP1OcR9JA==,type:str]
   encrypted_regex: ^(token|password)$

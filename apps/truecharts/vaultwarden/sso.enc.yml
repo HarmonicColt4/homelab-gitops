@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sso-env
+  labels:
+    reconcile.fluxcd.io/watch: Enabled
+type: Opaque
+stringData:
+  SSO_ENABLED: ENC[AES256_GCM,data:6D/viA==,iv:h8JeUa2afkONzj7O0eeLZ+ZLLltnevbl6Q8iVyRfTU8=,tag:OeSKyT9Yc4fl+uzVrBCxew==,type:str]
+  SSO_AUTHORITY: ENC[AES256_GCM,data:h006E2SH8ZifeIitD407VqqGUjFIHrskjVYBYEP1wKweGfW9hpUuXU05qH2srjYGOp/kW9rvv8iS6cql8k3GuhEiPA==,iv:WvJyaRPLQecdA7pNlMaz8hQRLWZiPqGVjY4XIByLY2s=,tag:ZxcLi+Yo7j6brAwFDkTSXg==,type:str]
+  SSO_CLIENT_ID: ENC[AES256_GCM,data:seFRpXhneO62kmkWGUJNp1UZCImvJ5PROLNmPBd5GeIMMCIZZzD4Vg==,iv:Fbmwa7xRATS6vIIyDeQNs3MOUVyzgfHcA9m3u3d9TYk=,tag:9NOhNXJ6J1fDQhxUvnx4cQ==,type:str]
+  SSO_CLIENT_SECRET: ENC[AES256_GCM,data:AowWxYE9EcfXbfrW0GiAqkJfR2NTdcX8oWbH3PHN/XL8suXrHAi3vEyVTctE+fGuYqcoHVeZ2cquHQqzciSgV7q6vxzv2wN5XW/aazHDIe8skBIxKOR2rCZPLvdJnR8vEZIN9StcRmkQhnrcOEnnhW85BEam/wn+iXrJZ63IUuw=,iv:fzPnnoF55RfqhhO8K6hOcWO0nTTtAu0fJHbB58NFDeo=,tag:cgCh/TGou1QRnJ+t7NypWg==,type:str]
+  SSO_SCOPES: ENC[AES256_GCM,data:qgnBI4rFRg9bZmWPOzosXY8DIWzvqjGScxnvCk84x5ffGwU=,iv:BwFhrs7hkM6bMg4E6D8jIcQjG1gpnjiL4BHqxnii5n8=,tag:Evv6NieZLvMYaO5jGd4KeQ==,type:str]
+  SSO_ALLOW_UNKNOWN_EMAIL_VERIFICATION: ENC[AES256_GCM,data:gzmStww=,iv:mHAWozvw/mMeB+ZLDFC/utjy6hmVypo5WoiCnZkXIH4=,tag:+82u8gn+boSJ21eNZlzZCg==,type:str]
+  SSO_CLIENT_CACHE_EXPIRATION: ENC[AES256_GCM,data:Cw==,iv:oShdAmpUM4ThqXw+lKrZFQhne7f4bwZl78l/ObD2zSw=,tag:tg7f1LPsGOa2tYFihUd2QQ==,type:str]
+  #ENC[AES256_GCM,data:h39X1hHiFX4YJoXUK46e81yqFxIt1zDly2JCNNOS9CiIaGnPPOJuyOhJesjo2RfDNBUDVzvlVLX498SHEhbtSGylvw==,iv:+meW4aZ57LoI0r/0gODdOpjmd0iI353XI6HSW61BU6M=,tag:7P45grdOep2BYTrjEZAsDQ==,type:comment]
+  SSO_ONLY: ENC[AES256_GCM,data:+kQSd4g=,iv:groEw4d6Ky0LU5dsKPD94L1QqnZQOk2c2DmFqWtEabk=,tag:kv4YYXKYQ7cIUDVkiRKxcA==,type:str]
+  #ENC[AES256_GCM,data:6sbxd3UUIXbWu3LmtLwd8/LsZF9zmW0cmmaVBeUzKqeroqhzE5su4bWWY8/TCdAW9n4l,iv:9ZnOtG6kZniJe3RT9Ym5H+814qEkBSdPb33MjUu3LE0=,tag:7bLAfoEuUPz6+c5Zzn0K8Q==,type:comment]
+  SSO_SIGNUPS_MATCH_EMAIL: ENC[AES256_GCM,data:dqxyRA==,iv:oMsPMzIVQArhLnX8cl2xzVtwVFSJ+co4AAnWeRNGpM0=,tag:c41Ob3KsmoO+c/LBM5GQBA==,type:str]
+sops:
+  age:
+  - recipient: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    enc: |
+      -----BEGIN AGE ENCRYPTED FILE-----
+      YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBzM1dCbmRHNGlNaUVFbFFL
+      eGJTUmtZd1BMUG1Wa1FsTkIzeEFuOTRtVlRvCk5LQlFPYzdtQWo1NnhnRmhXNjdw
+      ZGxSb1hQemk1eFErNXRQMW5COWE2bUEKLS0tIG1zMHNHVXVXVHJJRE12S3Y2ZWVP
+      SFVUbDdnbmE1cWlra0xUTDZDMythSFUK/XYa8jrxz5RoPQ0aGIj76YRQPKHban/A
+      nmb9fHlUtaDZ5VGI2CcQA00sOwR71+qqtYWrzz80R8Uf3ZbKEATDGA==
+      -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2026-01-01T11:39:25Z"
+  mac: ENC[AES256_GCM,data:2E/rb3HMWEFGS+LIlNX2F8nwLWtrCdYZttkYleCBFfx72yt/7yojXuit8VhiFKFMS+KECCQd0qFwpjOmy4yFCMq1MSMgtOSWaLVUKO2JaSScJpJ66b/12szZE4q5paY6NKG+qC+LhO8lq36FTFfwHa8hHdkgFTWoVktCXuU4/Qg=,iv:445MhoyYWUQs9iaC4xnbf5TywySMpj8SxZoPngtJ1lg=,tag:+dcTJwMOCGLAio0ieLJeog==,type:str]
+  encrypted_regex: ^(token|password|stringData)$
+  mac_only_encrypted: true
+  version: 3.11.0

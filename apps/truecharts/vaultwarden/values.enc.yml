@@ -6,6 +6,9 @@ workload:
         main:
           env:
             DOMAIN: https://vaultwarden.weirdrussiandomain.com
+          envFrom:
+          - secretRef:
+              name: sso-env
 vaultwarden:
   allowSignups: false
   verifySignup: true

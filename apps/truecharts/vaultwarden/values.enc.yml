@@ -1,57 +1,31 @@
----
 vaultwarden:
-  # -- Allow any user to sign-up
-  # see: https://github.com/dani-garcia/bitwarden_rs/wiki/Disable-registration-of-new-users
-  allowSignups: true
-  ## Whitelist domains allowed to sign-up. 'allowSignups' is ignored if set.
-  # signupDomains:
-  #  - domain.tld
-  # -- Verify e-mail before login is enabled.
-  # SMTP must be enabled.
-  verifySignup: false
-  # When a user logs in an email is required to be sent. If sending the email fails the login attempt will fail. SMTP must be enabled.
+  allowSignups: false
+  verifySignup: true
   requireEmail: false
-  ## Maximum attempts before an email token is reset and a new email will need to be sent.
-  # emailAttempts: 3
-  ## Email token validity in seconds.
-  # emailTokenExpiration: 600
-  # Allow invited users to sign-up even feature is disabled: https://github.com/dani-garcia/bitwarden_rs/wiki/Disable-invitations
   allowInvitation: true
-  # Show password hints: https://github.com/dani-garcia/bitwarden_rs/wiki/Password-hint-display
-  ## Default organization name in invitation e-mails that are not coming from a specific organization.
-  # defaultInviteName: ""
   showPasswordHint: true
-  # Enable Web Vault (static content). https://github.com/dani-garcia/bitwarden_rs/wiki/Disabling-or-overriding-the-Vault-interface-hosting
   enableWebVault: true
-  # Restrict creation of orgs. Options are: 'all', 'none' or a comma-separated list of users.
-  orgCreationUsers: all
-  ## Limit attachment disk usage per organization.
-  # attachmentLimitOrg:
-  ## Limit attachment disk usage per user.
-  # attachmentLimitUser:
-  ## HaveIBeenPwned API Key. Can be purchased at https://haveibeenpwned.com/API/Key.
-  # hibpApiKey:
-
+  orgCreationUsers: none
   admin:
     # Enable admin portal.
-    enabled: false
+    enabled: true
     # Disabling the admin token will make the admin portal accessible to anyone, use carefully: https://github.com/dani-garcia/bitwarden_rs/wiki/Disable-admin-token
-    disableAdminToken: true
+    disableAdminToken: false
     ## Token for admin login, will be generated if not defined. https://github.com/dani-garcia/bitwarden_rs/wiki/Enabling-admin-page
-    # token:
+    token: ENC[AES256_GCM,data:EljjeVUfrXF8P8OusQzV4DYXyS33uIiS5NPmk6QR40Xfoj0FSGlXNKBEwIWuNYAUUCcGHCf/drAom6x+3dzJoQ==,iv:dm3vtPQoFtH/E/1uuR5Ctds3iHP1dHsKxkjKtZdp76k=,tag:7N8pTyNuVG2J9hJSLZexhw==,type:str]
     # Enable SMTP. https://github.com/dani-garcia/bitwarden_rs/wiki/SMTP-configuration
   smtp:
     enabled: false
     # SMTP hostname, required if SMTP is enabled.
-    host: ""
+    host: smtp.gmail.com
     # SMTP sender e-mail address, required if SMTP is enabled.
-    from: ""
+    from: gessomependa@gmail.com
     ## SMTP sender name, defaults to 'Bitwarden_RS'.
-    # fromName: ""
+    fromName: TeamG Vaultwarden
     ## Enable SSL connection.
     # security: starttls
     ## SMTP port. Defaults to 587 with STARTTLS, 465 with FORCE_TLS, and 25 without SSL.
-    # port: 587
+    port: 587
     ## SMTP Authentication Mechanisms. Comma-separated options: 'Plain', 'Login' and 'Xoauth2'. Defaults to 'Plain'.
     # authMechanism: Plain
     ## Hostname to be sent for SMTP HELO. Defaults to pod name.
@@ -63,37 +37,37 @@ vaultwarden:
     ## Accept invalid certificates. DANGEROUS, vulnerable to men-in-the-middle attacks!
     # invalidCertificate: false
     ## SMTP username.
-    # user: ""
+    user: gessomependa@gmail.com
     ## SMTP password. Required is user is specified, ignored if no user provided.
-    # password: ""
+    password: ENC[AES256_GCM,data:rhNgc4hwG0De2AIyCCrc5A==,iv:JJdRX4cqUuI9bNaSPNJefliP2U3iHEBZzVx1y385S8Q=,tag:Friw3Mwl/TM8WspU+/k2xQ==,type:str]
     ## Enable Yubico OTP authentication. https://github.com/dani-garcia/bitwarden_rs/wiki/Enabling-Yubikey-OTP-authentication
   yubico:
     enabled: false
     ## Yubico server. Defaults to YubiCloud.
-    # server:
-    ## Yubico ID and Secret Key.
-    # clientId:
-    # secretKey:
-    ## Enable Mobile Push Notifications. You must obtain and ID and Key here: https://bitwarden.com/host
+  # server:
+  ## Yubico ID and Secret Key.
+  # clientId:
+  # secretKey:
+  ## Enable Mobile Push Notifications. You must obtain and ID and Key here: https://bitwarden.com/host
   push:
     enabled: false
     # installationId:
-    # installationKey:
-    ## Logging options. https://github.com/dani-garcia/bitwarden_rs/wiki/Logging
+  # installationKey:
+  ## Logging options. https://github.com/dani-garcia/bitwarden_rs/wiki/Logging
   log:
     # Log to file.
     file: ""
     # Log level. Options are "trace", "debug", "info", "warn", "error" or "off".
-    level: "info"
+    level: info
     ## Log timestamp format. See https://docs.rs/chrono/0.4.15/chrono/format/strftime/index.html. Defaults to time in milliseconds.
-    # timeFormat: ""
+  # timeFormat: ""
   icons:
     # Disables download of external icons. Setting to true will still serve icons from cache (/data/icon_cache). TTL will default to zero.
     disableDownload: false
     ## Cache time-to-live for icons fetched. 0 means no purging.
-    # cache: 2592000
-    ## Cache time-to-live for icons that were not available. 0 means no purging.
-    # cacheFailed: 259200
+# cache: 2592000
+## Cache time-to-live for icons that were not available. 0 means no purging.
+# cacheFailed: 259200
 credentials:
   garage:
     type: s3
@@ -105,8 +79,23 @@ cnpg:
     backups:
       enabled: true
       credentials: garage
-      destinationPath: "s3://vaultwarden"
+      destinationPath: s3://vaultwarden
       revision: "1"
     recovery:
       credentials: garage
-      destinationPath: "s3://vaultwarden"
+      destinationPath: s3://vaultwarden
+sops:
+  age:
+    - recipient: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBubG5UU29rRlpzTFpZSHdI
+        LzFBQy80QVduWDh3bFFyNk5vUVpBVFJWTlRBCkdWZDRSaWlkY3BWMnpVZW13YXhk
+        TWJuMkZMZXZhNlg2ajR6SFB0STlRMnMKLS0tIGVGVDYreFFRNUM4VzBQSTNqdkI5
+        dm1EVzN2NWNsZkg4a2FFanF0UEFnUTAKKEJLk/Y05Y6S+vHbxgCx9GcmY1PQX9s1
+        AhU3n0oXcKIPW0QNgr8QTDFv/OOCqDb3V+4clVksW35KGXVNRiKSvQ==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2026-01-01T10:05:51Z"
+  mac: ENC[AES256_GCM,data:Y7pMqtrgHLM/WdO+uCajzGhU4dKoud/icmBA6WxeOqZULxIfslzUjxRAtkjKz+0//1i8o/P/rsf1TINs7fkkk04eZ2QSGHJpEqJyBAF6zj3Msy6vnaJBoe3+/JKSD0sy6v0qrvO9HieMEnZ9+Blz8T2Sfwv+aF/7ZlOgpC/R+XQ=,iv:LjfGPstitGD30fc7AypsFHtwD7X3zWroQ112qfHmcP0=,tag:jTELBZfpVzN2qujjaX10LA==,type:str]
+  encrypted_regex: ^(token|password)$
+  version: 3.11.0

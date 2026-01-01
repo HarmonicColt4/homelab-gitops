@@ -7,8 +7,8 @@ resources:
 - helmrelease.yml
 - ingress-route.yml
 
-configMapGenerator:
+secretGenerator:
 - name: vaultwarden-values
   namespace: flux-system
   files:
-  - values.yaml=values.yml
+  - values.yaml=values.enc.yml

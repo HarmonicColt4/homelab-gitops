@@ -23,17 +23,10 @@ spec:
     name: global-values
   - kind: Secret
     name: cnpg-values
-  - kind: ConfigMap
+  - kind: Secret
     name: vaultwarden-values
   values:
     ingress:
       main:
-        enabled: true
-        integrations:
-          traefik:
-            enabled: false
-        hosts:
-        - host: vaultwarden.test.com
-          paths:
-          - path: /
-            pathType: Prefix
+        required: false
+        enabled: false

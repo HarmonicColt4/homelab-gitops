@@ -12,7 +12,7 @@ vaultwarden:
     # Disabling the admin token will make the admin portal accessible to anyone, use carefully: https://github.com/dani-garcia/bitwarden_rs/wiki/Disable-admin-token
     disableAdminToken: false
     ## Token for admin login, will be generated if not defined. https://github.com/dani-garcia/bitwarden_rs/wiki/Enabling-admin-page
-    token: ENC[AES256_GCM,data:EljjeVUfrXF8P8OusQzV4DYXyS33uIiS5NPmk6QR40Xfoj0FSGlXNKBEwIWuNYAUUCcGHCf/drAom6x+3dzJoQ==,iv:dm3vtPQoFtH/E/1uuR5Ctds3iHP1dHsKxkjKtZdp76k=,tag:7N8pTyNuVG2J9hJSLZexhw==,type:str]
+    token: ENC[AES256_GCM,data:QOcy9G+0H7K/PcNOWYYY0ie6qtk1FoSgnOwgYpDeh+hB+coUNPMy8hGQEpHewrjDY6+Y2vMh9pU67xknfWN028wFnHD+HV3+wCnahcj6KQ5qLOGAGliKmxOOAzS0IiN+j4jSZIPPMteFfJx4MJBq0Nu8LPsZfQ==,iv:5VLKCyS9jfH1z6ekkHRN2Bk3buG8ksVWvh1LHu2rZbM=,tag:I4aH0EZgV+CBXxmcVTtA1w==,type:str]
     # Enable SMTP. https://github.com/dani-garcia/bitwarden_rs/wiki/SMTP-configuration
   smtp:
     enabled: true
@@ -39,35 +39,35 @@ vaultwarden:
     ## SMTP username.
     user: gessomependa@gmail.com
     ## SMTP password. Required is user is specified, ignored if no user provided.
-    password: ENC[AES256_GCM,data:rhNgc4hwG0De2AIyCCrc5A==,iv:JJdRX4cqUuI9bNaSPNJefliP2U3iHEBZzVx1y385S8Q=,tag:Friw3Mwl/TM8WspU+/k2xQ==,type:str]
+    password: ENC[AES256_GCM,data:EWW2ESXruZ1s/pJa5lrdUQ==,iv:9gfoVEtLVzMmjfqeHAF3RrixrhELdA0hxMK82nIkqh0=,tag:TcCUFJCRqmF9xeKakvb8pA==,type:str]
     ## Enable Yubico OTP authentication. https://github.com/dani-garcia/bitwarden_rs/wiki/Enabling-Yubikey-OTP-authentication
   yubico:
     enabled: false
     ## Yubico server. Defaults to YubiCloud.
-  # server:
-  ## Yubico ID and Secret Key.
-  # clientId:
-  # secretKey:
-  ## Enable Mobile Push Notifications. You must obtain and ID and Key here: https://bitwarden.com/host
+    # server:
+    ## Yubico ID and Secret Key.
+    # clientId:
+    # secretKey:
+    ## Enable Mobile Push Notifications. You must obtain and ID and Key here: https://bitwarden.com/host
   push:
     enabled: false
     # installationId:
-  # installationKey:
-  ## Logging options. https://github.com/dani-garcia/bitwarden_rs/wiki/Logging
+    # installationKey:
+    ## Logging options. https://github.com/dani-garcia/bitwarden_rs/wiki/Logging
   log:
     # Log to file.
     file: ""
     # Log level. Options are "trace", "debug", "info", "warn", "error" or "off".
     level: info
     ## Log timestamp format. See https://docs.rs/chrono/0.4.15/chrono/format/strftime/index.html. Defaults to time in milliseconds.
-  # timeFormat: ""
+    # timeFormat: ""
   icons:
     # Disables download of external icons. Setting to true will still serve icons from cache (/data/icon_cache). TTL will default to zero.
     disableDownload: false
     ## Cache time-to-live for icons fetched. 0 means no purging.
-# cache: 2592000
-## Cache time-to-live for icons that were not available. 0 means no purging.
-# cacheFailed: 259200
+    # cache: 2592000
+    ## Cache time-to-live for icons that were not available. 0 means no purging.
+    # cacheFailed: 259200
 credentials:
   garage:
     type: s3
@@ -89,13 +89,13 @@ sops:
     - recipient: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
       enc: |
         -----BEGIN AGE ENCRYPTED FILE-----
-        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBubG5UU29rRlpzTFpZSHdI
-        LzFBQy80QVduWDh3bFFyNk5vUVpBVFJWTlRBCkdWZDRSaWlkY3BWMnpVZW13YXhk
-        TWJuMkZMZXZhNlg2ajR6SFB0STlRMnMKLS0tIGVGVDYreFFRNUM4VzBQSTNqdkI5
-        dm1EVzN2NWNsZkg4a2FFanF0UEFnUTAKKEJLk/Y05Y6S+vHbxgCx9GcmY1PQX9s1
-        AhU3n0oXcKIPW0QNgr8QTDFv/OOCqDb3V+4clVksW35KGXVNRiKSvQ==
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBlZE5vMENmb3BvTVoxVysy
+        dWptM20rTEJ2T3REaUpJS09LSHVWN3hCMXprCnRTOFgrOG5hdTBnbnd5blgxR25h
+        RGtLYnduOUlIajU1a1Z6ODBlVlBwWkUKLS0tIE03RldVUkRzOXZYenZsN3c1UGhh
+        cExTTDBQV0k3MlYwWGxEOUtERTJodEUKb7oLVjZnNjlXfi/lnKHvfqSvY+L0aL/U
+        irq//tiUgNjgb3vfY3rlL4bGV0no4baDQMXgDQ5EfMMzP8cn50LfFQ==
         -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2026-01-01T10:05:51Z"
-  mac: ENC[AES256_GCM,data:Y7pMqtrgHLM/WdO+uCajzGhU4dKoud/icmBA6WxeOqZULxIfslzUjxRAtkjKz+0//1i8o/P/rsf1TINs7fkkk04eZ2QSGHJpEqJyBAF6zj3Msy6vnaJBoe3+/JKSD0sy6v0qrvO9HieMEnZ9+Blz8T2Sfwv+aF/7ZlOgpC/R+XQ=,iv:LjfGPstitGD30fc7AypsFHtwD7X3zWroQ112qfHmcP0=,tag:jTELBZfpVzN2qujjaX10LA==,type:str]
+  lastmodified: "2026-01-01T10:25:39Z"
+  mac: ENC[AES256_GCM,data:2IZd4nDk8YMA9Sck4Ew8mpFTFj+ZTE1D85Di5LOn24QCiR4HE9eXQUq2urS/4wZjvn7P4h36uIV6+Q+UpK4ZiO8Pw14vaGCfhsdPFc1LyO3kcz8Q+0UksyCPa9hN0bVNfBU+4RMfJmpT/4B44YNyTmKW4MAQVtA8hhKblXOHnE0=,iv:eiTX3kArE3AXxh+4TEm5KSD6LmxqG+fwUmwlqF8r3FI=,tag:odWXN18/+vPY3LIQW1h2ew==,type:str]
   encrypted_regex: ^(token|password)$
   version: 3.11.0

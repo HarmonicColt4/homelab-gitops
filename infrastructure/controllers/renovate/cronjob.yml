@@ -19,7 +19,7 @@ spec:
                 path: teamg-ca.crt
           containers:
           - name: renovate
-            image: renovate/renovate:41.173.1
+            image: renovate/renovate:42.69.2
             volumeMounts:
             - name: ca-cert
               readOnly: true

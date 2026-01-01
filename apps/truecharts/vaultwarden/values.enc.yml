@@ -1,3 +1,10 @@
+workload:
+  main:
+    podSpec:
+      containers:
+        main:
+          env:
+            DOMAIN: https://vaultwarden.weirdrussiandomain.com
 vaultwarden:
   allowSignups: false
   verifySignup: true
@@ -12,7 +19,7 @@ vaultwarden:
     # Disabling the admin token will make the admin portal accessible to anyone, use carefully: https://github.com/dani-garcia/bitwarden_rs/wiki/Disable-admin-token
     disableAdminToken: false
     ## Token for admin login, will be generated if not defined. https://github.com/dani-garcia/bitwarden_rs/wiki/Enabling-admin-page
-    token: ENC[AES256_GCM,data:QOcy9G+0H7K/PcNOWYYY0ie6qtk1FoSgnOwgYpDeh+hB+coUNPMy8hGQEpHewrjDY6+Y2vMh9pU67xknfWN028wFnHD+HV3+wCnahcj6KQ5qLOGAGliKmxOOAzS0IiN+j4jSZIPPMteFfJx4MJBq0Nu8LPsZfQ==,iv:5VLKCyS9jfH1z6ekkHRN2Bk3buG8ksVWvh1LHu2rZbM=,tag:I4aH0EZgV+CBXxmcVTtA1w==,type:str]
+    token: ENC[AES256_GCM,data:A5HtdIUdUqsG+mOehLn1hMotcHYjCvsM8tNLnYptom5cI3doDfH6hZYmIJrkzidsYdJza2zSSd83AJsXzgKokwBy5ejoxVZpAt/2YWJFx+utiTvwdDuzZQB2NSVA13KCbsKQ57L6Hy/H2wqQ7K3HnAzkh2sV6A==,iv:QoqhCEZZUeLfyCzUZL4Zcn1S+zGKsqFKKOp4f8+b4u0=,tag:TbZ8Z3lDtkEpm9/dsGZzow==,type:str]
     # Enable SMTP. https://github.com/dani-garcia/bitwarden_rs/wiki/SMTP-configuration
   smtp:
     enabled: true
@@ -39,7 +46,7 @@ vaultwarden:
     ## SMTP username.
     user: gessomependa@gmail.com
     ## SMTP password. Required is user is specified, ignored if no user provided.
-    password: ENC[AES256_GCM,data:EWW2ESXruZ1s/pJa5lrdUQ==,iv:9gfoVEtLVzMmjfqeHAF3RrixrhELdA0hxMK82nIkqh0=,tag:TcCUFJCRqmF9xeKakvb8pA==,type:str]
+    password: ENC[AES256_GCM,data:OGZwizPGJA5Hr9EHrWgMMg==,iv:4AHn9ksWMD+vnmIoK/9y7Dh993t62bCkY8jz20zfKxA=,tag:LwhUJlMsJwBpfqbXFaOLew==,type:str]
     ## Enable Yubico OTP authentication. https://github.com/dani-garcia/bitwarden_rs/wiki/Enabling-Yubikey-OTP-authentication
   yubico:
     enabled: false
@@ -89,13 +96,14 @@ sops:
     - recipient: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
       enc: |
         -----BEGIN AGE ENCRYPTED FILE-----
-        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBlZE5vMENmb3BvTVoxVysy
-        dWptM20rTEJ2T3REaUpJS09LSHVWN3hCMXprCnRTOFgrOG5hdTBnbnd5blgxR25h
-        RGtLYnduOUlIajU1a1Z6ODBlVlBwWkUKLS0tIE03RldVUkRzOXZYenZsN3c1UGhh
-        cExTTDBQV0k3MlYwWGxEOUtERTJodEUKb7oLVjZnNjlXfi/lnKHvfqSvY+L0aL/U
-        irq//tiUgNjgb3vfY3rlL4bGV0no4baDQMXgDQ5EfMMzP8cn50LfFQ==
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBjS0phY3d1ZjJhNThVRmVX
+        MGNmTGJINEI3Z0w4dzNzRUkwNjFWQUJNVUU0Cjlpb1ZNUVo5dDMzVmtOTWFvM2FW
+        VzZMb3JkUVk2VzVKUEhDY05RMmNxL2cKLS0tIFE1Y3J1MmlHejJpUGF6U1ZLOTU3
+        ZXlNZW03bWd2blpiM3hoYmcyUjNDOXMKQss4ttEj49W26YKSrQ1R2/nqfbX0DkRc
+        o5HuUjgCLH5ER3FB7nkzERp7lTYTmRsBonQrb6p4A7W4zC9+h9Kyyg==
         -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2026-01-01T10:25:39Z"
-  mac: ENC[AES256_GCM,data:2IZd4nDk8YMA9Sck4Ew8mpFTFj+ZTE1D85Di5LOn24QCiR4HE9eXQUq2urS/4wZjvn7P4h36uIV6+Q+UpK4ZiO8Pw14vaGCfhsdPFc1LyO3kcz8Q+0UksyCPa9hN0bVNfBU+4RMfJmpT/4B44YNyTmKW4MAQVtA8hhKblXOHnE0=,iv:eiTX3kArE3AXxh+4TEm5KSD6LmxqG+fwUmwlqF8r3FI=,tag:odWXN18/+vPY3LIQW1h2ew==,type:str]
+  lastmodified: "2026-01-01T10:39:55Z"
+  mac: ENC[AES256_GCM,data:EnmM8hF/qZD+DRDGcgLWBBzVi/NJYDhCzyND1SHHfaYHZPRkqa/Z7n7uK94n7PRQFDb4KvRSqkI0PolsVfvBqsBtjYIt8eQqXzUjSdTlri4my5N76ljn7yaEyae6zLYTgBKAZly9G/rPubDer9Wk8mnlS2rTcJVJQka3wLx7e6s=,iv:7/8Kumc5igjHcavsrWsDInEK8/rmvqXMYMmp5f4AldQ=,tag:au887p3PqSa8WHP1OcR9JA==,type:str]
   encrypted_regex: ^(token|password)$
+  mac_only_encrypted: true
   version: 3.11.0

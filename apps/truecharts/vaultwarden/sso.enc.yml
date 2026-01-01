@@ -3,6 +3,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: sso-env
+  namespace: vaultwarden
   labels:
     reconcile.fluxcd.io/watch: Enabled
 type: Opaque

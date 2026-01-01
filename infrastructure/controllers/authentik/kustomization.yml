@@ -6,6 +6,13 @@ resources:
 - namespace.yml
 - helmrelease.yml
 - repository.yml
-- values.enc.yml
 
 namespace: authentik
+
+secretGenerator:
+- name: authentik-values
+  files:
+  - values.yaml=values.enc.yml
+
+configurations:
+- kustomizeconfig.yml

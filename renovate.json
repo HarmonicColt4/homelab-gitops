@@ -1,15 +1,13 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "flux": {
-    "managerFilePatterns": ["/.+(?:helmrelease|repository|unifi/values)\\.yml/"]
+    "managerFilePatterns": ["/.+(?:helmrelease|repository)\\.yml/"]
   },
   "extends": ["config:recommended", ":automergeStableNonMajor"],
   "ignoreTests": true,
   "automergeType": "branch",
   "kubernetes": {
-    "managerFilePatterns": [
-      "/infrastructure/controllers/dietpi/renovate/cronjob.yml/"
-    ]
+    "managerFilePatterns": ["/infrastructure/controllers/renovate/cronjob.yml/"]
   },
   "packageRules": [
     {
@@ -28,7 +26,8 @@
         "fluxcd/flux2",
         "cert-manager",
         "metallb",
-        "cloudflareddns"
+        "cloudflareddns",
+        "vaultwarden"
       ],
       "automerge": false
     }

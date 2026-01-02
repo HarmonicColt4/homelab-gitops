@@ -8,8 +8,11 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`actualserver.teamg.gg`) && PathPrefix(`/`)
+  - match: HostRegexp(`^(actualserver|budget)\.teamg\.gg$`) && PathPrefix(`/`)
     kind: Rule
+    middlewares:
+    - name: authentik
+      namespace: traefik
     services:
     - name: actualserver
       port: 10293

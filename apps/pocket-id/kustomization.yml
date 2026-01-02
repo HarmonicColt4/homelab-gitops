@@ -11,12 +11,7 @@ resources:
 
 namespace: pocket-id
 
-configMapGenerator:
+secretGenerator:
 - name: env
   envs:
-  - .env
-
-secretGenerator:
-- name: secrets
-  envs:
-  - secrets.enc.env
+  - enc.env

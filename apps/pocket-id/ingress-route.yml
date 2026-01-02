@@ -7,7 +7,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`id.teamg.gg`) && PathPrefix(`/`)
+  - match: Host(`id.weirdrussiandomain.com`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: pocket-id

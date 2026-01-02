@@ -8,7 +8,6 @@ resources:
 - pvc.yml
 - svc.yml
 - ingress-route.yml
-- secrets.enc.yml
 
 namespace: pocket-id
 
@@ -16,3 +15,9 @@ configMapGenerator:
 - name: env
   envs:
   - .env
+
+secretGenerator:
+- name: secrets
+  files:
+  - key=secrets/key.enc
+  - license=secrets/license.enc

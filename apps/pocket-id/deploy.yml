@@ -23,13 +23,13 @@ spec:
           claimName: pocket-id-data
       - name: secrets
         secret:
-          secretName: files
+          secretName: secrets
       containers:
       - image: ghcr.io/pocket-id/pocket-id:v1.16.0-distroless
         name: pocket-id
         volumeMounts:
-        - mountPath: /app/data
-          name: data
+        - name: data
+          mountPath: /app/data
         - name: secrets
           mountPath: /var/run/secrets
         ports:

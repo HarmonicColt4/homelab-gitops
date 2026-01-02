@@ -25,7 +25,7 @@ spec:
         secret:
           secretName: secrets
       containers:
-      - image: ghcr.io/pocket-id/pocket-id:v1.16.0-distroless
+      - image: ghcr.io/pocket-id/pocket-id:v2.0.0-distroless
         name: pocket-id
         volumeMounts:
         - name: data

@@ -10,9 +10,6 @@ spec:
   routes:
   - match: HostRegexp(`^(qbit|qbittorrent)\.teamg\.gg$`) && PathPrefix(`/`)
     kind: Rule
-    middlewares:
-    - name: authentik
-      namespace: traefik
     services:
     - name: qbittorrent
       port: 10095

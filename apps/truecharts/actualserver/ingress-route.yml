@@ -10,9 +10,6 @@ spec:
   routes:
   - match: HostRegexp(`^(actualserver|budget)\.teamg\.gg$`) && PathPrefix(`/`)
     kind: Rule
-    middlewares:
-    - name: authentik
-      namespace: traefik
     services:
     - name: actualserver
       port: 10293

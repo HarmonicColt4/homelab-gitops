@@ -9,9 +9,6 @@ spec:
   routes:
   - match: Host(`radarr.teamg.gg`) && PathPrefix(`/`)
     kind: Rule
-    middlewares:
-    - name: authentik
-      namespace: traefik
     services:
     - name: radarr
       port: 7878

@@ -9,9 +9,6 @@ spec:
   routes:
   - match: Host(`profilarr.teamg.gg`) && PathPrefix(`/`)
     kind: Rule
-    middlewares:
-    - name: authentik
-      namespace: traefik
     services:
     - name: profilarr
       port: 6868
@@ -26,9 +23,6 @@ spec:
   routes:
   - match: Host(`profilarr-anime.teamg.gg`) && PathPrefix(`/`)
     kind: Rule
-    middlewares:
-    - name: authentik
-      namespace: traefik
     services:
     - name: profilarr-anime
       port: 6868

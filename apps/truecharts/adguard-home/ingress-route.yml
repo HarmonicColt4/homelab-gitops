@@ -9,6 +9,9 @@ spec:
   routes:
   - match: HostRegexp(`(adguard-home|adh)\.teamg\.gg`) && PathPrefix(`/`)
     kind: Rule
+    middlewares:
+    - name: authentik
+      namespace: traefik
     services:
     - name: adguard-home
       port: 10232

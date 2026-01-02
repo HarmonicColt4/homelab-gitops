@@ -9,6 +9,9 @@ spec:
   routes:
   - match: Host(`pdf.teamg.gg`) && PathPrefix(`/`)
     kind: Rule
+    middlewares:
+    - name: authentik
+      namespace: traefik
     services:
     - name: stirling-pdf
       port: 18080

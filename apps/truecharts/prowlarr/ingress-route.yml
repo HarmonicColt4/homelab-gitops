@@ -10,6 +10,9 @@ spec:
   routes:
   - match: Host(`prowlarr.teamg.gg`) && PathPrefix(`/`)
     kind: Rule
+    middlewares:
+    - name: authentik
+      namespace: traefik
     services:
     - name: prowlarr
       port: 9696

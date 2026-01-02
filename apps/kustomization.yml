@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
 - truecharts
 - tailscale
+- pocket-id

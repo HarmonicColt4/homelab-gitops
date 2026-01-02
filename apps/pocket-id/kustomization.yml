@@ -1,0 +1,18 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- namespace.yml
+- deploy.yml
+- pvc.yml
+- svc.yml
+- ingress-route.yml
+- secrets.enc.yml
+
+namespace: pocket-id
+
+configMapGenerator:
+- name: env
+  envs:
+  - .env

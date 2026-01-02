@@ -1,0 +1,14 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: pocket-id
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - match: Host(`id.teamg.gg`) && PathPrefix(`/`)
+    kind: Rule
+    services:
+    - name: pocket-id
+      port: 1411

@@ -39,7 +39,7 @@ vaultwarden:
     # SMTP hostname, required if SMTP is enabled.
     host: smtp.gmail.com
     # SMTP sender e-mail address, required if SMTP is enabled.
-    from: gessomependa@gmail.com
+    from: vaultwarden@teamg.gg
     ## SMTP sender name, defaults to 'Bitwarden_RS'.
     fromName: TeamG Vaultwarden
     ## Enable SSL connection.

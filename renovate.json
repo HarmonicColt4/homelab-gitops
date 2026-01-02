@@ -9,7 +9,7 @@
   "kubernetes": {
     "managerFilePatterns": [
       "/infrastructure/controllers/renovate/cronjob.yml/",
-      "/deploy.yml$/"
+      "/deploy\\.yml$/"
     ]
   },
   "packageRules": [
@@ -24,13 +24,14 @@
       "commitMessageTopic": "Helm release {{{depName}}}"
     },
     {
-      "matchManagers": ["flux"],
+      "matchManagers": ["flux", "kubernetes"],
       "matchDepNames": [
         "fluxcd/flux2",
         "cert-manager",
         "metallb",
         "cloudflareddns",
-        "vaultwarden"
+        "vaultwarden",
+        "ghcr.io/pocket-id/pocket-id"
       ],
       "automerge": false
     }

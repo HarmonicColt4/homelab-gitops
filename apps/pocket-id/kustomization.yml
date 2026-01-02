@@ -8,6 +8,7 @@ resources:
 - pvc.yml
 - svc.yml
 - ingress-route.yml
+- traefik-forward-auth
 
 namespace: pocket-id
 

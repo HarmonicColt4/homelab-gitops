@@ -30,3 +30,8 @@ configMapGenerator:
 
 configurations:
 - kustomizeconfig.yml
+
+patches:
+- path: helmrelease-disable-wait-and-remediation.yml
+  target:
+    kind: HelmRelease

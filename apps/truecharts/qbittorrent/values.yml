@@ -38,9 +38,3 @@ persistence:
     path: /mnt/media/downloads
     server: truenas.home.arpa
     mountPath: /downloads
-  vuetorrent:
-    enabled: true
-    type: pvc
-    mountPath: /vuetorrent
-    accessModes: ReadWriteMany
-    size: 200Mi

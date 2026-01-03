@@ -6,3 +6,4 @@ metadata:
 spec:
   forwardAuth:
     address: http://tinyauth.tinyauth.svc.cluster.local:3000/api/auth/traefik
+    authResponseHeaders: [ authorization ]

@@ -1,4 +1,13 @@
 ---
+workload:
+  main:
+    podSpec:
+      containers:
+        main:
+          env:
+            # External | Basic | Forms
+            RADARR__AUTH__METHOD: Basic
+            RADARR__AUTH__REQUIRED: Enabled
 persistence:
   movies:
     enabled: true

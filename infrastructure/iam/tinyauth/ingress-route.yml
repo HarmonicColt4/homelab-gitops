@@ -1,0 +1,14 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: tinyauth
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - match: Host(`tinyauth.teamg.gg`) && PathPrefix(`/`)
+    kind: Rule
+    services:
+    - name: tinyauth
+      port: 3000

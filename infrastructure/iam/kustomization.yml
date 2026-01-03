@@ -4,6 +4,4 @@ kind: Kustomization
 
 resources:
 - pocket-id
-- traefik-forward-auth
-
-namespace: pocket-id
+- tinyauth

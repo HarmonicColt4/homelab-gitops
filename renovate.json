@@ -30,8 +30,7 @@
         "cert-manager",
         "metallb",
         "cloudflareddns",
-        "vaultwarden",
-        "ghcr.io/pocket-id/pocket-id"
+        "vaultwarden"
       ],
       "automerge": false
     }

@@ -10,6 +10,9 @@ spec:
   routes:
   - match: HostRegexp(`^(qbit|qbittorrent)\.teamg\.gg$`) && PathPrefix(`/`)
     kind: Rule
+    middlewares:
+    - name: tinyauth
+      namespace: tinyauth
     services:
     - name: qbittorrent
       port: 10095

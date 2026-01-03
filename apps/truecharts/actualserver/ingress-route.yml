@@ -8,7 +8,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: HostRegexp(`^(actualserver|budget)\.teamg\.gg$`) && PathPrefix(`/`)
+  - match: Host(`budget.teamg.gg$`) && PathPrefix(`/`)
     kind: Rule
     middlewares:
     - name: tinyauth

@@ -32,7 +32,7 @@ vaultwarden:
     # Disabling the admin token will make the admin portal accessible to anyone, use carefully: https://github.com/dani-garcia/bitwarden_rs/wiki/Disable-admin-token
     disableAdminToken: false
     ## Token for admin login, will be generated if not defined. https://github.com/dani-garcia/bitwarden_rs/wiki/Enabling-admin-page
-    token: ENC[AES256_GCM,data:A5HtdIUdUqsG+mOehLn1hMotcHYjCvsM8tNLnYptom5cI3doDfH6hZYmIJrkzidsYdJza2zSSd83AJsXzgKokwBy5ejoxVZpAt/2YWJFx+utiTvwdDuzZQB2NSVA13KCbsKQ57L6Hy/H2wqQ7K3HnAzkh2sV6A==,iv:QoqhCEZZUeLfyCzUZL4Zcn1S+zGKsqFKKOp4f8+b4u0=,tag:TbZ8Z3lDtkEpm9/dsGZzow==,type:str]
+    token: ENC[AES256_GCM,data:R8TmsuMVjqNQ/RG45/Fos07ZVbZfq3njsZlGdHmoPx7OmQrwVYpXhlehramhxlc8nccjqiETXtaVSpVv+g/kB+Uo5UZ6EwZ3Csljr7+x08DKzFU1M511DEDwlI02uvLmei/EjCPB9ykRLo1wNS1BDlT14jv+gg==,iv:ckKj+i3MWDPXSQfhiP5iviAB/NL3wRF8iSCeQIONLGs=,tag:ObIcj1lc/S+IS74+cSp0EA==,type:str]
     # Enable SMTP. https://github.com/dani-garcia/bitwarden_rs/wiki/SMTP-configuration
   smtp:
     enabled: true
@@ -59,7 +59,7 @@ vaultwarden:
     ## SMTP username.
     user: gessomependa@gmail.com
     ## SMTP password. Required is user is specified, ignored if no user provided.
-    password: ENC[AES256_GCM,data:OGZwizPGJA5Hr9EHrWgMMg==,iv:4AHn9ksWMD+vnmIoK/9y7Dh993t62bCkY8jz20zfKxA=,tag:LwhUJlMsJwBpfqbXFaOLew==,type:str]
+    password: ENC[AES256_GCM,data:jvs0OtyDTpuGR137fqULBw==,iv:D6T4OJBvFz9ML1EBW7YqO5UGNGQH+qeX2KTZP7FqZL0=,tag:oiHH+bHqgi5K9ITXJbKOZg==,type:str]
     ## Enable Yubico OTP authentication. https://github.com/dani-garcia/bitwarden_rs/wiki/Enabling-Yubikey-OTP-authentication
   yubico:
     enabled: false
@@ -70,9 +70,9 @@ vaultwarden:
     # secretKey:
     ## Enable Mobile Push Notifications. You must obtain and ID and Key here: https://bitwarden.com/host
   push:
-    enabled: false
-    # installationId:
-    # installationKey:
+    enabled: true
+    installationId: ENC[AES256_GCM,data:3U9YjSNvNrwH1WwW0MPj/hO1VlktP8F+HmgcIUx+C11yuTd7,iv:vQP1qifV5A9kfJSDUCNScPu3fEy/RXoq5KmPQQS+Cwg=,tag:JcXMfmO1xKIpKbYIi1DLFA==,type:str]
+    installationKey: ENC[AES256_GCM,data:rIjY2h8Z+YIDDz58NAsuq8DsUhU=,iv:zqFDlE/dTNcm8cQFURVcOVt1BalS7pFNzxvLQ9Z3DSA=,tag:+wfWlb1mAUO92Ike1pk8JA==,type:str]
     ## Logging options. https://github.com/dani-garcia/bitwarden_rs/wiki/Logging
   log:
     # Log to file.
@@ -109,14 +109,14 @@ sops:
   - recipient: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
     enc: |
       -----BEGIN AGE ENCRYPTED FILE-----
-      YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBjS0phY3d1ZjJhNThVRmVX
-      MGNmTGJINEI3Z0w4dzNzRUkwNjFWQUJNVUU0Cjlpb1ZNUVo5dDMzVmtOTWFvM2FW
-      VzZMb3JkUVk2VzVKUEhDY05RMmNxL2cKLS0tIFE1Y3J1MmlHejJpUGF6U1ZLOTU3
-      ZXlNZW03bWd2blpiM3hoYmcyUjNDOXMKQss4ttEj49W26YKSrQ1R2/nqfbX0DkRc
-      o5HuUjgCLH5ER3FB7nkzERp7lTYTmRsBonQrb6p4A7W4zC9+h9Kyyg==
+      YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSA0VFhNa2tQTjh2K1cyR1BR
+      MEZTL3E5SnZxalU5ZmtoMWJCL0dKaTlJampNCkxJb1NiaURTM0IrYmFNcmxFNXZT
+      RVV0T2J3aCs2QzM2WjJPejdrWlhCSmMKLS0tIE1hL05FNzRWSXB0ZVRsY1FSRzNr
+      ZEE4dGVVeTF4YkVWcjF2K2NqVk9jRWcKUBig0tYzTRHwQbmpmdrnP7Tcu81OMi10
+      NwavjA6AiXYurPgwIH+Wsn3co5N4lsqUSjLaJcobkAfD7BLZ222gig==
       -----END AGE ENCRYPTED FILE-----
-  lastmodified: "2026-01-01T10:39:55Z"
-  mac: ENC[AES256_GCM,data:EnmM8hF/qZD+DRDGcgLWBBzVi/NJYDhCzyND1SHHfaYHZPRkqa/Z7n7uK94n7PRQFDb4KvRSqkI0PolsVfvBqsBtjYIt8eQqXzUjSdTlri4my5N76ljn7yaEyae6zLYTgBKAZly9G/rPubDer9Wk8mnlS2rTcJVJQka3wLx7e6s=,iv:7/8Kumc5igjHcavsrWsDInEK8/rmvqXMYMmp5f4AldQ=,tag:au887p3PqSa8WHP1OcR9JA==,type:str]
-  encrypted_regex: ^(token|password)$
+  lastmodified: "2026-01-03T21:08:02Z"
+  mac: ENC[AES256_GCM,data:uOYVY8AOrLhRUbt87IqwPZhgFoZHrjlRGJfW8Du2x3vEmnZADDA0NVQ1p1XWY/IK9dYNIvghDaTdswYGyTvPRjKp+0Zub23nZnHVMVSBEXgtxHhgJRr7MBfQ8vBtYO9gETHJrQl6GHsmnQjOVaK3SJut5awiekjeJ3u3UhuYHmc=,iv:02Bw5vmqfYE/VR/GZK5Mm96nKV74zFYOG9lbkKouPBY=,tag:/oeJjhFsqot3iarETz9gWw==,type:str]
+  encrypted_regex: ^(token|password|stringData|installationId|installationKey)$
   mac_only_encrypted: true
   version: 3.11.0

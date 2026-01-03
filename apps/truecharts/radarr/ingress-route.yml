@@ -9,6 +9,10 @@ spec:
   routes:
   - match: Host(`radarr.teamg.gg`) && PathPrefix(`/`)
     kind: Rule
+    middlewares:
+    - name: tinyauth
+      namespace: tinyauth
+    - name: auth
     services:
     - name: radarr
       port: 7878

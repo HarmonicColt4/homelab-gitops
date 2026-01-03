@@ -6,6 +6,8 @@ resources:
 - namespace.yml
 - helmrelease.yml
 - ingress-route.yml
+- middleware.yml
+- secret.enc.yml
 - ../global-values
 - ../../../observability
 

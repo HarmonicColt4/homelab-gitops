@@ -21,7 +21,7 @@ spec:
         secret:
           secretName: config-public
       containers:
-      - image: ghcr.io/italypaleale/traefik-forward-auth:4.4.0
+      - image: ghcr.io/italypaleale/traefik-forward-auth:4.5.0
         name: traefik-forward-auth
         ports:
         - containerPort: 4181
@@ -59,7 +59,7 @@ spec:
         secret:
           secretName: config-local
       containers:
-      - image: ghcr.io/italypaleale/traefik-forward-auth:4.4.0
+      - image: ghcr.io/italypaleale/traefik-forward-auth:4.5.0
         name: traefik-forward-auth
         ports:
         - containerPort: 4181

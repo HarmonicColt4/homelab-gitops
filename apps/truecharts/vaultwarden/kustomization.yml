@@ -5,7 +5,6 @@ kind: Kustomization
 resources:
 - namespace.yml
 - helmrelease.yml
-- ingress-route.yml
 - sso.enc.yml
 
 secretGenerator:

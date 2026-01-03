@@ -8,7 +8,13 @@ workload:
     podSpec:
       containers:
         main:
-          probes: {}
+          probes:
+            readiness:
+              enabled: false
+            liveness:
+              enabled: false
+            startup:
+              enabled: false
           env:
             DOMAIN: https://vaultwarden.weirdrussiandomain.com
           envFrom:

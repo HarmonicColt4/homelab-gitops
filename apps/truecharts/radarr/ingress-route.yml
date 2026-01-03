@@ -12,7 +12,6 @@ spec:
     middlewares:
     - name: tinyauth
       namespace: tinyauth
-    - name: auth
     services:
     - name: radarr
       port: 7878

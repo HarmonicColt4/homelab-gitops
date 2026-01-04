@@ -7,7 +7,15 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: HostRegexp(`jellyseerr\.(teamg\.gg|weirdrussiandomain\.com)`) && PathPrefix(`/`)
+  - match: Host(`jellyseerr.weirdrussiandomain.com`) && PathPrefix(`/`)
+    kind: Rule
+    middlewares:
+    - name: tinyauth-public
+      namespace: tinyauth
+    services:
+    - name: jellyseerr
+      port: 10241
+  - match: Host(`jellyseerr.teamg.gg`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: jellyseerr

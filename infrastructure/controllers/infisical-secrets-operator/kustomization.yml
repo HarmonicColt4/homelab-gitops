@@ -6,6 +6,22 @@ resources:
 - namespace.yml
 - helmrelease.yml
 - repository.yml
-- auth.enc.yml
 
-namespace: secrets-operator
+secretGenerator:
+- name: universal-auth-credentials
+  envs:
+  - auth.enc.env
+
+transformers:
+- |
+  apiVersion: builtin
+  kind: NamespaceTransformer
+  metadata:
+    name: not-important-to-example
+    namespace: secrets-operator
+  setRoleBindingSubjects: none
+  unsetOnly: true
+  fieldSpecs:
+    - kind: HelmRelease
+      path: spec/targetNamespace
+      create: true

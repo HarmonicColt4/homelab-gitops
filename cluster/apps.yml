@@ -13,31 +13,8 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./apps
-  prune: false
+  prune: true
   wait: true
-  suspend: false
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: apps-new
-  namespace: flux-system
-spec:
-  dependsOn:
-  - name: infra-configs
-  interval: 24h
-  timeout: 5m
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./apps-new
-  prune: false
-  wait: true
-  suspend: true
   decryption:
     provider: sops
     secretRef:

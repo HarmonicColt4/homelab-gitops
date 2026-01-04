@@ -1,0 +1,7 @@
+---
+TZ: NZ
+global:
+  fallbackDefaults:
+    pvcSize: 1Gi
+    vctSize: 1Gi
+    storageClass: longhorn

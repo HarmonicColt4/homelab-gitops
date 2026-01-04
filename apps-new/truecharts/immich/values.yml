@@ -1,0 +1,93 @@
+---
+persistence:
+  library:
+    type: nfs
+    path: /mnt/media/immich/library
+    server: truenas.home.arpa
+  uploads:
+    type: nfs
+    path: /mnt/media/immich/upload
+    server: truenas.home.arpa
+  backups:
+    type: nfs
+    path: /mnt/media/immich/backups
+    server: truenas.home.arpa
+  thumbs:
+    type: nfs
+    path: /mnt/media/immich/thumbs
+    server: truenas.home.arpa
+  profile:
+    type: nfs
+    path: /mnt/media/immich/profile
+    server: truenas.home.arpa
+  video:
+    type: nfs
+    path: /mnt/media/immich/encoded-video
+    server: truenas.home.arpa
+  archive-guy:
+    enabled: true
+    type: nfs
+    path: /mnt/media/archive/Guy
+    server: truenas.home.arpa
+    mountPath: /archive/Guy
+    targetSelector:
+      main:
+        main: {}
+      microservices:
+        microservices: {}
+  archive-gabrielle:
+    enabled: true
+    type: nfs
+    path: /mnt/media/archive/Gabrielle
+    server: truenas.home.arpa
+    mountPath: /archive/Gabrielle
+    targetSelector:
+      main:
+        main: {}
+      microservices:
+        microservices: {}
+global:
+  fallbackDefaults:
+    vctSize: 10Gi
+credentials:
+  garage:
+    type: s3
+    url: http://10.13.25.10:30188
+    bucket: immich
+cnpg:
+  main:
+    type: vectorchord
+    mode: recovery
+    password: "Z*z#ehVCwjy#GX7EEidN5fj5wKQ5K@BLemRi&*$obQPL4Y%GCX5Ak&Mai&kJ83CS"
+    backups:
+      enabled: true
+      credentials: garage
+      destinationPath: "s3://immich"
+      revision: "2"
+    recovery:
+      revision: "1"
+      credentials: garage
+      destinationPath: "s3://immich"
+
+immich:
+  mlImageType: mlOpenvinoImage
+
+workload:
+  machinelearning:
+    podSpec:
+      containers:
+        machinelearning:
+          resources:
+            limits:
+              cpu: "4"
+              memory: 8Gi
+              gpu.intel.com/i915: 1
+  microservices:
+    podSpec:
+      containers:
+        microservices:
+          resources:
+            limits:
+              cpu: "4"
+              memory: 8Gi
+              gpu.intel.com/i915: 1

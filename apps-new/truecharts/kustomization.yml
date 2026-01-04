@@ -7,18 +7,18 @@ resources:
 - actualserver
 - adguard-home
 - cloudflareddns
-# - homepage
+- homepage
 # - immich
-# - jellyfin
-# - prowlarr
-# - profilarr
-# - qbittorrent
-# - radarr
-# - sonarr
-# - stirling-pdf
+- jellyfin
+- prowlarr
+- profilarr
+- qbittorrent
+- radarr
+- sonarr
+- stirling-pdf
 # - vaultwarden
-# - unifi
-# - uptime-kuma
+- unifi
+- uptime-kuma
 
 configMapGenerator:
 - name: global-values

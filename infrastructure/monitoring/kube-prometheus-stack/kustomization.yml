@@ -8,11 +8,11 @@ resources:
 - repository.yml
 - ingress-route.yml
 
-secretGenerator:
+configMapGenerator:
 - name: kube-prometheus-stack-values
   namespace: flux-system
   files:
-  - values.yaml=values.enc.yml
+  - values.yaml=values.yml
 
 configurations:
 - ../../../kustomizeconfig.yml

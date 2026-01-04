@@ -67,5 +67,5 @@ spec:
   exclusionList:
   - "Dependencies do not meet ready condition"
   - "HelmRelease.* configured"
-  - "Service/truecommand/truenas-penda configured"
+  - "Service.*truenas-penda.*configured"
   - "dependency.*is not ready"

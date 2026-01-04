@@ -1,0 +1,22 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: uptime-kuma
+  namespace: flux-system
+spec:
+  interval: 24h
+  releaseName: uptime-kuma
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: uptime-kuma
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+      interval: 1h
+      version: 13.13.5
+  valuesFrom:
+  - kind: ConfigMap
+    name: global-values

@@ -11,7 +11,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./infrastructure/controllers
-  prune: true
+  prune: false
   wait: true
   suspend: true
   decryption:

@@ -15,7 +15,7 @@ spec:
   path: ./apps
   prune: false
   wait: true
-  suspend: true
+  suspend: false
   decryption:
     provider: sops
     secretRef:

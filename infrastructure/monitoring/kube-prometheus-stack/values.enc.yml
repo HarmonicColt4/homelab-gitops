@@ -1,0 +1,55 @@
+prometheus:
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: longhorn
+          resources:
+            requests:
+              storage: 20Gi
+    retention: 30d
+kubeProxy:
+  enabled: false
+kubeControllerManager:
+  enabled: false
+kubeScheduler:
+  enabled: false
+defaultRules:
+  rules:
+    kubeControllerManager: false
+    kubeProxy: false
+fullnameOverride: kps
+crds:
+  upgradeJob:
+    enabled: true
+    forceConflicts: false
+grafana:
+  adminUser: ENC[AES256_GCM,data:ID//sFlF,iv:EV6Dv4JCoQeWicNU89uKa6lOcfA/cZPTt++JwoFDhTw=,tag:LPAgUDRyuvAmnhBC49pEpg==,type:str]
+  adminPassword: ENC[AES256_GCM,data:NdSUMqRcvHPyWTZAUp1Yw2211WQ=,iv:oFUezX8tWcAx5P37BY32LBeO8FG6/R9wzyEz2DPVEjA=,tag:47kwJK8ZtGQi5grYbLw/ag==,type:str]
+# alertmanager:
+#   config:
+#     route:
+#       receiver: discord
+#       routes:
+#         - receiver: discord
+#           matchers:
+#             - alertname = "Watchdog"
+#     receivers:
+#       - name: discord
+#         discord_configs:
+#           - webhook_url: https://discord.com/api/webhooks/1417076643461202012/HdH5WG-QOP2DO5sy_xpm3CNZQ8bjx_PU6MB2jeOQ87S7TjTihwDwB4rPWKpKSCg02-5r
+sops:
+  age:
+    - recipient: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAvZkRuMmtVNWxYUkkzSG82
+        eGZOV3JzdEUzd1EvRUxvVS9xSEdvaVkyQzBFClFaUDFJajBGektLNnd6RURqTUhy
+        WTVIR2l0dFpYTUlOUkw4Zi8vTm5xcUkKLS0tIHk2K0VBcWdLMkZjMURFVCtVeW9m
+        UFNCSXFueUdDZndmZ1d2V093RU5QQWcKY3LCuxJY7vt6yiDNW3gUSRJuxC3lwMoW
+        79xEL1af+bEJklhqECIVxQnhHjbd6boAZ4zNJxs+vKNjEb7GPE5IjA==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2026-01-04T21:53:22Z"
+  mac: ENC[AES256_GCM,data:M1SwooSJVi9Mhk6m0XHVEMjEUY8IbcNjCzG4T5K82hNK4+EBVwq+BYFfmGIJrD0o8qkVJ30S0t38+XN6qAT3SWksL56LHPfIjgAMym9k5vgThASzk+dUCYe97t2IDy0o1MJth3KuvVtR4Rzfy7ALtg53xqu76pfMbhe5rW0NzE0=,iv:YwJjdqzSU38zDdD4xhh1AacbrVvMYEp5bvRXVPYm+u8=,tag:Lpy9Qg2DgDRHEQSQrqPgCg==,type:str]
+  encrypted_regex: ^grafana$
+  version: 3.11.0

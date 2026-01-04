@@ -3,6 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: kube-prometheus-stack
+  namespace: flux-system
 spec:
   releaseName: kps
   interval: 24h
@@ -15,7 +16,5 @@ spec:
         name: prometheus-community
       interval: 1h
   valuesFrom:
-  - kind: ConfigMap
-    name: kube-prometheus-stack-values
   - kind: Secret
-    name: kps-values
+    name: kube-prometheus-stack-values

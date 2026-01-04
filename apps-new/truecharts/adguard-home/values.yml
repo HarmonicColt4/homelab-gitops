@@ -1,0 +1,47 @@
+---
+service:
+  dns-tcp:
+    type: LoadBalancer
+    externalTrafficPolicy: Local
+    annotations:
+      metallb.io/loadBalancerIPs: 10.25.25.3
+      metallb.io/allow-shared-ip: dns
+  dns-udp:
+    type: LoadBalancer
+    externalTrafficPolicy: Local
+    annotations:
+      metallb.io/loadBalancerIPs: 10.25.25.3
+      metallb.io/allow-shared-ip: dns
+  dns-https:
+    type: LoadBalancer
+    externalTrafficPolicy: Local
+    annotations:
+      metallb.io/loadBalancerIPs: 10.25.25.3
+      metallb.io/allow-shared-ip: dns
+  dns-https-udp:
+    type: LoadBalancer
+    externalTrafficPolicy: Local
+    annotations:
+      metallb.io/loadBalancerIPs: 10.25.25.3
+      metallb.io/allow-shared-ip: dns
+  dns-crypt:
+    type: LoadBalancer
+    externalTrafficPolicy: Local
+    annotations:
+      metallb.io/loadBalancerIPs: 10.25.25.3
+      metallb.io/allow-shared-ip: dns
+  dns-crypt-udp:
+    type: LoadBalancer
+    externalTrafficPolicy: Local
+    annotations:
+      metallb.io/loadBalancerIPs: 10.25.25.3
+      metallb.io/allow-shared-ip: dns
+  dns-quic-udp-1:
+    type: LoadBalancer
+    externalTrafficPolicy: Local
+    annotations:
+      metallb.io/loadBalancerIPs: 10.25.25.3
+      metallb.io/allow-shared-ip: dns
+persistence:
+  data:
+    size: 5Gi

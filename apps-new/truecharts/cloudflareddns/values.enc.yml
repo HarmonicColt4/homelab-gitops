@@ -1,0 +1,21 @@
+cloudflareddns:
+  api_token: ENC[AES256_GCM,data:sCh8J4GZiasJxuKeHs8pwuzj0IztT0ysn7QWbcIubBZ56ILnSPmnLg==,iv:B9IBhbDpJtjq0wAOx6MdArBMH2hbp5AI9zv+5L/1Dfs=,tag:eYqfmmZkv0UQz7RfunMI5A==,type:str]
+  host_zone_record:
+    - domain: ENC[AES256_GCM,data:o9DYqRoyANIDT11Bi/dcKmeeFvmIZQ==,iv:Mzrj9qRGExdT5RYpagb1OKs11jktSAqVbAlPhR35g+U=,tag:bi5tYVFItdE+BIDkT8K4Xw==,type:str]
+      record: ENC[AES256_GCM,data:Mw==,iv:cO7hzEzmSCtQfrUmbmpwJ+kQdzKeeSG6sPiXjFaE3TM=,tag:DI+d7GP1twyG9rJ4VuTixw==,type:str]
+      zone: ENC[AES256_GCM,data:iHMX+83xVDA7T8LIdIUDFDmsymTbqc0Kvo8200iJOD8=,iv:96HWuHIgdWkTHo9pTgAaeoS+AWkzmWMntVymQGlKOhg=,tag:cy/l4VgjBMn7CVq0GBygLA==,type:str]
+sops:
+  age:
+    - recipient: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBaaWUrM2ZyYS9lUm9IQ0ZY
+        QmVtMGpwaFgxUXFqQWtSeXZRUHVINjhJOWtrClM1VExhd01RSjEzaGZvb1JvWUhy
+        cmpJWjRYWTVtUUVDS1Z3UFN5R3E3d2sKLS0tIDZzNHpOSXBmenFHRzNpcHBoY3Rv
+        NVJSQUU1WGJUZ0xqY09GOW00S1M1T0EKXLWrScUll/XkY/yddMg16fRL/ZHIsLgx
+        UyPihonyKa7pXRLEOf6kFc2II2TaIFuD3K7azxiSyZZfQlrnU2Npqg==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2026-01-04T10:30:06Z"
+  mac: ENC[AES256_GCM,data:ivPzrCrJSHdqI0c8T08L5GAegYVlf0GfGVHGauTfOdXYWWrR4dj67qo/iwz11Vqr/lqslbwoksAXDNUW9jlyFSsvoZQulMxHWwGcsYWqgvRnJWAHgq4l5hIw0Jtd7fUYyZqIsCSpDdYt1HG0FzOwSu0RsbZOH8DgCu/8Vgg5wTE=,iv:EAP//7uUH8C0yxgf0T/49XmMPSMUXceM3tnyU3GrAbE=,tag:EVopCSmf+CN7AZJldS0MeQ==,type:str]
+  unencrypted_suffix: _unencrypted
+  version: 3.11.0

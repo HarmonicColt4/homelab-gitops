@@ -1,0 +1,15 @@
+---
+service:
+  comm:
+    type: LoadBalancer
+    annotations:
+      metallb.io/loadBalancerIPs: 10.25.25.2
+persistence:
+  config:
+    enabled: false
+workload:
+  main:
+    podSpec:
+      initContainers:
+        migrate:
+          enabled: false

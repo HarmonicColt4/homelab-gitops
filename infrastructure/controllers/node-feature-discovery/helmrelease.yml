@@ -17,6 +17,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 24h
+  releaseName: node-feature-discovery
   chartRef:
     kind: OCIRepository
     name: nfd

@@ -6,6 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 24h
+  releaseName: cnpg
   driftDetection:
     mode: enabled
   chart:

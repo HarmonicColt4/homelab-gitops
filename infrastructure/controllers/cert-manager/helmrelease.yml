@@ -6,6 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 24h
+  releaseName: cert-manager
   chart:
     spec:
       chart: cert-manager
@@ -27,6 +28,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 24h
+  releaseName: trust-manager
   chart:
     spec:
       chart: trust-manager

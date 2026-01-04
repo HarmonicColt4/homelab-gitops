@@ -58,20 +58,18 @@ cnpg:
   main:
     type: vectorchord
     mode: recovery
-    password: "Z*z#ehVCwjy#GX7EEidN5fj5wKQ5K@BLemRi&*$obQPL4Y%GCX5Ak&Mai&kJ83CS"
+    password: ENC[AES256_GCM,data:ZICh5ocQHKrRuV/u1xxLTh/dfEFRmyABq4BweQt1G4ygmR76C/ct7XFYkGLQ68HdJPMZAySyz0JFRUaoc3WfKg==,iv:UKNg29+loDbhRLnxx0jQ2mICJSAFBc98wvnryESRXCU=,tag:B7Kr9s9iFM9tKKhCPwyDUw==,type:str]
     backups:
       enabled: true
       credentials: garage
-      destinationPath: "s3://immich"
-      revision: "2"
+      destinationPath: s3://immich
+      revision: "3"
     recovery:
-      revision: "1"
+      revision: "2"
       credentials: garage
-      destinationPath: "s3://immich"
-
+      destinationPath: s3://immich
 immich:
   mlImageType: mlOpenvinoImage
-
 workload:
   machinelearning:
     podSpec:
@@ -91,3 +89,19 @@ workload:
               cpu: "4"
               memory: 8Gi
               gpu.intel.com/i915: 1
+sops:
+  age:
+  - recipient: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    enc: |
+      -----BEGIN AGE ENCRYPTED FILE-----
+      YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBBTDlyNWZ0SWgxSjYxVkJq
+      T0pPQVhKOVlXUW5sMkZVVHJ5TlJjWEExVEFjCjkzU2ZjT1pwYkRMS2xHWmp1MWl6
+      em1IRzdKUjIwaVBlQWZYQlpySTZxa1EKLS0tIEg0VUJibjFieXdBZXFZdHRqeVp3
+      aUZEOXBlVUhZL0QwY0ttRHNZOE5lZmsKRaK+WQ622cxYSvbypdv7WNkWrAwTzvih
+      KScLvpSvMgRps6C+NTWdGbmbUNHS3dspXOwicnqbc7Rv/Z4Kr3RM8Q==
+      -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2026-01-04T22:28:04Z"
+  mac: ENC[AES256_GCM,data:821l66oIvsTqbr9R1ilhCVobfFmDXhzE4GGa9j/QG8P7YgyQmHY+JKwwfTvO8n/gXsuAJsZutrf2lS7y8mQ9hAaJreYPCFlaogoA8ltKlS36jKrsE4sKqQHAS9s0wKkLDETUm31HsvVcMBfkb2Nbi1xAL9y/3T1ckSaxuLurRSM=,iv:ZPbqPKhviIrV1vhL58DHWF8SNzTewwfYa0H4pl7rCfQ=,tag:Y/zypEVWyt9rkD6bXT89+Q==,type:str]
+  encrypted_regex: ^(password)$
+  mac_only_encrypted: true
+  version: 3.11.0

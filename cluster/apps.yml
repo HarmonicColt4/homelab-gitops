@@ -13,7 +13,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./apps
-  prune: true
+  prune: false
   wait: true
   suspend: true
   decryption:
@@ -35,7 +35,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./apps-new
-  prune: true
+  prune: false
   wait: true
   decryption:
     provider: sops

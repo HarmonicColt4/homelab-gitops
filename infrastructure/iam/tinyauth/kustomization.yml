@@ -15,3 +15,6 @@ secretGenerator:
 - name: tinyauth-env
   envs:
   - enc.env
+- name: tinyauth-public-env
+  envs:
+  - public.enc.env

@@ -16,7 +16,7 @@ resources:
 - radarr
 - sonarr
 - stirling-pdf
-# - vaultwarden
+- vaultwarden
 - unifi
 - uptime-kuma
 

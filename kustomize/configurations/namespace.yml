@@ -1,0 +1,5 @@
+---
+namespace:
+- kind: HelmRelease
+  path: spec/targetNamespace
+  create: true

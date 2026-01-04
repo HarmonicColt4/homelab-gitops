@@ -1,0 +1,22 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: jellyseerr
+  namespace: flux-system
+spec:
+  interval: 24h
+  releaseName: jellyseerr
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: jellyseerr
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+      interval: 1h
+      version: 13.13.7
+  valuesFrom:
+  - kind: ConfigMap
+    name: global-values

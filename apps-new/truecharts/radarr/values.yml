@@ -1,0 +1,8 @@
+---
+persistence:
+  movies:
+    enabled: true
+    type: nfs
+    path: /mnt/media/movies
+    server: truenas.home.arpa
+    mountPath: /movies

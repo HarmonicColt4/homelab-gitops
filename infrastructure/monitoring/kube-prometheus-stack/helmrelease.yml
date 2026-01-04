@@ -7,6 +7,7 @@ metadata:
 spec:
   releaseName: kps
   interval: 24h
+  suspend: true
   chart:
     spec:
       chart: kube-prometheus-stack

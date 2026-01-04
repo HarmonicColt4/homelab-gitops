@@ -4,3 +4,11 @@ kind: Kustomization
 resources:
 - truecharts
 - tailscale
+
+patches:
+- patch: |
+    - op: add
+      path: /spec/suspend
+      value: true
+  target:
+    kind: HelmRelease

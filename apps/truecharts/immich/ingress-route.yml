@@ -7,7 +7,12 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: HostRegexp(`immich\.(teamg\.gg|weirdrussiandomain\.com)`) && PathPrefix(`/`)
+  - match: Host(`immich.weirdrussiandomain.com`) && PathPrefix(`/`)
+    kind: Rule
+    services:
+    - name: immich
+      port: 10323
+  - match: Host(`immich.teamg.gg`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: immich

@@ -1,14 +1,9 @@
 ---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
 resources:
 - truecharts
-- tailscale
 
-patches:
-- patch: |
-    - op: add
-      path: /spec/suspend
-      value: true
-  target:
-    kind: HelmRelease
+configurations:
+- ../kustomizeconfig.yml

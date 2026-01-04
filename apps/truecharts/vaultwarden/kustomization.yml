@@ -6,10 +6,26 @@ resources:
 - namespace.yml
 - helmrelease.yml
 - ingress-route.yml
-- sso.enc.yml
 
 secretGenerator:
 - name: vaultwarden-values
   namespace: flux-system
   files:
   - values.yaml=values.enc.yml
+- name: sso-env
+  envs:
+  - sso.enc.env
+
+transformers:
+- |
+  apiVersion: builtin
+  kind: NamespaceTransformer
+  metadata:
+    name: not-important-to-example
+    namespace: vaultwarden
+  setRoleBindingSubjects: none
+  unsetOnly: true
+  fieldSpecs:
+    - kind: HelmRelease
+      path: spec/targetNamespace
+      create: true

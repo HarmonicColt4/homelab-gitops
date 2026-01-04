@@ -6,13 +6,24 @@ resources:
 - namespace.yml
 # - helmrelease.yml
 # - ingress-route.yml
-- ../jellyseerr
-- ../global-values
-- ../../../observability
-
-namespace: jellyfin
+- jellyseerr
 
 configMapGenerator:
 - name: jellyfin-values
+  namespace: flux-system
   files:
   - values.yaml=values.yml
+
+transformers:
+- |
+  apiVersion: builtin
+  kind: NamespaceTransformer
+  metadata:
+    name: not-important-to-example
+    namespace: jellyfin
+  setRoleBindingSubjects: none
+  unsetOnly: true
+  fieldSpecs:
+    - kind: HelmRelease
+      path: spec/targetNamespace
+      create: true

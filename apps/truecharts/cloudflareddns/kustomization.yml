@@ -5,8 +5,23 @@ kind: Kustomization
 resources:
 - namespace.yml
 - helmrelease.yml
-- ../global-values
-- ../../../observability
-- secret.enc.yml
 
-namespace: cloudflareddns
+secretGenerator:
+- name: cloudflareddns-values
+  namespace: flux-system
+  files:
+  - values.yaml=values.enc.yml
+
+transformers:
+- |
+  apiVersion: builtin
+  kind: NamespaceTransformer
+  metadata:
+    name: not-important-to-example
+    namespace: cloudflareddns
+  setRoleBindingSubjects: none
+  unsetOnly: true
+  fieldSpecs:
+    - kind: HelmRelease
+      path: spec/targetNamespace
+      create: true

@@ -6,7 +6,17 @@ resources:
 - namespace.yml
 - helmrelease.yml
 - ingress-route.yml
-- ../global-values
-- ../../../observability
 
-namespace: stirling-pdf
+transformers:
+- |
+  apiVersion: builtin
+  kind: NamespaceTransformer
+  metadata:
+    name: not-important-to-example
+    namespace: stirling-pdf
+  setRoleBindingSubjects: none
+  unsetOnly: true
+  fieldSpecs:
+    - kind: HelmRelease
+      path: spec/targetNamespace
+      create: true

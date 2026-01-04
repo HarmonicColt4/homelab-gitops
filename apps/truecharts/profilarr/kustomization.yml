@@ -6,7 +6,17 @@ resources:
 - namespace.yml
 - helmrelease.yml
 - ingress-route.yml
-- ../global-values
-- ../../../observability
 
-namespace: profilarr
+transformers:
+- |
+  apiVersion: builtin
+  kind: NamespaceTransformer
+  metadata:
+    name: not-important-to-example
+    namespace: profilarr
+  setRoleBindingSubjects: none
+  unsetOnly: true
+  fieldSpecs:
+    - kind: HelmRelease
+      path: spec/targetNamespace
+      create: true

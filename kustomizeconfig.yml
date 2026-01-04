@@ -10,3 +10,5 @@ nameReference:
   fieldSpecs:
   - path: spec/valuesFrom/name
     kind: HelmRelease
+  - path: spec/secretRef/name
+    kind: Provider

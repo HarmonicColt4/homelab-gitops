@@ -1,0 +1,71 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: info
+  namespace: flux-system
+spec:
+  providerRef:
+    name: discord
+  eventSeverity: info
+  eventSources:
+  - kind: Kustomization
+    name: '*'
+  - kind: Kustomization
+    name: '*'
+    namespace: intel-gpu-plugin
+  - kind: Kustomization
+    name: '*'
+    namespace: metallb
+  - kind: Kustomization
+    name: '*'
+    namespace: multus-cni
+  - kind: HelmRelease
+    name: '*'
+  - kind: HelmRelease
+    name: '*'
+    namespace: cert-manager
+  - kind: HelmRelease
+    name: '*'
+    namespace: cnpg-system
+  - kind: HelmRelease
+    name: '*'
+    namespace: kube-prometheus-stack
+  - kind: HelmRelease
+    name: '*'
+    namespace: node-feature-discovery
+  - kind: HelmRelease
+    name: '*'
+    namespace: secrets-operator
+  - kind: GitRepository
+    name: '*'
+  - kind: GitRepository
+    name: '*'
+    namespace: intel-gpu-plugin
+  - kind: GitRepository
+    name: '*'
+    namespace: metallb
+  - kind: GitRepository
+    name: '*'
+    namespace: multus-cni
+  - kind: HelmRepository
+    name: '*'
+  - kind: HelmRepository
+    name: '*'
+    namespace: cert-manager
+  - kind: HelmRepository
+    name: '*'
+    namespace: cnpg-system
+  - kind: HelmRepository
+    name: '*'
+    namespace: kube-prometheus-stack
+  - kind: HelmRepository
+    name: '*'
+    namespace: secrets-operator
+  eventMetadata:
+    cluster: weird-russian-cluster
+  exclusionList:
+  - "Dependencies do not meet ready condition"
+  - "HelmRelease.* configured"
+  - "Service/truecommand/truenas-penda configured"
+  - "dependency.*is not ready"

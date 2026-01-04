@@ -7,4 +7,16 @@ resources:
 - helmrelease.yml
 - repository.yml
 
-namespace: cnpg-system
+transformers:
+- |
+  apiVersion: builtin
+  kind: NamespaceTransformer
+  metadata:
+    name: not-important-to-example
+    namespace: cnpg-system
+  setRoleBindingSubjects: none
+  unsetOnly: true
+  fieldSpecs:
+    - kind: HelmRelease
+      path: spec/targetNamespace
+      create: true

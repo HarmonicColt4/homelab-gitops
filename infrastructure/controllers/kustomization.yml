@@ -12,4 +12,8 @@ resources:
 - multus
 - node-feature-discovery
 - renovate
+- tailscale
 - traefik
+
+configurations:
+- ../../kustomizeconfig.yml

@@ -13,7 +13,7 @@ spec:
   path: ./infrastructure/controllers
   prune: true
   wait: true
-  suspend: false
+  suspend: true
   decryption:
     provider: sops
     secretRef:

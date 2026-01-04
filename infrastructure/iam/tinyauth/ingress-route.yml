@@ -24,5 +24,5 @@ spec:
   - match: Host(`auth.weirdrussiandomain.com`) && PathPrefix(`/`)
     kind: Rule
     services:
-    - name: tinyauth
+    - name: tinyauth-public
       port: 3000

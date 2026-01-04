@@ -37,6 +37,7 @@ spec:
   path: ./apps-new
   prune: false
   wait: true
+  suspend: true
   decryption:
     provider: sops
     secretRef:

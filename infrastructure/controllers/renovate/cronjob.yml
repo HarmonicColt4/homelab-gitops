@@ -10,20 +10,9 @@ spec:
     spec:
       template:
         spec:
-          volumes:
-          - name: ca-cert
-            secret:
-              secretName: teamg.gg
-              items:
-              - key: ca.crt
-                path: teamg-ca.crt
           containers:
           - name: renovate
             image: renovate/renovate:42.71.0
-            volumeMounts:
-            - name: ca-cert
-              readOnly: true
-              mountPath: /etc/ssl/certs
             args:
             - gpenda/fluxcd
             env:

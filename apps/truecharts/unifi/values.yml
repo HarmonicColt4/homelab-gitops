@@ -13,3 +13,9 @@ workload:
       initContainers:
         migrate:
           enabled: false
+      containers:
+        main:
+          probes:
+            startup:
+              spec:
+                initialDelaySeconds: 100

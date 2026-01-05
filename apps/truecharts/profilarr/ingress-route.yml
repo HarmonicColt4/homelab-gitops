@@ -9,9 +9,6 @@ spec:
   routes:
   - match: Host(`profilarr.teamg.app`) && PathPrefix(`/`)
     kind: Rule
-    middlewares:
-    - name: tinyauth
-      namespace: tinyauth
     services:
     - name: profilarr
       port: 6868
@@ -26,9 +23,6 @@ spec:
   routes:
   - match: Host(`profilarr-anime.teamg.app`) && PathPrefix(`/`)
     kind: Rule
-    middlewares:
-    - name: tinyauth
-      namespace: tinyauth
     services:
     - name: profilarr-anime
       port: 6868

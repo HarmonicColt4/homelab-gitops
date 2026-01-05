@@ -9,9 +9,6 @@ spec:
   routes:
   - match: Host(`jellyseerr.weirdrussiandomain.com`) && PathPrefix(`/`)
     kind: Rule
-    middlewares:
-    - name: tinyauth-public
-      namespace: tinyauth
     services:
     - name: jellyseerr
       port: 10241

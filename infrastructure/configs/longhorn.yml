@@ -8,7 +8,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`longhorn.teamg.gg`) && PathPrefix(`/`)
+  - match: Host(`longhorn.teamg.app`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: longhorn-frontend

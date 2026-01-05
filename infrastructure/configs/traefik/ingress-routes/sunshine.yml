@@ -8,7 +8,7 @@ spec:
   - websecure
   routes:
   - kind: Rule
-    match: Host(`sunshine.teamg.gg`) && PathPrefix(`/`)
+    match: Host(`sunshine.teamg.app`) && PathPrefix(`/`)
     services:
     - name: sunshine
       port: 47990

@@ -24,23 +24,13 @@ persistence:
     type: nfs
     path: /mnt/media/immich/encoded-video
     server: truenas.home.arpa
-  archive-guy:
+  archive:
     enabled: true
     type: nfs
-    path: /mnt/media/archive/Guy
+    path: /mnt/media/archive
     server: truenas.home.arpa
-    mountPath: /archive/Guy
-    targetSelector:
-      main:
-        main: {}
-      microservices:
-        microservices: {}
-  archive-gabrielle:
-    enabled: true
-    type: nfs
-    path: /mnt/media/archive/Gabrielle
-    server: truenas.home.arpa
-    mountPath: /archive/Gabrielle
+    mountPath: /archive
+    readOnly: true
     targetSelector:
       main:
         main: {}

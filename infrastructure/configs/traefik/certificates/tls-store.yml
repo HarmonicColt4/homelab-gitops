@@ -6,7 +6,7 @@ metadata:
 
 spec:
   defaultCertificate:
-    secretName: teamg-app-cert
+    secretName: teamg-app-tls
   certificates:
   - secretName: weirdrussiandomain-com-tls
   - secretName: teamg-tls

@@ -5,7 +5,7 @@ workload:
       containers:
         main:
           env:
-            HOMEPAGE_ALLOWED_HOSTS: teamg.gg
+            HOMEPAGE_ALLOWED_HOSTS: teamg.app
       initContainers:
         init-config:
           enabled: false

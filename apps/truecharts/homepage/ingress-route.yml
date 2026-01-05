@@ -7,11 +7,8 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`teamg.gg`) && PathPrefix(`/`)
+  - match: Host(`teamg.app`) && PathPrefix(`/`)
     kind: Rule
-    middlewares:
-    - name: tinyauth
-      namespace: tinyauth
     services:
     - name: homepage
       port: 10352

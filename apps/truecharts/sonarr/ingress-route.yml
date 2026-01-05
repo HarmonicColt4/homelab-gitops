@@ -9,9 +9,6 @@ spec:
   routes:
   - match: Host(`sonarr.teamg.app`) && PathPrefix(`/`)
     kind: Rule
-    middlewares:
-    - name: tinyauth
-      namespace: tinyauth
     services:
     - name: sonarr
       port: 8989

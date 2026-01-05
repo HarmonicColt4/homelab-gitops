@@ -7,11 +7,8 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`pdf.teamg.gg`) && PathPrefix(`/`)
+  - match: Host(`pdf.teamg.app`) && PathPrefix(`/`)
     kind: Rule
-    middlewares:
-    - name: tinyauth
-      namespace: tinyauth
     services:
     - name: stirling-pdf
       port: 18080

@@ -8,7 +8,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`prowlarr.teamg.gg`) && PathPrefix(`/`)
+  - match: Host(`prowlarr.teamg.app`) && PathPrefix(`/`)
     kind: Rule
     middlewares:
     - name: tinyauth

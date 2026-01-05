@@ -8,7 +8,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`unifi.teamg.gg`) && PathPrefix(`/`)
+  - match: Host(`unifi.teamg.app`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: unifi

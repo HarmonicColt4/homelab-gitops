@@ -15,7 +15,7 @@ spec:
     services:
     - name: jellyseerr
       port: 10241
-  - match: Host(`jellyseerr.teamg.gg`) && PathPrefix(`/`)
+  - match: Host(`jellyseerr.teamg.app`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: jellyseerr

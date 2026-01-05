@@ -9,4 +9,3 @@ spec:
     secretName: teamg-app-tls
   certificates:
   - secretName: weirdrussiandomain-com-tls
-  - secretName: teamg-tls

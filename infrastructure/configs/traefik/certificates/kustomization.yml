@@ -5,6 +5,5 @@ kind: Kustomization
 resources:
 - weirdrussiandomain-com-cert.yml
 - teamg-app-cert.yml
-- teamg-cert.yml
 
 namespace: traefik

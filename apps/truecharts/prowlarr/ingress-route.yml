@@ -10,9 +10,6 @@ spec:
   routes:
   - match: Host(`prowlarr.teamg.app`) && PathPrefix(`/`)
     kind: Rule
-    middlewares:
-    - name: tinyauth
-      namespace: tinyauth
     services:
     - name: prowlarr
       port: 9696

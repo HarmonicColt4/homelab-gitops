@@ -8,7 +8,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`uptime-kuma.teamg.gg`) && PathPrefix(`/`)
+  - match: Host(`uptime-kuma.teamg.app`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: uptime-kuma

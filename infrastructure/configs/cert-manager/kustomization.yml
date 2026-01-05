@@ -1,20 +1,10 @@
 ---
 resources:
-- bundle.yml
-- ca.yml
-- cf-api-token.enc.yml
 - cluster-issuers.yml
 
 namespace: cert-manager
 
-transformers:
-- |-
-  apiVersion: builtin
-  kind: NamespaceTransformer
-  metadata:
-    name: not-important-to-example
-    namespace: cert-manager
-  fieldSpecs:
-  - path: spec/push/secret/secretNamespace
-    kind: InfisicalPushSecret
-    create: true
+secretGenerator:
+- name: cloudflare-api-token
+  envs:
+  - cf-api-token.enc.env

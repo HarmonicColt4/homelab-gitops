@@ -24,29 +24,3 @@ spec:
             name: tinyauth-env
         ports:
         - containerPort: 3000
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: tinyauth-public
-  labels:
-    app: tinyauth-public
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: tinyauth-public
-  template:
-    metadata:
-      labels:
-        app: tinyauth-public
-    spec:
-      containers:
-      - name: tinyauth
-        image: ghcr.io/steveiliop56/tinyauth:v4.1.0-distroless
-        resources: {}
-        envFrom:
-        - secretRef:
-            name: tinyauth-public-env
-        ports:
-        - containerPort: 3000

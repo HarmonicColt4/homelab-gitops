@@ -7,7 +7,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`auth.teamg.gg`) && PathPrefix(`/`)
+  - match: Host(`auth.teamg.app`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: tinyauth
@@ -21,7 +21,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`auth.weirdrussiandomain.com`) && PathPrefix(`/`)
+  - match: Host(`auth.teamg.app`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: tinyauth-public

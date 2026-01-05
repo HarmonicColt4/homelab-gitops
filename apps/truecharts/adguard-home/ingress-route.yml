@@ -7,11 +7,8 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: HostRegexp(`(adguard-home|adh)\.teamg\.gg`) && PathPrefix(`/`)
+  - match: Host(`adh.teamg.app`) && PathPrefix(`/`)
     kind: Rule
-    middlewares:
-    - name: tinyauth
-      namespace: tinyauth
     services:
     - name: adguard-home
       port: 10232

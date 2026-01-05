@@ -12,7 +12,7 @@ spec:
     services:
     - name: immich
       port: 10323
-  - match: Host(`immich.teamg.gg`) && PathPrefix(`/`)
+  - match: Host(`immich.teamg.app`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: immich

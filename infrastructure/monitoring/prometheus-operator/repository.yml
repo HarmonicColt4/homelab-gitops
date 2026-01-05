@@ -1,0 +1,11 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: prometheus-operator
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  ref:
+    tag: v0.87.1
+  url: https://github.com/prometheus-operator/prometheus-operator

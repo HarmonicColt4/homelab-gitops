@@ -12,3 +12,8 @@ spec:
     services:
     - name: vaultwarden
       port: 10102
+  - match: Host(`vaultwarden.teamg.app`) && PathPrefix(`/`)
+    kind: Rule
+    services:
+    - name: vaultwarden
+      port: 10102

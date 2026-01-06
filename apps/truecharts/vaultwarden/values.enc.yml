@@ -16,7 +16,7 @@ workload:
             startup:
               enabled: false
           env:
-            DOMAIN: https://vaultwarden.weirdrussiandomain.com
+            DOMAIN: https://vaultwarden.teamg.app
           envFrom:
           - configMapRef:
               name: vaultwardenconfig

@@ -11,14 +11,7 @@ secretGenerator:
 - name: vaultwarden-values
   namespace: flux-system
   files:
-  - values.yaml=values.enc.yml
-- name: sso-env
-  options:
-    disableNameSuffixHash: true
-    labels:
-      reconcile.fluxcd.io/watch: Enabled
-  envs:
-  - sso.enc.env
+  - values.yaml=secrets/values.enc.yml
 
 transformers:
 - |

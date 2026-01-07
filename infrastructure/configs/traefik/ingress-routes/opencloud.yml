@@ -14,7 +14,7 @@ spec:
       port: 30259
       scheme: https
   - kind: Rule
-    match: Host(`opencloud.teamg.app`) && PathPrefix(`/`)
+    match: Host(`cloud.teamg.app`) && PathPrefix(`/`)
     services:
     - name: truenas
       port: 30259

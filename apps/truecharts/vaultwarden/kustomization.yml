@@ -13,6 +13,10 @@ secretGenerator:
   files:
   - values.yaml=values.enc.yml
 - name: sso-env
+  options:
+    disableNameSuffixHash: true
+    labels:
+      reconcile.fluxcd.io/watch: Enabled
   envs:
   - sso.enc.env
 

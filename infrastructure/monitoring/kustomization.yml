@@ -4,7 +4,7 @@ kind: Kustomization
 
 resources:
 - flux
-- prometheus-operator
+- kube-prometheus-stack
 
 configurations:
 - ../../kustomizeconfig.yml

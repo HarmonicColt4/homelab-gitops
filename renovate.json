@@ -19,11 +19,6 @@
       "schedule": ["* 2-6 * * *"]
     },
     {
-      "matchManagers": ["flux"],
-      "matchDatasources": ["docker"],
-      "commitMessageTopic": "Helm release {{{depName}}}"
-    },
-    {
       "matchManagers": ["flux", "kubernetes"],
       "matchDepNames": [
         "fluxcd/flux2",

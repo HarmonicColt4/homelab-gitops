@@ -7,5 +7,5 @@ metadata:
 spec:
   interval: 10m0s
   ref:
-    tag: v0.87.1
+    tag: v0.88.0
   url: https://github.com/prometheus-operator/prometheus-operator

@@ -8,7 +8,7 @@ spec:
   - websecure
   routes:
   - kind: Rule
-    match: Host(`gitea.teamg.app`) && PathPrefix(`/`)
+    match: Host(`git.teamg.app`) && PathPrefix(`/`)
     services:
     - name: truenas
       port: 30008

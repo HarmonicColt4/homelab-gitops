@@ -13,11 +13,27 @@ spec:
     name: '*'
   - kind: HelmRelease
     name: '*'
-  - kind: GitRepository
+  eventMetadata:
+    cluster: weird-russian-cluster
+  exclusionList:
+  - "Dependencies do not meet ready condition"
+  - "HelmRelease.* configured"
+  - "Service.*truenas-penda.*configured"
+  - "dependency.*is not ready"
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: error
+  namespace: flux-system
+spec:
+  providerRef:
+    name: discord
+  eventSeverity: error
+  eventSources:
+  - kind: Kustomization
     name: '*'
-  - kind: HelmRepository
-    name: '*'
-  - kind: OCIRepository
+  - kind: HelmRelease
     name: '*'
   eventMetadata:
     cluster: weird-russian-cluster

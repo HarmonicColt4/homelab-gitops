@@ -20,6 +20,7 @@ spec:
   - "HelmRelease.* configured"
   - "Service.*truenas-penda.*configured"
   - "dependency.*is not ready"
+  - "Health check passed"
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert

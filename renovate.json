@@ -7,10 +7,7 @@
   "ignoreTests": true,
   "automergeType": "branch",
   "kubernetes": {
-    "managerFilePatterns": [
-      "/infrastructure/controllers/renovate/cronjob.yml/",
-      "/deploy\\.yml$/"
-    ]
+    "managerFilePatterns": ["/cronjob\\.yml/", "/deploy\\.yml$/"]
   },
   "packageRules": [
     {

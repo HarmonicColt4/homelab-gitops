@@ -32,9 +32,11 @@ spec:
     name: discord
   eventSeverity: error
   eventSources:
-  - kind: Kustomization
+  - kind: GitRepository
     name: '*'
-  - kind: HelmRelease
+  - kind: OCIRepository
+    name: '*'
+  - kind: HelmRepository
     name: '*'
   eventMetadata:
     cluster: weird-russian-cluster

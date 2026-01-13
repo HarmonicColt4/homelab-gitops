@@ -6,6 +6,10 @@ defaultRules:
 
 alertmanager:
   enabled: true
+  alertmanagerSpec:
+    alertmanagerConfigSelector:
+      matchLabels:
+        am-config: discord-receiver
 
 grafana:
   enabled: true

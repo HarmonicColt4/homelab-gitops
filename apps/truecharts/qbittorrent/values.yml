@@ -47,10 +47,11 @@ workload:
           imageSelector: gitImage
           type: init
           command:
-          - clone
+          - sh
           args:
-          - https://github.com/truecharts/qbittorrent.git
-          - /config/webui
+          - -c
+          - |
+            git clone https://github.com/truecharts/qbittorrent.git /config/webui
           volumeMounts:
           - name: config
             mountPath: /config

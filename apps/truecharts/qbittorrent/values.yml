@@ -45,6 +45,7 @@ workload:
         vuetorrent-setup:
           enabled: true
           imageSelector: gitImage
+          type: init
           command:
           - clone
           args:

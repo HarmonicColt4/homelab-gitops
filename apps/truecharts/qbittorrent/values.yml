@@ -38,3 +38,23 @@ persistence:
     path: /mnt/media/downloads
     server: truenas.home.arpa
     mountPath: /downloads
+workload:
+  main:
+    podSpec:
+      initContainers:
+        vuetorrent-setup:
+          enabled: true
+          imageSelector: gitImage
+          command:
+          - clone
+          args:
+          - https://github.com/truecharts/qbittorrent.git
+          - /config/webui
+          volumeMounts:
+          - name: config
+            mountPath: /config
+
+gitImage:
+  repository: alpine/git
+  pullPolicy: IfNotPresent
+  tag: v2.52.0

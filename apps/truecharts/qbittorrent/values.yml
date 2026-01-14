@@ -43,7 +43,7 @@ workload:
     podSpec:
       initContainers:
         vuetorrent-setup:
-          enabled: true
+          enabled: false
           imageSelector: gitImage
           type: init
           command:

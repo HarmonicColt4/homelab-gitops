@@ -1,9 +1,4 @@
 ---
-image:
-  repository: jellyfin/jellyfin
-  pullPolicy: IfNotPresent
-  tag: 10.11.5
-
 persistence:
   data:
     volumeName: jellyfin-data

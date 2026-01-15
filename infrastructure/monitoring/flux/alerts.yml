@@ -21,6 +21,8 @@ spec:
   - Service.*truenas-penda.*configured
   - dependency.*is not ready
   - Health check passed
+  - CronJob/renovate/renovate configured
+  - (ConfigMap|Secret).*(created|deleted)
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert

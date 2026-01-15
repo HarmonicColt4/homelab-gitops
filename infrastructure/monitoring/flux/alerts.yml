@@ -16,11 +16,11 @@ spec:
   eventMetadata:
     cluster: weird-russian-cluster
   exclusionList:
-  - "Dependencies do not meet ready condition"
-  - "HelmRelease.* configured"
-  - "Service.*truenas-penda.*configured"
-  - "dependency.*is not ready"
-  - "Health check passed"
+  - Dependencies do not meet ready condition
+  - HelmRelease.* configured
+  - Service.*truenas-penda.*configured
+  - dependency.*is not ready
+  - Health check passed
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
@@ -41,7 +41,7 @@ spec:
   eventMetadata:
     cluster: weird-russian-cluster
   exclusionList:
-  - "Dependencies do not meet ready condition"
-  - "HelmRelease.* configured"
-  - "Service.*truenas-penda.*configured"
-  - "dependency.*is not ready"
+  - Dependencies do not meet ready condition
+  - HelmRelease.* configured
+  - Service.*truenas-penda.*configured
+  - dependency.*is not ready

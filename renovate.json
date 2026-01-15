@@ -20,8 +20,7 @@
         "fluxcd/flux2",
         "cert-manager",
         "metallb",
-        "cloudflareddns",
-        "vaultwarden"
+        "cloudflareddns"
       ],
       "automerge": false
     }

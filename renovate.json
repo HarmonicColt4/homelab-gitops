@@ -10,7 +10,6 @@
   ],
   "ignoreTests": true,
   "automergeType": "branch",
-  "rebaseWhen": "behind-base-branch",
   "kubernetes": {
     "managerFilePatterns": ["/cronjob\\.yml/", "/deploy\\.yml$/"]
   },

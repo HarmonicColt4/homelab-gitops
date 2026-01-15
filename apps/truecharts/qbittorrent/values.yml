@@ -7,7 +7,10 @@ service:
     ports:
       torrent:
         port: 23507
+
 persistence:
+  config:
+    targetSelectAll: true
   shows:
     enabled: true
     type: nfs
@@ -38,23 +41,30 @@ persistence:
     path: /mnt/media/downloads
     server: truenas.home.arpa
     mountPath: /downloads
+
 workload:
   main:
     podSpec:
       initContainers:
         vuetorrent-setup:
-          enabled: false
+          enabled: true
           imageSelector: gitImage
-          type: init
-          command:
-          - sh
+          type: install
           args:
-          - -c
-          - |
-            git clone https://github.com/truecharts/qbittorrent.git /config/webui
-          volumeMounts:
-          - name: config
-            mountPath: /config
+          - clone
+          - --single-branch
+          - --branch
+          - latest-release
+          - https://github.com/VueTorrent/VueTorrent.git
+          - /config/vuetorrent
+        vuetorrent-update:
+          enabled: true
+          imageSelector: gitImage
+          type: upgrade
+          args:
+          - -C
+          - /config/vuetorrent
+          - pull
 
 gitImage:
   repository: alpine/git

@@ -3,18 +3,17 @@
   "flux": {
     "managerFilePatterns": ["/.+(?:helmrelease|repository)\\.yml/"]
   },
-  "extends": ["config:recommended", ":automergeStableNonMajor"],
+  "extends": [
+    "config:recommended",
+    ":automergeStableNonMajor",
+    "schedule:automergeWeekly"
+  ],
   "ignoreTests": true,
   "automergeType": "branch",
   "kubernetes": {
     "managerFilePatterns": ["/cronjob\\.yml/", "/deploy\\.yml$/"]
   },
   "packageRules": [
-    {
-      "matchManagers": ["flux"],
-      "matchDepNames": ["adguard-home", "jellyfin"],
-      "schedule": ["* 2-6 * * *"]
-    },
     {
       "matchManagers": ["flux", "kubernetes"],
       "matchDepNames": [

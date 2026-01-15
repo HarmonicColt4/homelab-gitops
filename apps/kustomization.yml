@@ -4,6 +4,7 @@ kind: Kustomization
 
 resources:
 - open-webui
+- planka
 - truecharts
 
 configurations:

@@ -4,8 +4,8 @@ kind: Kustomization
 
 resources:
 - cert-manager
+- longhorn
+- traefik
 - flux-webhook.yml
 - flux-webhook-token.enc.yml
-- longhorn.yml
 - metallb.yml
-- traefik

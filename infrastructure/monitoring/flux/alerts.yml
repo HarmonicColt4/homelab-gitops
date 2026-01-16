@@ -41,6 +41,10 @@ spec:
     name: '*'
   - kind: HelmRepository
     name: '*'
+  - kind: Kustomization
+    name: '*'
+  - kind: HelmRelease
+    name: '*'
   eventMetadata:
     cluster: weird-russian-cluster
   exclusionList:

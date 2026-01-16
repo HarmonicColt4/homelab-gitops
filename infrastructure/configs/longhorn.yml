@@ -20,9 +20,9 @@ metadata:
   name: backup
   namespace: longhorn-system
 spec:
-  cron: "0 0 * * *"
+  cron: "0 23 * * *"
   task: "backup"
-  retain: 7
+  retain: 4
   concurrency: 2
   groups:
   - default
@@ -33,9 +33,9 @@ metadata:
   name: snapshot
   namespace: longhorn-system
 spec:
-  cron: "15 * * * *"
+  cron: "0 23 * * *"
   task: "snapshot"
-  retain: 24
+  retain: 7
   concurrency: 2
   groups:
   - default
@@ -46,7 +46,7 @@ metadata:
   name: filesystem-trim
   namespace: longhorn-system
 spec:
-  cron: "0 0 * * *"
+  cron: "30 23 * * *"
   task: "filesystem-trim"
   retain: 0
   concurrency: 2

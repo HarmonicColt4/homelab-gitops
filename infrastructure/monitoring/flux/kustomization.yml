@@ -7,8 +7,11 @@ resources:
 - alerts.yml
 
 secretGenerator:
-- name: discord-webhook
+- name: discord-webhook-info
   envs:
-  - discord-webhook.enc.env
+  - secrets/discord-webhook-info.enc.env
+- name: discord-webhook-errors
+  envs:
+  - secrets/discord-webhook-errors.enc.env
 
 namespace: flux-system

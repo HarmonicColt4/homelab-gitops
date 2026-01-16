@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   providerRef:
-    name: discord
+    name: discord-info
   eventSeverity: info
   eventSources:
   - kind: Kustomization
@@ -23,6 +23,7 @@ spec:
   - Health check passed
   - CronJob/renovate/renovate configured
   - (ConfigMap|Secret).*(created|deleted)
+  - (Alert|Provider).*configured
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
@@ -31,7 +32,7 @@ metadata:
   namespace: flux-system
 spec:
   providerRef:
-    name: discord
+    name: discord-errors
   eventSeverity: error
   eventSources:
   - kind: GitRepository

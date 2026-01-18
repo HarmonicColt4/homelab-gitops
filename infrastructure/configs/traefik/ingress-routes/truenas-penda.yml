@@ -8,7 +8,7 @@ spec:
   - websecure
   routes:
   - kind: Rule
-    match: Host(`truenas.penda.gg`) && PathPrefix(`/`)
+    match: Host(`truenas-penda.teamg.app`) && PathPrefix(`/`)
     services:
     - name: truenas-penda
       port: 443
@@ -34,7 +34,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: HostSNI(`truenas.penda.gg`)
+  - match: HostSNI(`truenas-penda.teamg.app`)
     services:
     - name: truenas-penda
       port: 443

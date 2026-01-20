@@ -29,6 +29,10 @@ spec:
           type: LoadBalancer
           annotations:
             metallb.io/loadBalancerIPs: 10.25.25.12
+        pikvm-ssh:
+          type: LoadBalancer
+          annotations:
+            metallb.io/loadBalancerIPs: 10.25.25.13
     ports:
       web:
         redirections:
@@ -47,6 +51,13 @@ spec:
           tsp-ssh: true
         exposedPort: 22
         port: 50022
+        protocol: TCP
+      pikvm-ssh:
+        expose:
+          default: false
+          pikvm-ssh: true
+        exposedPort: 22
+        port: 50122
         protocol: TCP
     ingressRoute:
       dashboard:

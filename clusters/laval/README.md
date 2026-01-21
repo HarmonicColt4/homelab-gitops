@@ -23,11 +23,23 @@ talosctl gen config --with-secrets secrets.yml $CLUSTER_NAME https://$ENDPOINT:6
 ```
 
 ```
-talosctl machineconfig patch configs/controlplane.yaml --patch @patches/common.yml --patch @patches/talos-1.yml --output configs/talos-1.yml
+talosctl machineconfig patch configs/controlplane.yaml --patch @patches/common.yml --patch @patches/<node>.yml --output configs/<node>.yml
 ```
 
 ```
 talosctl apply-config --insecure \
-    --nodes 192.168.1.110 \
-    --file configs/talos-1.yml
+    --nodes <node> \
+    --file configs/<node>.yml
+```
+
+```
+curl -X POST \
+  --data-binary @extensions.yml \
+  https://factory.talos.dev/schematics
+```
+
+```
+talosctl upgrade \
+  --image \
+  factory.talos.dev/metal-installer/613e1592b2da41ae5e265e8789429f22e121aab91cb4deb6bc3c0b6262961245:v1.12.1
 ```

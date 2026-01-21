@@ -11,7 +11,7 @@ machine:
 apiVersion: v1alpha1
 kind: Layer2VIPConfig
 name: 192.168.6.2
-link: ens3.6
+link: ens3
 ---
 apiVersion: v1alpha1
 kind: ResolverConfig
@@ -19,13 +19,5 @@ nameservers:
 - address: 192.168.6.1
 ---
 apiVersion: v1alpha1
-kind: VLANConfig
-name: ens3.6
-vlanID: 6
-vlanMode: 802.1q
-parent: ens3
-up: true
----
-apiVersion: v1alpha1
 kind: DHCPv4Config
-name: ens3.6
+name: ens3

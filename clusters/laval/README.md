@@ -6,10 +6,10 @@ Three talos control plane nodes with workers enabled:
 - talos-2
 - talos-3
 
-**Endpoint**: `192.168.6.2`
+**Endpoint**: `192.168.6.9`
 
 ```
-export ENDPOINT="192.168.6.2"
+export ENDPOINT="192.168.6.9"
 ```
 
 **Cluster Name**: `talos-cluster-penda`

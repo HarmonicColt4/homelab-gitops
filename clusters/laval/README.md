@@ -47,11 +47,13 @@ talosctl upgrade \
 ## Cilium
 
 ```
-helm install \
+helm upgrade --install \
     cilium \
     cilium/cilium \
     --version 1.18.6 \
     --namespace kube-system \
+    --set l2announcements.enabled=true \
+    --set externalIPs.enabled=true \
     --set ipam.mode=kubernetes \
     --set kubeProxyReplacement=true \
     --set securityContext.capabilities.ciliumAgent="{CHOWN,KILL,NET_ADMIN,NET_RAW,IPC_LOCK,SYS_ADMIN,SYS_RESOURCE,DAC_OVERRIDE,FOWNER,SETGID,SETUID}" \

@@ -6,20 +6,20 @@ Three talos control plane nodes with workers enabled:
 - talos-pve
 - talos-truenas
 
-**Endpoint**: `weirdcluster.prod`
+**Endpoint**: `k8s.home.arpa`
 
 ```
-export ENDPOINT="weirdcluster.prod"
+export ENDPOINT="k8s.home.arpa"
 ```
 
-**Cluster Name**: `talos-cluster-penda`
+**Cluster Name**: `teamg`
 
 ```
-export CLUSTER_NAME="talos-cluster-penda"
+export CLUSTER_NAME="teamg"
 ```
 
 ```
-talosctl gen config --with-secrets secrets.yml $CLUSTER_NAME https://$ENDPOINT:6443 --output configs -t controlplane -t talosconfig --with-docs=0 --with-examples=0 -f
+talosctl gen config --with-secrets secrets.yml $CLUSTER_NAME https://$ENDPOINT:6443 --output configs -t controlplane -t talosconfig --with-docs=0 --with-examples=0 -f --install-image factory.talos.dev/metal-installer/<schematic>:<version>
 ```
 
 ```

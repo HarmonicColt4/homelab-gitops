@@ -1,0 +1,9 @@
+---
+customization:
+  systemExtensions:
+    officialExtensions:
+    - iscsi-tools # Longhorn
+    - util-linux-tools # Longhorn
+    - qemu-guest-agent
+    - intel-ucode
+    - mei

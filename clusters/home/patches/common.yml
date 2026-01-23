@@ -5,6 +5,10 @@ cluster:
     - k8s.teamg.app
   allowSchedulingOnControlPlanes: true
 machine:
+  kubelet:
+    extraConfig:
+      imageGCHighThresholdPercent: 40
+      imageGCLowThresholdPercent: 10
   network:
     interfaces:
     - interface: eth0

@@ -6,6 +6,8 @@ cluster:
   allowSchedulingOnControlPlanes: true
 machine:
   kubelet:
+    extraArgs:
+      rotate-server-certificates: true
     extraConfig:
       imageGCHighThresholdPercent: 40
       imageGCLowThresholdPercent: 10

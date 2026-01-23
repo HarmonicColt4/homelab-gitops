@@ -1,11 +1,16 @@
 ---
 cluster:
+  apiServer:
+    certSANs:
+    - k8s.teamg.app
   allowSchedulingOnControlPlanes: true
 machine:
   network:
     interfaces:
     - interface: eth0
       dhcp: true
+      vip:
+        ip: 10.25.25.99
   nodeLabels:
     node.kubernetes.io/exclude-from-external-load-balancers:
       $patch: delete

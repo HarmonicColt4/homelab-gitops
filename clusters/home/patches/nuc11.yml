@@ -14,6 +14,8 @@ machine:
       - routes: []
         dhcp: true
         vlanId: 25
+        vip:
+          ip: 10.25.25.99
       dhcp: false
   install:
     disk: /dev/nvme0n1
@@ -21,10 +23,3 @@ machine:
     user.max_user_namespaces: "11255"
   nodeLabels:
     node.longhorn.io/create-default-disk: "true"
-cluster:
-  apiServer:
-    certSANs:
-    - weirdcluster.prod
-    - k8s.home.arpa
-    - k8s.teamg.app
-  allowSchedulingOnControlPlanes: true

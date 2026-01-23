@@ -2,8 +2,8 @@
 customization:
   systemExtensions:
     officialExtensions:
-    - siderolabs/iscsi-tools
-    - siderolabs/util-linux-tools
+    - iscsi-tools # Longhorn
+    - util-linux-tools # Longhorn
     - i915
     - intel-ucode
     - mei

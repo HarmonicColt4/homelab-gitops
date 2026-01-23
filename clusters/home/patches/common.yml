@@ -1,0 +1,11 @@
+---
+cluster:
+  allowSchedulingOnControlPlanes: true
+machine:
+  network:
+    interfaces:
+    - interface: eth0
+      dhcp: true
+  nodeLabels:
+    node.kubernetes.io/exclude-from-external-load-balancers:
+      $patch: delete

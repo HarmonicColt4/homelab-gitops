@@ -1,6 +1,0 @@
----
-machine:
-  install:
-    disk: /dev/sda
-  network:
-    hostname: talos-pve

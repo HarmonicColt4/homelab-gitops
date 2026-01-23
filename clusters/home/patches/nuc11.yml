@@ -1,0 +1,30 @@
+---
+machine:
+  certSANs:
+  - nuc11.home.arpa
+  kubelet:
+    extraConfig:
+      imageGCHighThresholdPercent: 40
+      imageGCLowThresholdPercent: 10
+  network:
+    hostname: nuc11
+    interfaces:
+    - interface: enp88s0
+      vlans:
+      - routes: []
+        dhcp: true
+        vlanId: 25
+      dhcp: false
+  install:
+    disk: /dev/nvme0n1
+  sysctls:
+    user.max_user_namespaces: "11255"
+  nodeLabels:
+    node.longhorn.io/create-default-disk: "true"
+cluster:
+  apiServer:
+    certSANs:
+    - weirdcluster.prod
+    - k8s.home.arpa
+    - k8s.teamg.app
+  allowSchedulingOnControlPlanes: true

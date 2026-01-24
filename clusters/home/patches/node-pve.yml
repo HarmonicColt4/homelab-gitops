@@ -4,5 +4,3 @@ machine:
     disk: /dev/sda
   network:
     hostname: node-pve
-  nodeLabels:
-    node.longhorn.io/create-default-disk: "true"

@@ -20,3 +20,4 @@ machine:
   nodeLabels:
     node.kubernetes.io/exclude-from-external-load-balancers:
       $patch: delete
+    node.longhorn.io/create-default-disk: "true"

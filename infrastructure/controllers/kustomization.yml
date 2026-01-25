@@ -8,7 +8,7 @@ resources:
 - intel-gpu-plugin
 - longhorn
 - metallb
-- multus
+# - multus
 - node-feature-discovery
 - renovate
 - tailscale

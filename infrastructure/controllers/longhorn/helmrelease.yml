@@ -33,12 +33,12 @@ spec:
       removeSnapshotsDuringFilesystemTrim: true
       replicaAutoBalance: best-effort
     csi:
-      attacherReplicaCount: 1
-      provisionerReplicaCount: 1
-      resizerReplicaCount: 1
-      snapshotterReplicaCount: 1
+      attacherReplicaCount: 3
+      provisionerReplicaCount: 3
+      resizerReplicaCount: 3
+      snapshotterReplicaCount: 3
     longhornUI:
-      replicas: 1
+      replicas: 2
     defaultBackupStore:
       backupTarget: s3://longhorn@garage/
       backupTargetCredentialSecret: garage

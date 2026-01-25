@@ -25,7 +25,7 @@ spec:
       recurringJobSelector:
         enable: true
         jobList:
-        - { "name": "default", "isGroup": true }
+        - '{ "name": "default", "isGroup": true }'
       reclaimPolicy: "Retain"
     defaultSettings:
       createDefaultDiskLabeledNodes: true

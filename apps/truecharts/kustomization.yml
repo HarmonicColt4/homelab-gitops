@@ -24,6 +24,8 @@ resources:
 configMapGenerator:
 - name: global-values
   namespace: flux-system
+  options:
+    disableNameSuffixHash: true
   files:
   - values.yaml=global-values.yml
 

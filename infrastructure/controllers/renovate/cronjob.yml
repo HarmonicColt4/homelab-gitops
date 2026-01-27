@@ -4,7 +4,7 @@ kind: CronJob
 metadata:
   name: renovate
 spec:
-  schedule: '0 12 * * *' # UTC
+  schedule: '0 * * * *' # UTC
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:

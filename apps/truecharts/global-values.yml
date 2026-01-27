@@ -22,5 +22,5 @@ global:
         initialDelaySeconds: 5
         periodSeconds: 5
         timeoutSeconds: 5
-        failureThreshold: 4
+        failureThreshold: 60
         successThreshold: 1

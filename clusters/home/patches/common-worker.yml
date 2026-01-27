@@ -1,0 +1,14 @@
+---
+machine:
+  kubelet:
+    extraArgs:
+      rotate-server-certificates: true
+    extraConfig:
+      imageGCHighThresholdPercent: 40
+      imageGCLowThresholdPercent: 10
+  nodeLabels:
+    node.longhorn.io/create-default-disk: "true"
+---
+apiVersion: v1alpha1
+kind: DHCPv4Config
+name: eth0

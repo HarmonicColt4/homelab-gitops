@@ -3,11 +3,8 @@
   "flux": {
     "managerFilePatterns": ["/.+(?:helmrelease|repository)\\.yml/"]
   },
-  "extends": [
-    "config:recommended",
-    ":automergeStableNonMajor",
-    "schedule:automergeWeekly"
-  ],
+  "extends": ["config:recommended", ":automergeStableNonMajor"],
+  "automergeSchedule": ["* 2-6 * * *"],
   "ignoreTests": true,
   "automergeType": "branch",
   "kubernetes": {
@@ -16,11 +13,7 @@
   "packageRules": [
     {
       "matchManagers": ["flux", "kubernetes"],
-      "matchDepNames": [
-        "fluxcd/flux2",
-        "cert-manager",
-        "metallb"
-      ],
+      "matchDepNames": ["fluxcd/flux2", "cert-manager", "metallb"],
       "automerge": false
     }
   ]

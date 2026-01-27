@@ -18,13 +18,33 @@ export ENDPOINT="k8s.home.arpa"
 export CLUSTER_NAME="teamg"
 ```
 
+## Get schematic
+
+```
+curl -X POST \
+  --data-binary @extensions.yml \
+  https://factory.talos.dev/schematics
+```
+
+## Config
+
 ```
 talosctl gen config --with-secrets secrets.yml $CLUSTER_NAME https://$ENDPOINT:6443 --output configs --with-docs=0 --with-examples=0 -f --install-image factory.talos.dev/metal-installer/<schematic>:<version>
 ```
 
+## Control Plane
+
 ```
-talosctl machineconfig patch configs/controlplane.yaml --patch @patches/common.yml --patch @patches/<node>.yml --output configs/<node>.yml
+talosctl machineconfig patch configs/controlplane.yaml --patch @patches/common-cp.yml --patch @patches/<node>.yml --output configs/<node>.yml
 ```
+
+## Worker
+
+```
+talosctl machineconfig patch configs/worker.yaml --patch @patches/common-worker.yml --patch @patches/<node>.yml --output configs/<node>.yml
+```
+
+## Apply Configs
 
 ```
 talosctl apply-config --insecure \
@@ -32,11 +52,7 @@ talosctl apply-config --insecure \
     --file configs/<node>.yml
 ```
 
-```
-curl -X POST \
-  --data-binary @extensions.yml \
-  https://factory.talos.dev/schematics
-```
+## Talos upgrade
 
 ```
 talosctl upgrade \

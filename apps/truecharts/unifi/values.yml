@@ -1,4 +1,8 @@
 ---
+image:
+  repository: ghcr.io/goofball222/unifi
+  tag: 10.0.162-mongo8
+  pullPolicy: IfNotPresent
 service:
   comm:
     type: LoadBalancer
@@ -9,12 +13,15 @@ persistence:
     enabled: false
 workload:
   main:
+    replicas: 0
     podSpec:
       initContainers:
         migrate:
           enabled: false
       containers:
         main:
+          env:
+            RUN_CHOWN: true
           probes:
             startup:
               spec:

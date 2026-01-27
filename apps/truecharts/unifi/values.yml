@@ -25,3 +25,9 @@ workload:
             startup:
               spec:
                 initialDelaySeconds: 100
+securityContext:
+  container:
+    PUID: 999
+  pod:
+    fsGroup: 999
+    supplementalGroups: [ 999 ]

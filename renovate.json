@@ -13,7 +13,12 @@
   "packageRules": [
     {
       "matchManagers": ["flux", "kubernetes"],
-      "matchDepNames": ["fluxcd/flux2", "cert-manager", "metallb"],
+      "matchDepNames": [
+        "fluxcd/flux2",
+        "cert-manager",
+        "metallb",
+        "flaresolverr"
+      ],
       "automerge": false
     }
   ]

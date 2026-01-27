@@ -19,7 +19,7 @@ export CLUSTER_NAME="teamg"
 ```
 
 ```
-talosctl gen config --with-secrets secrets.yml $CLUSTER_NAME https://$ENDPOINT:6443 --output configs -t controlplane -t talosconfig --with-docs=0 --with-examples=0 -f --install-image factory.talos.dev/metal-installer/<schematic>:<version>
+talosctl gen config --with-secrets secrets.yml $CLUSTER_NAME https://$ENDPOINT:6443 --output configs --with-docs=0 --with-examples=0 -f --install-image factory.talos.dev/metal-installer/<schematic>:<version>
 ```
 
 ```

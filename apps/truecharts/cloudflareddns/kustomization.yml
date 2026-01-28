@@ -10,7 +10,7 @@ secretGenerator:
 - name: cloudflareddns-values
   namespace: flux-system
   files:
-  - values.yaml=values.enc.yml
+  - values.yaml=secrets/values.enc.yml
 
 transformers:
 - |

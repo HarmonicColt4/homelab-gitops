@@ -1,20 +1,8 @@
 ---
-cluster:
-  apiServer:
-    certSANs:
-    - k8s.teamg.app
-  allowSchedulingOnControlPlanes: true
 machine:
   kubelet:
     extraArgs:
       rotate-server-certificates: true
-    extraConfig:
-      imageGCHighThresholdPercent: 40
-      imageGCLowThresholdPercent: 10
-  nodeLabels:
-    node.kubernetes.io/exclude-from-external-load-balancers:
-      $patch: delete
-    node.longhorn.io/create-default-disk: "true"
 ---
 apiVersion: v1alpha1
 kind: DHCPv4Config

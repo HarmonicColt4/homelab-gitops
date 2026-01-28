@@ -7,14 +7,10 @@ Three talos control plane nodes with workers enabled:
 - talos-truenas
 
 **Endpoint**: `k8s.home.arpa`
-
-```
-export ENDPOINT="k8s.home.arpa"
-```
-
 **Cluster Name**: `teamg`
 
 ```
+export ENDPOINT="k8s.home.arpa"
 export CLUSTER_NAME="teamg"
 ```
 

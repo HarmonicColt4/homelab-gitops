@@ -21,9 +21,7 @@ export CLUSTER_NAME="teamg"
 ## Get schematic
 
 ```
-curl -X POST \
-  --data-binary @extensions.yml \
-  https://factory.talos.dev/schematics
+curl -X POST --data-binary @extensions.yml https://factory.talos.dev/schematics
 ```
 
 ## Config
@@ -47,15 +45,11 @@ talosctl machineconfig patch configs/worker.yaml --patch @patches/common-worker.
 ## Apply Configs
 
 ```
-talosctl apply-config --insecure \
-    --nodes <node> \
-    --file configs/<node>.yml
+talosctl apply-config --insecure --nodes <node> --file configs/<node>.yml
 ```
 
 ## Talos upgrade
 
 ```
-talosctl upgrade \
-  --image \
-  factory.talos.dev/metal-installer/613e1592b2da41ae5e265e8789429f22e121aab91cb4deb6bc3c0b6262961245:v1.12.1
+talosctl upgrade --image factory.talos.dev/metal-installer/613e1592b2da41ae5e265e8789429f22e121aab91cb4deb6bc3c0b6262961245:v1.12.1
 ```

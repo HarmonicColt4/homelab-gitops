@@ -33,10 +33,11 @@ spec:
             metallb.io/loadBalancerIPs: 10.25.25.13
     ports:
       web:
-        redirections:
-          entryPoint:
-            to: websecure
-            scheme: https
+        http:
+          redirections:
+            entryPoint:
+              to: websecure
+              scheme: https
       websecure:
         transport:
           respondingTimeouts:

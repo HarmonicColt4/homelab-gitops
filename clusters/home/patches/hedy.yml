@@ -1,0 +1,34 @@
+---
+machine:
+  install:
+    disk: /dev/nvme0n1
+    image: factory.talos.dev/metal-installer/d1a120385d0f738e3045efa0baeea320bb684bb3771cd16c203aaa346a2c88c5:v1.12.2
+    wipe: true
+  kubelet:
+    extraArgs:
+      rotate-server-certificates: true
+    extraConfig:
+      imageGCHighThresholdPercent: 40
+      imageGCLowThresholdPercent: 10
+  nodeLabels:
+    node.longhorn.io/create-default-disk: "true"
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: eth0.25
+vlanID: 25
+parent: eth0
+---
+apiVersion: v1alpha1
+kind: DHCPv4Config
+name: eth0.25
+
+# ---
+# apiVersion: v1alpha1
+# kind: DHCPv4Config
+# name: eth0
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+hostname: w-hedy
+auto: off

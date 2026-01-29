@@ -8,6 +8,7 @@ resources:
 
 secretGenerator:
 - name: garage
+  namespace: longhorn-system
   envs:
   - secrets/garage.enc.env
   options:

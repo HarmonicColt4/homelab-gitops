@@ -5,3 +5,10 @@ resources:
 - namespace.yml
 - helmrelease.yml
 - repository.yml
+
+secretGenerator:
+- name: garage
+  envs:
+  - secrets/garage.enc.env
+  options:
+    disableNameSuffixHash: true

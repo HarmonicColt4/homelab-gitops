@@ -1,25 +1,25 @@
 ---
 machine:
-  certSANs:
-  - nuc11.home.arpa
-  kubelet:
-    extraConfig:
-      imageGCHighThresholdPercent: 40
-      imageGCLowThresholdPercent: 10
-  network:
-    hostname: nuc11
-    interfaces:
-    - interface: enp88s0
-      vlans:
-      - routes: []
-        dhcp: true
-        vlanId: 25
-        vip:
-          ip: 10.25.25.99
-      dhcp: false
   install:
     disk: /dev/nvme0n1
-  sysctls:
-    user.max_user_namespaces: "11255"
-  nodeLabels:
-    node.longhorn.io/create-default-disk: "true"
+    image: factory.talos.dev/metal-installer/4e1ccceb101b24a7f42784157bdea3a5717fd39995075ae078af573c4c2f009f:v1.12.2
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: eth0.25
+vlanID: 25
+parent: eth0
+---
+apiVersion: v1alpha1
+kind: DHCPv4Config
+name: eth0.25
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+hostname: cp-nuc11
+auto: off
+---
+apiVersion: v1alpha1
+kind: Layer2VIPConfig
+name: 10.25.25.99
+link: eth0.25

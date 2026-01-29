@@ -4,7 +4,7 @@ kind: Kustomization
 
 resources:
 - backup.yml
-- snapshot.yml
+# - snapshot.yml
 - fs-trim.yml
 - ingress-route.yml
 - sc-cnpg.yml

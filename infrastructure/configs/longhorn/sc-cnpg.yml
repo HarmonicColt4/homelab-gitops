@@ -12,13 +12,13 @@ parameters:
   staleReplicaTimeout: "2880"
   fromBackup: ""
   fsType: "ext4"
-  recurringJobSelector: '[{"name":"snapshot", "isGroup":false}, {"name":"filesystem-trim", "isGroup":false}]'
+  recurringJobSelector: '[{"name":"filesystem-trim", "isGroup":false}]'
+  dataLocality: strict-local
 
 #  backupTargetName: "default"
 #  mkfsParams: ""
 #  migratable: false
 #  encrypted: false
-#  dataLocality: "disabled"
 #  replicaAutoBalance: "ignored"
 #  diskSelector: "ssd,fast"
 #  nodeSelector: "storage,fast"

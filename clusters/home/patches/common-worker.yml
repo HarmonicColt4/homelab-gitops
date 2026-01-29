@@ -8,7 +8,3 @@ machine:
       imageGCLowThresholdPercent: 10
   nodeLabels:
     node.longhorn.io/create-default-disk: "true"
----
-apiVersion: v1alpha1
-kind: DHCPv4Config
-name: eth0

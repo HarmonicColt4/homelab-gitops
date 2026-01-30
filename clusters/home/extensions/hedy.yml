@@ -8,3 +8,4 @@ customization:
     - siderolabs/iscsi-tools
     - siderolabs/mei
     - siderolabs/util-linux-tools
+    - siderolabs/xe

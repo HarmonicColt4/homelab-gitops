@@ -53,9 +53,9 @@ cnpg:
       enabled: true
       credentials: garage
       destinationPath: s3://immich
-      revision: "3"
+      revision: "4"
     recovery:
-      revision: "2"
+      revision: "3"
       credentials: garage
       destinationPath: s3://immich
 immich:

@@ -22,11 +22,6 @@ parent: eth0
 apiVersion: v1alpha1
 kind: DHCPv4Config
 name: eth0.25
-
-# ---
-# apiVersion: v1alpha1
-# kind: DHCPv4Config
-# name: eth0
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig

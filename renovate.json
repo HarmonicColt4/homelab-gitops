@@ -20,6 +20,11 @@
         "flaresolverr"
       ],
       "automerge": false
+    },
+    {
+      "matchManagers": ["flux"],
+      "matchDatasources": ["docker"],
+      "commitMessageTopic": "Helm release {{{depName}}}"
     }
   ]
 }

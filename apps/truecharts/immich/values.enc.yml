@@ -62,9 +62,9 @@ immich:
   mlImageType: mlOpenvinoImage
 workload:
   main:
-    replicas: 0
+    replicas: 1
   machinelearning:
-    replicas: 0
+    replicas: 1
     podSpec:
       containers:
         machinelearning:
@@ -74,7 +74,7 @@ workload:
               memory: 8Gi
               gpu.intel.com/i915: 1
   microservices:
-    replicas: 0
+    replicas: 1
     podSpec:
       containers:
         microservices:

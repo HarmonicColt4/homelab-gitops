@@ -16,8 +16,7 @@
       "matchDepNames": [
         "fluxcd/flux2",
         "cert-manager",
-        "metallb",
-        "flaresolverr"
+        "metallb"
       ],
       "automerge": false
     },

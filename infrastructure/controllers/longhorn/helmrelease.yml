@@ -5,6 +5,7 @@ metadata:
   name: longhorn
   namespace: flux-system
 spec:
+  suspend: true
   releaseName: longhorn
   targetNamespace: longhorn-system
   interval: 24h

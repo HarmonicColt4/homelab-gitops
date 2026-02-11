@@ -5,7 +5,7 @@ metadata:
   name: longhorn
   namespace: flux-system
 spec:
-  suspend: true
+  suspend: false
   releaseName: longhorn
   targetNamespace: longhorn-system
   interval: 24h
@@ -20,6 +20,10 @@ spec:
   driftDetection:
     mode: enabled
   values:
+    image:
+      longhorn:
+        instanceManager:
+          tag: v1.11.0-hotfix-1
     persistence:
       defaultDataLocality: best-effort
       defaultClassReplicaCount: 2

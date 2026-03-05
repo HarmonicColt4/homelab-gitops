@@ -14,9 +14,9 @@ resources:
 - profilarr
 - qbittorrent
 - radarr
-- searxng
+# - searxng
 - sonarr
-- stirling-pdf
+# - stirling-pdf
 - vaultwarden
 - unifi
 - uptime-kuma
@@ -34,8 +34,3 @@ secretGenerator:
   namespace: flux-system
   files:
   - values.yaml=cnpg-values.enc.yml
-
-# patches:
-# - path: helmrelease-disable-wait-and-remediation.yml
-#   target:
-#     kind: HelmRelease

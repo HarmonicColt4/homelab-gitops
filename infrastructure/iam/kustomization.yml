@@ -4,5 +4,5 @@ kind: Kustomization
 
 resources:
 - pocket-id
-- tinyauth
+# - tinyauth
 - cloudflared

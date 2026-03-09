@@ -5,13 +5,12 @@ kind: Kustomization
 resources:
 - namespace.yml
 - deploy.yml
-- pvc.yml
-- svc.yml
-- ingress-route.yml
+- storage.yml
+- ingress.yml
 
 namespace: pocket-id
 
 secretGenerator:
 - name: env
   envs:
-  - enc.env
+  - secrets/enc.env

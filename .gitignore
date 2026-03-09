@@ -4,4 +4,5 @@
 !**/secrets/.sops.yaml
 !**/secrets/*.enc.yml
 !**/secrets/*.enc.env
+!**/secrets/enc.env
 !**/secrets/kustomization.yml

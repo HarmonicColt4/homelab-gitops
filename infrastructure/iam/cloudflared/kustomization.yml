@@ -5,6 +5,10 @@ kind: Kustomization
 resources:
 - namespace.yml
 - deploy.yml
-- token.enc.yml
+
+secretGenerator:
+  - name: tunnel-token
+    envs:
+      - secrets/enc.env
 
 namespace: cloudflared

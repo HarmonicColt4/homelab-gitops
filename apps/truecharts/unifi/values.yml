@@ -42,4 +42,5 @@ securityContext:
     PUID: 999
   pod:
     fsGroup: 999
-    supplementalGroups: [999]
+    supplementalGroups:
+      - 999

@@ -3,37 +3,37 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- namespace.yml
-- repository.yml
-- helmrelease.yml
-- ingress-route.yml
+  - namespace.yml
+  - repository.yml
+  - helmrelease.yml
+  - ingress-route.yml
 
 configMapGenerator:
-- name: kube-prometheus-stack-values
-  namespace: flux-system
-  files:
-  - values.yaml=values.yml
+  - name: kube-prometheus-stack-values
+    namespace: flux-system
+    files:
+      - values.yaml=values.yml
 
 secretGenerator:
-- name: grafana-admin-user
-  envs:
-  - secrets/grafana-admin-user.enc.env
-  options:
-    disableNameSuffixHash: true
+  - name: grafana-admin-user
+    envs:
+      - secrets/grafana-admin-user.enc.env
+    options:
+      disableNameSuffixHash: true
 
 configurations:
-- kustomizeconfig.yml
+  - kustomizeconfig.yml
 
 transformers:
-- |
-  apiVersion: builtin
-  kind: NamespaceTransformer
-  metadata:
-    name: not-important-to-example
-    namespace: kube-prometheus-stack
-  setRoleBindingSubjects: none
-  unsetOnly: true
-  fieldSpecs:
-    - kind: HelmRelease
-      path: spec/targetNamespace
-      create: true
+  - |
+    apiVersion: builtin
+    kind: NamespaceTransformer
+    metadata:
+      name: not-important-to-example
+      namespace: kube-prometheus-stack
+    setRoleBindingSubjects: none
+    unsetOnly: true
+    fieldSpecs:
+      - kind: HelmRelease
+        path: spec/targetNamespace
+        create: true

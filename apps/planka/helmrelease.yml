@@ -15,5 +15,5 @@ spec:
         name: planka
       version: 1.1.2
   valuesFrom:
-  - kind: Secret
-    name: planka-values
+    - kind: Secret
+      name: planka-values

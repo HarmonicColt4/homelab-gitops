@@ -17,10 +17,10 @@ metadata:
   name: mealie
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - match: Host(`mealie.teamg.app`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: mealie
-      port: 9000
+    - match: Host(`mealie.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: mealie
+          port: 9000

@@ -51,20 +51,20 @@ workload:
           imageSelector: gitImage
           type: install
           args:
-          - clone
-          - --single-branch
-          - --branch
-          - latest-release
-          - https://github.com/VueTorrent/VueTorrent.git
-          - /config/vuetorrent
+            - clone
+            - --single-branch
+            - --branch
+            - latest-release
+            - https://github.com/VueTorrent/VueTorrent.git
+            - /config/vuetorrent
         vuetorrent-update:
           enabled: true
           imageSelector: gitImage
           type: upgrade
           args:
-          - -C
-          - /config/vuetorrent
-          - pull
+            - -C
+            - /config/vuetorrent
+            - pull
 
 gitImage:
   repository: alpine/git

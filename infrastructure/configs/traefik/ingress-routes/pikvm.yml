@@ -5,13 +5,13 @@ metadata:
   name: pikvm
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - kind: Rule
-    match: Host(`pikvm.teamg.app`) && PathPrefix(`/`)
-    services:
-    - name: pikvm
-      port: 443
+    - kind: Rule
+      match: Host(`pikvm.teamg.app`) && PathPrefix(`/`)
+      services:
+        - name: pikvm
+          port: 443
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRouteTCP
@@ -19,9 +19,9 @@ metadata:
   name: pikvm-ssh
 spec:
   entryPoints:
-  - pikvm-ssh
+    - pikvm-ssh
   routes:
-  - match: HostSNI(`*`)
-    services:
-    - name: pikvm
-      port: 22
+    - match: HostSNI(`*`)
+      services:
+        - name: pikvm
+          port: 22

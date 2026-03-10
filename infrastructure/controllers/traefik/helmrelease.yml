@@ -63,12 +63,12 @@ spec:
         matchRule: Host(`traefik.teamg.app`)
         enabled: true
         entryPoints:
-        - websecure
+          - websecure
     global:
       checkNewVersion: true
       sendAnonymousUsage: false
     additionalArguments:
-    - "--serverstransport.insecureskipverify=true"
+      - "--serverstransport.insecureskipverify=true"
     providers:
       kubernetesCRD:
         allowExternalNameServices: true

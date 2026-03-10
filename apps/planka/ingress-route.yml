@@ -5,10 +5,10 @@ metadata:
   name: planka
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - match: Host(`planka.teamg.app`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: planka
-      port: 1337
+    - match: Host(`planka.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: planka
+          port: 1337

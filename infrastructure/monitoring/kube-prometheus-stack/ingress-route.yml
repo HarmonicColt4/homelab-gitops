@@ -5,10 +5,10 @@ metadata:
   name: kps-grafana
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - match: Host(`grafana.teamg.app`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: kps-grafana
-      port: 80
+    - match: Host(`grafana.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: kps-grafana
+          port: 80

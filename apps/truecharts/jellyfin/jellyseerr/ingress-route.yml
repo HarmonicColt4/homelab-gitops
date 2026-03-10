@@ -5,15 +5,15 @@ metadata:
   name: jellyseerr
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - match: Host(`jellyseerr.weirdrussiandomain.com`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: jellyseerr
-      port: 10241
-  - match: Host(`jellyseerr.teamg.app`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: jellyseerr
-      port: 10241
+    - match: Host(`jellyseerr.weirdrussiandomain.com`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: jellyseerr
+          port: 10241
+    - match: Host(`jellyseerr.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: jellyseerr
+          port: 10241

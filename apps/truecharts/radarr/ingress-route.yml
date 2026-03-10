@@ -5,10 +5,10 @@ metadata:
   name: radarr
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - match: Host(`radarr.teamg.app`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: radarr
-      port: 7878
+    - match: Host(`radarr.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: radarr
+          port: 7878

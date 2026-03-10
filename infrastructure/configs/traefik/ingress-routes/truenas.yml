@@ -5,10 +5,10 @@ metadata:
   name: truenas
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - kind: Rule
-    match: Host(`nas.teamg.app`) && PathPrefix(`/`)
-    services:
-    - name: truenas
-      port: 443
+    - kind: Rule
+      match: Host(`nas.teamg.app`) && PathPrefix(`/`)
+      services:
+        - name: truenas
+          port: 443

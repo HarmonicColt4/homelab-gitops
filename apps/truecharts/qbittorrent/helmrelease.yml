@@ -18,7 +18,7 @@ spec:
       interval: 1h
       version: 24.6.0
   valuesFrom:
-  - kind: ConfigMap
-    name: global-values
-  - kind: ConfigMap
-    name: qbittorrent-values
+    - kind: ConfigMap
+      name: global-values
+    - kind: ConfigMap
+      name: qbittorrent-values

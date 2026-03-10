@@ -18,12 +18,12 @@ spec:
       interval: 1h
       version: 29.18.0
   valuesFrom:
-  - kind: ConfigMap
-    name: global-values
-  - kind: Secret
-    name: cnpg-values
-  - kind: Secret
-    name: vaultwarden-values
+    - kind: ConfigMap
+      name: global-values
+    - kind: Secret
+      name: cnpg-values
+    - kind: Secret
+      name: vaultwarden-values
   values:
     ingress:
       main:

@@ -5,11 +5,11 @@ metadata:
   name: sunshine
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - kind: Rule
-    match: Host(`sunshine.teamg.app`) && PathPrefix(`/`)
-    services:
-    - name: sunshine
-      port: 47990
-      scheme: https
+    - kind: Rule
+      match: Host(`sunshine.teamg.app`) && PathPrefix(`/`)
+      services:
+        - name: sunshine
+          port: 47990
+          scheme: https

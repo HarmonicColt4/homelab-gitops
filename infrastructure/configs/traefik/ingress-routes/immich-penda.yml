@@ -5,10 +5,10 @@ metadata:
   name: immich-penda
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - kind: Rule
-    match: Host(`immich.penda.gg`) && PathPrefix(`/`)
-    services:
-    - name: truenas-penda
-      port: 30041
+    - kind: Rule
+      match: Host(`immich.penda.gg`) && PathPrefix(`/`)
+      services:
+        - name: truenas-penda
+          port: 30041

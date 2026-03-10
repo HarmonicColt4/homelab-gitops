@@ -5,10 +5,10 @@ metadata:
   name: open-webui
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - match: Host(`gpt.teamg.app`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: open-webui
-      port: 80
+    - match: Host(`gpt.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: open-webui
+          port: 80

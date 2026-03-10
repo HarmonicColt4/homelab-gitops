@@ -6,10 +6,10 @@ metadata:
   namespace: prowlarr
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - match: Host(`prowlarr.teamg.app`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: prowlarr
-      port: 9696
+    - match: Host(`prowlarr.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: prowlarr
+          port: 9696

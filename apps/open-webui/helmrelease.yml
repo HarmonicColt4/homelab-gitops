@@ -16,5 +16,5 @@ spec:
         name: open-webui
       interval: 1h
   valuesFrom:
-  - kind: Secret
-    name: open-webui-values
+    - kind: Secret
+      name: open-webui-values

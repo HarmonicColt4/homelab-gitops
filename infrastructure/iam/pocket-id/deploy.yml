@@ -18,42 +18,42 @@ spec:
         app: pocket-id
     spec:
       volumes:
-      - name: data
-        persistentVolumeClaim:
-          claimName: pocket-id-data
-      containers:
-      - image: ghcr.io/pocket-id/pocket-id:v2.4.0-distroless
-        name: pocket-id
-        volumeMounts:
         - name: data
-          mountPath: /app/data
-        ports:
-        - containerPort: 1411
-        resources:
-          requests:
-            cpu: 50m
-            memory: 50M
-          limits:
-            cpu: 250m
-            memory: 250M
-        envFrom:
-        - secretRef:
-            name: env
-        livenessProbe:
-          exec:
-            command:
-            - /app/pocket-id
-            - healthcheck
-          periodSeconds: 90
-          failureThreshold: 6
-          initialDelaySeconds: 20
-        securityContext:
-          runAsUser: 1000
-          runAsGroup: 1000
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-            - ALL
-          runAsNonRoot: true
-          seccompProfile:
-            type: RuntimeDefault
+          persistentVolumeClaim:
+            claimName: pocket-id-data
+      containers:
+        - image: ghcr.io/pocket-id/pocket-id:v2.4.0-distroless
+          name: pocket-id
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+          ports:
+            - containerPort: 1411
+          resources:
+            requests:
+              cpu: 50m
+              memory: 50M
+            limits:
+              cpu: 250m
+              memory: 250M
+          envFrom:
+            - secretRef:
+                name: env
+          livenessProbe:
+            exec:
+              command:
+                - /app/pocket-id
+                - healthcheck
+            periodSeconds: 90
+            failureThreshold: 6
+            initialDelaySeconds: 20
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault

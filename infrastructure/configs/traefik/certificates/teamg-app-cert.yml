@@ -6,8 +6,8 @@ metadata:
 spec:
   secretName: teamg-app-tls
   dnsNames:
-  - "teamg.app"
-  - "*.teamg.app"
+    - "teamg.app"
+    - "*.teamg.app"
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer

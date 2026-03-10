@@ -5,10 +5,10 @@ metadata:
   name: sonarr
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - match: Host(`sonarr.teamg.app`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: sonarr
-      port: 8989
+    - match: Host(`sonarr.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: sonarr
+          port: 8989

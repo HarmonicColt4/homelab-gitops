@@ -8,4 +8,4 @@ spec:
   defaultCertificate:
     secretName: teamg-app-tls
   certificates:
-  - secretName: weirdrussiandomain-com-tls
+    - secretName: weirdrussiandomain-com-tls

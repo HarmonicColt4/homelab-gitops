@@ -18,5 +18,5 @@ spec:
       interval: 1h
       version: 1.94.2
   valuesFrom:
-  - kind: Secret
-    name: tailscale-values
+    - kind: Secret
+      name: tailscale-values

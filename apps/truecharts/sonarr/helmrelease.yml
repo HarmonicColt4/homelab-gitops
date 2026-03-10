@@ -18,10 +18,10 @@ spec:
       interval: 1h
       version: 25.6.0
   valuesFrom:
-  - kind: ConfigMap
-    name: global-values
-  - kind: ConfigMap
-    name: sonarr-values
+    - kind: ConfigMap
+      name: global-values
+    - kind: ConfigMap
+      name: sonarr-values
   values:
     metrics:
       main:

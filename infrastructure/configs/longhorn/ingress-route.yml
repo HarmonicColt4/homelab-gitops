@@ -6,10 +6,10 @@ metadata:
   namespace: longhorn-system
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - match: Host(`longhorn.teamg.app`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: longhorn-frontend
-      port: 80
+    - match: Host(`longhorn.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: longhorn-frontend
+          port: 80

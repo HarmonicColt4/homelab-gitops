@@ -18,9 +18,9 @@ spec:
       interval: 1h
       version: 25.31.0
   valuesFrom:
-  - kind: ConfigMap
-    name: global-values
-  - kind: Secret
-    name: cnpg-values
-  - kind: Secret
-    name: immich-values
+    - kind: ConfigMap
+      name: global-values
+    - kind: Secret
+      name: cnpg-values
+    - kind: Secret
+      name: immich-values

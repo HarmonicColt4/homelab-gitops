@@ -5,10 +5,10 @@ metadata:
   name: actualserver
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - match: Host(`budget.teamg.app`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: actualserver
-      port: 10293
+    - match: Host(`budget.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: actualserver
+          port: 10293

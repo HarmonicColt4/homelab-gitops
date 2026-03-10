@@ -18,33 +18,32 @@ spec:
           persistentVolumeClaim:
             claimName: mealie-data
       containers:
-      - name: mealie
-        image: ghcr.io/mealie-recipes/mealie:v3.12.0
-        envFrom:
-          - configMapRef:
-              name: mealie-config
-        resources:
-          requests:
-            memory: 400Mi
-            cpu: 500m
-          limits:
-            memory: 1Gi
-            cpu: 1000m
-        ports:
-        - containerPort: 9000
-        volumeMounts:
-          - name: mealie-data
-            mountPath: /app/data
-        livenessProbe:
-          httpGet:
-            path: /api/app/about
-            port: 9000
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /api/app/about
-            port: 9000
-          initialDelaySeconds: 5
-          periodSeconds: 5
-
+        - name: mealie
+          image: ghcr.io/mealie-recipes/mealie:v3.12.0
+          envFrom:
+            - configMapRef:
+                name: mealie-config
+          resources:
+            requests:
+              memory: 400Mi
+              cpu: 500m
+            limits:
+              memory: 1Gi
+              cpu: 1000m
+          ports:
+            - containerPort: 9000
+          volumeMounts:
+            - name: mealie-data
+              mountPath: /app/data
+          livenessProbe:
+            httpGet:
+              path: /api/app/about
+              port: 9000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /api/app/about
+              port: 9000
+            initialDelaySeconds: 5
+            periodSeconds: 5

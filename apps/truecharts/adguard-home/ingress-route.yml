@@ -5,10 +5,10 @@ metadata:
   name: adguard-home
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - match: Host(`adh.teamg.app`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: adguard-home
-      port: 10232
+    - match: Host(`adh.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: adguard-home
+          port: 10232

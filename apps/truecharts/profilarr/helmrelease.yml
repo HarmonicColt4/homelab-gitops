@@ -18,8 +18,8 @@ spec:
       interval: 1h
       version: 2.18.0
   valuesFrom:
-  - kind: ConfigMap
-    name: global-values
+    - kind: ConfigMap
+      name: global-values
   values:
     TZ: Pacific/Auckland
 ---
@@ -42,7 +42,7 @@ spec:
       interval: 1h
       version: 2.18.0
   valuesFrom:
-  - kind: ConfigMap
-    name: global-values
+    - kind: ConfigMap
+      name: global-values
   values:
     TZ: Pacific/Auckland

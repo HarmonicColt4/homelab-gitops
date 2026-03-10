@@ -5,15 +5,15 @@ metadata:
   name: immich
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - match: Host(`immich.weirdrussiandomain.com`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: immich
-      port: 10323
-  - match: Host(`immich.teamg.app`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: immich
-      port: 10323
+    - match: Host(`immich.weirdrussiandomain.com`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: immich
+          port: 10323
+    - match: Host(`immich.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: immich
+          port: 10323

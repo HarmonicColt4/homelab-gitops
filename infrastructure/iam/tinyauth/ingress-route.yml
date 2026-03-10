@@ -5,10 +5,10 @@ metadata:
   name: tinyauth
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - match: Host(`auth.teamg.app`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: tinyauth
-      port: 3000
+    - match: Host(`auth.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: tinyauth
+          port: 3000

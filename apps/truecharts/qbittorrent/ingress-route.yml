@@ -6,10 +6,10 @@ metadata:
   namespace: qbittorrent
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - match: Host(`qbit.teamg.app`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: qbittorrent
-      port: 10095
+    - match: Host(`qbit.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: qbittorrent
+          port: 10095

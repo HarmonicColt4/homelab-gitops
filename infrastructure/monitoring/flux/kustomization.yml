@@ -3,15 +3,15 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- provider.yml
-- alerts.yml
+  - provider.yml
+  - alerts.yml
 
 secretGenerator:
-- name: discord-webhook-info
-  envs:
-  - secrets/discord-webhook-info.enc.env
-- name: discord-webhook-errors
-  envs:
-  - secrets/discord-webhook-errors.enc.env
+  - name: discord-webhook-info
+    envs:
+      - secrets/discord-webhook-info.enc.env
+  - name: discord-webhook-errors
+    envs:
+      - secrets/discord-webhook-errors.enc.env
 
 namespace: flux-system

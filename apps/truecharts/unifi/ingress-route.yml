@@ -6,11 +6,11 @@ metadata:
   namespace: unifi
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - match: Host(`unifi.teamg.app`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: unifi
-      port: 8443
-      scheme: https
+    - match: Host(`unifi.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: unifi
+          port: 8443
+          scheme: https

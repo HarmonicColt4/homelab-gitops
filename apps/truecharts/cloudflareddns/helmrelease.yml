@@ -18,7 +18,7 @@ spec:
       interval: 1h
       version: 13.4.0
   valuesFrom:
-  - kind: ConfigMap
-    name: global-values
-  - kind: Secret
-    name: cloudflareddns-values
+    - kind: ConfigMap
+      name: global-values
+    - kind: Secret
+      name: cloudflareddns-values

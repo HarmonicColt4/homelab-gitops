@@ -7,9 +7,9 @@ metadata:
   name: pocket-id
 spec:
   ports:
-  - port: 1411
-    protocol: TCP
-    targetPort: 1411
+    - port: 1411
+      protocol: TCP
+      targetPort: 1411
   selector:
     app: pocket-id
   type: ClusterIP
@@ -20,10 +20,10 @@ metadata:
   name: pocket-id
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - match: Host(`id.teamg.app`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: pocket-id
-      port: 1411
+    - match: Host(`id.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: pocket-id
+          port: 1411

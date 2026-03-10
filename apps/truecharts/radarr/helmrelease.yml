@@ -18,10 +18,10 @@ spec:
       interval: 1h
       version: 26.7.0
   valuesFrom:
-  - kind: ConfigMap
-    name: global-values
-  - kind: ConfigMap
-    name: radarr-values
+    - kind: ConfigMap
+      name: global-values
+    - kind: ConfigMap
+      name: radarr-values
   values:
     metrics:
       main:

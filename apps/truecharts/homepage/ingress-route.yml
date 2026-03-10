@@ -5,10 +5,10 @@ metadata:
   name: homepage
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - match: Host(`teamg.app`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: homepage
-      port: 10352
+    - match: Host(`teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: homepage
+          port: 10352

@@ -5,10 +5,10 @@ metadata:
   name: jellyfin
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - match: Host(`jellyfin-nuc.teamg.app`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: jellyfin
-      port: 8096
+    - match: Host(`jellyfin-nuc.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: jellyfin
+          port: 8096

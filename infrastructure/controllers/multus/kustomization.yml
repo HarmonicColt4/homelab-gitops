@@ -1,4 +1,4 @@
 ---
 resources:
-- repository.yml
-- multus-cni.yml
+  - repository.yml
+  - multus-cni.yml

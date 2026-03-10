@@ -5,10 +5,10 @@ metadata:
   name: gitea
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - kind: Rule
-    match: Host(`git.teamg.app`) && PathPrefix(`/`)
-    services:
-    - name: truenas
-      port: 30008
+    - kind: Rule
+      match: Host(`git.teamg.app`) && PathPrefix(`/`)
+      services:
+        - name: truenas
+          port: 30008

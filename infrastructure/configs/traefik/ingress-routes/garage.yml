@@ -5,10 +5,10 @@ metadata:
   name: garage
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - kind: Rule
-    match: Host(`garage.teamg.app`) && PathPrefix(`/`)
-    services:
-    - name: truenas
-      port: 30186
+    - kind: Rule
+      match: Host(`garage.teamg.app`) && PathPrefix(`/`)
+      services:
+        - name: truenas
+          port: 30186

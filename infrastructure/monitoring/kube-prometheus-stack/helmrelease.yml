@@ -17,5 +17,5 @@ spec:
         kind: HelmRepository
         name: prometheus-community
   valuesFrom:
-  - kind: ConfigMap
-    name: kube-prometheus-stack-values
+    - kind: ConfigMap
+      name: kube-prometheus-stack-values

@@ -6,8 +6,8 @@ metadata:
 spec:
   secretName: weirdrussiandomain-com-tls
   dnsNames:
-  - "weirdrussiandomain.com"
-  - "*.weirdrussiandomain.com"
+    - "weirdrussiandomain.com"
+    - "*.weirdrussiandomain.com"
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer

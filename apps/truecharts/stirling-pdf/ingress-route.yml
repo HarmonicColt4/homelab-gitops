@@ -5,10 +5,10 @@ metadata:
   name: stirling-pdf
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - match: Host(`pdf.teamg.app`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: stirling-pdf
-      port: 18080
+    - match: Host(`pdf.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: stirling-pdf
+          port: 18080

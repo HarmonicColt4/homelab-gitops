@@ -19,7 +19,7 @@ spec:
       interval: 1h
       version: 12.17.0
   valuesFrom:
-  - kind: ConfigMap
-    name: global-values
-  - kind: ConfigMap
-    name: adguard-home-values
+    - kind: ConfigMap
+      name: global-values
+    - kind: ConfigMap
+      name: adguard-home-values

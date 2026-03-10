@@ -5,10 +5,10 @@ metadata:
   name: searxng
 spec:
   entryPoints:
-  - websecure
+    - websecure
   routes:
-  - match: Host(`search.teamg.app`) && PathPrefix(`/`)
-    kind: Rule
-    services:
-    - name: searxng
-      port: 8080
+    - match: Host(`search.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: searxng
+          port: 8080

@@ -10,5 +10,5 @@ spec:
     - match: Host(`tandoor.teamg.app`)
       kind: Rule
       services:
-        - name: tandoor
+        - name: tandoor-tandoor-recipes
           port: 10029

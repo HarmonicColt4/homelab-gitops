@@ -1,0 +1,14 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: tandoor
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`tandoor.teamg.app`)
+      kind: Rule
+      services:
+        - name: tandoor
+          port: 10029

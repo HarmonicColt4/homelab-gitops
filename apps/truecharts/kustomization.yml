@@ -17,6 +17,7 @@ resources:
   # - searxng
   - sonarr
   # - stirling-pdf
+  - tandoor
   - vaultwarden
   - unifi
   - uptime-kuma

@@ -3,7 +3,7 @@
   "flux": {
     "managerFilePatterns": ["/.+(?:helmrelease|repository)\\.yml/"]
   },
-  "extends": ["config:recommended", ":automergeAll"],
+  "extends": ["config:recommended", ":automergeStableNonMajor"],
   "automergeSchedule": ["* 2-6 * * *"],
   "ignoreTests": true,
   "automergeType": "branch",
@@ -14,7 +14,19 @@
     {
       "matchManagers": ["flux", "kubernetes"],
       "matchDepNames": ["fluxcd/flux2", "cert-manager", "metallb", "longhorn"],
-      "automerge": true
+      "lockFileMaintenance": {
+        "automerge": true
+      },
+      "minor": {
+        "automerge": false
+      },
+      "patch": {
+        "automerge": true
+      },
+      "pin": {
+        "automerge": true
+      },
+      "separateMinorPatch": true
     },
     {
       "matchManagers": ["flux"],

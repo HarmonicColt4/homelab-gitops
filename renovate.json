@@ -3,7 +3,7 @@
   "flux": {
     "managerFilePatterns": ["/.+(?:helmrelease|repository)\\.yml/"]
   },
-  "extends": ["config:recommended", ":automerge"],
+  "extends": ["config:recommended", ":automergeAll"],
   "automergeSchedule": ["* 2-6 * * *"],
   "ignoreTests": true,
   "automergeType": "branch",

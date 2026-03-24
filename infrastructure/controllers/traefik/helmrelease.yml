@@ -20,6 +20,8 @@ spec:
     deployment:
       kind: DaemonSet
     service:
+      spec:
+        externalTrafficPolicy: Local
       annotations:
         metallb.io/loadBalancerIPs: 10.25.25.11
       additionalServices:

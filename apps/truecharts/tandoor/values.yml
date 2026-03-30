@@ -7,7 +7,7 @@ cnpg:
   main:
     mode: standalone
     backups:
-      enabled: true
+      enabled: false
       credentials: garage
       destinationPath: s3://tandoor
       # revision: "2"

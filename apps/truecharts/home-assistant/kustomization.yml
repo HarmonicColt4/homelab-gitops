@@ -7,12 +7,6 @@ resources:
   - helmrelease.yml
   - ingress-route.yml
 
-secretGenerator:
-  - name: home-assistant-values
-    namespace: flux-system
-    files:
-      - values.yaml=secrets/values.enc.yml
-
 transformers:
   - |
     apiVersion: builtin

@@ -22,5 +22,3 @@ spec:
       name: global-values
     - kind: Secret
       name: cnpg-values
-    - kind: Secret
-      name: home-assistant-values

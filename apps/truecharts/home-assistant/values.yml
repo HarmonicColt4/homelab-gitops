@@ -1,6 +1,6 @@
 homeassistant:
   trusted_proxies:
-    - 10.25.25.0/24
+    - 10.244.0.0/16
 credentials:
   garage:
     type: s3
@@ -15,3 +15,8 @@ cnpg:
     recovery:      
       credentials: garage
       destinationPath: s3://home-assistant
+workload:
+  main:
+    podSpec:
+      annotations:
+        k8s.v1.cni.cncf.io/networks: macvlan-conf

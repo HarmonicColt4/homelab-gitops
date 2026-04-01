@@ -6,6 +6,13 @@ resources:
   - namespace.yml
   - helmrelease.yml
   - ingress-route.yml
+  - net-attach-def.yml
+
+configMapGenerator:
+  - name: home-assistant-values
+    namespace: flux-system
+    files:
+      - values.yaml=values.yml
 
 transformers:
   - |

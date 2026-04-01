@@ -20,5 +20,7 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: global-values
+    - kind: ConfigMap
+      name: home-assistant-values
     - kind: Secret
       name: cnpg-values

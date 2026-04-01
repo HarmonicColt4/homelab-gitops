@@ -24,6 +24,15 @@ spec:
               - name: host-run-netns
                 hostPath:
                   path: /var/run/netns/
+              containers:
+              - name: kube-multus
+                resources:
+                  limits:
+                    cpu: 300m
+                    memory: 150Mi
+                  requests:
+                    cpu: 200m
+                    memory: 100Mi
               initContainers:
               - name: install-multus-binary
                 command:

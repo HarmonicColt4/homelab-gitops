@@ -9,6 +9,7 @@ resources:
   - cloudflareddns
   - gamevault
   - homepage
+  - home-assistant
   - immich
   - jellyfin
   - prowlarr

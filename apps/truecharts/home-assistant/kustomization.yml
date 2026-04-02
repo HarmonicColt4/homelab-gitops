@@ -8,6 +8,7 @@ resources:
   - ingress-route.yml
   - net-attach-def.yml
   - mosquitto
+  - zigbee2mqtt
 
 configMapGenerator:
   - name: home-assistant-values

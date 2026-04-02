@@ -27,6 +27,6 @@ spec:
       "mode": "bridge",
       "ipam": {
         "type": "host-local",
-        "subnet": "10.13.25.0/24"
+        "subnet": "10.13.25.88/29"
       }
     }'

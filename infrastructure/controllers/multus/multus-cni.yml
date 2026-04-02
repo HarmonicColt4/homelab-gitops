@@ -20,6 +20,17 @@ spec:
         spec:
           template:
             spec:
+              initContainers:
+              - command:
+                - /install-cni.sh
+                image: ghcr.io/siderolabs/install-cni:v1.9.0
+                name: install-cni
+                securityContext:
+                  privileged: true
+                volumeMounts:
+                - mountPath: /host/opt/cni/bin
+                  mountPropagation: Bidirectional
+                  name: cnibin
               volumes:
               - name: host-run-netns
                 hostPath:

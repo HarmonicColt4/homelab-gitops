@@ -27,3 +27,7 @@ global:
 
 podOptions:
   defaultAffinity: false
+
+resources:
+  requests:
+    cpu: 10m

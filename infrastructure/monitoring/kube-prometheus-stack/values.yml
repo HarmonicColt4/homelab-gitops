@@ -17,6 +17,8 @@ crds:
 
 grafana:
   enabled: true
+  persistence:
+    enabled: true
   grafana.ini:
     server:
       domain: grafana.teamg.app

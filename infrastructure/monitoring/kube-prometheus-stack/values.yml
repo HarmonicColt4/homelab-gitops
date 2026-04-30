@@ -20,6 +20,8 @@ grafana:
   persistence:
     enabled: true
   grafana.ini:
+    auth:
+      oauth_allow_insecure_email_lookup: true
     server:
       domain: grafana.teamg.app
       root_url: https://grafana.teamg.app

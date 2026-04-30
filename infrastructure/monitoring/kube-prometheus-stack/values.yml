@@ -17,6 +17,9 @@ crds:
 
 grafana:
   enabled: true
+  grafana.ini:
+    server:
+      root_url: https://grafana.teamg.app
   admin:
     existingSecret: grafana-admin-user
     userKey: admin-user

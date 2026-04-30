@@ -20,6 +20,7 @@ grafana:
   grafana.ini:
     server:
       domain: grafana.teamg.app
+      root_url: https://grafana.teamg.app
   admin:
     existingSecret: grafana-admin-user
     userKey: admin-user

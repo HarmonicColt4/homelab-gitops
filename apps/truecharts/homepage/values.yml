@@ -94,6 +94,9 @@ configmap:
             - Truenas:
                 href: https://truenas.teamg.app/
                 icon: truenas
+            - Truenas Penda:
+                href: http://192.168.6.10/
+                icon: truenas
             - Unifi Network:
                 href: https://unifi.teamg.app/
                 icon: unifi

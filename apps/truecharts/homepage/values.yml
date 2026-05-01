@@ -11,29 +11,7 @@ workload:
         init-config:
           enabled: false
 
-persistence:
-  config:
-    enabled: false
-  kubernetes-config:
-    enabled: false
-  bookmarks-config:
-    enabled: false
-  settings-config:
-    enabled: false
-  services-config:
-    enabled: false
-  widgets-config:
-    enabled: false
-  custom-css-config:
-    enabled: false
-  custom-js-config:
-    enabled: false
-  
-  conf:
-    enabled: true
-    type: configmap
-    objectName: config
-    mountPath: /app/config
+forceConfigFromValues: true          
 
 configmap:
   config:

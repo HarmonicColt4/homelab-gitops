@@ -4,9 +4,6 @@ kind: Kustomization
 
 resources:
   - namespace.yml
-  # - helmrelease.yml
-  # - ingress-route.yml
-  - jellyseerr
   - seerr
 
 configMapGenerator:

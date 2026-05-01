@@ -1,0 +1,22 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: seerr
+  namespace: flux-system
+spec:
+  interval: 24h
+  releaseName: seerr
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: seerr
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+      interval: 1h
+      version: 15.2.3
+  valuesFrom:
+    - kind: ConfigMap
+      name: global-values

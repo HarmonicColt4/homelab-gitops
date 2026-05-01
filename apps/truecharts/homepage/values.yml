@@ -28,9 +28,16 @@ configmap:
         # For configuration options and examples, please see:
         # https://gethomepage.dev/configs/
 
-        providers:
-          openweathermap: openweathermapapikey
-          weatherapi: weatherapiapikey
+        layout:
+          Documents:
+          Media:
+          Torrents:
+          Arr:
+            style: row
+            columns: 3
+          Infra:
+            style: row
+            columns: 3
       widgets.yaml: |
         ---
         # For configuration options and examples, please see:
@@ -45,20 +52,69 @@ configmap:
         # For configuration options and examples, please see:
         # https://gethomepage.dev/configs/services/
 
+        - Documents:
+            - Actual Budget:
+                href: https://budget.teamg.app/
+                icon: actual-budget
+            - Opencloud:
+                href: https://cloud.teamg.app/
+                icon: open-cloud-dark
+
         - Arr:
-            - My First Service:
-                href: http://localhost/
-                description: Homepage is awesome
+            - Sonarr:
+                href: https://sonarr.teamg.app/
+                icon: sonarr
+            - Radarr:
+                href: https://radarr.teamg.app/
+                icon: radarr
+            - Jellyseerr:
+                href: https://jellyseerr.teamg.app/
+                icon: jellyseerr
+            - Profilarr:
+                href: https://profilarr.teamg.app/
+                icon: profilarr
 
         - Media:
-            - My Second Service:
-                href: http://localhost/
-                description: Homepage is the best
+            - Jellyfin:
+                href: https://jellyfin.teamg.app/
+                icon: jellyfin
+            - Immich:
+                href: https://immich.teamg.app/
+                icon: immich
+
+        - Torrents:
+            - qBittorrent:
+                href: https://qbit.teamg.app/
+                icon: qbittorrent
+            - Prowlarr:
+                href: https://prowlarr.teamg.app/
+                icon: prowlarr
 
         - Infra:
-            - My Third Service:
-                href: http://localhost/
-                description: Homepage is 😎
+            - Truenas:
+                href: https://truenas.teamg.app/
+                icon: truenas
+            - Unifi Network:
+                href: https://unifi.teamg.app/
+                icon: unifi
+            - Longhorn:
+                href: https://longhorn.teamg.app/
+                icon: longhorn
+            - Traefik:
+                href: https://traefik.teamg.app/
+                icon: traefik
+            - Adguard Home:
+                href: https://adh.teamg.app/
+                icon: adguard-home
+            - Pocket ID:
+                href: https://id.teamg.app/
+                icon: sh-pocket-id.svg
+            - Cloudflare:
+                href: https://dash.cloudflare.com/
+                icon: sh-cloudflare.svg
+            - Infisical:
+                href: https://app.infisical.com
+                icon: sh-infisical.svg
       bookmarks.yaml: |
         ---
         # For configuration options and examples, please see:

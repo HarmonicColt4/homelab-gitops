@@ -9,10 +9,3 @@ workload:
       initContainers:
         init-config:
           enabled: false
-
-addons:
-  codeserver:
-    enabled: true
-    service:
-      enabled: true
-      type: LoadBalancer

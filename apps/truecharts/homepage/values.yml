@@ -67,9 +67,9 @@ configmap:
             - Radarr:
                 href: https://radarr.teamg.app/
                 icon: radarr
-            - Jellyseerr:
-                href: https://jellyseerr.teamg.app/
-                icon: jellyseerr
+            - Seerr:
+                href: https://seerr.teamg.app/
+                icon: seerr
             - Profilarr:
                 href: https://profilarr.teamg.app/
                 icon: profilarr

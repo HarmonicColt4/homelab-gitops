@@ -1,0 +1,28 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - namespace.yml
+  - repository.yml
+  - helmrelease.yml
+
+configMapGenerator:
+  - name: qdrant-values
+    namespace: flux-system
+    files:
+      - values.yaml=values.yml
+
+transformers:
+  - |
+    apiVersion: builtin
+    kind: NamespaceTransformer
+    metadata:
+      name: not-important-to-example
+      namespace: qdrant
+    setRoleBindingSubjects: none
+    unsetOnly: true
+    fieldSpecs:
+      - kind: HelmRelease
+        path: spec/targetNamespace
+        create: true

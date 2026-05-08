@@ -6,6 +6,7 @@ resources:
   - namespace.yml
   - repository.yml
   - helmrelease.yml
+  - ingress-route.yml
 
 configMapGenerator:
   - name: qdrant-values

@@ -92,7 +92,7 @@ configmap:
 
         - Infra:
             - Truenas:
-                href: https://truenas.teamg.app/
+                href: https://nas.teamg.app/
                 icon: truenas
             - Truenas Penda:
                 href: http://192.168.6.10/

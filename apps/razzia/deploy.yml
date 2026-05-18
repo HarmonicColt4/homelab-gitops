@@ -1,0 +1,38 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: razzia
+  name: razzia
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: razzia
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: razzia
+    spec:
+      containers:
+      - image: ralex91/razzia:3.0.0
+        name: razzia
+        volumeMounts:
+        - name: quiz
+          mountPath: /app/config/quizz/example.json
+          subPath: example.json
+        - name: manager-password
+          mountPath: /app/config/game.json
+          subPath: game.json
+        ports:
+        - containerPort: 3000
+        resources: {}
+      volumes:
+      - name: quiz
+        configMap:
+          name: quiz
+      - name: manager-password
+        secret:
+          secretName: manager-password

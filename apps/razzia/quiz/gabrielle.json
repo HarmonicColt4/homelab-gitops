@@ -1,30 +1,225 @@
 {
-  "subject": "Example Quiz",
+  "subject": "Gabie Quiz",
   "questions": [
     {
-      "question": "What is Gabrielle's actual date of birth?",
-      "answers": ["No", "Yes", "No", "No"],
-      "solutions": [1],
-      "cooldown": 5,
-      "time": 15
-    },
-    {
       "question": "How many siblings does Gabie have?",
-      "answers": ["Red", "Green", "Blue", "Yellow"],
-      "solutions": [0, 2, 3],
+      "answers": ["2", "3", "4", "5"],
+      "solutions": [2],
       "cooldown": 5,
-      "time": 20
-    },
-    {
-      "question": "Gabie is the youngest of the family?",
-      "answers": ["No", "Yes", "No", "No"],
+      "time": 20,
       "media": {
         "type": "image",
-        "url": "https://placehold.co/600x400.png"
-      },
+        "url": "https://immich.weirdrussiandomain.com/api/assets/a4a07097-f206-4b1f-8ea6-7c7e05d47d09/thumbnail?key=CzAfWtw-18n0XZdh22aDu7e_oysDOWhslEcFNh7xllnVFJ6jse6HMpP-kBmAVCvxZ7s&size=preview&c=EBgKDYKEuGmQdXVpamiJZ2dzoAdV&edited=true"
+      }      
+    },
+    {
+      "question": "What is her favorite color?",
+      "answers": ["Pink", "Yellow", "Blue", "Green"],
+      "solutions": [1, 2],
+      "cooldown": 5,
+      "time": 20,
+      "media": {
+        "type": "image",
+        "url": "https://immich.weirdrussiandomain.com/api/assets/b7ef8807-00fa-4d84-83ac-143bb88a257d/thumbnail?key=CzAfWtw-18n0XZdh22aDu7e_oysDOWhslEcFNh7xllnVFJ6jse6HMpP-kBmAVCvxZ7s&size=preview&c=2fgFFYJwGkZ61HZmi7hlbbqLAEop&edited=true"
+      }      
+    },
+    {
+      "question": "She is the youngest of the family",
+      "answers": ["True", "False"],
       "solutions": [1],
       "cooldown": 5,
-      "time": 20
+      "time": 20,
+      "media": {
+        "type": "image",
+        "url": "https://immich.weirdrussiandomain.com/api/assets/629757a9-6001-4c0e-8969-e642a1eec51e/thumbnail?key=CzAfWtw-18n0XZdh22aDu7e_oysDOWhslEcFNh7xllnVFJ6jse6HMpP-kBmAVCvxZ7s&size=preview&c=4BgKHQR6eJyJ1mmXd4BIiYlgigiH&edited=true"
+      }      
+    },
+    {
+      "question": "What is the name of her thesis?",
+      "answers": ["Red", "Green", "Blue", "Yellow"],
+      "solutions": [3],
+      "cooldown": 5,
+      "time": 20,
+      "media": {
+        "type": "image",
+        "url": "https://immich.weirdrussiandomain.com/api/assets/ef9d43ae-d142-49c7-b6cc-bac65f61f0a9/thumbnail?key=CzAfWtw-18n0XZdh22aDu7e_oysDOWhslEcFNh7xllnVFJ6jse6HMpP-kBmAVCvxZ7s&size=preview&c=ZBgKFYJfZ4qcdocoa4iWpkBUX%2FH5&edited=true"
+      }      
+    },
+    {
+      "question": "Gabrielle knows it's going to be a good day when ...",
+      "answers": ["She wakes up at 10am", "She sees Nadine's smile", "She ", "She sees a corgi"],
+      "solutions": [2],
+      "cooldown": 5,
+      "time": 20,
+      "media": {
+        "type": "image",
+        "url": "https://immich.weirdrussiandomain.com/api/assets/ead3faa0-d5f6-4e3c-b18e-e8071d7afaca/thumbnail?key=CzAfWtw-18n0XZdh22aDu7e_oysDOWhslEcFNh7xllnVFJ6jse6HMpP-kBmAVCvxZ7s&size=preview&c=JPgNHQK5Z494eGeId4eXd0iAiwO3&edited=true"
+      }      
+    },
+    {
+      "question": "She is allergic to ...",
+      "answers": ["Peanuts", "Soy", "Cats", "Dairy"],
+      "solutions": [0, 1, 2],
+      "cooldown": 5,
+      "time": 20,
+      "media": {
+        "type": "image",
+        "url": "https://immich.weirdrussiandomain.com/api/assets/ff39308c-98ac-4151-aece-b282a69e4862/thumbnail?key=CzAfWtw-18n0XZdh22aDu7e_oysDOWhslEcFNh7xllnVFJ6jse6HMpP-kBmAVCvxZ7s&size=preview&c=YhgKFAJDJomIiZ94V1aGb3n4lg%3D%3D&edited=true"
+      }      
+    },
+    {
+      "question": "Which continents she hasn't been to yet?",
+      "answers": ["South America", "Africa", "Antarctica", "Australia"],
+      "solutions": [0, 2],
+      "cooldown": 5,
+      "time": 20,
+      "media": {
+        "type": "image",
+        "url": "https://immich.weirdrussiandomain.com/api/assets/8589a9e2-65bd-4a84-87f4-280e21f43760/thumbnail?key=CzAfWtw-18n0XZdh22aDu7e_oysDOWhslEcFNh7xllnVFJ6jse6HMpP-kBmAVCvxZ7s&size=preview&c=IdgRJQJlh293x3hniYaIh6lQBVyG&edited=true"
+      }      
+    },
+    {
+      "question": "Gabie had a weird obsession with an animal. Which one?",
+      "answers": ["Pigeon", "Owl", "Eagle", "Pterodactyl"],
+      "solutions": [0],
+      "cooldown": 5,
+      "time": 20,
+      "media": {
+        "type": "image",
+        "url": "https://immich.weirdrussiandomain.com/api/assets/875de47d-2b48-4aaa-a3f4-be6d12809bc1/thumbnail?key=CzAfWtw-18n0XZdh22aDu7e_oysDOWhslEcFNh7xllnVFJ6jse6HMpP-kBmAVCvxZ7s&size=preview&c=1igGDYIbObfWd5mAV4eVagqppkAe&edited=true"
+      }      
+    },
+    {
+      "question": "Where is Gabie from?",
+      "answers": ["Paris", "Montreal", "Quebec City", "Yellow"],
+      "solutions": [2],
+      "cooldown": 5,
+      "time": 20,
+      "media": {
+        "type": "image",
+        "url": "https://immich.weirdrussiandomain.com/api/assets/34d747b3-f63a-4d32-8bc0-ca186c5de83f/thumbnail?key=CzAfWtw-18n0XZdh22aDu7e_oysDOWhslEcFNh7xllnVFJ6jse6HMpP-kBmAVCvxZ7s&size=preview&c=pOcFNQaAjLtXVncnh4yHSHeAeQiY&edited=true"
+      }      
+    },
+    {
+      "question": "Which contact sport Gabie played in college?",
+      "answers": ["Tennis", "Rugby", "Basketball", "Football"],
+      "solutions": [1],
+      "cooldown": 5,
+      "time": 20,
+      "media": {
+        "type": "image",
+        "url": "https://immich.weirdrussiandomain.com/api/assets/e90aaa2e-b661-48ee-9869-f0ec392e465c/thumbnail?key=CzAfWtw-18n0XZdh22aDu7e_oysDOWhslEcFNh7xllnVFJ6jse6HMpP-kBmAVCvxZ7s&size=preview&c=VigGDYIBKaqqaGmZeolmlZPPgvdK&edited=true"
+      }      
+    },
+    {
+      "question": "What was her first car?",
+      "answers": ["Toyota Aqua", "Mini Cooper", "Toyota Echo/Yaris", "Honda Fit"],
+      "solutions": [2],
+      "cooldown": 5,
+      "time": 20,
+      "media": {
+        "type": "image",
+        "url": "https://immich.weirdrussiandomain.com/api/assets/ed828a3e-8290-4760-9565-f0c67fc516ed/thumbnail?key=CzAfWtw-18n0XZdh22aDu7e_oysDOWhslEcFNh7xllnVFJ6jse6HMpP-kBmAVCvxZ7s&size=preview&c=XggGHYL8i2OldqdfZYmIZal%2FZPxX&edited=true"
+      }      
+    },
+    {
+      "question": "Gabie is a night owl",
+      "answers": ["True", "False"],
+      "solutions": [1],
+      "cooldown": 5,
+      "time": 20,
+      "media": {
+        "type": "image",
+        "url": "https://immich.weirdrussiandomain.com/api/assets/70d47298-4c4d-4f04-ba0b-d527430b2d73/thumbnail?key=CzAfWtw-18n0XZdh22aDu7e_oysDOWhslEcFNh7xllnVFJ6jse6HMpP-kBmAVCvxZ7s&size=preview&c=ojgGBQKyo5%2BpKGXZmoI1W2XkkARq&edited=true"
+      }      
+    },
+    {
+      "question": "Gabie is an early bird",
+      "answers": ["True", "False"],
+      "solutions": [1],
+      "cooldown": 5,
+      "time": 20,
+      "media": {
+        "type": "image",
+        "url": "https://immich.weirdrussiandomain.com/api/assets/df4bf609-d29d-4d8d-8533-4e73ddfb8479/thumbnail?key=CzAfWtw-18n0XZdh22aDu7e_oysDOWhslEcFNh7xllnVFJ6jse6HMpP-kBmAVCvxZ7s&size=preview&c=6%2FcRDQLYhZ92h2eZdoiHeGDPBvA7&edited=true"
+      }      
+    },
+    {
+      "question": "What is the most likely reason she may miss an event or be late",
+      "answers": ["Guy", "Oversleeping", "Public transit", "Mix up in scheduling"],
+      "solutions": [0, 3],
+      "cooldown": 5,
+      "time": 20,
+      "media": {
+        "type": "image",
+        "url": "https://immich.weirdrussiandomain.com/api/assets/438b17ed-1b53-4145-81e5-59695816b8e1/thumbnail?key=CzAfWtw-18n0XZdh22aDu7e_oysDOWhslEcFNh7xllnVFJ6jse6HMpP-kBmAVCvxZ7s&size=preview&c=UvgJFYJ%2FmoiLdplpdVeneN%2BuqSCz&edited=true"
+      }      
+    },
+    {
+      "question": "When she badly messed up a friend's haircut, she ...",
+      "answers": ["apologized profusely", "offered to pay a professional to fix it", "suggested to go bald", "could not contain laughter"],
+      "solutions": [3],
+      "cooldown": 5,
+      "time": 20,
+      "media": {
+        "type": "image",
+        "url": "https://immich.weirdrussiandomain.com/api/assets/d06ab8c2-9915-47bf-8e1d-65bd78f8bf09/thumbnail?key=CzAfWtw-18n0XZdh22aDu7e_oysDOWhslEcFNh7xllnVFJ6jse6HMpP-kBmAVCvxZ7s&size=preview&c=nooKHQi1RX%2BKhlVpWKN3el%2FRrAW6&edited=true"
+      }      
+    },
+    {
+      "question": "Which Teletubby did she dress up as for figure skating?",
+      "answers": ["Tinky-Winky", "Dipsy", "Laa Laa", "Po"],
+      "solutions": [0],
+      "cooldown": 5,
+      "time": 20,
+      "media": {
+        "type": "image",
+        "url": "https://ew.com/thmb/BToDOaeVq_mGpyNp1hJaHk0d5UQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/teletubbies-b4791af8ca094d849ae751d0b4b992cf.jpg"
+      }      
+    },
+    {
+      "question": "She has had diverse group of pets. Which one wasn't part of that group?",
+      "answers": ["Whippets", "Rabbit", "Central bearded dragon", "Sphynx cat"],
+      "solutions": [0, 3],
+      "cooldown": 5,
+      "time": 20,
+      "media": {
+        "type": "image",
+        "url": "https://immich.weirdrussiandomain.com/api/assets/250def81-def3-4bc2-8298-2b5c6bb26f78/thumbnail?key=CzAfWtw-18n0XZdh22aDu7e_oysDOWhslEcFNh7xllnVFJ6jse6HMpP-kBmAVCvxZ7s&size=preview&c=W%2FgFFQK3dn93SKlneoeYSbPANoUM&edited=true"
+      }      
+    },
+    {
+      "question": "Guess the name of her pet rabbit",
+      "answers": ["Sardine", "Bref", "Long", "Doudou"],
+      "solutions": [1],
+      "cooldown": 5,
+      "time": 20,
+      "media": {
+        "type": "image",
+        "url": "https://immich.weirdrussiandomain.com/api/assets/956f3a89-dea8-40ee-8b63-7ed865402ba6/thumbnail?key=CzAfWtw-18n0XZdh22aDu7e_oysDOWhslEcFNh7xllnVFJ6jse6HMpP-kBmAVCvxZ7s&size=preview&c=UhgOFQK4eJ97R5qHZ2dniBNmcFEH&edited=true"
+      }      
+    },
+    {
+      "question": "Name one of her previous jobs",
+      "answers": ["Babysitter", "Bref", "Long", "Doudou"],
+      "solutions": [1],
+      "cooldown": 5,
+      "time": 20,
+      "media": {
+        "type": "image",
+        "url": "https://immich.weirdrussiandomain.com/api/assets/63f593ef-c8e0-4893-8c7f-bdedf3f65db0/thumbnail?key=CzAfWtw-18n0XZdh22aDu7e_oysDOWhslEcFNh7xllnVFJ6jse6HMpP-kBmAVCvxZ7s&size=preview&c=1ygKDQL6g7mTtnRoiVlYd%2FxJ2o%2BS&edited=true"
+      }      
+    },
+    {
+      "question": "What is Gabrielle's actual date of birth?",
+      "answers": ["June 24th", "June 25th", "June 27th", "June 29th"],
+      "solutions": [1],
+      "cooldown": 5,
+      "time": 20,
+      "media": {
+        "type": "image",
+        "url": "https://immich.weirdrussiandomain.com/api/assets/a3f8a0f9-4114-4228-83d1-4b4d9a4351c4/thumbnail?key=CzAfWtw-18n0XZdh22aDu7e_oysDOWhslEcFNh7xllnVFJ6jse6HMpP-kBmAVCvxZ7s&size=preview&c=0wcKDYAljKaAq4eQSappZxWvEQOG&edited=true"
+      }      
     }
   ]
 }

@@ -16,12 +16,12 @@ machine:
     node.longhorn.io/create-default-disk: config
   nodeAnnotations:
     node.longhorn.io/default-disks-config: 
-      [
+      '[
         { 
           "path":"var/mnt/longhorn",
           "allowScheduling":true
         }
-      ]
+      ]'
 ---
 apiVersion: v1alpha1
 kind: VLANConfig
@@ -44,3 +44,4 @@ name: longhorn
 provisioning:
   diskSelector:
     match: disk.transport == "nvme"
+  minSize: 100G

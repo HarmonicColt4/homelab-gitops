@@ -1,0 +1,46 @@
+---
+machine:
+  install:
+    disk: /dev/mmcblk0
+    image: factory.talos.dev/metal-installer/7093e7196afb0a111b5508d4d6b88da411383bf38ad03f5d0f9ad3522afe2563:v1.12.8
+  kubelet:
+    extraMounts:
+      - destination: /var/mnt/longhorn
+        type: bind
+        source: /var/mnt/longhorn
+        options:
+          - bind
+          - rshared
+          - rw
+  nodeLabels:
+    node.longhorn.io/create-default-disk: config
+  nodeAnnotations:
+    node.longhorn.io/default-disks-config: 
+      [
+        { 
+          "path":"var/mnt/longhorn",
+          "allowScheduling":true
+        }
+      ]
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: eth0.25
+vlanID: 25
+parent: eth0
+---
+apiVersion: v1alpha1
+kind: DHCPv4Config
+name: eth0.25
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+hostname: rpi5
+auto: off
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: longhorn
+provisioning:
+  diskSelector:
+    match: disk.transport == "nvme"

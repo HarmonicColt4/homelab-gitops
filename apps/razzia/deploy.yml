@@ -23,6 +23,9 @@ spec:
         - name: quiz
           mountPath: /app/config/quizz/example.json
           subPath: example.json
+        - name: quiz
+          mountPath: /app/config/quizz/gabrielle.json
+          subPath: gabrielle.json
         - name: manager-password
           mountPath: /app/config/game.json
           subPath: game.json

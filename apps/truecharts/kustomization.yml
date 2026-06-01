@@ -17,6 +17,7 @@ resources:
   - profilarr
   - qbittorrent
   - radarr
+  - sabnzbd
   # - searxng
   - sonarr
   # - stirling-pdf

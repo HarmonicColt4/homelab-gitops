@@ -15,6 +15,7 @@ configMapGenerator:
   files:
   - quiz/gabrielle.json
   - quiz/example.json
+  - quiz/ecb.json
 
 secretGenerator:
 - name: manager-password

@@ -7,7 +7,7 @@ spec:
   entryPoints:
   - websecure
   routes:
-  - match: Host(`quiz.teamg.app`) && PathPrefix(`/`)
+  - match: Host(`razzia.teamg.app`) && PathPrefix(`/`)
     kind: Rule
     services:
     - name: razzia

@@ -29,6 +29,8 @@ grafana:
     existingSecret: grafana-admin-user
     userKey: admin-user
     passwordKey: admin-password
+  deploymentStrategy:
+    type: Recreate
 kubernetesServiceMonitors:
   enabled: true
 

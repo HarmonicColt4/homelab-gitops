@@ -1,0 +1,22 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespace.yml
+  - repository.yml
+  - helmrelease.yml
+  - ingress-route.yml
+
+transformers:
+  - |
+    apiVersion: builtin
+    kind: NamespaceTransformer
+    metadata:
+      name: open-webui-namespace-transformer
+      namespace: open-webui
+    setRoleBindingSubjects: none
+    unsetOnly: true
+    fieldSpecs:
+      - kind: HelmRelease
+        path: spec/targetNamespace
+        create: true

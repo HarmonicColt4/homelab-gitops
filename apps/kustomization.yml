@@ -3,10 +3,11 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - mealie
-  - planka
+  - open-webui
   - truecharts
   - qdrant
+  - mealie
+  - planka
 
 configurations:
   - ../kustomizeconfig.yml

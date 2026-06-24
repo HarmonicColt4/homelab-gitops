@@ -6,10 +6,6 @@ defaultRules:
 
 alertmanager:
   enabled: true
-  alertmanagerSpec:
-    alertmanagerConfigSelector:
-      matchLabels:
-        am-config: discord-receiver
 
 crds:
   upgradeJob:

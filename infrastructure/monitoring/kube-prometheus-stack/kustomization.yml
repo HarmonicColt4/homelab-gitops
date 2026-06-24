@@ -21,9 +21,6 @@ secretGenerator:
     options:
       disableNameSuffixHash: true
 
-configurations:
-  - kustomizeconfig.yml
-
 transformers:
   - |
     apiVersion: builtin

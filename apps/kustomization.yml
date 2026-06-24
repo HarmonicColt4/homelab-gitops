@@ -7,7 +7,6 @@ resources:
   - truecharts
   - qdrant
   - mealie
-  - planka
 
 configurations:
   - ../kustomizeconfig.yml

@@ -1,0 +1,6 @@
+---
+nameReference:
+  - kind: Secret
+    fieldSpecs:
+      - path: spec/receivers/webhookConfigs/urlSecret/name
+        kind: AlertmanagerConfig

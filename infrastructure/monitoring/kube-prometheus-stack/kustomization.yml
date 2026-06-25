@@ -7,6 +7,7 @@ resources:
   - repository.yml
   - helmrelease.yml
   - ingress-route.yml
+  - alertmanager-config.yml
 
 configMapGenerator:
   - name: kube-prometheus-stack-values
@@ -21,6 +22,10 @@ secretGenerator:
     options:
       disableNameSuffixHash: true
 
+  - name: alertmanager-discord-webhook
+    envs:
+      - secrets/alertmanager-discord-webhook.enc.env
+
 transformers:
   - |
     apiVersion: builtin
@@ -34,3 +39,6 @@ transformers:
       - kind: HelmRelease
         path: spec/targetNamespace
         create: true
+
+configurations:
+  - kustomizeconfig.yml

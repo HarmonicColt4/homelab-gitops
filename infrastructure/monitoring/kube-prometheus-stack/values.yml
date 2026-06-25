@@ -43,7 +43,7 @@ kubelet:
   enabled: true
 
 kubeControllerManager:
-  enabled: true
+  enabled: false
 
 coreDns:
   enabled: true
@@ -52,10 +52,10 @@ kubeEtcd:
   enabled: true
 
 kubeScheduler:
-  enabled: true
+  enabled: false
 
 kubeProxy:
-  enabled: true
+  enabled: false
 
 kubeStateMetrics:
   enabled: true

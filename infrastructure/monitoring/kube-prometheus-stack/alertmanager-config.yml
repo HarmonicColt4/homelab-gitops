@@ -9,7 +9,7 @@ spec:
   route:
     receiver: discord
     groupWait: 30s
-    repeatInterval: 5m
+    repeatInterval: 4h
   receivers:
     - name: discord
       discordConfigs:

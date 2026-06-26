@@ -10,6 +10,11 @@ spec:
     receiver: discord
     groupWait: 30s
     repeatInterval: 4h
+    matchers:
+      - name: alertname
+        matchType: "!="
+        value: Watchdog
+
   receivers:
     - name: discord
       discordConfigs:

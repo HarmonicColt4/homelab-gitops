@@ -12,7 +12,7 @@ spec:
         spec:
           containers:
             - name: renovate
-              image: renovate/renovate:43.244.1
+              image: renovate/renovate:43.244.4
               args:
                 - gpenda/fluxcd
               env:

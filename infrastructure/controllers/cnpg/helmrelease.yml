@@ -16,4 +16,4 @@ spec:
         kind: HelmRepository
         name: cnpg
       interval: 1h
-      version: 0.28.3
+      version: 0.29.0

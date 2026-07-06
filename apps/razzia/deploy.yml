@@ -17,7 +17,7 @@ spec:
         app: razzia
     spec:
       containers:
-      - image: ralex91/razzia:3.0.1
+      - image: ralex91/razzia:3.1.0
         name: razzia
         volumeMounts:
         - name: quiz

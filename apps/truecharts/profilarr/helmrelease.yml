@@ -29,3 +29,4 @@ spec:
             main:
               env:
                 AUTH: off
+                ORIGIN: https://profilarr.teamg.app

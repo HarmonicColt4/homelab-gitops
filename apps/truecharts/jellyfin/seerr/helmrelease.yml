@@ -22,5 +22,5 @@ spec:
       name: global-values
     - kind: Secret
       name: cnpg-values
-    - kind: Secret
+    - kind: ConfigMap
       name: seerr-values

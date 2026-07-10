@@ -11,6 +11,7 @@ workload:
           enabled: false
         migrate:
           enabled: true
+          primary: true
           imageSelector: migrateImage
           probes:
             liveness:

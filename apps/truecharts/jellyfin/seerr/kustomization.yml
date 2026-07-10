@@ -5,3 +5,9 @@ kind: Kustomization
 resources:
   - helmrelease.yml
   - ingress-route.yml
+
+configMapGenerator:
+  - name: seerr-values
+    namespace: flux-system
+    files:
+      - values.yaml=values.yml

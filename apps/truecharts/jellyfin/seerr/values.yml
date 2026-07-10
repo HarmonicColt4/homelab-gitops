@@ -8,9 +8,9 @@ workload:
     podSpec:
       containers:
         main:
-          enabled: true
-        migrate:
           enabled: false
+        migrate:
+          enabled: true
           imageSelector: migrateImage
           probes:
             liveness:

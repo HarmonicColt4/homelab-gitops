@@ -16,11 +16,11 @@ spec:
         kind: HelmRepository
         name: truecharts
       interval: 1h
-      version: 15.6.0
+      version: 16.2.1
   valuesFrom:
     - kind: ConfigMap
       name: global-values
-    # - kind: Secret
-    #   name: cnpg-values
-    # - kind: ConfigMap
-    #   name: seerr-values
+    - kind: Secret
+      name: cnpg-values
+    - kind: ConfigMap
+      name: seerr-values

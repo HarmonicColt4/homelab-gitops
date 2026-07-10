@@ -22,3 +22,10 @@ spec:
       name: global-values
   values:
     TZ: Pacific/Auckland
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                AUTH: off

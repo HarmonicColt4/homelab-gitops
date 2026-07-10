@@ -8,9 +8,11 @@ workload:
     podSpec:
       containers:
         main:
-          enabled: true
-        migrate:
           enabled: false
+          primary: false
+        migrate:
+          enabled: true
+          primary: true
           imageSelector: migrateImage
           probes:
             liveness:
@@ -25,7 +27,7 @@ workload:
             - "quote identifiers"
             - --with
             - "data only"
-            - /app/config/db.sqlite3
+            - /app/config/db/db.sqlite3
             - "{{ .Values.cnpg.main.creds.std }}"
 
 persistence:

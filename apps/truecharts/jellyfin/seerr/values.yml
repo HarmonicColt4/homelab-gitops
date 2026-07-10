@@ -9,8 +9,10 @@ workload:
       containers:
         main:
           enabled: false
+          primary: false
         migrate:
           enabled: true
+          primary: true
           imageSelector: migrateImage
           probes:
             liveness:

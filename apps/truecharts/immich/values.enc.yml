@@ -70,7 +70,7 @@ workload:
         machinelearning:
           resources:
             limits:
-              cpu: "4"
+              cpu: "2"
               memory: 8Gi
               gpu.intel.com/i915: 1
   microservices:
@@ -80,7 +80,7 @@ workload:
         microservices:
           resources:
             limits:
-              cpu: "4"
+              cpu: "2"
               memory: 8Gi
               gpu.intel.com/i915: 1
 sops:

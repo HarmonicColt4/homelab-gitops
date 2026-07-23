@@ -1,8 +1,4 @@
 ---
-image:
-  repository: ghcr.io/goofball222/unifi
-  tag: 10.0.162-mongo8
-  pullPolicy: IfNotPresent
 service:
   comm:
     type: LoadBalancer

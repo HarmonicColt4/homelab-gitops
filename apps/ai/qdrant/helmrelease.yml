@@ -7,7 +7,6 @@ metadata:
 spec:
   interval: 30m
   releaseName: qdrant
-  targetNamespace: qdrant
   chart:
     spec:
       chart: qdrant

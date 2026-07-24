@@ -3,16 +3,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
+  - open-webui/
+  - qdrant/
   - namespace.yml
-  - repository.yml
-  - helmrelease.yml
-  - ingress-route.yml
-
-configMapGenerator:
-  - name: qdrant-values
-    namespace: flux-system
-    files:
-      - values.yaml=values.yml
 
 transformers:
   - |
@@ -20,7 +13,7 @@ transformers:
     kind: NamespaceTransformer
     metadata:
       name: not-important-to-example
-      namespace: qdrant
+      namespace: ai
     setRoleBindingSubjects: none
     unsetOnly: true
     fieldSpecs:

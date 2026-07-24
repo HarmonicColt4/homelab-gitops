@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - open-webui/
   - qdrant/
+  - searxng/
   - namespace.yml
 
 transformers:

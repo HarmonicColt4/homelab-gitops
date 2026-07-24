@@ -18,7 +18,6 @@ resources:
   - qbittorrent
   - radarr
   - sabnzbd
-  # - searxng
   - sonarr
   # - stirling-pdf
   - tandoor

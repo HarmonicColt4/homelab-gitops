@@ -13,7 +13,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: open-webui
-      version: 15.2.0
+      version: 15.2.1
   values:
     ollama:
       enabled: false

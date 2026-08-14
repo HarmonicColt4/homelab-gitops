@@ -1,0 +1,110 @@
+name: Upgrade Talos Nodes
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "clusters/**/patches/*.yml"
+      - "clusters/**/patches/*.yaml"
+
+jobs:
+  upgrade-nodes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Process and Upgrade Nodes
+        env:
+          TALOSCONFIG_B64: ${{ secrets.TALOSCONFIG_B64 }}
+        run: |
+          # 1. Find files changed in the latest merge commit
+          CHANGED_FILES=$(git diff --name-only HEAD^ HEAD | grep -E 'clusters/.*/patches/.*\.ya?ml' || true)
+
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "No patch files changed. Exiting."
+            exit 0
+          fi
+
+          # 2. Extract Talos version from the first changed file
+          FIRST_FILE=$(echo "$CHANGED_FILES" | head -n 1)
+          TALOS_VERSION=$(grep -E 'image:\s*factory\.talos\.dev' "$FIRST_FILE" | awk -F':' '{print $NF}')
+
+          if [ -z "$TALOS_VERSION" ]; then
+            echo "Error: Could not detect Talos version from $FIRST_FILE."
+            exit 1
+          fi
+
+          echo "Detected target Talos version: $TALOS_VERSION"
+
+          # 3. Install the matching version of talosctl
+          echo "Installing talosctl $TALOS_VERSION..."
+          curl -sLo /usr/local/bin/talosctl "https://github.com/siderolabs/talos/releases/download/${TALOS_VERSION}/talosctl-linux-amd64"
+          chmod +x /usr/local/bin/talosctl
+
+          # 4. Set up Talos authentication
+          mkdir -p ~/.talos
+          echo "$TALOSCONFIG_B64" | base64 -d > ~/.talos/config
+          export TALOSCONFIG=~/.talos/config
+
+          # 5. Extract target nodes directly from talosconfig (space-separated)
+          TARGET_NODES=$(talosctl config info | awk -F': ' '/^[Nn]odes:/ {print $2}' | tr ',' ' ')
+
+          if [ -z "$TARGET_NODES" ]; then
+            echo "Error: Could not determine nodes from talosconfig."
+            exit 1
+          fi
+
+          # 6. Map files to talosconfig nodes and upgrade individually
+          for FILE in $CHANGED_FILES; do
+            echo "---"
+            echo "Processing changes in $FILE..."
+            
+            IMAGE=$(grep -E 'image:\s*factory\.talos\.dev' "$FILE" | awk '{print $2}')
+            
+            if [ -z "$IMAGE" ]; then
+              echo "No Talos image found in $FILE, skipping."
+              continue
+            fi
+            
+            # Extract the hostname defined inside the YAML patch file
+            EXPECTED_HOSTNAME=$(grep '^hostname:' "$FILE" | awk '{print $2}' | tr -d '"'\''')
+            
+            if [ -z "$EXPECTED_HOSTNAME" ]; then
+              echo "Warning: No 'hostname' key found in $FILE. Skipping."
+              continue
+            fi
+
+            echo "Extracted target hostname '$EXPECTED_HOSTNAME' from $FILE"
+            
+            MATCHED_NODE=""
+            
+            # Find which node in the talosconfig corresponds to this hostname
+            for NODE in $TARGET_NODES; do
+              # Fallback: if the talosconfig node entry exactly matches the extracted hostname
+              if [ "$NODE" = "$EXPECTED_HOSTNAME" ]; then
+                MATCHED_NODE="$NODE"
+                break
+              fi
+              
+              # Primary check: query the cluster to get the node's actual internal hostname
+              ACTUAL_HOSTNAME=$(talosctl --nodes "$NODE" get hostname -o jsonpath='{.spec.hostname}' 2>/dev/null || true)
+              if [ "$ACTUAL_HOSTNAME" = "$EXPECTED_HOSTNAME" ]; then
+                MATCHED_NODE="$NODE"
+                break
+              fi
+            done
+            
+            # 7. Execute the targeted upgrade
+            if [ -n "$MATCHED_NODE" ]; then
+              echo "Matched hostname '$EXPECTED_HOSTNAME' to cluster node $MATCHED_NODE."
+              echo "Upgrading node $MATCHED_NODE to image $IMAGE..."
+              #talosctl upgrade --nodes "$MATCHED_NODE" --image "$IMAGE" --preserve=true
+            else
+              echo "Warning: Could not find a node in talosconfig matching hostname '$EXPECTED_HOSTNAME'. Skipping upgrade."
+            fi
+          done

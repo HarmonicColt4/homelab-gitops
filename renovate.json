@@ -1,3 +1,20 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json"
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "separateMinorPatch": true,
+  "separateMultipleMinor": true,
+  "separateMultipleMajor": true,
+  "prConcurrentLimit": 1,
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update Talos Linux image versions from GitHub releases",
+      "fileMatch": ["^clusters/[^/]+/patches/.*\\.ya?ml$"],
+      "matchStrings": [
+        "image:\\s*factory\\.talos\\.dev/[^\\s:]+:(?<currentValue>v\\d+\\.\\d+\\.\\d+[^\\s]*)"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "siderolabs/talos"
+    }
+  ]
 }

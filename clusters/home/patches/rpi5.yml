@@ -2,7 +2,7 @@
 machine:
   install:
     disk: /dev/mmcblk0
-    image: factory.talos.dev/metal-installer/7093e7196afb0a111b5508d4d6b88da411383bf38ad03f5d0f9ad3522afe2563:v1.12.2
+    image: factory.talos.dev/metal-installer/7093e7196afb0a111b5508d4d6b88da411383bf38ad03f5d0f9ad3522afe2563:v1.12.10
   kubelet:
     extraMounts:
       - destination: /var/mnt/longhorn

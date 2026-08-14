@@ -2,7 +2,7 @@
 machine:
   install:
     disk: /dev/nvme0n1
-    image: factory.talos.dev/metal-installer/4e1ccceb101b24a7f42784157bdea3a5717fd39995075ae078af573c4c2f009f:v1.12.2
+    image: factory.talos.dev/metal-installer/4e1ccceb101b24a7f42784157bdea3a5717fd39995075ae078af573c4c2f009f:v1.12.10
     wipe: true
   kubelet:
     extraArgs:

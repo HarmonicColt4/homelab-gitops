@@ -11,10 +11,14 @@
       "description": "Update Talos Linux image versions from GitHub releases",
       "fileMatch": ["^clusters/[^/]+/patches/.*\\.ya?ml$"],
       "matchStrings": [
-        "image:\\s*factory\\.talos\\.dev/[^\\s:]+:(?<currentValue>v\\d+\\.\\d+\\.\\d+[^\\s]*)"
+        "image:\\s*(?:factory\\.talos\\.dev|ghcr\\.io/siderolabs)/[^\\s:]+:(?<currentValue>v\\d+\\.\\d+\\.\\d+[^\\s]*)"
       ],
       "datasourceTemplate": "github-releases",
       "depNameTemplate": "siderolabs/talos"
     }
-  ]
+  ],
+  "automerge": true,
+  "minimumReleaseAge": "14 days",
+  "prCreation": "immediate",
+  "automergeSchedule": ["* 2-5 * * 1"]
 }

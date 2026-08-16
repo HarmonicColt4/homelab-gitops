@@ -105,10 +105,7 @@ jobs:
             if [ -n "$MATCHED_NODE" ]; then
               echo "Matched hostname '$EXPECTED_HOSTNAME' to cluster node $MATCHED_NODE."
               echo "Upgrading node $MATCHED_NODE to image $IMAGE..."
-              #talosctl upgrade --nodes "$MATCHED_NODE" --image "$IMAGE"
-
-              echo "Waiting for cluster health to stabilize..."
-              #talosctl health -n cp-2
+              talosctl upgrade --nodes "$MATCHED_NODE" --image "$IMAGE"
 
             else
               echo "Warning: Could not find a node in talosconfig matching hostname '$EXPECTED_HOSTNAME'. Skipping upgrade."

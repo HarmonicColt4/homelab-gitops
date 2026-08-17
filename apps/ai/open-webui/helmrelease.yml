@@ -17,6 +17,34 @@ spec:
   values:
     ollama:
       enabled: false
-
-
-
+    extraEnvVars:
+      - name: ENABLE_OAUTH_SIGNUP
+        valueFrom:
+          secretKeyRef:
+            name: open-webui-secrets
+            key: ENABLE_OAUTH_SIGNUP
+      - name: OAUTH_CLIENT_ID
+        valueFrom:
+          secretKeyRef:
+            name: open-webui-secrets
+            key: OAUTH_CLIENT_ID
+      - name: OAUTH_CLIENT_SECRET
+        valueFrom:
+          secretKeyRef:
+            name: open-webui-secrets
+            key: OAUTH_CLIENT_SECRET
+      - name: OAUTH_PROVIDER_NAME
+        valueFrom:
+          secretKeyRef:
+            name: open-webui-secrets
+            key: OAUTH_PROVIDER_NAME
+      - name: OPENID_PROVIDER_URL
+        valueFrom:
+          secretKeyRef:
+            name: open-webui-secrets
+            key: OPENID_PROVIDER_URL
+      - name: OAUTH_MERGE_ACCOUNTS_BY_EMAIL
+        valueFrom:
+          secretKeyRef:
+            name: open-webui-secrets
+            key: OAUTH_MERGE_ACCOUNTS_BY_EMAIL

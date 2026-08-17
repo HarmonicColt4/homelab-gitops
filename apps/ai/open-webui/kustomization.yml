@@ -5,10 +5,4 @@ resources:
   - repository.yml
   - helmrelease.yml
   - ingress-route.yml
-
-secretGenerator:
-  - name: open-webui-secrets
-    options:
-      disableNameSuffixHash: true
-    files:
-      - secrets/enc.env
+  - secrets/oidc.enc.yml

@@ -19,12 +19,12 @@
   "automerge": true,
   "minimumReleaseAge": "14 days",
   "prCreation": "immediate",
-  "automergeSchedule": ["* 2-5 * * 1"],
   "packageRules": [
     {
       "managers": ["regex"],
       "additionalBranchPrefix": "{{packageFile}}-",
-      "prConcurrentLimit": 1
+      "prConcurrentLimit": 1,
+      "automergeSchedule": ["* 2-5 * * *"]
     }
   ]
 }

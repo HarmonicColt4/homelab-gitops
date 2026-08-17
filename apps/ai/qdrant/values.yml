@@ -3,5 +3,6 @@ livenessProbe:
   failureThreshold: 12
 
 persistence:
-  accessModes: ["ReadWriteOnce"]
+  accessModes:
+    - "ReadWriteOnce"
   size: 10Gi

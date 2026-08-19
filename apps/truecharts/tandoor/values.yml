@@ -3,14 +3,17 @@ credentials:
     type: s3
     url: http://truenas.home.arpa:30188
     bucket: tandoor
+workload:
+  main:
+    replicas: 0
 cnpg:
   main:
+    mode: recovery
     backups:
       enabled: true
       credentials: garage
       destinationPath: s3://tandoor
-      # revision: "2"
+      revision: "1"
     recovery:
-      # revision: "1"
       credentials: garage
       destinationPath: s3://tandoor

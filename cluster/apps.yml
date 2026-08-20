@@ -19,3 +19,24 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: truecharts-apps
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: infra-configs
+  interval: 24h
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./apps/truecharts
+  prune: false
+  wait: false
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age

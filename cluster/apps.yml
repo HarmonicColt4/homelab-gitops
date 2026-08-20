@@ -13,7 +13,7 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./apps
-  prune: true
+  prune: false
   wait: false
   decryption:
     provider: sops

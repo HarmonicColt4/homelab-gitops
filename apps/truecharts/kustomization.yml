@@ -38,3 +38,6 @@ secretGenerator:
     namespace: flux-system
     files:
       - values.yaml=cnpg-values.enc.yml
+
+configurations:
+  - ../../kustomizeconfig.yml

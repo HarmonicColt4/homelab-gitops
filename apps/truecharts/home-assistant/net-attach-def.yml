@@ -7,7 +7,7 @@ spec:
   config: '{
       "cniVersion": "1.0.0",
       "type": "macvlan",
-      "master": "eth0",
+      "master": "netr",
       "mode": "bridge",
       "ipam": {
         "type": "host-local",
@@ -23,7 +23,7 @@ spec:
   config: '{
       "cniVersion": "1.0.0",
       "type": "macvlan",
-      "master": "eth0",
+      "master": "netr",
       "mode": "bridge",
       "ipam": {
         "type": "host-local",

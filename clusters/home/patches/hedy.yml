@@ -2,7 +2,7 @@
 machine:
   install:
     disk: /dev/nvme0n1
-    image: factory.talos.dev/metal-installer/4e1ccceb101b24a7f42784157bdea3a5717fd39995075ae078af573c4c2f009f:v1.13.8
+    image: factory.talos.dev/metal-installer/7cb7436598099f6f08817f9364204e32993a687c5adad12f14b00b1532dfa29c:v1.13.8
     wipe: true
   kubelet:
     extraArgs:
@@ -14,16 +14,38 @@ machine:
     node.longhorn.io/create-default-disk: "true"
 ---
 apiVersion: v1alpha1
-kind: VLANConfig
-name: eth0.25
-vlanID: 25
-parent: eth0
----
-apiVersion: v1alpha1
-kind: DHCPv4Config
-name: eth0.25
----
-apiVersion: v1alpha1
 kind: HostnameConfig
 hostname: w-hedy
 auto: off
+---
+apiVersion: v1alpha1
+kind: LinkAliasConfig
+name: netr
+selector:
+  match: mac(link.permanent_addr) == "00:e0:4c:06:5b:d7"
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: netr.25
+vlanID: 25
+parent: netr
+---
+apiVersion: v1alpha1
+kind: DHCPv4Config
+name: netr.25
+---
+apiVersion: v1alpha1
+kind: LinkAliasConfig
+name: netl
+selector:
+  match: mac(link.permanent_addr) == "00:e0:4c:06:5b:d8"
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: netl.25
+vlanID: 25
+parent: netl
+---
+apiVersion: v1alpha1
+kind: DHCPv4Config
+name: netl.25

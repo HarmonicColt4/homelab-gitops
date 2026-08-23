@@ -5,7 +5,11 @@ credentials:
     bucket: tandoor
 workload:
   main:
-    replicas: 0
+    podSpec:
+      containers:
+        main:
+          env:
+            GUNICORN_TIMEOUT: 300
 cnpg:
   main:
     mode: recovery

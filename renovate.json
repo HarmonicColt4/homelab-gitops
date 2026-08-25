@@ -8,7 +8,9 @@
     {
       "customType": "regex",
       "description": "Update Talos Linux image versions from GitHub releases",
-      "fileMatch": ["^clusters/[^/]+/patches/.*\\.ya?ml$"],
+      "managerFilePatterns": [
+        "/^clusters/[^/]+/patches/.*\\.ya?ml$/"
+      ],
       "matchStrings": [
         "image:\\s*(?:factory\\.talos\\.dev|ghcr\\.io/siderolabs)/[^\\s:]+:(?<currentValue>v\\d+\\.\\d+\\.\\d+[^\\s]*)"
       ],
@@ -21,7 +23,9 @@
   "prCreation": "immediate",
   "packageRules": [
     {
-      "managers": ["regex"],
+      "matchManagers": [
+        "custom.regex"
+      ],
       "additionalBranchPrefix": "{{packageFile}}-",
       "prConcurrentLimit": 1,
       "automergeSchedule": ["* 2-5 * * *"]

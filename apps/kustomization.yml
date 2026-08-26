@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ai
   - mealie
+  - truenas-auto-update
 
 configurations:
   - ../kustomizeconfig.yml

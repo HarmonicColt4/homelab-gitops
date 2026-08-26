@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: truenas-auto-update
+  namespace: truenas
+spec:
+  schedule: "30 0 * * 1"
+  timeZone: Pacific/Auckland
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: truenas-auto-update
+        spec:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            seccompProfile:
+              type: RuntimeDefault
+          restartPolicy: OnFailure
+          containers:
+            - name: truenas-auto-update
+              image: ghcr.io/marvinvr/truenas-auto-update:2.2.0
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  cpu: 500m
+                  memory: 256Mi
+              envFrom:
+                - secretRef:
+                    name: config

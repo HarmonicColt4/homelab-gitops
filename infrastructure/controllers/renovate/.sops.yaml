@@ -1,8 +1,0 @@
----
-creation_rules:
-  - path_regex: enc.yml$
-    encrypted_regex: ^(data|stringData)$
-    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
-stores:
-  yaml:
-    indent: 2

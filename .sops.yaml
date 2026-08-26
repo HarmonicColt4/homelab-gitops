@@ -1,0 +1,111 @@
+---
+creation_rules:
+  # TrueCharts apps - encrypt all yml files with specific field patterns
+  - path_regex: ^apps/truecharts/.*/.*\.yml$
+    encrypted_regex: ^(admin_|api_key|client_|CF_APITOKEN|password|installation|SSO)$
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
+  # TrueCharts apps - encrypt all yml files with specific field patterns (gamevault)
+  - path_regex: ^apps/truecharts/gamevault/.*\.yml$
+    encrypted_regex: ^(admin_|api_key|client_)$
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
+  # TrueCharts apps - encrypt all yml files with specific field patterns (cloudflareddns)
+  - path_regex: ^apps/truecharts/cloudflareddns/.*\.yml$
+    encrypted_regex: CF_APITOKEN
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
+  # TrueCharts apps - encrypt enc.yml files with password field (immich)
+  - path_regex: ^apps/truecharts/immich/enc\.yml$
+    encrypted_regex: ^(password)$
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
+  # TrueCharts apps - encrypt enc.yml files with multiple field patterns (vaultwarden)
+  - path_regex: ^apps/truecharts/vaultwarden/enc\.yml$
+    encrypted_regex: ^(token|password|installation|SSO)$
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
+  # TrueCharts apps - encrypt enc.yml files with multiple field patterns (vaultwarden env)
+  - path_regex: ^apps/truecharts/vaultwarden/enc\.env$
+    encrypted_regex: CLIENT
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
+  # TrueCharts apps - encrypt all enc.yml files (default)
+  - path_regex: ^apps/truecharts/.*/enc\.yml$
+    encrypted_regex: ^(data|stringData)$
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+
+  # Razzia - encrypt all json files
+  - path_regex: ^apps/razzia/.*\.json$
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
+  # AI apps - encrypt all yml files with stringData pattern
+  - path_regex: ^apps/ai/open-webui/.*yml$
+    encrypted_regex: ^(stringData)$
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
+  # Infrastructure configs - encrypt enc.yml files
+  - path_regex: ^infrastructure/configs/.*enc\.yml$
+    encrypted_regex: ^(data|stringData)$
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+
+  # Infrastructure configs/cert-manager - encrypt enc.yml files
+  - path_regex: ^infrastructure/configs/cert-manager/.*enc\.yml$
+    encrypted_regex: ^(data|stringData)$
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
+  # Infrastructure controllers/longhorn - encrypt env files with ACCESS pattern
+  - path_regex: ^infrastructure/controllers/longhorn/.*env$
+    encrypted_regex: ACCESS
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
+  # Infrastructure controllers/renovate - encrypt enc.yml files
+  - path_regex: ^infrastructure/controllers/renovate/enc\.yml$
+    encrypted_regex: ^(data|stringData)$
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+
+  # Infrastructure controllers/tailscale - encrypt enc.yml files
+  - path_regex: ^infrastructure/controllers/tailscale/enc\.yml$
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+
+  # Infrastructure IAM/cloudflared - encrypt env files
+  - path_regex: ^infrastructure/iam/cloudflared/.*env$
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
+  # Infrastructure IAM/pocket-id - encrypt enc.env files with KEY pattern
+  - path_regex: ^infrastructure/iam/pocket-id/enc\.env$
+    encrypted_regex: KEY
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
+  # Infrastructure IAM/tinyauth - encrypt enc.env files with CLIENT pattern
+  - path_regex: ^infrastructure/iam/tinyauth/enc\.env$
+    encrypted_regex: CLIENT
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
+  # Infrastructure monitoring/flux - encrypt env files
+  - path_regex: ^infrastructure/monitoring/flux/.*\.env$
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
+  # Infrastructure monitoring/kube-prometheus-stack - encrypt env files with admin pattern
+  - path_regex: ^infrastructure/monitoring/kube-prometheus-stack/.*env$
+    encrypted_regex: admin
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
+stores:
+  yaml:
+    indent: 2

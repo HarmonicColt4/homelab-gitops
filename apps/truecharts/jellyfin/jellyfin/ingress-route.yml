@@ -7,8 +7,8 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`jellyfin-nuc.teamg.app`) && PathPrefix(`/`)
+    - match: Host(`jellyfin.teamg.app`) && PathPrefix(`/`)
       kind: Rule
       services:
         - name: jellyfin
-          port: 8096
+          kind: TraefikService

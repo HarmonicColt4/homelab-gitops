@@ -1,0 +1,39 @@
+---
+persistence:
+  data:
+    size: 10Gi
+  config:
+    size: 20Mi
+  movies:
+    enabled: true
+    type: nfs
+    path: /mnt/media/movies
+    server: truenas.home.arpa
+    mountPath: /movies
+  shows:
+    enabled: true
+    type: nfs
+    path: /mnt/media/shows
+    server: truenas.home.arpa
+    mountPath: /shows
+
+workload:
+  main:
+    replicas: 0
+    podSpec:
+      containers:
+        main:
+          # resources:
+          #   limits:
+          #     cpu: "4"
+          #     gpu.intel.com/i915: 1
+          env:
+            JELLYFIN_PublishedServerUrl: jellyfin.teamg.app
+
+resources:
+  limits:
+    gpu.intel.com/i915: 1
+
+service:
+  autodiscovery:
+    enabled: false

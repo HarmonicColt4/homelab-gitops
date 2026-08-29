@@ -5,12 +5,7 @@ kind: Kustomization
 resources:
   - namespace.yml
   - seerr
-
-configMapGenerator:
-  - name: jellyfin-values
-    namespace: flux-system
-    files:
-      - values.yaml=values.yml
+  - jellyfin
 
 transformers:
   - |

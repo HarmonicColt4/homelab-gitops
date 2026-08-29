@@ -19,14 +19,10 @@ persistence:
 
 workload:
   main:
-    replicas: 0
+    replicas: 1
     podSpec:
       containers:
         main:
-          # resources:
-          #   limits:
-          #     cpu: "4"
-          #     gpu.intel.com/i915: 1
           env:
             JELLYFIN_PublishedServerUrl: jellyfin.teamg.app
 

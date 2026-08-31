@@ -5,7 +5,7 @@ metadata:
   name: flaresolverr
   namespace: flux-system
 spec:
-  interval: 24h
+  interval: 1h
   releaseName: flaresolverr
   driftDetection:
     mode: enabled

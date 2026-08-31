@@ -5,7 +5,7 @@ metadata:
   name: uptime-kuma
   namespace: flux-system
 spec:
-  interval: 24h
+  interval: 1h
   releaseName: uptime-kuma
   driftDetection:
     mode: enabled

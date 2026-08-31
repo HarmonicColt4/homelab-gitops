@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   releaseName: tandoor
-  interval: 24h
+  interval: 1h
   driftDetection:
     mode: enabled
   chart:

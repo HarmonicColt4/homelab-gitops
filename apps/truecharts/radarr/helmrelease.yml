@@ -18,6 +18,25 @@ spec:
         name: truecharts
       interval: 1h
       version: 27.10.5
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              labelSelector: app.kubernetes.io/name=radarr
+            patch: |
+              - op: add
+                path: /spec/template/spec/affinity
+                value:
+                  nodeAffinity:
+                    preferredDuringSchedulingIgnoredDuringExecution:
+                      - weight: 1
+                        preference:
+                          matchExpressions:
+                            - key: criticality
+                              operator: In
+                              values:
+                                - high
   valuesFrom:
     - kind: ConfigMap
       name: global-values

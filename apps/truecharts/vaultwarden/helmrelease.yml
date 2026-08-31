@@ -23,6 +23,7 @@ spec:
         patches:
           - target:
               kind: Deployment
+              name: vaultwarden
             patch: |
               - op: add
                 path: /spec/template/spec/affinity

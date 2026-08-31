@@ -55,14 +55,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: unifi-os-server-mobile-speedtest-svc
+  name: unifi-os-server-mobile-sp-svc
   annotations:
     metallb.io/loadBalancerIPs: 10.25.25.4
     metallb.io/allow-shared-ip: unifi-os-server
 spec:
   type: LoadBalancer
   ports:
-    - name: mobile-speedtest
+    - name: mobile-sp
       port: 6789
       protocol: TCP
       targetPort: 6789
@@ -91,14 +91,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: unifi-os-server-hotspot-secured-svc
+  name: unifi-os-server-hotspot-sec-svc
   annotations:
     metallb.io/loadBalancerIPs: 10.25.25.4
     metallb.io/allow-shared-ip: unifi-os-server
 spec:
   type: LoadBalancer
   ports:
-    - name: hotspot-secured
+    - name: hotspot-sec
       port: 8444
       protocol: TCP
       targetPort: 8444
@@ -199,14 +199,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: unifi-os-server-hotspot-redirect-0-svc
+  name: unifi-os-server-hs-redirect-0-svc
   annotations:
     metallb.io/loadBalancerIPs: 10.25.25.4
     metallb.io/allow-shared-ip: unifi-os-server
 spec:
   type: LoadBalancer
   ports:
-    - name: hotspot-redirect-0
+    - name: hs-redirect-0
       port: 8880
       protocol: TCP
       targetPort: 8880
@@ -217,14 +217,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: unifi-os-server-hotspot-redirect-1-svc
+  name: unifi-os-server-hs-redirect-1-svc
   annotations:
     metallb.io/loadBalancerIPs: 10.25.25.4
     metallb.io/allow-shared-ip: unifi-os-server
 spec:
   type: LoadBalancer
   ports:
-    - name: hotspot-redirect-1
+    - name: hs-redirect-1
       port: 8881
       protocol: TCP
       targetPort: 8881
@@ -235,14 +235,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: unifi-os-server-hotspot-redirect-2-svc
+  name: unifi-os-server-hs-redirect-2-svc
   annotations:
     metallb.io/loadBalancerIPs: 10.25.25.4
     metallb.io/allow-shared-ip: unifi-os-server
 spec:
   type: LoadBalancer
   ports:
-    - name: hotspot-redirect-2
+    - name: hs-redirect-2
       port: 8882
       protocol: TCP
       targetPort: 8882

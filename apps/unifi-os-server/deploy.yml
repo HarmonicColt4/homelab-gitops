@@ -83,13 +83,13 @@ spec:
             - name: id-hub
               containerPort: 9543
               protocol: TCP
-            - name: mobile-speedtest
+            - name: mobile-sp
               containerPort: 6789
               protocol: TCP
             - name: communication
               containerPort: 8080
               protocol: TCP
-            - name: hotspot-secured
+            - name: hotspot-sec
               containerPort: 8444
               protocol: TCP
             - name: stun
@@ -107,13 +107,13 @@ spec:
             - name: aqmps
               containerPort: 5671
               protocol: TCP
-            - name: hotspot-redirect-0
+            - name: hs-redirect-0
               containerPort: 8880
               protocol: TCP
-            - name: hotspot-redirect-1
+            - name: hs-redirect-1
               containerPort: 8881
               protocol: TCP
-            - name: hotspot-redirect-2
+            - name: hs-redirect-2
               containerPort: 8882
               protocol: TCP
           livenessProbe:

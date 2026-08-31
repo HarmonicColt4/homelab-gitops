@@ -28,7 +28,7 @@
       ],
       "additionalBranchPrefix": "{{packageFile}}-",
       "prConcurrentLimit": 1,
-      "automergeSchedule": ["* 2-5 * * *"]
+      "automergeSchedule": ["* 1 * * *"]
     }
   ]
 }

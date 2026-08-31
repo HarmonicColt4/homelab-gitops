@@ -7,7 +7,7 @@ metadata:
 spec:
   dependsOn:
     - name: infra-configs
-  interval: 24h
+  interval: 1h
   timeout: 5m
   sourceRef:
     kind: GitRepository
@@ -28,7 +28,7 @@ metadata:
 spec:
   dependsOn:
     - name: infra-configs
-  interval: 24h
+  interval: 1h
   timeout: 5m
   sourceRef:
     kind: GitRepository

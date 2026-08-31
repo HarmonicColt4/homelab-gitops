@@ -5,7 +5,7 @@ metadata:
   name: intel-device-plugins-for-kubernetes
   namespace: flux-system
 spec:
-  interval: 10m0s
+  interval: 1h
   ref:
     tag: v0.36.0
   url: https://github.com/intel/intel-device-plugins-for-kubernetes

@@ -14,8 +14,6 @@ cnpg:
       destinationPath: s3://seerr
 resources:
   requests:
-    cpu: 10m
     memory: 512Mi
   limits:
-    cpu: 100m
     memory: 512Mi

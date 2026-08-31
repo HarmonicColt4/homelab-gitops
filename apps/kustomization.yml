@@ -6,6 +6,7 @@ resources:
   - ai
   - mealie
   - truenas-auto-update
+  - unifi-os-server
 
 configurations:
   - ../kustomizeconfig.yml

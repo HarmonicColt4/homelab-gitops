@@ -41,11 +41,11 @@ spec:
             - containerPort: 1411
           resources:
             requests:
-              cpu: 50m
-              memory: 160M
+              cpu: 10m
+              memory: 100M
             limits:
-              cpu: 1000m
-              memory: 160M
+              cpu: 100m
+              memory: 100M
           envFrom:
             - secretRef:
                 name: env

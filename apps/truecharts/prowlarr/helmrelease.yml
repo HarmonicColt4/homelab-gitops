@@ -5,6 +5,7 @@ metadata:
   name: prowlarr
   namespace: flux-system
 spec:
+  timeout: 10m
   releaseName: prowlarr
   interval: 1h
   driftDetection:

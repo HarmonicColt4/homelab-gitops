@@ -5,6 +5,7 @@ metadata:
   name: vaultwarden
   namespace: flux-system
 spec:
+  timeout: 10m
   releaseName: vaultwarden
   interval: 1h
   driftDetection:

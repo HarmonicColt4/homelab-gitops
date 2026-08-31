@@ -5,6 +5,7 @@ metadata:
   name: mosquitto
   namespace: flux-system
 spec:
+  timeout: 10m
   releaseName: mosquitto
   interval: 1h
   driftDetection:

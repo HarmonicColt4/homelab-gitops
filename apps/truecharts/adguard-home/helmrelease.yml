@@ -5,6 +5,7 @@ metadata:
   name: adguard-home
   namespace: flux-system
 spec:
+  timeout: 10m
   interval: 1h
   releaseName: adguard-home
   driftDetection:

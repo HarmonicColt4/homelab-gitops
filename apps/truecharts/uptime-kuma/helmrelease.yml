@@ -5,6 +5,7 @@ metadata:
   name: uptime-kuma
   namespace: flux-system
 spec:
+  timeout: 10m
   interval: 1h
   releaseName: uptime-kuma
   driftDetection:

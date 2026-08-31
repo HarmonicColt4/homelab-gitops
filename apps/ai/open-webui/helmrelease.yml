@@ -5,7 +5,8 @@ metadata:
   name: open-webui
   namespace: flux-system
 spec:
-  interval: 24h
+  timeout: 10m
+  interval: 1h
   releaseName: open-webui
   chart:
     spec:

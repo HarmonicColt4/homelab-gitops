@@ -5,6 +5,7 @@ metadata:
   name: home-assistant
   namespace: flux-system
 spec:
+  timeout: 10m
   releaseName: home-assistant
   interval: 1h
   driftDetection:

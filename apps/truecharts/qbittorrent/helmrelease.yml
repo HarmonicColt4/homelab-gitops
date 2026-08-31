@@ -5,6 +5,7 @@ metadata:
   name: qbittorrent
   namespace: flux-system
 spec:
+  timeout: 10m
   interval: 1h
   releaseName: qbittorrent
   driftDetection:

@@ -23,7 +23,6 @@ spec:
         patches:
           - target:
               kind: Deployment
-              labelSelector: app.kubernetes.io/name=sonarr
             patch: |
               - op: add
                 path: /spec/template/spec/affinity

@@ -17,6 +17,25 @@ spec:
         name: truecharts
       interval: 1h
       version: 16.4.5
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: seerr
+            patch: |
+              - op: add
+                path: /spec/template/spec/affinity
+                value:
+                  nodeAffinity:
+                    preferredDuringSchedulingIgnoredDuringExecution:
+                      - weight: 1
+                        preference:
+                          matchExpressions:
+                            - key: criticality
+                              operator: In
+                              values:
+                                - high
   valuesFrom:
     - kind: ConfigMap
       name: global-values

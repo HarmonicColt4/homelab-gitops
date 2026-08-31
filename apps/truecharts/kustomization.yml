@@ -22,7 +22,7 @@ resources:
   # - stirling-pdf
   - tandoor
   - vaultwarden
-  - unifi
+  # - unifi
   - uptime-kuma
 
 configMapGenerator:

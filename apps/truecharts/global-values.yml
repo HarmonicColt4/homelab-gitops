@@ -34,3 +34,5 @@ podOptions:
 resources:
   requests:
     cpu: 10m
+  limits:
+    cpu: 500m

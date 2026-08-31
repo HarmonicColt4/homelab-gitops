@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
   - deploy.yml
   - pvc.yml
-  - service.yml
+  - svc.yml
   - ingress-route.yml
   - namespace.yml
 

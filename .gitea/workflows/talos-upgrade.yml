@@ -22,6 +22,14 @@ jobs:
         env:
           TALOSCONFIG_B64: ${{ secrets.TALOSCONFIG_B64 }}
         run: |
+          # 0. Install jq and yq dependencies
+
+          echo "Install jq and yq dependencies..."
+
+          curl -sLo /usr/local/bin/jq "https://github.com/jqlang/jq/releases/download/jq-1.8.2/jq-linux-amd64"
+          curl -sLo /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/v4.53.6/yq_linux_amd64"
+          chmod +x /usr/local/bin/jq /usr/local/bin/yq
+
           # 1. Find the single patch file changed in the latest merge commit
           FILE=$(git diff --name-only HEAD^ HEAD | grep -E 'clusters/.*/patches/.*\.ya?ml' | head -n 1)
 
@@ -33,7 +41,7 @@ jobs:
           echo "Processing changes in $FILE..."
 
           # 2. Extract image from the changed file (support both factory.talos.dev and ghcr.io/siderolabs)
-          IMAGE=$(grep -E 'image:\s*(factory\.talos\.dev|ghcr\.io/siderolabs)' "$FILE" | awk '{print $2}' | tr -d '"' | tr -d "'")
+          IMAGE=$(yq '.machine.install.image // .image' "$FILE" | head -n 1 | tr -d '"')
 
           if [ -z "$IMAGE" ]; then
             echo "No Talos image found in $FILE, skipping."
@@ -41,7 +49,7 @@ jobs:
           fi
 
           # 3. Compare against the previous commit (HEAD^) to detect version/image changes
-          OLD_IMAGE=$(git show HEAD^:"$FILE" 2>/dev/null | grep -E 'image:\s*(factory\.talos\.dev|ghcr\.io/siderolabs)' | awk '{print $2}' | tr -d '"'"\'')
+          OLD_IMAGE=$(git show HEAD^:"$FILE" 2>/dev/null | yq '.machine.install.image // .image' "$FILE" | head -n 1 | tr -d '"')
 
           if [ "$OLD_IMAGE" = "$IMAGE" ]; then
             echo "No Talos image or version change detected in $FILE ($IMAGE). Exiting."
@@ -73,7 +81,7 @@ jobs:
           export TALOSCONFIG=~/.talos/config
 
           # 7. Extract hostname from the file
-          EXPECTED_HOSTNAME=$(grep '^hostname:' "$FILE" | awk '{print $2}' | tr -d '"'"\'')
+          EXPECTED_HOSTNAME=$(yq 'select(.hostname != null) | .hostname' "$FILE" | head -n 1 | tr -d '"')
 
           if [ -z "$EXPECTED_HOSTNAME" ]; then
             echo "Warning: No 'hostname' key found in $FILE. Skipping."
@@ -83,7 +91,7 @@ jobs:
           echo "Extracted target hostname '$EXPECTED_HOSTNAME' from $FILE"
 
           # 8. Check if expected hostname exists as a cluster member
-          MEMBER_HOSTNAMES=$(talosctl get members -o json 2>/dev/null | grep -oE '"hostname"\s*:\s*"[^"]+"' | grep -oE '"[^"]+"$' | tr -d '"')
+          MEMBER_HOSTNAMES=$(talosctl get hostname -o yaml | yq '.spec.hostname' | tr -d '"')
           if ! echo "$MEMBER_HOSTNAMES" | grep -qx "$EXPECTED_HOSTNAME"; then
               echo "Node '$EXPECTED_HOSTNAME' not found in cluster members. Skipping upgrade."
               exit 0

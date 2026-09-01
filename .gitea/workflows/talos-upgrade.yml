@@ -31,7 +31,9 @@ jobs:
           chmod +x /usr/local/bin/jq /usr/local/bin/yq
 
           # 1. Find the single patch file changed in the latest merge commit
+          set +o pipefail
           FILE=$(git diff --name-only HEAD^ HEAD | grep -E 'clusters/.*/patches/.*\.ya?ml' | head -n 1)
+          set -o pipefail
 
           if [ -z "$FILE" ]; then
             echo "No patch files changed. Exiting."
@@ -41,7 +43,9 @@ jobs:
           echo "Processing changes in $FILE..."
 
           # 2. Extract image from the changed file (support both factory.talos.dev and ghcr.io/siderolabs)
+          set +o pipefail
           IMAGE=$(yq '.machine.install.image // .image' "$FILE" | head -n 1 | tr -d '"')
+          set -o pipefail
 
           if [ -z "$IMAGE" ]; then
             echo "No Talos image found in $FILE, skipping."
@@ -49,7 +53,9 @@ jobs:
           fi
 
           # 3. Compare against the previous commit (HEAD^) to detect version/image changes
+          set +o pipefail
           OLD_IMAGE=$(git show HEAD^:"$FILE" 2>/dev/null | yq '.machine.install.image // .image' "$FILE" | head -n 1 | tr -d '"')
+          set -o pipefail
 
           if [ "$OLD_IMAGE" = "$IMAGE" ]; then
             echo "No Talos image or version change detected in $FILE ($IMAGE). Exiting."
@@ -81,7 +87,9 @@ jobs:
           export TALOSCONFIG=~/.talos/config
 
           # 7. Extract hostname from the file
+          set +o pipefail
           EXPECTED_HOSTNAME=$(yq 'select(.hostname != null) | .hostname' "$FILE" | head -n 1 | tr -d '"')
+          set -o pipefail
 
           if [ -z "$EXPECTED_HOSTNAME" ]; then
             echo "Warning: No 'hostname' key found in $FILE. Skipping."

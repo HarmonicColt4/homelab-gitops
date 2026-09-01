@@ -32,8 +32,28 @@ jobs:
 
           echo "Processing changes in $FILE..."
 
-          # 2. Extract Talos version from the changed file
-          TALOS_VERSION=$(grep -E 'image:\s*factory\.talos\.dev' "$FILE" | awk -F':' '{print $NF}')
+          # 2. Extract image from the changed file (support both factory.talos.dev and ghcr.io/siderolabs)
+          IMAGE=$(grep -E 'image:\s*(factory\.talos\.dev|ghcr\.io/siderolabs)' "$FILE" | awk '{print $2}' | tr -d '"'"\'')
+
+          if [ -z "$IMAGE" ]; then
+            echo "No Talos image found in $FILE, skipping."
+            exit 1
+          fi
+
+          # 3. Compare against the previous commit (HEAD^) to detect version/image changes
+          OLD_IMAGE=$(git show HEAD^:"$FILE" 2>/dev/null | grep -E 'image:\s*(factory\.talos\.dev|ghcr\.io/siderolabs)' | awk '{print $2}' | tr -d '"'"\'')
+
+          if [ "$OLD_IMAGE" = "$IMAGE" ]; then
+            echo "No Talos image or version change detected in $FILE ($IMAGE). Exiting."
+            exit 0
+          fi
+
+          echo "Image change detected in $FILE:"
+          echo "  Previous: $OLD_IMAGE"
+          echo "  Current:  $IMAGE"
+
+          # 4. Extract Talos version from the image (tag after last colon)
+          TALOS_VERSION=$(echo "$IMAGE" | awk -F':' '{print $NF}')
 
           if [ -z "$TALOS_VERSION" ]; then
             echo "Error: Could not detect Talos version from $FILE."
@@ -42,24 +62,18 @@ jobs:
 
           echo "Detected target Talos version: $TALOS_VERSION"
 
-          # 3. Install the matching version of talosctl
+          # 5. Install the matching version of talosctl
           echo "Installing talosctl $TALOS_VERSION..."
           curl -sLo /usr/local/bin/talosctl "https://github.com/siderolabs/talos/releases/download/${TALOS_VERSION}/talosctl-linux-amd64"
           chmod +x /usr/local/bin/talosctl
 
-          # 4. Set up Talos authentication
+          # 6. Set up Talos authentication
           mkdir -p ~/.talos
           echo "$TALOSCONFIG_B64" | base64 -d > ~/.talos/config
           export TALOSCONFIG=~/.talos/config
 
-          # 5. Extract image and hostname from the file
-          IMAGE=$(grep -E 'image:\s*factory\.talos\.dev' "$FILE" | awk '{print $2}')
-          EXPECTED_HOSTNAME=$(grep '^hostname:' "$FILE" | awk '{print $2}' | tr -d '"'\''')
-
-          if [ -z "$IMAGE" ]; then
-            echo "No Talos image found in $FILE, skipping."
-            exit 1
-          fi
+          # 7. Extract hostname from the file
+          EXPECTED_HOSTNAME=$(grep '^hostname:' "$FILE" | awk '{print $2}' | tr -d '"'"\'')
 
           if [ -z "$EXPECTED_HOSTNAME" ]; then
             echo "Warning: No 'hostname' key found in $FILE. Skipping."
@@ -68,6 +82,15 @@ jobs:
 
           echo "Extracted target hostname '$EXPECTED_HOSTNAME' from $FILE"
 
-          # 6. Execute the targeted upgrade
+          # 8. Check if expected hostname exists as a cluster member
+          MEMBER_HOSTNAMES=$(talosctl get members -o json 2>/dev/null | grep -oE '"hostname"\s*:\s*"[^"]+"' | grep -oE '"[^"]+"$' | tr -d '"')
+          if ! echo "$MEMBER_HOSTNAMES" | grep -qx "$EXPECTED_HOSTNAME"; then
+              echo "Node '$EXPECTED_HOSTNAME' not found in cluster members. Skipping upgrade."
+              exit 0
+          fi
+
+          echo "Confirmed node '$EXPECTED_HOSTNAME' exists in cluster. Proceeding with upgrade..."
+
+          # 9. Execute the targeted upgrade
           echo "Upgrading node $EXPECTED_HOSTNAME to image $IMAGE..."
           talosctl upgrade --nodes "$EXPECTED_HOSTNAME" --image "$IMAGE"

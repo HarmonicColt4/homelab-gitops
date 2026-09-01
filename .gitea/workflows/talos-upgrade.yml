@@ -33,7 +33,7 @@ jobs:
           echo "Processing changes in $FILE..."
 
           # 2. Extract image from the changed file (support both factory.talos.dev and ghcr.io/siderolabs)
-          IMAGE=$(grep -E 'image:\s*(factory\.talos\.dev|ghcr\.io/siderolabs)' "$FILE" | awk '{print $2}' | tr -d '"'"\'')
+          IMAGE=$(grep -E 'image:\s*(factory\.talos\.dev|ghcr\.io/siderolabs)' "$FILE" | awk '{print $2}' | tr -d '"' | tr -d "'")
 
           if [ -z "$IMAGE" ]; then
             echo "No Talos image found in $FILE, skipping."

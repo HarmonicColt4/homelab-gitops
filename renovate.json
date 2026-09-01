@@ -24,7 +24,7 @@
       "additionalBranchPrefix": "{{packageFile}}-",
       "prConcurrentLimit": 1,
       "automergeSchedule": ["* 1 * * *"],
-      "minimumReleaseAge": "14 days"
+      "minimumReleaseAge": "7 days"
     }
   ]
 }

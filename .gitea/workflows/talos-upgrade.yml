@@ -44,7 +44,7 @@ jobs:
 
           # 2. Extract image from the changed file (support both factory.talos.dev and ghcr.io/siderolabs)
           set +o pipefail
-          IMAGE=$(yq '.machine.install.image // .image' "$FILE" | head -n 1 | tr -d '"')
+          IMAGE=$(yq '.machine.install.image' "$FILE" | head -n 1 | tr -d '"')
           set -o pipefail
 
           if [ -z "$IMAGE" ]; then
@@ -54,7 +54,7 @@ jobs:
 
           # 3. Compare against the previous commit (HEAD^) to detect version/image changes
           set +o pipefail
-          OLD_IMAGE=$(git show HEAD^:"$FILE" 2>/dev/null | yq '.machine.install.image // .image' "$FILE" | head -n 1 | tr -d '"')
+          OLD_IMAGE=$(git show HEAD^:"$FILE" 2>/dev/null | yq '.machine.install.image' | head -n 1 | tr -d '"')
           set -o pipefail
 
           if [ "$OLD_IMAGE" = "$IMAGE" ]; then

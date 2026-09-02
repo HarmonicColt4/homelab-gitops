@@ -23,7 +23,7 @@ spec:
         - name: mealie
           image: ghcr.io/mealie-recipes/mealie:v3.24.0
           envFrom:
-            - configMapRef:
+            - secretRef:
                 name: mealie-config
           resources:
             requests:

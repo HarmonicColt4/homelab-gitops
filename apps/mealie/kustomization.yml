@@ -9,7 +9,7 @@ resources:
   - ingress.yml
   - storage.yml
 
-configMapGenerator:
+secretGenerator:
   - name: mealie-config
     envs:
-      - .env
+      - secrets/enc.env

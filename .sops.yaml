@@ -31,7 +31,7 @@ creation_rules:
     mac_only_encrypted: true
 
   # TrueCharts apps - encrypt enc.yml files with multiple field patterns (vaultwarden env)
-  - path_regex: ^apps/truecharts/vaultwarden/enc\.env$
+  - path_regex: (tinyauth|vaultwarden)/.*\.env$
     encrypted_regex: CLIENT
     age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
     mac_only_encrypted: true
@@ -89,12 +89,6 @@ creation_rules:
     age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
     mac_only_encrypted: true
 
-  # Infrastructure IAM/tinyauth - encrypt enc.env files with CLIENT pattern
-  - path_regex: ^infrastructure/iam/tinyauth/enc\.env$
-    encrypted_regex: CLIENT
-    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
-    mac_only_encrypted: true
-
   # Infrastructure monitoring/flux - encrypt env files
   - path_regex: ^infrastructure/monitoring/flux/.*\.env$
     age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
@@ -108,6 +102,11 @@ creation_rules:
 
   - path_regex: apps/truenas-auto-update/secrets/.*\.env
     encrypted_regex: API_KEY
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
+  - path_regex: mealie/secrets/.*\.env
+    encrypted_regex: (API_KEY|CLIENT)
     age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
     mac_only_encrypted: true
 

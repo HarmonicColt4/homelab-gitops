@@ -1,5 +1,5 @@
 ---
-TZ: NZ
+TZ: Pacific/Auckland
 global:
   fallbackDefaults:
     pvcSize: 1Gi

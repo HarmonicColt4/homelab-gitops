@@ -34,5 +34,3 @@ resources:
 service:
   autodiscovery:
     enabled: false
-
-TZ: Pacific/Auckland

@@ -21,7 +21,7 @@ spec:
             claimName: mealie-data
       containers:
         - name: mealie
-          image: ghcr.io/mealie-recipes/mealie:v3.24.0
+          image: ghcr.io/mealie-recipes/mealie:v3.25.0
           envFrom:
             - secretRef:
                 name: mealie-config

@@ -75,10 +75,11 @@ prometheusOperator:
 
 prometheus:
   prometheusSpec:
+    externalUrl: https://prometheus.teamg.app
     retention: 15d
     storageSpec:
       volumeClaimTemplate:
         spec:
           resources:
             requests:
-               storage: 20Gi
+              storage: 20Gi

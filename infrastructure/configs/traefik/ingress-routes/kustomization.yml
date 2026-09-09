@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
   - garage.yml
   - gitea.yml
-  # - jellyfin.yml
+  - jellyfin.yml
   - opencloud.yml
   - sunshine.yml
   - truenas.yml

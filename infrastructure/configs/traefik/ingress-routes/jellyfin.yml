@@ -9,11 +9,6 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`jellyfin.weirdrussiandomain.com`) && PathPrefix(`/`)
-      services:
-        - name: truenas
-          port: 30013
-    - kind: Rule
       match: Host(`jellyfin.teamg.app`) && PathPrefix(`/`)
       services:
         - name: truenas

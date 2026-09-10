@@ -9,32 +9,6 @@ spec:
     name: discord-info
   eventSeverity: info
   eventSources:
-    - kind: Kustomization
-      name: "*"
-    - kind: HelmRelease
-      name: "*"
-  eventMetadata:
-    cluster: weird-russian-cluster
-  exclusionList:
-    - Dependencies do not meet ready condition
-    - HelmRelease.* configured
-    - Service.*truenas-penda.*configured
-    - dependency.*is not ready
-    - Health check passed
-    - CronJob/renovate/renovate configured
-    - (ConfigMap|Secret).*(created|deleted)
-    - (Alert|Provider).*configured
----
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
-kind: Alert
-metadata:
-  name: error
-  namespace: flux-system
-spec:
-  providerRef:
-    name: discord-errors
-  eventSeverity: error
-  eventSources:
     - kind: GitRepository
       name: "*"
     - kind: OCIRepository
@@ -45,10 +19,16 @@ spec:
       name: "*"
     - kind: HelmRelease
       name: "*"
+    - kind: HelmChart
+      name: "*"
   eventMetadata:
-    cluster: weird-russian-cluster
+    cluster: cluster
   exclusionList:
     - Dependencies do not meet ready condition
     - HelmRelease.* configured
     - Service.*truenas-penda.*configured
     - dependency.*is not ready
+    - Health check passed
+    - CronJob/renovate/renovate configured
+    - (ConfigMap|Secret).*(created|deleted)
+    - (Alert|Provider).*configured

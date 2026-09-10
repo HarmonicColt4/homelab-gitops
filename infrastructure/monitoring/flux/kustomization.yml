@@ -10,8 +10,5 @@ secretGenerator:
   - name: discord-webhook-info
     envs:
       - secrets/discord-webhook-info.enc.env
-  - name: discord-webhook-errors
-    envs:
-      - secrets/discord-webhook-errors.enc.env
 
 namespace: flux-system

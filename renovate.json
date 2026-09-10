@@ -16,7 +16,6 @@
       "depNameTemplate": "siderolabs/talos"
     }
   ],
-  "prCreation": "immediate",
   "automerge": true,
   "automergeSchedule": ["* 1 * * *"],
   "packageRules": [
@@ -24,6 +23,7 @@
       "matchManagers": ["custom.regex"],
       "additionalBranchPrefix": "{{packageFile}}-",
       "prConcurrentLimit": 1,
+      "prCreation": "immediate",
       "minimumReleaseAge": "7 days"
     }
   ]

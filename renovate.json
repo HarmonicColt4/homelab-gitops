@@ -4,6 +4,7 @@
   "separateMinorPatch": true,
   "separateMultipleMinor": true,
   "separateMultipleMajor": true,
+  "automerge": true,
   "customManagers": [
     {
       "customType": "regex",
@@ -14,17 +15,39 @@
       ],
       "datasourceTemplate": "github-releases",
       "depNameTemplate": "siderolabs/talos"
+    },
+    {
+      "customType": "regex",
+      "description": "Update jq version from GitHub releases in workflow files",
+      "managerFilePatterns": ["/^\\.gitea/workflows/.*\\.ya?ml$/"],
+      "matchStrings": [
+        "jqlang/jq/releases/download/jq-(?<currentValue>\\d+\\.\\d+\\.\\d+)/jq-"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "jqlang/jq",
+      "extractVersionTemplate": "^jq-(?<version>.*)$"
+    },
+    {
+      "customType": "regex",
+      "description": "Update yq version from GitHub releases in workflow files",
+      "managerFilePatterns": ["/^\\.gitea/workflows/.*\\.ya?ml$/"],
+      "matchStrings": [
+        "mikefarah/yq/releases/download/(?<currentValue>v\\d+\\.\\d+\\.\\d+)/yq_"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "mikefarah/yq"
     }
   ],
-  "automerge": true,
-  "automergeSchedule": ["* 1 * * *"],
   "packageRules": [
     {
       "matchManagers": ["custom.regex"],
+      "matchPackageNames": ["siderolabs/talos"],
       "additionalBranchPrefix": "{{packageFile}}-",
-      "prConcurrentLimit": 1,
-      "prCreation": "immediate",
-      "minimumReleaseAge": "7 days"
+      "schedule": ["* 1 * * *"],
+      "prHourlyLimit": 1,
+      "prCreation": "not-pending",
+      "internalChecksFilter": "strict",
+      "minimumReleaseAge": "14 days"
     }
   ]
 }

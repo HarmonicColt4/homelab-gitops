@@ -32,3 +32,9 @@ spec:
     - CronJob/renovate/renovate configured
     - (ConfigMap|Secret).*(created|deleted)
     - (Alert|Provider).*configured
+    - Reconciliation finished in .*
+    - stored artifact for commit
+    - Cluster state of release .* has drifted from the desired state
+    - Cluster state of release .* has been corrected
+    - stored fetched index of size
+    - pulled '.*' chart with version

@@ -12,7 +12,7 @@ resources:
   - homepage
   - home-assistant
   - immich
-  - jellyfin
+  - seerr
   - prowlarr
   - profilarr
   - qbittorrent

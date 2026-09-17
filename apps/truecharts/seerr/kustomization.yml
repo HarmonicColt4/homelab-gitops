@@ -4,7 +4,8 @@ kind: Kustomization
 
 resources:
   - namespace.yml
-  - seerr
+  - helmrelease.yml
+  - ingress-route.yml
 
 transformers:
   - |
@@ -19,3 +20,9 @@ transformers:
       - kind: HelmRelease
         path: spec/targetNamespace
         create: true
+
+configMapGenerator:
+  - name: seerr-values
+    namespace: flux-system
+    files:
+      - values.yaml=values.yml

@@ -13,7 +13,7 @@ transformers:
     kind: NamespaceTransformer
     metadata:
       name: not-important-to-example
-      namespace: jellyfin
+      namespace: seerr
     setRoleBindingSubjects: none
     unsetOnly: true
     fieldSpecs:

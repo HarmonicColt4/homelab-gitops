@@ -22,7 +22,7 @@ spec:
   values:
     persistence:
       defaultDataLocality: best-effort
-      defaultClassReplicaCount: 2
+      defaultClassReplicaCount: 1
       recurringJobSelector:
         enable: true
         jobList:

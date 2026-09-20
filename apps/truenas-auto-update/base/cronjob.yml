@@ -4,7 +4,7 @@ metadata:
   name: truenas-auto-update
   namespace: truenas
 spec:
-  schedule: "30 2 * * 0"
+  schedule: "30 2 * * 1"
   jobTemplate:
     spec:
       template:

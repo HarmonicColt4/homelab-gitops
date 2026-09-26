@@ -2,7 +2,6 @@ persistence:
   config:
     enabled: true
     mountPath: /app/config
-    volumeName: seerr-config
 credentials:
   garage:
     type: s3

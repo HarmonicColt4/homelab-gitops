@@ -7,17 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`jellyseerr.weirdrussiandomain.com`) && PathPrefix(`/`)
-      kind: Rule
-      services:
-        - name: seerr
-          port: 10241
     - match: Host(`seerr.teamg.app`) && PathPrefix(`/`)
-      kind: Rule
-      services:
-        - name: seerr
-          port: 10241
-    - match: Host(`jellyseerr.teamg.app`) && PathPrefix(`/`)
       kind: Rule
       services:
         - name: seerr

@@ -7,11 +7,6 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`vaultwarden.weirdrussiandomain.com`) && PathPrefix(`/`)
-      kind: Rule
-      services:
-        - name: vaultwarden
-          port: 10102
     - match: Host(`pw.teamg.app`) && PathPrefix(`/`)
       kind: Rule
       services:

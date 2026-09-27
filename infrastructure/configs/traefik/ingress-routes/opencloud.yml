@@ -8,12 +8,6 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`opencloud.weirdrussiandomain.com`) && PathPrefix(`/`)
-      services:
-        - name: truenas
-          port: 30259
-          scheme: https
-    - kind: Rule
       match: Host(`cloud.teamg.app`) && PathPrefix(`/`)
       services:
         - name: truenas

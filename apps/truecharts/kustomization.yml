@@ -8,7 +8,6 @@ resources:
   - adguard-home
   - audiobookshelf
   - cloudflareddns
-  - gamevault
   - homepage
   - home-assistant
   - immich
@@ -19,10 +18,8 @@ resources:
   - radarr
   - sabnzbd
   - sonarr
-  # - stirling-pdf
   - tandoor
   - vaultwarden
-  # - unifi
   - uptime-kuma
 
 configMapGenerator:

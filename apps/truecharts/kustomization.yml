@@ -16,9 +16,7 @@ resources:
   - profilarr
   - qbittorrent
   - radarr
-  - sabnzbd
   - sonarr
-  - tandoor
   - vaultwarden
   - uptime-kuma
 

@@ -4,5 +4,3 @@ kind: Kustomization
 resources:
   - sunshine.yml
   - truenas.yml
-  - pikvm.yml
-  - truenas-penda.yml

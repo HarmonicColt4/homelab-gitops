@@ -8,6 +8,3 @@ resources:
   - opencloud.yml
   - sunshine.yml
   - truenas.yml
-  - truenas-penda.yml
-  - immich-penda.yml
-  - pikvm.yml

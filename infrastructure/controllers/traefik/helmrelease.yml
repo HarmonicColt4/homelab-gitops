@@ -27,15 +27,6 @@ spec:
         externalTrafficPolicy: Local
       annotations:
         metallb.io/loadBalancerIPs: 10.25.25.11
-      additionalServices:
-        tsp-ssh:
-          type: LoadBalancer
-          annotations:
-            metallb.io/loadBalancerIPs: 10.25.25.12
-        pikvm-ssh:
-          type: LoadBalancer
-          annotations:
-            metallb.io/loadBalancerIPs: 10.25.25.13
     ports:
       web:
         forwardedHeaders:

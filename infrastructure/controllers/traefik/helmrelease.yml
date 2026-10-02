@@ -46,20 +46,6 @@ spec:
             writeTimeout: 1800s
         http3:
           enabled: true
-      tsp-ssh:
-        expose:
-          default: false
-          tsp-ssh: true
-        exposedPort: 22
-        port: 50022
-        protocol: TCP
-      pikvm-ssh:
-        expose:
-          default: false
-          pikvm-ssh: true
-        exposedPort: 22
-        port: 50122
-        protocol: TCP
     ingressRoute:
       dashboard:
         matchRule: Host(`traefik.teamg.app`)

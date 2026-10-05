@@ -44,8 +44,6 @@ spec:
             readTimeout: 1800s
             idleTimeout: 1800s
             writeTimeout: 1800s
-        http3:
-          enabled: true
     ingressRoute:
       dashboard:
         matchRule: Host(`traefik.teamg.app`)

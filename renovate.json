@@ -4,7 +4,7 @@
     "managerFilePatterns": ["/.+(?:helmrelease|repository)\\.yml/"]
   },
   "extends": ["config:recommended", ":automergeStableNonMajor"],
-  "automergeSchedule": ["* 2-6 * * *"],
+  "schedule": ["* 1-7 * * *"],
   "ignoreTests": true,
   "automergeType": "branch",
   "kubernetes": {

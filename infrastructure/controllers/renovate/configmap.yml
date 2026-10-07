@@ -10,4 +10,4 @@ data:
   RENOVATE_PLATFORM: "gitea"
   RENOVATE_PLATFORM_AUTOMERGE: "false"
   RENOVATE_TIMEZONE: "Pacific/Auckland"
-  RENOVATE_REPOSITORIES: "gpenda/fluxcd, gpenda/talos-linux"
+  RENOVATE_REPOSITORIES: "gpenda/fluxcd"

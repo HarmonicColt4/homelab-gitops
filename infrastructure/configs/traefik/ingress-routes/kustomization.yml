@@ -8,3 +8,4 @@ resources:
   - opencloud.yml
   - sunshine.yml
   - truenas.yml
+  - qbit.yml

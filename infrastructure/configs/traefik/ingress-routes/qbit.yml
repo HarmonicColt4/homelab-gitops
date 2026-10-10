@@ -10,7 +10,7 @@ spec:
   routes:
     - kind: Rule
       match: Host(`qbit.teamg.app`) && PathPrefix(`/`)
-      priority: 15
+      priority: 100
       services:
         - name: truenas
           port: 30024

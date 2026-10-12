@@ -2,12 +2,6 @@
 persistence:
   config:
     size: 2Gi
-  movies-old:
-    enabled: true
-    type: nfs
-    path: /mnt/media/movies
-    server: truenas.home.arpa
-    mountPath: /movies
   movies:
     enabled: true
     type: nfs

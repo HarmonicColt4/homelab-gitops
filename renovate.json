@@ -8,6 +8,7 @@
   "ignoreTests": true,
   "automergeType": "branch",
   "automerge": true,
+  "prConcurrentLimit": 0,
   "kubernetes": {
     "managerFilePatterns": ["/cronjob\\.yml/", "/deploy\\.yml$/"]
   },

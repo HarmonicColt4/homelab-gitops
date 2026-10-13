@@ -9,6 +9,7 @@
   "automergeType": "branch",
   "automerge": true,
   "prConcurrentLimit": 0,
+  "prHourlyLimit": 5,
   "kubernetes": {
     "managerFilePatterns": ["/cronjob\\.yml/", "/deploy\\.yml$/"]
   },

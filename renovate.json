@@ -5,7 +5,6 @@
   },
   "extends": ["config:recommended"],
   // "automergeSchedule": ["* 1-7 * * *"],
-  "ignoreTests": true,
   "automergeType": "branch",
   "automerge": true,
   "prConcurrentLimit": 0,

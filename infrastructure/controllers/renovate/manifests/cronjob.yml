@@ -9,6 +9,7 @@ spec:
   successfulJobsHistoryLimit: 24
   jobTemplate:
     spec:
+      backoffLimit: 3
       template:
         spec:
           containers:

@@ -3,9 +3,8 @@
   "flux": {
     "managerFilePatterns": ["/.+(?:helmrelease|repository)\\.yml/"]
   },
-  "extends": ["config:recommended"],
-  // "automergeSchedule": ["* 1-7 * * *"],
-  "automergeType": "branch",
+  "extends": ["config:best-practices", ":automergeMinor"],
+  "automergeSchedule": ["* 1-7 * * *"],
   "automerge": true,
   "ignoreTests": true,
   "prConcurrentLimit": 0,
@@ -17,28 +16,12 @@
     {
       "matchManagers": ["flux", "kubernetes"],
       "matchDepNames": ["fluxcd/flux2", "cert-manager", "metallb", "longhorn"],
-      "lockFileMaintenance": {
-        "automerge": true
-      },
-      "minor": {
-        "automergeType": "pr"
-      },
-      "patch": {
-        "automerge": true
-      },
-      "pin": {
-        "automerge": true
-      },
-      "separateMinorPatch": true
+      "automerge": false
     },
     {
       "matchManagers": ["flux"],
       "matchDatasources": ["docker"],
       "commitMessageTopic": "Helm release {{{depName}}}"
-    },
-    {
-      "matchUpdateTypes": ["major"],
-      "automergeType": "pr"
     }
   ]
 }

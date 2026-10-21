@@ -17,7 +17,7 @@ spec:
         kind: HelmRepository
         name: truecharts
       interval: 1h
-      version: 28.0.2
+      version: 28.0.5
   postRenderers:
     - kustomize:
         patches:

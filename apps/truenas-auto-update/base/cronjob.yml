@@ -12,6 +12,8 @@ spec:
           labels:
             app: truenas-auto-update
         spec:
+          nodeSelector:
+            kubernetes.io/arch: amd64
           securityContext:
             runAsNonRoot: true
             runAsUser: 1000

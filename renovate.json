@@ -5,7 +5,6 @@
   },
   "extends": ["config:best-practices", ":automergeMinor"],
   "automergeSchedule": ["* 1-7 * * *"],
-  "automerge": true,
   "ignoreTests": true,
   "prConcurrentLimit": 0,
   "prHourlyLimit": 5,
@@ -23,5 +22,8 @@
       "matchDatasources": ["docker"],
       "commitMessageTopic": "Helm release {{{depName}}}"
     }
-  ]
+  ],
+  "major": {
+    "assignees": ["gpenda"]
+  }
 }

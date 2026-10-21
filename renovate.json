@@ -5,7 +5,6 @@
   },
   "extends": ["config:best-practices", ":automergeMinor"],
   "automergeSchedule": ["* 1-7 * * *"],
-  "ignoreTests": true,
   "prConcurrentLimit": 0,
   "prHourlyLimit": 5,
   "kubernetes": {

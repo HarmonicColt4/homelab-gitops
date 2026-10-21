@@ -1,6 +1,9 @@
 name: Upgrade helm release
 on:
   pull_request:
+    types:
+      - opened
+      - edited
     paths:
       - "**/helmrelease.yml"
 jobs:

@@ -18,7 +18,7 @@ spec:
         name: truecharts
         namespace: flux-system
       interval: 1h
-      version: 14.0.0
+      version: 14.0.3
   postRenderers:
     - kustomize:
         patches:

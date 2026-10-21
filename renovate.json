@@ -4,7 +4,6 @@
     "managerFilePatterns": ["/.+(?:helmrelease|repository)\\.yml/"]
   },
   "extends": ["config:best-practices", ":automergeMinor"],
-  "automergeSchedule": ["* 1-7 * * *"],
   "prConcurrentLimit": 0,
   "prHourlyLimit": 5,
   "kubernetes": {

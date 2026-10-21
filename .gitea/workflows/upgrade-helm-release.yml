@@ -1,0 +1,13 @@
+name: Upgrade helm release
+on:
+  pull_request:
+    paths:
+      - "**/helmrelease.yml"
+jobs:
+  upgrade-helm-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Extract renovate dependency and version
+        uses: ./.gitea/actions/extract-renovate
+        id: renovate

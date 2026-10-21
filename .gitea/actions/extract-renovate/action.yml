@@ -18,7 +18,7 @@ runs:
       id: extract
       shell: bash
       env:
-        PR_TITLE: ${{ gitea.event.pull_request.title }}
+        PR_TITLE: ${{ github.event.pull_request.title }}
       run: |
         echo "PR title: ${PR_TITLE}"
 
@@ -51,7 +51,7 @@ runs:
           exit 1
         fi
 
-        echo "dependency=${dependency}" >> "${GITEA_OUTPUT}"
-        echo "version=${version}" >> "${GITEA_OUTPUT}"
+        echo "dependency=${dependency}" >> "${GITHUB_OUTPUT}"
+        echo "version=${version}" >> "${GITHUB_OUTPUT}"
         echo "Extracted dependency: ${dependency}"
         echo "Extracted version: ${version}"

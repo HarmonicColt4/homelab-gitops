@@ -3,7 +3,7 @@
   "flux": {
     "managerFilePatterns": ["/.+(?:helmrelease|repository)\\.yml/"]
   },
-  "extends": ["config:best-practices", ":automergeMinor"],
+  "extends": ["config:recommended", ":automergeMinor"],
   "prConcurrentLimit": 0,
   "prHourlyLimit": 5,
   "kubernetes": {

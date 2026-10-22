@@ -19,7 +19,8 @@
     {
       "matchManagers": ["flux"],
       "matchDatasources": ["docker"],
-      "commitMessageTopic": "Helm release {{{depName}}}"
+      "commitMessageTopic": "Helm release {{{depName}}}",
+      "ignoreTests": true
     }
   ],
   "major": {

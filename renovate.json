@@ -10,6 +10,7 @@
     "managerFilePatterns": ["/cronjob\\.yml/", "/deploy\\.yml$/"]
   },
   "rebaseWhen": "conflicted",
+  "ignoreTests": true,
   "packageRules": [
     {
       "matchManagers": ["flux", "kubernetes"],
@@ -20,6 +21,11 @@
       "matchManagers": ["flux"],
       "matchDatasources": ["docker"],
       "commitMessageTopic": "Helm release {{{depName}}}"
+    },
+    {
+      "matchManagers": ["flux"],
+      "matchFileNames": ["**/helmrelease.yml"],
+      "ignoreTests": false
     }
   ],
   "major": {

@@ -12,6 +12,8 @@ spec:
       backoffLimit: 3
       template:
         spec:
+          nodeSelector:
+            kubernetes.io/arch: amd64
           containers:
             - name: renovate
               image: renovate/renovate:44.173.0

@@ -10,6 +10,14 @@ spec:
   releaseName: radarr
   driftDetection:
     mode: enabled
+  upgrade:
+    timeout: 5m
+    strategy:
+      name: RemediateOnFailure
+    remediation:
+      retries: 2
+      strategy: rollback
+  maxHistory: 3
   chart:
     spec:
       chart: radarr

@@ -9,6 +9,7 @@
   "kubernetes": {
     "managerFilePatterns": ["/cronjob\\.yml/", "/deploy\\.yml$/"]
   },
+  "rebaseWhen": "conflicted",
   "packageRules": [
     {
       "matchManagers": ["flux", "kubernetes"],

@@ -10,6 +10,7 @@
     "managerFilePatterns": ["/cronjob\\.yml/", "/deploy\\.yml$/"]
   },
   "rebaseWhen": "conflicted",
+  "ignoreTests": true,
   "packageRules": [
     {
       "matchManagers": ["flux", "kubernetes"],

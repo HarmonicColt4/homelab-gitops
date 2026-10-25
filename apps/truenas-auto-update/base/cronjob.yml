@@ -24,7 +24,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: truenas-auto-update
-              image: ghcr.io/marvinvr/truenas-auto-update:2.2.0
+              image: ghcr.io/marvinvr/truenas-auto-update:2.2.1
               securityContext:
                 allowPrivilegeEscalation: false
                 capabilities:

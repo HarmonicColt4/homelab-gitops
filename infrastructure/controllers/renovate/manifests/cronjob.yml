@@ -4,7 +4,7 @@ kind: CronJob
 metadata:
   name: renovate
 spec:
-  schedule: "*/30 * * * *"
+  schedule: "*/10 * * * *"
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 24
   suspend: false

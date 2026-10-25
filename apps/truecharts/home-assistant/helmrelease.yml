@@ -25,7 +25,7 @@ spec:
         kind: HelmRepository
         name: truecharts
       interval: 1h
-      version: 32.0.7
+      version: 32.0.8
   valuesFrom:
     - kind: ConfigMap
       name: global-values

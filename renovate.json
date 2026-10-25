@@ -20,9 +20,7 @@
     {
       "matchManagers": ["flux"],
       "matchDatasources": ["docker"],
-      "commitMessageTopic": "Helm release {{{depName}}}",
-      "ignoreTests": true,
-      "automergeType": "branch"
+      "commitMessageTopic": "Helm release {{{depName}}}"
     }
   ],
   "major": {

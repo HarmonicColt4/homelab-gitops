@@ -21,6 +21,10 @@
       "matchManagers": ["flux"],
       "matchDatasources": ["docker"],
       "commitMessageTopic": "Helm release {{{depName}}}"
+    },
+    {
+      "matchPackageNames": ["renovate/renovate"],
+      "automergeType": "branch"
     }
   ],
   "major": {

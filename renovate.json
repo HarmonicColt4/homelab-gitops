@@ -1,15 +1,21 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
-  "separateMinorPatch": true,
-  "separateMultipleMinor": true,
-  "separateMultipleMajor": true,
-  "automerge": true,
+  "flux": {
+    "managerFilePatterns": ["/.+(?:helmrelease|repository)\\.yml/"]
+  },
+  "extends": ["config:recommended", ":automergeMinor"],
+  "prConcurrentLimit": 0,
+  "prHourlyLimit": 5,
+  "kubernetes": {
+    "managerFilePatterns": ["/cronjob\\.yml/", "/deploy\\.yml$/"]
+  },
+  "rebaseWhen": "conflicted",
+  "ignoreTests": true,
   "customManagers": [
     {
       "customType": "regex",
       "description": "Update Talos Linux image versions from GitHub releases",
-      "managerFilePatterns": ["/^clusters/[^/]+/patches/.*\\.ya?ml$/"],
+      "managerFilePatterns": ["/^talos\\/clusters\\/[^/]+\\/patches\\/.*\\.ya?ml$/"],
       "matchStrings": [
         "image:\\s*(?:factory\\.talos\\.dev|ghcr\\.io/siderolabs)/[^\\s:]+:(?<currentValue>v\\d+\\.\\d+\\.\\d+[^\\s]*)"
       ],
@@ -40,6 +46,20 @@
   ],
   "packageRules": [
     {
+      "matchManagers": ["flux", "kubernetes"],
+      "matchDepNames": ["fluxcd/flux2", "cert-manager", "metallb", "longhorn"],
+      "automerge": false
+    },
+    {
+      "matchManagers": ["flux"],
+      "matchDatasources": ["docker"],
+      "commitMessageTopic": "Helm release {{{depName}}}"
+    },
+    {
+      "matchPackageNames": ["renovate/renovate"],
+      "automergeType": "branch"
+    },
+    {
       "matchManagers": ["custom.regex"],
       "matchPackageNames": ["siderolabs/talos"],
       "additionalBranchPrefix": "{{packageFile}}-",
@@ -47,7 +67,14 @@
       "prHourlyLimit": 1,
       "prCreation": "not-pending",
       "internalChecksFilter": "strict",
-      "minimumReleaseAge": "14 days"
+      "minimumReleaseAge": "14 days",
+      "automerge": true,
+      "separateMinorPatch": true,
+      "separateMultipleMinor": true,
+      "separateMultipleMajor": true
     }
-  ]
+  ],
+  "major": {
+    "assignees": ["gpenda"]
+  }
 }

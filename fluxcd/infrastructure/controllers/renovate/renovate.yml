@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h
-  path: ./infrastructure/controllers/renovate/manifests
+  path: ./fluxcd/infrastructure/controllers/renovate/manifests
   prune: true
   sourceRef:
     kind: GitRepository

@@ -10,7 +10,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/controllers
+  path: ./fluxcd/infrastructure/controllers
   prune: true
   wait: true
   decryption:
@@ -31,7 +31,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/monitoring
+  path: ./fluxcd/infrastructure/monitoring
   prune: true
   wait: true
   decryption:
@@ -52,7 +52,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/configs
+  path: ./fluxcd/infrastructure/configs
   prune: true
   wait: true
   decryption:
@@ -73,7 +73,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/iam
+  path: ./fluxcd/infrastructure/iam
   prune: true
   wait: true
   decryption:

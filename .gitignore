@@ -6,3 +6,5 @@
 !**/secrets/*enc.env
 !**/secrets/kustomization.yml
 .kilo/plans/
+**/secrets.yml
+**/configs

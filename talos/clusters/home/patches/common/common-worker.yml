@@ -1,0 +1,10 @@
+---
+machine:
+  kubelet:
+    extraArgs:
+      rotate-server-certificates: true
+    extraConfig:
+      imageGCHighThresholdPercent: 40
+      imageGCLowThresholdPercent: 10
+  nodeLabels:
+    node.longhorn.io/create-default-disk: "true"

@@ -1,0 +1,44 @@
+---
+machine:
+  install:
+    disk: /dev/nvme0n1
+    image: ghcr.io/yama6a/talos-raspberry-pi5:v1.14.2@sha256:025d532057f7cdcecad728df7cd786cee544079c00ae2046dcb76f7b177e94e2
+  kubelet:
+    extraMounts:
+      - destination: /var/mnt/longhorn
+        type: bind
+        source: /var/mnt/longhorn
+        options:
+          - bind
+          - rshared
+          - rw
+  nodeLabels:
+    node.longhorn.io/create-default-disk: config
+    criticality: high
+  nodeAnnotations:
+    node.longhorn.io/default-disks-config: '[
+      {
+      "path":"/var/mnt/longhorn",
+      "allowScheduling":true
+      }
+      ]'
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: end0.25
+vlanID: 25
+parent: end0
+---
+apiVersion: v1alpha1
+kind: DHCPv4Config
+name: end0.25
+---
+apiVersion: v1alpha1
+kind: Layer2VIPConfig
+name: 10.25.25.99
+link: end0.25
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+hostname: rpi5
+auto: off

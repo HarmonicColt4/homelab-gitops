@@ -1,0 +1,38 @@
+---
+TZ: Pacific/Auckland
+global:
+  fallbackDefaults:
+    pvcSize: 1Gi
+    vctSize: 1Gi
+    storageClass: longhorn
+    probeTimeouts:
+      liveness:
+        initialDelaySeconds: 0
+        periodSeconds: 5
+        timeoutSeconds: 5
+        failureThreshold: 12
+        successThreshold: 1
+      readiness:
+        initialDelaySeconds: 0
+        periodSeconds: 5
+        timeoutSeconds: 5
+        failureThreshold: 8
+        successThreshold: 2
+      startup:
+        initialDelaySeconds: 5
+        periodSeconds: 5
+        timeoutSeconds: 5
+        failureThreshold: 60
+        successThreshold: 1
+
+podOptions:
+  defaultAffinity: false
+  nodeSelector:
+    kubernetes.io/arch: null
+    kubernetes.io/os: linux
+
+resources:
+  requests:
+    cpu: 10m
+  limits:
+    cpu: 1000m

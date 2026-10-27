@@ -1,0 +1,85 @@
+---
+fullnameOverride: kps
+
+defaultRules:
+  create: true
+
+alertmanager:
+  enabled: true
+  alertmanagerSpec:
+    alertmanagerConfigMatcherStrategy:
+      type: None
+    alertmanagerConfigSelector:
+      matchLabels:
+        monitoring: discord
+
+crds:
+  upgradeJob:
+    enabled: true
+
+grafana:
+  enabled: true
+  persistence:
+    enabled: true
+  grafana.ini:
+    auth:
+      oauth_allow_insecure_email_lookup: true
+    server:
+      domain: grafana.teamg.app
+      root_url: https://grafana.teamg.app
+  admin:
+    existingSecret: grafana-admin-user
+    userKey: admin-user
+    passwordKey: admin-password
+  deploymentStrategy:
+    type: Recreate
+kubernetesServiceMonitors:
+  enabled: true
+
+kubeApiServer:
+  enabled: true
+
+kubelet:
+  enabled: true
+
+kubeControllerManager:
+  enabled: false
+
+coreDns:
+  enabled: true
+
+kubeEtcd:
+  enabled: true
+
+kubeScheduler:
+  enabled: false
+
+kubeProxy:
+  enabled: false
+
+kubeStateMetrics:
+  enabled: true
+
+nodeExporter:
+  enabled: true
+  operatingSystems:
+    linux:
+      enabled: true
+    aix:
+      enabled: false
+    darwin:
+      enabled: false
+
+prometheusOperator:
+  enabled: true
+
+prometheus:
+  prometheusSpec:
+    externalUrl: https://prometheus.teamg.app
+    retention: 15d
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          resources:
+            requests:
+              storage: 20Gi

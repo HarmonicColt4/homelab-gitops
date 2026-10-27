@@ -1,0 +1,6 @@
+persistence:
+  audiobooks:
+    type: nfs
+    path: /mnt/media/books/audio
+    server: truenas.home.arpa
+    mountPath: /audio

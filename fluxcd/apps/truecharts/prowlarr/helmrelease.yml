@@ -1,0 +1,38 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: prowlarr
+  namespace: flux-system
+spec:
+  timeout: 10m
+  releaseName: prowlarr
+  interval: 1h
+  driftDetection:
+    mode: enabled
+  upgrade:
+    timeout: 5m
+    strategy:
+      name: RemediateOnFailure
+    remediation:
+      retries: 2
+      strategy: rollback
+  maxHistory: 3
+  chart:
+    spec:
+      chart: prowlarr
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+      interval: 1h
+      version: 23.0.7
+  valuesFrom:
+    - kind: ConfigMap
+      name: global-values
+  values:
+    metrics:
+      main:
+        enabled: false
+    configmap:
+      dashboard:
+        enabled: false

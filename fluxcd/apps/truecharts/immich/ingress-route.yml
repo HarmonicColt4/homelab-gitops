@@ -1,0 +1,14 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: immich
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`immich.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: immich
+          port: 10323

@@ -1,0 +1,61 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: flux-system
+spec:
+  timeout: 10m
+  targetNamespace: traefik
+  releaseName: traefik
+  interval: 1h
+  chart:
+    spec:
+      chart: traefik
+      version: 42.1.3
+      sourceRef:
+        kind: HelmRepository
+        name: traefik
+      interval: 1h
+  upgrade:
+    crds: CreateReplace
+  values:
+    deployment:
+      kind: DaemonSet
+    service:
+      spec:
+        externalTrafficPolicy: Local
+      annotations:
+        metallb.io/loadBalancerIPs: 10.25.25.11
+    ports:
+      web:
+        forwardedHeaders:
+          insecure: true
+        http:
+          redirections:
+            entryPoint:
+              to: websecure
+              scheme: https
+      websecure:
+        forwardedHeaders:
+          insecure: true
+        transport:
+          respondingTimeouts:
+            readTimeout: 1800s
+            idleTimeout: 1800s
+            writeTimeout: 1800s
+    ingressRoute:
+      dashboard:
+        matchRule: Host(`traefik.teamg.app`)
+        enabled: true
+        entryPoints:
+          - websecure
+    global:
+      checkNewVersion: true
+      sendAnonymousUsage: false
+    additionalArguments:
+      - "--serverstransport.insecureskipverify=true"
+    providers:
+      kubernetesCRD:
+        allowExternalNameServices: true
+        allowCrossNamespace: true

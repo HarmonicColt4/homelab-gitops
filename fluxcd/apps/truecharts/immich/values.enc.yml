@@ -1,0 +1,101 @@
+---
+persistence:
+  library:
+    type: nfs
+    path: /mnt/media/immich/library
+    server: truenas.home.arpa
+  uploads:
+    type: nfs
+    path: /mnt/media/immich/upload
+    server: truenas.home.arpa
+  backups:
+    type: nfs
+    path: /mnt/media/immich/backups
+    server: truenas.home.arpa
+  thumbs:
+    type: nfs
+    path: /mnt/media/immich/thumbs
+    server: truenas.home.arpa
+  profile:
+    type: nfs
+    path: /mnt/media/immich/profile
+    server: truenas.home.arpa
+  video:
+    type: nfs
+    path: /mnt/media/immich/encoded-video
+    server: truenas.home.arpa
+  archive:
+    enabled: true
+    type: nfs
+    path: /mnt/media/archive
+    server: truenas.home.arpa
+    mountPath: /archive
+    readOnly: true
+    targetSelector:
+      main:
+        main: {}
+      microservices:
+        microservices: {}
+global:
+  fallbackDefaults:
+    vctSize: 10Gi
+credentials:
+  garage:
+    type: s3
+    url: http://truenas.home.arpa:30188
+    bucket: immich
+cnpg:
+  main:
+    type: vectorchord
+    mode: recovery
+    password: ENC[AES256_GCM,data:ZICh5ocQHKrRuV/u1xxLTh/dfEFRmyABq4BweQt1G4ygmR76C/ct7XFYkGLQ68HdJPMZAySyz0JFRUaoc3WfKg==,iv:UKNg29+loDbhRLnxx0jQ2mICJSAFBc98wvnryESRXCU=,tag:B7Kr9s9iFM9tKKhCPwyDUw==,type:str]
+    backups:
+      enabled: true
+      credentials: garage
+      destinationPath: s3://immich
+      revision: "5"
+    recovery:
+      revision: "4"
+      credentials: garage
+      destinationPath: s3://immich
+immich:
+  mlImageType: mlOpenvinoImage
+workload:
+  main:
+    replicas: 1
+  machinelearning:
+    replicas: 1
+    podSpec:
+      containers:
+        machinelearning:
+          resources:
+            limits:
+              cpu: "2"
+              memory: 8Gi
+              gpu.intel.com/i915: 1
+  microservices:
+    replicas: 1
+    podSpec:
+      containers:
+        microservices:
+          resources:
+            limits:
+              cpu: "2"
+              memory: 8Gi
+              gpu.intel.com/i915: 1
+sops:
+  age:
+    - recipient: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBBTDlyNWZ0SWgxSjYxVkJq
+        T0pPQVhKOVlXUW5sMkZVVHJ5TlJjWEExVEFjCjkzU2ZjT1pwYkRMS2xHWmp1MWl6
+        em1IRzdKUjIwaVBlQWZYQlpySTZxa1EKLS0tIEg0VUJibjFieXdBZXFZdHRqeVp3
+        aUZEOXBlVUhZL0QwY0ttRHNZOE5lZmsKRaK+WQ622cxYSvbypdv7WNkWrAwTzvih
+        KScLvpSvMgRps6C+NTWdGbmbUNHS3dspXOwicnqbc7Rv/Z4Kr3RM8Q==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2026-01-04T22:28:04Z"
+  mac: ENC[AES256_GCM,data:821l66oIvsTqbr9R1ilhCVobfFmDXhzE4GGa9j/QG8P7YgyQmHY+JKwwfTvO8n/gXsuAJsZutrf2lS7y8mQ9hAaJreYPCFlaogoA8ltKlS36jKrsE4sKqQHAS9s0wKkLDETUm31HsvVcMBfkb2Nbi1xAL9y/3T1ckSaxuLurRSM=,iv:ZPbqPKhviIrV1vhL58DHWF8SNzTewwfYa0H4pl7rCfQ=,tag:Y/zypEVWyt9rkD6bXT89+Q==,type:str]
+  encrypted_regex: ^(password)$
+  mac_only_encrypted: true
+  version: 3.11.0

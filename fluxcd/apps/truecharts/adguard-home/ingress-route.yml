@@ -1,0 +1,14 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: adguard-home
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`adh.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: adguard-home
+          port: 10232

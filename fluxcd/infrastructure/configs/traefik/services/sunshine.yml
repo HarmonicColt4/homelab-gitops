@@ -1,0 +1,8 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sunshine
+spec:
+  externalName: gaming-pc.home.arpa
+  type: ExternalName

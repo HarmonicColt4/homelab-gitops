@@ -1,0 +1,6 @@
+---
+resources:
+  - cluster-issuers.yml
+  - cf-api-token.enc.yml
+
+namespace: cert-manager

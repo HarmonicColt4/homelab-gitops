@@ -1,0 +1,15 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: unifi-os-server-webui
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`unifi-os.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: unifi-os-server-webui-svc
+          port: 443
+          scheme: https

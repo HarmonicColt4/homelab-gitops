@@ -1,0 +1,11 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - garage.yml
+  - gitea.yml
+  - jellyfin.yml
+  - opencloud.yml
+  - sunshine.yml
+  - truenas.yml
+  - qbit.yml

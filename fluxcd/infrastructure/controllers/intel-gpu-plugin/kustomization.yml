@@ -1,0 +1,22 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespace.yml
+  - repository.yml
+  - node-feature-rules.yml
+  - gpu-plugin-daemonset.yml
+
+transformers:
+  - |
+    apiVersion: builtin
+    kind: NamespaceTransformer
+    metadata:
+      name: not-important-to-example
+      namespace: intel-gpu-plugin
+    setRoleBindingSubjects: none
+    unsetOnly: true
+    fieldSpecs:
+      - kind: Kustomization
+        path: spec/targetNamespace
+        create: true

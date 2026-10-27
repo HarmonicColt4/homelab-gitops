@@ -1,0 +1,45 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: longhorn
+  namespace: flux-system
+spec:
+  timeout: 10m
+  releaseName: longhorn
+  targetNamespace: longhorn-system
+  interval: 1h
+  chart:
+    spec:
+      chart: longhorn
+      version: 1.13.0
+      sourceRef:
+        kind: HelmRepository
+        name: longhorn
+      interval: 1h
+  driftDetection:
+    mode: enabled
+  values:
+    persistence:
+      defaultDataLocality: best-effort
+      defaultClassReplicaCount: 1
+      recurringJobSelector:
+        enable: true
+        jobList:
+          - '{ "name": "default", "isGroup": true }'
+      reclaimPolicy: "Retain"
+    defaultSettings:
+      createDefaultDiskLabeledNodes: true
+      concurrentAutomaticEngineUpgradePerNodeLimit: "3"
+      removeSnapshotsDuringFilesystemTrim: true
+      replicaAutoBalance: best-effort
+    csi:
+      attacherReplicaCount: 1
+      provisionerReplicaCount: 1
+      resizerReplicaCount: 1
+      snapshotterReplicaCount: 1
+    longhornUI:
+      replicas: 1
+    defaultBackupStore:
+      backupTarget: s3://longhorn@garage/
+      backupTargetCredentialSecret: garage

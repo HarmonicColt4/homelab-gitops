@@ -1,0 +1,69 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: pocket-id
+  name: pocket-id
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pocket-id
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: pocket-id
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              preference:
+                matchExpressions:
+                  - key: criticality
+                    operator: In
+                    values:
+                      - high
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: pocket-id-data
+      containers:
+        - image: ghcr.io/pocket-id/pocket-id:v2.19.1-distroless
+          name: pocket-id
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+          ports:
+            - containerPort: 1411
+          resources:
+            requests:
+              cpu: 10m
+              memory: 100M
+            limits:
+              cpu: 1000m
+              memory: 100M
+          envFrom:
+            - secretRef:
+                name: env
+          livenessProbe:
+            exec:
+              command:
+                - /app/pocket-id
+                - healthcheck
+            periodSeconds: 90
+            failureThreshold: 6
+            initialDelaySeconds: 20
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault

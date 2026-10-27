@@ -1,0 +1,57 @@
+name: Extract renovate dependency and version
+description: >-
+  Parse a Renovate pull request title into its dependency name and target
+  version.
+
+outputs:
+  dependency:
+    description: The dependency name extracted from the title.
+    value: ${{ steps.extract.outputs.dependency }}
+  version:
+    description: The version extracted from the title.
+    value: ${{ steps.extract.outputs.version }}
+
+runs:
+  using: composite
+  steps:
+    - name: Extract renovate dependency and version
+      id: extract
+      shell: bash
+      env:
+        PR_TITLE: ${{ github.event.pull_request.title }}
+      run: |
+        echo "PR title: ${PR_TITLE}"
+
+        # Renovate PR titles look like:
+        #   chore(deps): update helm release <dependency> to <version>
+        #   chore(deps): update dependency <dependency> to <version>
+        #   chore(deps): update <dependency> docker tag to <version>
+        #   Update <dependency> to <version>
+        #
+        # Normalise the title, then split on the first " to " into
+        # "<dependency>\t<version>".
+        parsed="$(printf '%s\n' "${PR_TITLE}" | sed -E '
+          s/^[^:]*: //
+          s/^update //I
+          s/^(helm release|dependency) //I
+          s/ (docker tag|helm chart) to / to /I
+          s/ to /\t/I
+        ')"
+
+        if [[ "${parsed}" != *$'\t'* ]]; then
+          echo "::error::Could not parse Renovate PR title: ${PR_TITLE}"
+          exit 1
+        fi
+
+        dependency="${parsed%%$'\t'*}"
+        version="${parsed#*$'\t'}"
+
+        if [[ -z "${dependency}" || -z "${version}" ]]; then
+          echo "::error::Could not parse Renovate PR title: ${PR_TITLE}"
+          exit 1
+        fi
+
+        echo "dependency=${dependency}" >> "${GITHUB_OUTPUT}"
+        echo "version=${version}" >> "${GITHUB_OUTPUT}"
+        echo "Extracted dependency: ${dependency}"
+        echo "Extracted version: ${version}"

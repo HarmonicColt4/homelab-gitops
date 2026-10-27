@@ -1,0 +1,164 @@
+---
+workload:
+  main:
+    podSpec:
+      containers:
+        main:
+          env:
+            HOMEPAGE_ALLOWED_HOSTS: teamg.app
+            LOG_TARGETS: stdout
+      initContainers:
+        init-config:
+          enabled: false
+
+forceConfigFromValues: true          
+
+configmap:
+  config:
+    enabled: true
+    data:
+      kubernetes.yaml: |
+        ---
+        # For configuration options and examples, please see:
+        # https://gethomepage.dev/configs/kubernetes/
+
+        mode: cluster
+      settings.yaml: |
+        ---
+        # For configuration options and examples, please see:
+        # https://gethomepage.dev/configs/
+
+        layout:
+          Documents:
+          Media:
+          Torrents:
+          Arr:
+            style: row
+            columns: 3
+          Infra:
+            style: row
+            columns: 3
+      widgets.yaml: |
+        ---
+        # For configuration options and examples, please see:
+        # https://gethomepage.dev/widgets/
+
+        - search:
+            provider: duckduckgo
+            target: _blank
+
+      services.yaml: |
+        ---
+        # For configuration options and examples, please see:
+        # https://gethomepage.dev/configs/services/
+
+        - Documents:
+            - Actual Budget:
+                href: https://budget.teamg.app/
+                icon: actual-budget
+            - Opencloud:
+                href: https://cloud.teamg.app/
+                icon: open-cloud-dark
+
+        - Arr:
+            - Sonarr:
+                href: https://sonarr.teamg.app/
+                icon: sonarr
+            - Radarr:
+                href: https://radarr.teamg.app/
+                icon: radarr
+            - Seerr:
+                href: https://seerr.teamg.app/
+                icon: seerr
+            - Profilarr:
+                href: https://profilarr.teamg.app/
+                icon: profilarr
+
+        - Media:
+            - Jellyfin:
+                href: https://jellyfin.teamg.app/
+                icon: jellyfin
+            - Immich:
+                href: https://immich.teamg.app/
+                icon: immich
+
+        - Torrents:
+            - qBittorrent:
+                href: https://qbit.teamg.app/
+                icon: qbittorrent
+            - Prowlarr:
+                href: https://prowlarr.teamg.app/
+                icon: prowlarr
+
+        - Infra:
+            - Truenas:
+                href: https://truenas.home.arpa/
+                icon: truenas
+            - Truenas Penda:
+                href: http://192.168.6.10/
+                icon: truenas
+            - Unifi Network:
+                href: https://unifi.teamg.app/
+                icon: unifi
+            - Gitea:
+                href: https://git.teamg.app/
+                icon: gitea
+            - Longhorn:
+                href: https://longhorn.teamg.app/
+                icon: longhorn
+            - Traefik:
+                href: https://traefik.teamg.app/
+                icon: traefik
+            - Adguard Home:
+                href: https://adh.teamg.app/
+                icon: adguard-home
+            - Pocket ID:
+                href: https://id.teamg.app/
+                icon: sh-pocket-id.svg
+            - Cloudflare:
+                href: https://dash.cloudflare.com/
+                icon: sh-cloudflare.svg
+            - Infisical:
+                href: https://app.infisical.com
+                icon: sh-infisical.svg
+      bookmarks.yaml: |
+        ---
+        # For configuration options and examples, please see:
+        # https://gethomepage.dev/configs/bookmarks/
+
+        - Developer:
+            - Github:
+                - abbr: GH
+                  href: https://github.com/
+
+        - Social:
+            - Reddit:
+                - abbr: RE
+                  href: https://reddit.com/
+
+        - Entertainment:
+            - YouTube:
+                - abbr: YT
+                  href: https://youtube.com/
+
+        - TrueCharts:
+            - TrueCharts:
+              - abbr: TC
+                icon: https://trueforge.org/svg/favicon.svg
+                href: https://truecharts.org
+                description: "TrueCharts Website"
+            - Github:
+              - abbr: GH
+                icon: https://github.com/fluidicon.png
+                href: https://github.com/truecharts
+                description: "TrueCharts GitHub"
+            - Open Collective:
+              - abbr: TC
+                icon: https://opencollective.com/favicon.ico
+                href: https://opencollective.com/truecharts
+                description: "TrueCharts Open Collective"
+            - Discord:
+              - abbr: DC
+                icon: https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://discord.com&size=32
+                href: https://trueforge.org/s/discord
+                description: "TrueCharts Discord"

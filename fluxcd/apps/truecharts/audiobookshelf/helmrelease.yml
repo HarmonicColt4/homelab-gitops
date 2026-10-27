@@ -1,0 +1,34 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: audiobookshelf
+  namespace: flux-system
+spec:
+  timeout: 10m
+  interval: 1h
+  releaseName: audiobookshelf
+  driftDetection:
+    mode: enabled
+  upgrade:
+    timeout: 5m
+    strategy:
+      name: RemediateOnFailure
+    remediation:
+      retries: 2
+      strategy: rollback
+  maxHistory: 3
+  chart:
+    spec:
+      chart: audiobookshelf
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 1h
+      version: 14.0.5
+  valuesFrom:
+    - kind: ConfigMap
+      name: global-values
+    - kind: ConfigMap
+      name: audiobookshelf-values

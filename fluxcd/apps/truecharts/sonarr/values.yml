@@ -1,0 +1,8 @@
+---
+persistence:
+  shows:
+    enabled: true
+    type: nfs
+    path: /mnt/media/shows
+    server: truenas.home.arpa
+    mountPath: /mnt/media/shows

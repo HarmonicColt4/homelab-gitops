@@ -1,0 +1,4 @@
+---
+resources:
+  - repository.yml
+  - multus-cni.yml

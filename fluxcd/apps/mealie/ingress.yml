@@ -1,0 +1,26 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mealie
+spec:
+  selector:
+    app: mealie
+  ports:
+    - protocol: TCP
+      port: 9000
+      targetPort: 9000
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: mealie
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`mealie.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: mealie
+          port: 9000

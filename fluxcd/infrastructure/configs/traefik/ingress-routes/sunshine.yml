@@ -1,0 +1,15 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: sunshine
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`sunshine.teamg.app`) && PathPrefix(`/`)
+      services:
+        - name: sunshine
+          port: 47990
+          scheme: https

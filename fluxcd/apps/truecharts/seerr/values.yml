@@ -1,0 +1,18 @@
+persistence:
+  config:
+    enabled: true
+    mountPath: /app/config
+credentials:
+  garage:
+    type: s3
+    url: http://truenas.home.arpa:30188
+    bucket: seerr
+cnpg:
+  main:
+    backups:
+      enabled: true
+      credentials: garage
+      destinationPath: s3://seerr
+    recovery:
+      credentials: garage
+      destinationPath: s3://seerr

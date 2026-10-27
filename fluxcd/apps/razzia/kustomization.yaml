@@ -1,0 +1,23 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: razzia
+
+resources:
+- ns.yml
+- svc.yml
+- deploy.yml
+- ingress-route.yml
+
+configMapGenerator:
+- name: quiz
+  files:
+  - quiz/gabrielle.json
+  - quiz/example.json
+  - quiz/ecb.json
+
+secretGenerator:
+- name: manager-password
+  files:
+  - game.json

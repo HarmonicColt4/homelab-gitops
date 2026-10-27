@@ -1,0 +1,14 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: multus-cni
+  namespace: flux-system
+spec:
+  interval: 1h
+  ref:
+    tag: v4.3.1
+  url: https://github.com/k8snetworkplumbingwg/multus-cni
+  ignore: |
+    /*
+    !/deployments/multus-daemonset-thick.yml

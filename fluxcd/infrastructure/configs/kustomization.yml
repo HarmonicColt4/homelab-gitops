@@ -1,0 +1,11 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - cert-manager
+  - longhorn
+  - traefik
+  - flux-webhook.yml
+  - flux-webhook-token.enc.yml
+  - metallb.yml

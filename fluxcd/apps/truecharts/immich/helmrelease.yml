@@ -1,0 +1,35 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: immich
+  namespace: flux-system
+spec:
+  timeout: 10m
+  releaseName: immich
+  interval: 1h
+  driftDetection:
+    mode: enabled
+  upgrade:
+    timeout: 5m
+    strategy:
+      name: RemediateOnFailure
+    remediation:
+      retries: 2
+      strategy: rollback
+  maxHistory: 3
+  chart:
+    spec:
+      chart: immich
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+      interval: 1h
+      version: 35.0.23
+  valuesFrom:
+    - kind: ConfigMap
+      name: global-values
+    - kind: Secret
+      name: cnpg-values
+    - kind: Secret
+      name: immich-values

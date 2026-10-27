@@ -1,0 +1,30 @@
+{
+  "subject": "Example Quiz",
+  "questions": [
+    {
+      "question": "What is the correct answer?",
+      "answers": ["No", "Yes", "No", "No"],
+      "solutions": [1],
+      "cooldown": 5,
+      "time": 15
+    },
+    {
+      "question": "Which of these are primary colors?",
+      "answers": ["Red", "Green", "Blue", "Yellow"],
+      "solutions": [0, 2, 3],
+      "cooldown": 5,
+      "time": 20
+    },
+    {
+      "question": "What is the correct answer with an image?",
+      "answers": ["No", "Yes", "No", "No"],
+      "media": {
+        "type": "image",
+        "url": "https://placehold.co/600x400.png"
+      },
+      "solutions": [1],
+      "cooldown": 5,
+      "time": 20
+    }
+  ]
+}

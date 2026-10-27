@@ -1,0 +1,23 @@
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: discord-alerts
+  labels:
+    monitoring: discord
+spec:
+  route:
+    receiver: discord
+    groupWait: 30s
+    repeatInterval: 4h
+    matchers:
+      - name: alertname
+        matchType: "!="
+        value: Watchdog
+
+  receivers:
+    - name: discord
+      discordConfigs:
+        - apiURL:
+            name: alertmanager-discord-webhook
+            key: webhook_url

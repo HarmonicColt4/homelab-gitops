@@ -1,0 +1,16 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - namespace.yml
+  - deploy.yml
+  - storage.yml
+  - ingress.yml
+
+namespace: pocket-id
+
+secretGenerator:
+  - name: env
+    envs:
+      - secrets/enc.env

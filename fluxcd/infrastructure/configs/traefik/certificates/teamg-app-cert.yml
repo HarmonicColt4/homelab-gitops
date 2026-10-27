@@ -1,0 +1,13 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: teamg-app-cert
+spec:
+  secretName: teamg-app-tls
+  dnsNames:
+    - "teamg.app"
+    - "*.teamg.app"
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer

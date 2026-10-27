@@ -1,0 +1,22 @@
+homeassistant:
+  trusted_proxies:
+    - 10.244.0.0/16
+credentials:
+  garage:
+    type: s3
+    url: http://truenas.home.arpa:30188
+    bucket: home-assistant
+cnpg:
+  main:
+    backups:
+      enabled: true
+      credentials: garage
+      destinationPath: s3://home-assistant
+    recovery:      
+      credentials: garage
+      destinationPath: s3://home-assistant
+workload:
+  main:
+    podSpec:
+      annotations:
+        k8s.v1.cni.cncf.io/networks: macvlan-conf-iot, macvlan-conf-home

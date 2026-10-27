@@ -1,0 +1,6 @@
+---
+nameReference:
+  - kind: Secret
+    fieldSpecs:
+      - path: spec/receivers/discordConfigs/apiURL/name
+        kind: AlertmanagerConfig

@@ -1,10 +1,8 @@
 # Talos Cluster Information
 
-Three talos control plane nodes with workers enabled:
+Single talos control plane node with workers enabled:
 
-- nuc11
-- talos-pve
-- talos-truenas
+- hedy
 
 **Endpoint**: `k8s.home.arpa`
 **Cluster Name**: `teamg`

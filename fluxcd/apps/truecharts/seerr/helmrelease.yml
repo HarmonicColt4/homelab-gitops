@@ -49,12 +49,3 @@ spec:
                       operator: Equal
                       value: rpi5
                       effect: NoSchedule
-                  nodeAffinity:
-                    preferredDuringSchedulingIgnoredDuringExecution:
-                      - weight: 100
-                        preference:
-                          matchExpressions:
-                            - key: kubernetes.io/hostname
-                              operator: In
-                              values:
-                                - rpi5

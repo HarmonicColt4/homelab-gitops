@@ -1,7 +1,7 @@
 module "talos_linux" {
-  source                  = "../../modules/talos"
-  talos_version           = var.talos_version
-  talos_system_extensions = var.talos_system_extensions
+  source               = "../../modules/talos"
+  talos_version        = var.talos_version
+  talos_schematic_file = "${path.root}/${var.talos_schematic_file}"
 }
 
 module "talos_linux_vm" {

@@ -3,9 +3,10 @@ variable "talos_version" {
   description = "Talos Linux version"
 }
 
-variable "talos_system_extensions" {
-  type        = list(string)
-  description = "Talos Linux system extensions"
+variable "talos_schematic_file" {
+  type        = string
+  description = "Path to the Talos Image Factory schematic (extensions) YAML file, relative to the cluster root"
+  default     = "../../../talos/clusters/home/extensions/nuc11.yml"
 }
 
 variable "disks" {

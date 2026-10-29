@@ -29,3 +29,10 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: global-values
+  values:
+    podOptions:
+      tolerations:
+        - key: dedicated
+          operator: Equal
+          value: rpi5
+          effect: NoSchedule

@@ -17,6 +17,11 @@ spec:
       labels:
         app: pocket-id
     spec:
+      tolerations:
+        - key: dedicated
+          operator: Equal
+          value: rpi5
+          effect: NoSchedule
       volumes:
         - name: data
           persistentVolumeClaim:

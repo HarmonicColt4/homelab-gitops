@@ -55,8 +55,8 @@ terraform apply
 
 ## Variables
 
-| Name                      | Description                                                             |
-| ------------------------- | ----------------------------------------------------------------------- |
-| `talos_version`           | Talos Linux version                                                     |
-| `talos_system_extensions` | Talos Linux system extensions                                           |
-| `disks`                   | Ordered disks; the first is the boot disk imported from the cloud image |
+| Name                   | Description                                                                                |
+| ---------------------- | ------------------------------------------------------------------------------------------ |
+| `talos_version`        | Talos Linux version                                                                        |
+| `talos_schematic_file` | Path to the Talos Image Factory schematic (extensions) YAML file, relative to cluster root |
+| `disks`                | Ordered disks; the first is the boot disk imported from the cloud image                    |

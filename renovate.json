@@ -30,6 +30,15 @@
       ],
       "datasourceTemplate": "docker",
       "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "description": "Track the Terraform version documented in the Terraform root module README (e.g. terraform/talos-clusters/home/README.md)",
+      "managerFilePatterns": ["/terraform/talos-clusters/.*/README\\.md$/"],
+      "matchStrings": ["Terraform `~> (?<currentValue>\\d+\\.\\d+\\.\\d+)`"],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "hashicorp/terraform",
+      "versioningTemplate": "hashicorp"
     }
   ],
   "rebaseWhen": "conflicted",
@@ -38,6 +47,13 @@
     {
       "description": "Terraform core and provider version bumps require manual review (no automerge)",
       "matchManagers": ["terraform"],
+      "automerge": false,
+      "assignees": ["gpenda"]
+    },
+    {
+      "description": "Group the Terraform core version update in version.tf with the version documented in README.md",
+      "matchDepNames": ["hashicorp/terraform"],
+      "groupName": "Terraform core",
       "automerge": false,
       "assignees": ["gpenda"]
     },

@@ -10,35 +10,30 @@ spec:
   selector:
     matchLabels:
       app: razzia
-  strategy: {}
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
         app: razzia
     spec:
       containers:
-      - image: ralex91/razzia:3.1.0
-        name: razzia
-        volumeMounts:
-        - name: quiz
-          mountPath: /app/config/quizz/example.json
-          subPath: example.json
-        - name: quiz
-          mountPath: /app/config/quizz/ecb.json
-          subPath: ecb.json
-        - name: quiz
-          mountPath: /app/config/quizz/gabrielle.json
-          subPath: gabrielle.json
-        - name: manager-password
-          mountPath: /app/config/game.json
-          subPath: game.json
-        ports:
-        - containerPort: 3000
-        resources: {}
+        - image: ralex91/razzia:4.0.2
+          name: razzia
+          envFrom:
+            - secretRef:
+                name: razzia-config
+          volumeMounts:
+            - name: config
+              mountPath: /app/config
+            - name: quiz
+              mountPath: /app/config/quizz
+          ports:
+            - containerPort: 3000
       volumes:
-      - name: quiz
-        configMap:
-          name: quiz
-      - name: manager-password
-        secret:
-          secretName: manager-password
+        - name: config
+          persistentVolumeClaim:
+            claimName: razzia-config
+        - name: quiz
+          configMap:
+            name: quiz

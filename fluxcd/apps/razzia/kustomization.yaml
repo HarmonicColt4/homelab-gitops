@@ -5,19 +5,20 @@ kind: Kustomization
 namespace: razzia
 
 resources:
-- ns.yml
-- svc.yml
-- deploy.yml
-- ingress-route.yml
+  - ns.yml
+  - svc.yml
+  - deploy.yml
+  - ingress-route.yml
+  - pvc.yml
 
 configMapGenerator:
-- name: quiz
-  files:
-  - quiz/gabrielle.json
-  - quiz/example.json
-  - quiz/ecb.json
+  - name: quiz
+    files:
+      - quiz/gabrielle.json
+      - quiz/example.json
+      - quiz/ecb.json
 
 secretGenerator:
-- name: manager-password
-  files:
-  - game.json
+  - name: razzia-config
+    envs:
+      - secrets/enc.env

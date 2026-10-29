@@ -33,3 +33,28 @@ spec:
       name: cnpg-values
     - kind: ConfigMap
       name: seerr-values
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              group: postgresql.cnpg.io
+              version: v1
+              kind: Cluster
+            patch: |-
+              - op: add
+                path: /spec/affinity
+                value:
+                  tolerations:
+                    - key: dedicated
+                      operator: Equal
+                      value: rpi5
+                      effect: NoSchedule
+                  nodeAffinity:
+                    preferredDuringSchedulingIgnoredDuringExecution:
+                      - weight: 100
+                        preference:
+                          matchExpressions:
+                            - key: kubernetes.io/hostname
+                              operator: In
+                              values:
+                                - rpi5

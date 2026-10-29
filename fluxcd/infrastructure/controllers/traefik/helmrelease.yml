@@ -59,3 +59,8 @@ spec:
       kubernetesCRD:
         allowExternalNameServices: true
         allowCrossNamespace: true
+    tolerations:
+      - key: dedicated
+        operator: Equal
+        value: rpi5
+        effect: NoSchedule

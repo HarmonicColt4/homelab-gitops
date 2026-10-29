@@ -43,3 +43,15 @@ spec:
     defaultBackupStore:
       backupTarget: s3://longhorn@garage/
       backupTargetCredentialSecret: garage
+    longhornManager:
+      tolerations:
+        - key: dedicated
+          operator: Equal
+          value: rpi5
+          effect: NoSchedule
+    longhornDriver:
+      tolerations:
+        - key: dedicated
+          operator: Equal
+          value: rpi5
+          effect: NoSchedule

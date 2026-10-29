@@ -1,0 +1,14 @@
+module "talos_linux" {
+  source = "../modules/talos"
+  talos_version = var.talos_version
+  talos_system_extensions = var.talos_system_extensions
+}
+
+module "talos_linux_vm" {
+  source = "../modules/proxmox/vm"
+  cloud_image_url = module.talos_linux.talos_disk_image_url
+  num_cpu_cores = 4
+  num_memory_mib = 16384
+  num_disk_size_gb = 100
+  datastore_id = var.datastore_id
+}

@@ -1,0 +1,17 @@
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+hostname: beast
+auto: off
+---
+apiVersion: v1alpha1
+kind: DHCPv4Config
+name: ens18
+---
+apiVersion: v1alpha1
+kind: UnattendedInstallConfig
+installer:
+  image: factory.talos.dev/metal-installer/29e27ffc20b46e05fccac0b226db69c2cc6987f0d5bca89ab49d02b286674646:v1.14.5
+provisioning:
+  diskSelector:
+    match: disk.dev_path == "/dev/sda"

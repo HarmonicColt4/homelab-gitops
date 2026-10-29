@@ -3,7 +3,7 @@ terraform {
 
   backend "s3" {
     bucket = "terraform"
-    key    = "talos-dev-cluster/terraform.state"
+    key    = "talos-clusters/home/terraform.state"
 
     profile = "garage"
     region  = "garage"

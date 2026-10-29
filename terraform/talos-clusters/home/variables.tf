@@ -8,12 +8,6 @@ variable "talos_system_extensions" {
   description = "Talos Linux system extensions"
 }
 
-variable "node_name" {
-  type        = string
-  default     = "pve"
-  description = "Proxmox VE node name"
-}
-
 variable "disks" {
   description = <<-EOT
     Ordered list of disks to attach to the VM. The first entry is the boot disk

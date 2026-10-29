@@ -36,6 +36,12 @@
   "ignoreTests": true,
   "packageRules": [
     {
+      "description": "Terraform core and provider version bumps require manual review (no automerge)",
+      "matchManagers": ["terraform"],
+      "automerge": false,
+      "assignees": ["gpenda"]
+    },
+    {
       "matchManagers": ["flux", "kubernetes"],
       "matchDepNames": ["fluxcd/flux2", "cert-manager", "metallb", "longhorn"],
       "automerge": false

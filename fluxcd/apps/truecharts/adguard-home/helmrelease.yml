@@ -27,24 +27,6 @@ spec:
         namespace: flux-system
       interval: 1h
       version: 14.0.4
-  postRenderers:
-    - kustomize:
-        patches:
-          - target:
-              kind: Deployment
-            patch: |
-              - op: add
-                path: /spec/template/spec/affinity
-                value:
-                  nodeAffinity:
-                    preferredDuringSchedulingIgnoredDuringExecution:
-                      - weight: 1
-                        preference:
-                          matchExpressions:
-                            - key: criticality
-                              operator: In
-                              values:
-                                - high
   valuesFrom:
     - kind: ConfigMap
       name: global-values

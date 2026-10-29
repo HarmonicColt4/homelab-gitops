@@ -17,16 +17,6 @@ spec:
       labels:
         app: pocket-id
     spec:
-      affinity:
-        nodeAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 1
-              preference:
-                matchExpressions:
-                  - key: criticality
-                    operator: In
-                    values:
-                      - high
       volumes:
         - name: data
           persistentVolumeClaim:

@@ -42,6 +42,11 @@ spec:
       snapshotterReplicaCount: 1
     longhornUI:
       replicas: 1
+      tolerations:
+        - key: dedicated
+          operator: Equal
+          value: rpi5
+          effect: NoSchedule
     defaultBackupStore:
       backupTarget: s3://longhorn@garage/
       backupTargetCredentialSecret: garage
@@ -52,6 +57,18 @@ spec:
           value: rpi5
           effect: NoSchedule
     longhornDriver:
+      tolerations:
+        - key: dedicated
+          operator: Equal
+          value: rpi5
+          effect: NoSchedule
+    longhornGlobalManager:
+      tolerations:
+        - key: dedicated
+          operator: Equal
+          value: rpi5
+          effect: NoSchedule
+    global:
       tolerations:
         - key: dedicated
           operator: Equal

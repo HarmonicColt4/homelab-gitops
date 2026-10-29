@@ -1,9 +1,9 @@
 # Talos Cluster Information
 
-Two control plane nodes with workers enabled:
+One control plane node and one worker node:
 
-- hedy
-- rpi5
+- `rpi5` — control plane
+- `hedy` — worker
 
 **Endpoint**: `k8s.home.arpa`
 **Cluster Name**: `teamg`
@@ -27,14 +27,31 @@ talosctl gen config --with-secrets secrets.yml $CLUSTER_NAME https://$ENDPOINT:6
 
 ## Control Plane
 
+The control plane patch set is [`patches/common/metrics.yml`](patches/common/metrics.yml) plus
+[`patches/common/allow-cp-worker.yml`](patches/common/allow-cp-worker.yml), then the per-node patch.
+
 ```
-talosctl machineconfig patch configs/controlplane.yaml --patch @patches/common-cp.yml --patch @patches/<node>.yml --output configs/<node>.yml
+talosctl machineconfig patch configs/controlplane.yaml --patch @patches/common/metrics.yml --patch @patches/common/allow-cp-worker.yml --patch @patches/<node>.yml --output configs/<node>.yml
 ```
+
+> **Warning:** [`patches/common/allow-cp-worker.yml`](patches/common/allow-cp-worker.yml) removes the
+> control-plane `NoSchedule` taint so the control plane can also run workloads. Apply it **only** to
+> control plane nodes (currently `rpi5`) — **never** to a worker node. A worker must not carry the
+> control-plane role.
 
 ## Worker
 
+The worker patch set is [`patches/common/metrics.yml`](patches/common/metrics.yml), then the per-node patch.
+It does **not** include `allow-cp-worker.yml`.
+
 ```
-talosctl machineconfig patch configs/worker.yaml --patch @patches/common-worker.yml --patch @patches/<node>.yml --output configs/<node>.yml
+talosctl machineconfig patch configs/worker.yaml --patch @patches/common/metrics.yml --patch @patches/<node>.yml --output configs/<node>.yml
+```
+
+For `hedy` specifically:
+
+```
+talosctl machineconfig patch configs/worker.yaml --patch @patches/common/metrics.yml --patch @patches/hedy.yml --output configs/hedy.yml
 ```
 
 ## Apply Configs
@@ -62,3 +79,84 @@ talosctl upgrade-k8s --to <version>
 > (`resource.k8s.io/v1`), which a v1.36 API server does not serve. Because the scheduler
 > reaches the API through the shared endpoint (KubePrism/VIP), it can land on the older
 > API server, the informer never syncs, and the scheduler stays unready (`/readyz` 500).
+
+## Migrating hedy from control plane to worker
+
+Current live state: `hedy` (amd64, `10.25.25.191`) and `rpi5` (arm64, `10.25.25.186`) are **both**
+control-plane nodes; etcd has 2 members (quorum 2) and `hedy` is the bootstrap node. The target state
+is a **single** control plane (`rpi5`) with `hedy` as a worker.
+
+The node role is not stored in any committed file — it is the `machine.type` field of the **generated**
+machine config, produced by patching either `configs/controlplane.yaml` or `configs/worker.yaml`.
+`configs/` is gitignored. The committed per-node patch [`patches/hedy.yml`](patches/hedy.yml) never
+encodes the role.
+
+Perform the steps below **in order**. Longhorn data loss is not acceptable, so replicas must be
+relocated to `rpi5` and verified healthy **before** `hedy` is reset.
+
+### a. Pre-flight
+
+- Confirm `rpi5` is healthy and holds (or can hold) all Longhorn replicas.
+- Take an etcd snapshot from `rpi5`:
+
+```
+talosctl -n 10.25.25.186 etcd snapshot /tmp/etcd.db
+```
+
+### b. Relocate Longhorn replicas off hedy onto rpi5
+
+Move every replica currently on `hedy` to `rpi5` — for example by cordoning/evicting `hedy` in the
+Longhorn UI or by raising the replica count so fresh replicas land on `rpi5`. Wait until every volume
+is healthy and its replicas reside on `rpi5`. **Do not continue until this is verified** — proceeding
+with replicas still only on `hedy` risks data loss.
+
+### c. Drain hedy
+
+```
+kubectl drain hedy --ignore-daemonsets --delete-emptydir-data
+```
+
+### d. Remove hedy from etcd
+
+```
+talosctl -n 10.25.25.186 etcd remove-member <hedy-member-id>
+```
+
+Alternatively, leave etcd from the `hedy` node itself:
+
+```
+talosctl -n 10.25.25.191 etcd leave
+```
+
+Then verify only `rpi5` remains:
+
+```
+talosctl -n 10.25.25.186 etcd members
+```
+
+### e. Reset hedy
+
+```
+talosctl -n 10.25.25.191 reset --graceful=false --reboot
+```
+
+### f. Generate and apply the worker config
+
+```
+talosctl machineconfig patch configs/worker.yaml --patch @patches/common/metrics.yml --patch @patches/hedy.yml --output configs/hedy.yml
+talosctl apply-config --insecure --nodes <hedy-ip> --file configs/hedy.yml
+```
+
+> **Note:** `allow-cp-worker.yml` is applied **only** to control plane nodes (`rpi5`), never to a worker.
+> Do not include it in the `hedy` worker config.
+
+### g. Verify
+
+- `kubectl get nodes` — `hedy` has role `<none>` and is `Ready`.
+- `hedy` carries no control-plane taint.
+- `talosctl -n 10.25.25.186 etcd members` — etcd has a single member (`rpi5`).
+- Workloads reschedule onto `hedy`, and Longhorn volumes are healthy.
+
+> **Risk:** After migration etcd has a single member (`rpi5`) with **zero fault tolerance**. Any
+> outage of `rpi5` takes the control plane down; plan to restore a second control-plane (or etcd)
+> member soon.

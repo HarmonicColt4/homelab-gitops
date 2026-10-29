@@ -18,3 +18,9 @@ spec:
         name: cnpg
       interval: 1h
       version: 0.29.1
+  values:
+    tolerations:
+      - key: dedicated
+        operator: Equal
+        value: rpi5
+        effect: NoSchedule

@@ -1,21 +1,7 @@
 ---
-machine:
-  install:
-    disk: /dev/nvme0n1
-    image: factory.talos.dev/metal-installer/7cb7436598099f6f08817f9364204e32993a687c5adad12f14b00b1532dfa29c:v1.14.2
-    wipe: true
-  kubelet:
-    extraArgs:
-      rotate-server-certificates: true
-    extraConfig:
-      imageGCHighThresholdPercent: 40
-      imageGCLowThresholdPercent: 10
-  nodeLabels:
-    node.longhorn.io/create-default-disk: "true"
----
 apiVersion: v1alpha1
 kind: HostnameConfig
-hostname: w-hedy
+hostname: hedy
 auto: off
 ---
 apiVersion: v1alpha1
@@ -49,3 +35,43 @@ parent: netl
 apiVersion: v1alpha1
 kind: DHCPv4Config
 name: netl.25
+---
+apiVersion: v1alpha1
+kind: UnattendedInstallConfig
+installer:
+  image: factory.talos.dev/metal-installer/7cb7436598099f6f08817f9364204e32993a687c5adad12f14b00b1532dfa29c:v1.14.2
+provisioning:
+  diskSelector:
+    match: disk.dev_path == "/dev/nvme0n1"
+---
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: EPHEMERAL
+provisioning:
+  diskSelector:
+    match: system_disk
+  minSize: 100GiB
+  maxSize: 100GiB
+  grow: false
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: longhorn
+provisioning:
+  diskSelector:
+    match: disk.transport == 'nvme'
+  grow: true
+  minSize: 1GiB
+---
+apiVersion: v1alpha1
+kind: KubeNodeConfig
+labels:
+  node.longhorn.io/create-default-disk: config
+annotations:
+  node.longhorn.io/default-disks-config: '[
+    {
+    "path": "/var/mnt/longhorn",
+    "allowScheduling": true,
+    "storageReserved": 0
+    }
+    ]'

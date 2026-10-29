@@ -15,3 +15,25 @@ installer:
 provisioning:
   diskSelector:
     match: disk.dev_path == "/dev/sda"
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: longhorn
+provisioning:
+  diskSelector:
+    match: disk.dev_path == "/dev/sdb"
+  grow: true
+  minSize: 100GiB
+---
+apiVersion: v1alpha1
+kind: KubeNodeConfig
+labels:
+  node.longhorn.io/create-default-disk: config
+annotations:
+  node.longhorn.io/default-disks-config: '[
+    {
+    "path": "/var/mnt/longhorn",
+    "allowScheduling": true,
+    "storageReserved": 0
+    }
+    ]'

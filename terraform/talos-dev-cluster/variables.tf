@@ -14,7 +14,13 @@ variable "node_name" {
   description = "Proxmox VE node name"
 }
 
-variable "datastore_id" {
-  type        = string
-  description = "Proxmox VE datastore name"
+variable "disks" {
+  description = <<-EOT
+    Ordered list of disks to attach to the VM. The first entry is the boot disk
+    imported from the Talos cloud image; additional entries are extra data disks.
+    Interfaces are assigned as `scsi<index>` (scsi0, scsi1, ...).
+  EOT
+  type = list(object({
+    size = number
+  }))
 }

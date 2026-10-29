@@ -6,7 +6,7 @@ terraform {
     key    = "talos-dev-cluster/terraform.state"
 
     profile = "garage"
-    region = "garage"
+    region  = "garage"
 
     use_path_style = true
 

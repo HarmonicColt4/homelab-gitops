@@ -24,16 +24,19 @@ resource "proxmox_virtual_environment_vm" "talos_linux_vm" {
   }
 
   efi_disk {
-    datastore_id = var.datastore_id
+    datastore_id = "local-zfs"
   }
 
-  disk {
-    datastore_id = var.datastore_id
-    import_from  = proxmox_download_file.talos_linux_cloud_image.id
-    interface    = "scsi0"
-    discard      = "on"
-    size         = var.num_disk_size_gb
-    ssd          = true
+  dynamic "disk" {
+    for_each = var.disks
+    content {
+      datastore_id = "local-zfs"
+      import_from  = disk.key == 0 ? proxmox_download_file.talos_linux_cloud_image.id : null
+      interface    = "scsi${disk.key}"
+      discard      = "on"
+      size         = disk.value.size
+      ssd          = true
+    }
   }
 
   # hostpci {

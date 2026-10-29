@@ -9,12 +9,43 @@
   "kubernetes": {
     "managerFilePatterns": ["/cronjob\\.yml/", "/deploy\\.yml$/"]
   },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Track the Talos Linux version in the Image Factory installer image (e.g. talos/clusters/home/patches/hedy.yml)",
+      "managerFilePatterns": ["/talos/clusters/.*/patches/.*\\.yml$/"],
+      "matchStrings": [
+        "image: factory\\.talos\\.dev/metal-installer/[^:]+:(?<currentValue>v?\\d+\\.\\d+\\.\\d+)"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "siderolabs/talos",
+      "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "description": "Track the Talos Linux version and digest of the Raspberry Pi 5 image (e.g. talos/clusters/home/patches/rpi5.yml)",
+      "managerFilePatterns": ["/talos/clusters/.*/patches/.*\\.yml$/"],
+      "matchStrings": [
+        "image: (?<depName>ghcr\\.io/yama6a/talos-raspberry-pi5):(?<currentValue>v?\\d+\\.\\d+\\.\\d+)@(?<currentDigest>sha256:[a-f0-9]+)"
+      ],
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "semver"
+    }
+  ],
   "rebaseWhen": "conflicted",
   "ignoreTests": true,
   "packageRules": [
     {
       "matchManagers": ["flux", "kubernetes"],
       "matchDepNames": ["fluxcd/flux2", "cert-manager", "metallb", "longhorn"],
+      "automerge": false
+    },
+    {
+      "description": "Talos Linux upgrades reboot nodes; require manual review",
+      "matchDepNames": [
+        "siderolabs/talos",
+        "ghcr.io/yama6a/talos-raspberry-pi5"
+      ],
       "automerge": false
     },
     {

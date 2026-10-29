@@ -15,7 +15,9 @@
     {
       "customType": "regex",
       "description": "Update Talos Linux image versions from GitHub releases",
-      "managerFilePatterns": ["/^talos\\/clusters\\/[^/]+\\/patches\\/.*\\.ya?ml$/"],
+      "managerFilePatterns": [
+        "/^talos\\/clusters\\/[^/]+\\/patches\\/.*\\.ya?ml$/"
+      ],
       "matchStrings": [
         "image:\\s*(?:factory\\.talos\\.dev|ghcr\\.io/siderolabs)/[^\\s:]+:(?<currentValue>v\\d+\\.\\d+\\.\\d+[^\\s]*)"
       ],
@@ -58,6 +60,16 @@
     {
       "matchPackageNames": ["renovate/renovate"],
       "automergeType": "branch"
+    },
+    {
+      "description": "Only update adguard-home, seerr and unifi between 2am and 6am",
+      "matchPackageNames": [
+        "adguard-home",
+        "seerr",
+        "ghcr.io/lemker/unifi-os-server"
+      ],
+      "timezone": "Pacific/Auckland",
+      "schedule": ["* 2-6 * * *"]
     },
     {
       "matchManagers": ["custom.regex"],

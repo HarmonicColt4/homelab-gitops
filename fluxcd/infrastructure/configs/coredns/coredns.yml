@@ -1,0 +1,38 @@
+---
+# Shell manifest for the Talos-managed CoreDNS Deployment.
+# Only the fields that need to be customized are declared here; the
+# `ssa: merge` annotation makes Flux perform a server-side apply merge
+# instead of replacing the whole object, and `prune: disabled` prevents
+# Flux from garbage-collecting the Deployment if this config is removed.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coredns
+  namespace: kube-system
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+    kustomize.toolkit.fluxcd.io/ssa: merge
+spec:
+  selector:
+    matchLabels:
+      k8s-app: kube-dns
+  template:
+    metadata:
+      labels:
+        k8s-app: kube-dns
+    spec:
+      # A containers entry is required for the merge patch to be accepted;
+      # only the name is declared so the existing container is preserved.
+      containers:
+        - name: coredns
+      tolerations:
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
+        - key: node.cloudprovider.kubernetes.io/uninitialized
+          operator: Exists
+          effect: NoSchedule
+        - key: dedicated
+          operator: Equal
+          value: rpi5
+          effect: NoSchedule

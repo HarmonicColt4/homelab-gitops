@@ -7,6 +7,6 @@
 !**/secrets/kustomization.yml
 .kilo/plans/
 **/secrets.yml
-**/configs
+talos/clusters/*/configs
 terraform/**/.terraform/
 plans/

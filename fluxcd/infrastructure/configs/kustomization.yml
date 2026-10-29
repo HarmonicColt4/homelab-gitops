@@ -4,6 +4,7 @@ kind: Kustomization
 
 resources:
   - cert-manager
+  - coredns
   - longhorn
   - traefik
   - flux-webhook.yml

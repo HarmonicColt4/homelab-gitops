@@ -92,17 +92,17 @@ spec:
             # (4 KV heads x 256 head_dim), so Q8_0 KV costs ~34 KiB/token.
             # 98304 tokens ~= 3.2 GiB, which fits the ~4 GiB left after the
             # 11.77 GB IQ3_S weights + compute buffers on the 16 GiB card.
-            - --ctx-size
-            - "98304"
+            # - --ctx-size
+            # - "98304"
             # Q8_0 KV cache is the near-lossless option (min accuracy loss).
             - --cache-type-k
-            - q8_0
+            - q4_0
             - --cache-type-v
-            - q8_0
+            - q4_0
             - --batch-size
-            - "2048"
+            - "1024"
             - --ubatch-size
-            - "512"
+            - "256"
             # Sampling defaults recommended by the model card.
             - --temp
             - "1.0"

@@ -71,7 +71,7 @@ spec:
               memory: 256Mi
       containers:
         - name: llama-server
-          image: ghcr.io/ggml-org/llama.cpp:server-cuda13
+          image: ghcr.io/ggml-org/llama.cpp:server-cuda13@sha256:07735071942842eb24ccc4b09db2721a2d124cdf3c591878a62c7561edd38bbe
           args:
             - --model
             - /models/Swift-1.5-Qwen3.8-27B-GSQ-RCO-IQ3_S.gguf

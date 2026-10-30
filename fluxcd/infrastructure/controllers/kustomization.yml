@@ -10,6 +10,7 @@ resources:
   - metallb
   - multus
   - node-feature-discovery
+  - nvidia-gpu-operator
   - renovate
   - traefik
   - vpa

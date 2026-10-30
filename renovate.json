@@ -35,7 +35,9 @@
       "customType": "regex",
       "description": "Track the Terraform version documented in the Terraform root module README (e.g. terraform/talos-clusters/home/README.md)",
       "managerFilePatterns": ["/terraform/talos-clusters/.*/README\\.md$/"],
-      "matchStrings": ["Terraform `~> (?<currentValue>\\d+\\.\\d+\\.\\d+)`"],
+      "matchStrings": [
+        "Terraform `(?:~> )?(?<currentValue>\\d+\\.\\d+\\.\\d+)`"
+      ],
       "datasourceTemplate": "github-releases",
       "depNameTemplate": "hashicorp/terraform",
       "versioningTemplate": "hashicorp"
@@ -45,8 +47,9 @@
   "ignoreTests": true,
   "packageRules": [
     {
-      "description": "Terraform core and provider version bumps require manual review (no automerge)",
+      "description": "Terraform core and provider minor/major bumps require manual review (no automerge); patches automerge",
       "matchManagers": ["terraform"],
+      "matchUpdateTypes": ["minor", "major"],
       "automerge": false,
       "assignees": ["gpenda"]
     },
@@ -54,7 +57,6 @@
       "description": "Group the Terraform core version update in version.tf with the version documented in README.md",
       "matchDepNames": ["hashicorp/terraform"],
       "groupName": "Terraform core",
-      "automerge": false,
       "assignees": ["gpenda"]
     },
     {

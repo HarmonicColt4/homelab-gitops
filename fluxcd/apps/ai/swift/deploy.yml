@@ -96,7 +96,7 @@ spec:
             # - "98304"
             # Q8_0 KV cache is the near-lossless option (min accuracy loss).
             - --cache-type-k
-            - q4_0
+            - q8_0
             - --cache-type-v
             - q4_0
             - --batch-size

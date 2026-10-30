@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`swift.home.arpa`) && PathPrefix(`/`)
+    - match: Host(`swift.teamg.app`) && PathPrefix(`/`)
       kind: Rule
       services:
         - name: swift

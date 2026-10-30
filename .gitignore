@@ -5,7 +5,6 @@
 !**/secrets/*.enc.yml
 !**/secrets/*enc.env
 !**/secrets/kustomization.yml
-.kilo/plans/
 **/secrets.yml
 talos/clusters/*/configs
 terraform/**/.terraform/

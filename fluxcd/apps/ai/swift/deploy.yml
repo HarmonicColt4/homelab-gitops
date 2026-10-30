@@ -1,0 +1,152 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swift
+  labels:
+    app: swift
+spec:
+  replicas: 1
+  # Single GPU + ReadWriteOnce PVC: never run two pods at once.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: swift
+  template:
+    metadata:
+      labels:
+        app: swift
+    spec:
+      # Pin to the node that owns the RTX 4080 (16 GiB).
+      nodeSelector:
+        nvidia.com/gpu.product: NVIDIA-GeForce-RTX-4080
+      terminationGracePeriodSeconds: 30
+      initContainers:
+        # Pull the IQ3_S (no MTP) GGUF once into the 50Gi Longhorn volume.
+        # Re-runs are no-ops because the file is kept on the PVC.
+        - name: download-model
+          image: curlimages/curl:8.11.1
+          command:
+            - sh
+            - -c
+            - |
+              set -eu
+              MODEL_DIR=/models
+              MODEL_FILE="$MODEL_DIR/Swift-1.5-Qwen3.8-27B-GSQ-RCO-IQ3_S.gguf"
+              URL="https://huggingface.co/ukisai/Swift-1.5-Qwen3.8-27B-GSQ-RCO-GGUF/resolve/main/Swift-1.5-Qwen3.8-27B-GSQ-RCO-IQ3_S.gguf"
+              mkdir -p "$MODEL_DIR"
+              if [ -f "$MODEL_FILE" ]; then
+                echo "Model already present at $MODEL_FILE, skipping download."
+                exit 0
+              fi
+              echo "Downloading IQ3_S (no MTP) from Hugging Face..."
+              curl -fL --retry 5 --retry-delay 5 --retry-all-errors -C - \
+                -H "Authorization: Bearer ${HF_TOKEN}" \
+                -o "${MODEL_FILE}.part" "$URL"
+              mv "${MODEL_FILE}.part" "$MODEL_FILE"
+              echo "Download complete: $(ls -lh "$MODEL_FILE")"
+          env:
+            - name: HF_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: swift-hf-token
+                  key: HF_TOKEN
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+          volumeMounts:
+            - name: models
+              mountPath: /models
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: "1"
+              memory: 256Mi
+      containers:
+        - name: llama-server
+          image: ghcr.io/ggml-org/llama.cpp:server-cuda13-b12004
+          args:
+            - --model
+            - /models/Swift-1.5-Qwen3.8-27B-GSQ-RCO-IQ3_S.gguf
+            - --alias
+            - swift
+            - --host
+            - 0.0.0.0
+            - --port
+            - "8080"
+            - --jinja
+            # Flash attention is required for quantized V cache.
+            - --flash-attn
+            - "on"
+            # Offload every layer to the GPU.
+            - --n-gpu-layers
+            - "99"
+            # 96K context. Only the 16 full-attention layers grow a KV cache
+            # (4 KV heads x 256 head_dim), so Q8_0 KV costs ~34 KiB/token.
+            # 98304 tokens ~= 3.2 GiB, which fits the ~4 GiB left after the
+            # 11.77 GB IQ3_S weights + compute buffers on the 16 GiB card.
+            - --ctx-size
+            - "98304"
+            # Q8_0 KV cache is the near-lossless option (min accuracy loss).
+            - --cache-type-k
+            - q8_0
+            - --cache-type-v
+            - q8_0
+            - --batch-size
+            - "2048"
+            - --ubatch-size
+            - "512"
+            # Sampling defaults recommended by the model card.
+            - --temp
+            - "1.0"
+            - --top-p
+            - "0.95"
+            - --top-k
+            - "20"
+            - --min-p
+            - "0.0"
+            - --presence-penalty
+            - "0.0"
+            - --repeat-penalty
+            - "1.0"
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 200m
+              memory: 2Gi
+            limits:
+              cpu: "8"
+              memory: 12Gi
+              nvidia.com/gpu: "1"
+          volumeMounts:
+            - name: models
+              mountPath: /models
+          # Model load can take a while on first start; allow up to 10 minutes.
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            periodSeconds: 10
+            failureThreshold: 60
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            periodSeconds: 30
+            failureThreshold: 5
+      volumes:
+        - name: models
+          persistentVolumeClaim:
+            claimName: swift-models

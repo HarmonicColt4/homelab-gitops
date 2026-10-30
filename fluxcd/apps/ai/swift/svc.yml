@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: swift
+  labels:
+    app: swift
+spec:
+  selector:
+    app: swift
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 8080

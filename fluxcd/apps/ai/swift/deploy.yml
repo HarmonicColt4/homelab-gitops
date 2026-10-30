@@ -26,7 +26,7 @@ spec:
         # Pull the IQ3_S (no MTP) GGUF once into the 50Gi Longhorn volume.
         # Re-runs are no-ops because the file is kept on the PVC.
         - name: download-model
-          image: curlimages/curl:8.11.1
+          image: curlimages/curl:8.23.0
           command:
             - sh
             - -c

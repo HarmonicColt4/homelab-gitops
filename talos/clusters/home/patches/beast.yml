@@ -37,3 +37,24 @@ annotations:
     "storageReserved": 0
     }
     ]'
+---
+# Load the NVIDIA kernel modules provided by the
+# nvidia-open-gpu-kernel-modules-production extension. Without these the
+# ext-nvidia-persistenced / ext-nvidia-cdi-gen services wait forever on
+# /sys/bus/pci/drivers/nvidia, which blocks the Talos boot sequence
+# (startAllServices) and leaves the machine stage stuck at "booting".
+apiVersion: v1alpha1
+kind: KernelModuleConfig
+name: nvidia
+---
+apiVersion: v1alpha1
+kind: KernelModuleConfig
+name: nvidia_uvm
+---
+apiVersion: v1alpha1
+kind: KernelModuleConfig
+name: nvidia_drm
+---
+apiVersion: v1alpha1
+kind: KernelModuleConfig
+name: nvidia_modeset

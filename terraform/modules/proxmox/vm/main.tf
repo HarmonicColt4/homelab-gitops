@@ -39,12 +39,15 @@ resource "proxmox_virtual_environment_vm" "talos_linux_vm" {
     }
   }
 
-  # hostpci {
-  #   device  = "hostpci0"
-  #   mapping = "gpu"
-  #   pcie    = true
-  #   rombar  = true
-  # }
+  dynamic "hostpci" {
+    for_each = var.pcie_devices
+    content {
+      device  = "hostpci${hostpci.key}"
+      mapping = hostpci.value
+      pcie    = true
+      rombar  = true
+    }
+  }
 
   memory {
     dedicated = var.num_memory_mib

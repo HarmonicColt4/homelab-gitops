@@ -33,3 +33,9 @@ variable "disks" {
     error_message = "At least one disk must be provided."
   }
 }
+
+variable "pcie_devices" {
+  description = "List of PCI device mappings to pass through to the VM (e.g. [\"gpu\"]). Each entry is attached as a hostpci device with PCIe and ROM BAR enabled."
+  type        = list(string)
+  default     = []
+}

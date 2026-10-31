@@ -7,6 +7,6 @@ resources:
   - coredns
   - longhorn
   - traefik
+  - cilium-lb.yml
   - flux-webhook.yml
   - flux-webhook-token.enc.yml
-  - metallb.yml

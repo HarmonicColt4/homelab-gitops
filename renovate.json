@@ -61,7 +61,7 @@
     },
     {
       "matchManagers": ["flux", "kubernetes"],
-      "matchDepNames": ["fluxcd/flux2", "cert-manager", "metallb", "longhorn"],
+      "matchDepNames": ["fluxcd/flux2", "cert-manager", "longhorn"],
       "automerge": false
     },
     {

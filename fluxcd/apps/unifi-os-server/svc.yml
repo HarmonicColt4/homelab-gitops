@@ -3,8 +3,8 @@ kind: Service
 metadata:
   name: unifi-os-server-webui-svc
   annotations:
-    metallb.io/loadBalancerIPs: 10.25.25.4
-    metallb.io/allow-shared-ip: unifi-os-server
+    lbipam.cilium.io/ips: 10.25.25.4
+    lbipam.cilium.io/sharing-key: unifi-os-server
 spec:
   type: LoadBalancer
   ports:
@@ -21,8 +21,8 @@ kind: Service
 metadata:
   name: unifi-os-server-rtp-svc
   annotations:
-    metallb.io/loadBalancerIPs: 10.25.25.4
-    metallb.io/allow-shared-ip: unifi-os-server
+    lbipam.cilium.io/ips: 10.25.25.4
+    lbipam.cilium.io/sharing-key: unifi-os-server
 spec:
   type: LoadBalancer
   ports:
@@ -39,8 +39,8 @@ kind: Service
 metadata:
   name: unifi-os-server-id-hub-svc
   annotations:
-    metallb.io/loadBalancerIPs: 10.25.25.4
-    metallb.io/allow-shared-ip: unifi-os-server
+    lbipam.cilium.io/ips: 10.25.25.4
+    lbipam.cilium.io/sharing-key: unifi-os-server
 spec:
   type: LoadBalancer
   ports:
@@ -57,8 +57,8 @@ kind: Service
 metadata:
   name: unifi-os-server-mobile-sp-svc
   annotations:
-    metallb.io/loadBalancerIPs: 10.25.25.4
-    metallb.io/allow-shared-ip: unifi-os-server
+    lbipam.cilium.io/ips: 10.25.25.4
+    lbipam.cilium.io/sharing-key: unifi-os-server
 spec:
   type: LoadBalancer
   ports:
@@ -75,8 +75,8 @@ kind: Service
 metadata:
   name: unifi-os-server-communication-svc
   annotations:
-    metallb.io/loadBalancerIPs: 10.25.25.4
-    metallb.io/allow-shared-ip: unifi-os-server
+    lbipam.cilium.io/ips: 10.25.25.4
+    lbipam.cilium.io/sharing-key: unifi-os-server
 spec:
   type: LoadBalancer
   ports:
@@ -93,8 +93,8 @@ kind: Service
 metadata:
   name: unifi-os-server-hotspot-sec-svc
   annotations:
-    metallb.io/loadBalancerIPs: 10.25.25.4
-    metallb.io/allow-shared-ip: unifi-os-server
+    lbipam.cilium.io/ips: 10.25.25.4
+    lbipam.cilium.io/sharing-key: unifi-os-server
 spec:
   type: LoadBalancer
   ports:
@@ -111,8 +111,8 @@ kind: Service
 metadata:
   name: unifi-os-server-stun-svc
   annotations:
-    metallb.io/loadBalancerIPs: 10.25.25.4
-    metallb.io/allow-shared-ip: unifi-os-server
+    lbipam.cilium.io/ips: 10.25.25.4
+    lbipam.cilium.io/sharing-key: unifi-os-server
 spec:
   type: LoadBalancer
   ports:
@@ -129,8 +129,8 @@ kind: Service
 metadata:
   name: unifi-os-server-syslog-svc
   annotations:
-    metallb.io/loadBalancerIPs: 10.25.25.4
-    metallb.io/allow-shared-ip: unifi-os-server
+    lbipam.cilium.io/ips: 10.25.25.4
+    lbipam.cilium.io/sharing-key: unifi-os-server
 spec:
   type: LoadBalancer
   ports:
@@ -147,8 +147,8 @@ kind: Service
 metadata:
   name: unifi-os-server-discovery-svc
   annotations:
-    metallb.io/loadBalancerIPs: 10.25.25.4
-    metallb.io/allow-shared-ip: unifi-os-server
+    lbipam.cilium.io/ips: 10.25.25.4
+    lbipam.cilium.io/sharing-key: unifi-os-server
 spec:
   type: LoadBalancer
   ports:
@@ -165,8 +165,8 @@ kind: Service
 metadata:
   name: unifi-os-server-support-files-svc
   annotations:
-    metallb.io/loadBalancerIPs: 10.25.25.4
-    metallb.io/allow-shared-ip: unifi-os-server
+    lbipam.cilium.io/ips: 10.25.25.4
+    lbipam.cilium.io/sharing-key: unifi-os-server
 spec:
   type: LoadBalancer
   ports:
@@ -183,8 +183,8 @@ kind: Service
 metadata:
   name: unifi-os-server-aqmps-svc
   annotations:
-    metallb.io/loadBalancerIPs: 10.25.25.4
-    metallb.io/allow-shared-ip: unifi-os-server
+    lbipam.cilium.io/ips: 10.25.25.4
+    lbipam.cilium.io/sharing-key: unifi-os-server
 spec:
   type: LoadBalancer
   ports:
@@ -201,8 +201,8 @@ kind: Service
 metadata:
   name: unifi-os-server-hs-redirect-0-svc
   annotations:
-    metallb.io/loadBalancerIPs: 10.25.25.4
-    metallb.io/allow-shared-ip: unifi-os-server
+    lbipam.cilium.io/ips: 10.25.25.4
+    lbipam.cilium.io/sharing-key: unifi-os-server
 spec:
   type: LoadBalancer
   ports:
@@ -219,8 +219,8 @@ kind: Service
 metadata:
   name: unifi-os-server-hs-redirect-1-svc
   annotations:
-    metallb.io/loadBalancerIPs: 10.25.25.4
-    metallb.io/allow-shared-ip: unifi-os-server
+    lbipam.cilium.io/ips: 10.25.25.4
+    lbipam.cilium.io/sharing-key: unifi-os-server
 spec:
   type: LoadBalancer
   ports:
@@ -237,8 +237,8 @@ kind: Service
 metadata:
   name: unifi-os-server-hs-redirect-2-svc
   annotations:
-    metallb.io/loadBalancerIPs: 10.25.25.4
-    metallb.io/allow-shared-ip: unifi-os-server
+    lbipam.cilium.io/ips: 10.25.25.4
+    lbipam.cilium.io/sharing-key: unifi-os-server
 spec:
   type: LoadBalancer
   ports:

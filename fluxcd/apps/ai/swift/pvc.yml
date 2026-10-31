@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: swift-models
+  name: llama-cpp-models
 spec:
   storageClassName: longhorn
   accessModes:

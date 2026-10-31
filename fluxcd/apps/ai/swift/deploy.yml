@@ -2,9 +2,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: swift
+  name: llama.cpp
   labels:
-    app: swift
+    app: llama.cpp
 spec:
   replicas: 1
   # Single GPU + ReadWriteOnce PVC: never run two pods at once.
@@ -12,89 +12,48 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-      app: swift
+      app: llama.cpp
   template:
     metadata:
       labels:
-        app: swift
+        app: llama.cpp
     spec:
       # Pin to the node that owns the RTX 4080 (16 GiB).
       nodeSelector:
         nvidia.com/gpu.product: NVIDIA-GeForce-RTX-4080
       terminationGracePeriodSeconds: 30
-      initContainers:
-        # Pull the IQ3_S (no MTP) GGUF once into the 50Gi Longhorn volume.
-        # Re-runs are no-ops because the file is kept on the PVC.
-        - name: download-model
-          image: curlimages/curl:8.23.0
-          command:
-            - sh
-            - -c
-            - |
-              set -eu
-              MODEL_DIR=/models
-              MODEL_FILE="$MODEL_DIR/Swift-1.5-Qwen3.8-27B-GSQ-RCO-IQ3_S.gguf"
-              URL="https://huggingface.co/ukisai/Swift-1.5-Qwen3.8-27B-GSQ-RCO-GGUF/resolve/main/Swift-1.5-Qwen3.8-27B-GSQ-RCO-IQ3_S.gguf"
-              mkdir -p "$MODEL_DIR"
-              if [ -f "$MODEL_FILE" ]; then
-                echo "Model already present at $MODEL_FILE, skipping download."
-                exit 0
-              fi
-              echo "Downloading IQ3_S (no MTP) from Hugging Face..."
-              # Feed the bearer token to curl via a config on stdin so the
-              # secret never lands in the process argument list (ps/argv) and
-              # is never written to disk.
-              printf 'header = "Authorization: Bearer %s"\n' "$HF_TOKEN" \
-                | curl -fL --retry 5 --retry-delay 5 --retry-all-errors -C - \
-                    --config - \
-                    -o "${MODEL_FILE}.part" "$URL"
-              mv "${MODEL_FILE}.part" "$MODEL_FILE"
-              echo "Download complete: $(ls -lh "$MODEL_FILE")"
-          env:
-            - name: HF_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: swift-hf-token
-                  key: HF_TOKEN
-          securityContext:
-            runAsUser: 0
-            runAsGroup: 0
-          volumeMounts:
-            - name: models
-              mountPath: /models
-          resources:
-            requests:
-              cpu: 50m
-              memory: 64Mi
-            limits:
-              cpu: "1"
-              memory: 256Mi
       containers:
         - name: llama-server
           image: ghcr.io/ggml-org/llama.cpp:server-cuda13@sha256:07735071942842eb24ccc4b09db2721a2d124cdf3c591878a62c7561edd38bbe
           args:
-            - --model
-            - /models/Swift-1.5-Qwen3.8-27B-GSQ-RCO-IQ3_S.gguf
+            # Let llama-server pull the GGUF straight from Hugging Face.
+            # Q2_0 is the Bonsai packing that runs on stock/mainline
+            # llama.cpp; the denser PTQ1_0/PQ2_0 trit packings need the
+            # PrismML fork kernels that the upstream image does not ship.
+            - -hf
+            - prism-ml/Ternary-Bonsai-2-27B-gguf:Q2_0
             - --alias
-            - swift
+            - bonsai
             - --host
             - 0.0.0.0
             - --port
             - "8080"
             - --jinja
-            # Flash attention is required for quantized V cache.
+            # Flash attention is required for the quantized V cache.
             - --flash-attn
             - "on"
             # Offload every layer to the GPU.
             - --n-gpu-layers
             - "99"
-            # 96K context. Only the 16 full-attention layers grow a KV cache
-            # (4 KV heads x 256 head_dim), so Q8_0 KV costs ~34 KiB/token.
-            # 98304 tokens ~= 3.2 GiB, which fits the ~4 GiB left after the
-            # 11.77 GB IQ3_S weights + compute buffers on the 16 GiB card.
-            # - --ctx-size
-            # - "98304"
-            # Q8_0 KV cache is the near-lossless option (min accuracy loss).
+            # 32K context, the value in the model card's llama.cpp example
+            # (the model supports 262144 and the card notes servers can use
+            # up to `-c 65536`). Bonsai 2 27B is a hybrid-attention model
+            # (~75% linear attention), so only the ~25% full-attention layers
+            # grow a KV cache, which keeps this within the 16 GiB card.
+            - --ctx-size
+            - "32768"
+            # q8_0/q4_0 keep the KV cache small; q5_0 is documented as much
+            # slower for this model (see the upstream KNOWN_ISSUES).
             - --cache-type-k
             - q8_0
             - --cache-type-v
@@ -103,7 +62,7 @@ spec:
             - "1024"
             - --ubatch-size
             - "256"
-            # Sampling defaults recommended by the model card.
+            # Sampling defaults recommended by the model card for thinking mode.
             - --temp
             - "1.0"
             - --top-p
@@ -111,11 +70,22 @@ spec:
             - --top-k
             - "20"
             - --min-p
-            - "0.0"
+            - "0.05"
             - --presence-penalty
             - "0.0"
             - --repeat-penalty
             - "1.0"
+          env:
+            # llama.cpp caches downloaded GGUFs under this directory; point it
+            # at the PVC so the model persists across pod restarts.
+            - name: LLAMA_CACHE
+              value: /models
+            # Token for authenticated/rate-limited Hugging Face downloads.
+            - name: HF_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: llama-cpp-hf-token
+                  key: HF_TOKEN
           ports:
             - name: http
               containerPort: 8080
@@ -131,7 +101,7 @@ spec:
           volumeMounts:
             - name: models
               mountPath: /models
-          # Model load can take a while on first start; allow up to 10 minutes.
+          # First start downloads the model and loads it; allow up to 10 minutes.
           startupProbe:
             httpGet:
               path: /health
@@ -153,4 +123,4 @@ spec:
       volumes:
         - name: models
           persistentVolumeClaim:
-            claimName: swift-models
+            claimName: llama-cpp-models

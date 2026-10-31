@@ -2,13 +2,13 @@
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: swift
+  name: llama.cpp
 spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`swift.teamg.app`) && PathPrefix(`/`)
+    - match: Host(`llama.teamg.app`) && PathPrefix(`/`)
       kind: Rule
       services:
-        - name: swift
+        - name: llama-cpp
           port: 8080

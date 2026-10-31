@@ -27,11 +27,12 @@ talosctl gen config --with-secrets secrets.yml $CLUSTER_NAME https://$ENDPOINT:6
 
 ## Control Plane
 
-The control plane patch set is [`patches/common/metrics.yml`](patches/common/metrics.yml) plus
+The control plane patch set is [`patches/common/metrics.yml`](patches/common/metrics.yml),
+[`patches/cilium.yml`](patches/cilium.yml) and
 [`patches/common/allow-cp-worker.yml`](patches/common/allow-cp-worker.yml), then the per-node patch.
 
 ```
-talosctl machineconfig patch configs/controlplane.yaml --patch @patches/common/metrics.yml --patch @patches/common/allow-cp-worker.yml --patch @patches/<node>.yml --output configs/<node>.yml
+talosctl machineconfig patch configs/controlplane.yaml --patch @patches/common/metrics.yml --patch @patches/cilium.yml --patch @patches/common/allow-cp-worker.yml --patch @patches/<node>.yml --output configs/<node>.yml
 ```
 
 > **Warning:** [`patches/common/allow-cp-worker.yml`](patches/common/allow-cp-worker.yml) removes the
@@ -42,7 +43,7 @@ talosctl machineconfig patch configs/controlplane.yaml --patch @patches/common/m
 ## Worker
 
 The worker patch set is [`patches/common/metrics.yml`](patches/common/metrics.yml), then the per-node patch.
-It does **not** include `allow-cp-worker.yml`.
+It does **not** include `allow-cp-worker.yml` or `cilium.yml` (both are control-plane-only).
 
 ```
 talosctl machineconfig patch configs/worker.yaml --patch @patches/common/metrics.yml --patch @patches/<node>.yml --output configs/<node>.yml
@@ -160,3 +161,38 @@ talosctl apply-config --insecure --nodes <hedy-ip> --file configs/hedy.yml
 > **Risk:** After migration etcd has a single member (`rpi5`) with **zero fault tolerance**. Any
 > outage of `rpi5` takes the control plane down; plan to restore a second control-plane (or etcd)
 > member soon.
+
+## Migrating to Cilium (kube-proxy replacement)
+
+The cluster runs Cilium as its CNI with kube-proxy replacement. The default Talos
+CNI (flannel) and kube-proxy are disabled by
+[`patches/cilium.yml`](patches/cilium.yml).
+
+`KubeFlannelCNIConfig` and `KubeProxyConfig` are cluster-level documents that
+only exist in the **control plane** machine config, so this patch is applied to
+the control plane (`rpi5`) only — **never** to a worker. Workers need no CNI
+change: disabling flannel/kube-proxy on the control plane removes the
+`kube-flannel` and `kube-proxy` DaemonSets cluster-wide.
+
+Cilium itself is deployed by Flux from
+[`fluxcd/infrastructure/controllers/cilium`](../../../fluxcd/infrastructure/controllers/cilium).
+
+> **Warning:** This is a disruptive, scheduled-maintenance operation. Removing
+> flannel and kube-proxy before Cilium is running causes a short cluster-wide
+> network outage. `rpi5` is the only control-plane/etcd member, so rebooting it
+> also takes the control plane down.
+
+Cutover order:
+
+1. Apply the updated control plane machine config to `rpi5` (the manual
+   `talosctl machineconfig patch` workflow above, including `patches/cilium.yml`).
+   Workers (`hedy`, `beast`) need no change.
+2. Merge the Cilium manifests so Flux installs Cilium (or `kubectl apply` the
+   rendered manifest) immediately after the config change.
+3. Restart workloads so pods obtain Cilium IPs.
+4. Validate: `cilium status`, `cilium connectivity test`, `kubectl get nodes`,
+   DNS, Traefik ingress, Longhorn and CNPG health.
+
+Rollback: revert the control plane machine config (re-enable flannel +
+kube-proxy) and remove the Cilium manifests, then restart workloads. This
+requires a second disruption window, so keep the pre-change config ready.

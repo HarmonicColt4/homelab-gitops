@@ -65,6 +65,8 @@ spec:
             - "1024"
             - --ubatch-size
             - "256"
+            - --parallel
+            - "1"
             # Sampling defaults recommended by the model card for thinking mode.
             - --temp
             - "1.0"

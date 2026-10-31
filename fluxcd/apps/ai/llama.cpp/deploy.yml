@@ -27,11 +27,14 @@ spec:
           image: ghcr.io/ggml-org/llama.cpp:server-cuda13@sha256:07735071942842eb24ccc4b09db2721a2d124cdf3c591878a62c7561edd38bbe
           args:
             # Let llama-server pull the GGUF straight from Hugging Face.
-            # Q2_0 is the Bonsai packing that runs on stock/mainline
-            # llama.cpp; the denser PTQ1_0/PQ2_0 trit packings need the
-            # PrismML fork kernels that the upstream image does not ship.
+            # Pin the exact file: the `:Q2_0` quant suffix substring-matches
+            # the fork-only `PQ2_0` packing, which stock llama.cpp rejects
+            # (invalid ggml type 142). Q2_0 is the packing that runs on
+            # mainline llama.cpp; PTQ1_0/PQ2_0 need the PrismML fork kernels.
             - -hf
-            - prism-ml/Ternary-Bonsai-2-27B-gguf:Q2_0
+            - prism-ml/Ternary-Bonsai-2-27B-gguf
+            - --hf-file
+            - Ternary-Bonsai-2-27B-Q2_0.gguf
             - --alias
             - bonsai
             - --host

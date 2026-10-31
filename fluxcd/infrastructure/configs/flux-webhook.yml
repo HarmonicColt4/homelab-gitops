@@ -5,7 +5,7 @@ metadata:
   name: receiver
   namespace: flux-system
   annotations:
-    metallb.io/loadBalancerIPs: 10.25.25.26
+    lbipam.cilium.io/ips: 10.25.25.26
 spec:
   type: LoadBalancer
   selector:

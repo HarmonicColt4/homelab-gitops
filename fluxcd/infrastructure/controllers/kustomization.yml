@@ -8,7 +8,6 @@ resources:
   - cnpg
   - intel-gpu-plugin
   - longhorn
-  - metallb
   - multus
   - node-feature-discovery
   - nvidia-gpu-operator

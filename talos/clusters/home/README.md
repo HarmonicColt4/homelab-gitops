@@ -192,6 +192,26 @@ Cutover order:
 3. Restart workloads so pods obtain Cilium IPs.
 4. Validate: `cilium status`, `cilium connectivity test`, `kubectl get nodes`,
    DNS, Traefik ingress, Longhorn and CNPG health.
+5. **Take over LoadBalancer IPs with Cilium.** Cilium now owns the LB IP pool
+   ([`fluxcd/infrastructure/configs/cilium-lb.yml`](../../../fluxcd/infrastructure/configs/cilium-lb.yml))
+   and announces the VIPs over L2 (`l2announcements.enabled` in the Cilium
+   HelmRelease). Every LoadBalancer Service has been re-annotated from
+   `metallb.io/loadBalancerIPs` / `metallb.io/allow-shared-ip` to
+   `lbipam.cilium.io/ips` / `lbipam.cilium.io/sharing-key`. Confirm each VIP is
+   assigned and reachable (`kubectl get svc -A`, `cilium status`).
+6. **Remove MetalLB.** Once Cilium is announcing every VIP, delete the MetalLB
+   controller manifests and the `IPAddressPool`/`L2Advertisement` config. The
+   MetalLB entries have already been dropped from the Flux kustomizations, so
+   the remaining step is to delete the live MetalLB resources (and the
+   `metallb-system` namespace) from the cluster.
+
+> **Warning — the LB swap must be atomic.** MetalLB's speaker and Cilium's L2
+> announcer must **never** ARP for the same VIP at the same time. If both are
+> active for a given address, the two nodes answer ARP for the same IP and
+> traffic is black-holed or flapped. Perform the annotation swap and the MetalLB
+> teardown in a single maintenance window: re-annotate the Services and let
+> Cilium claim the IPs, then immediately remove MetalLB before it re-claims
+> them. Do not leave both controllers running against the same pool.
 
 Rollback: revert the control plane machine config (re-enable flannel +
 kube-proxy) and remove the Cilium manifests, then restart workloads. This

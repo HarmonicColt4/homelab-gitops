@@ -26,7 +26,7 @@ spec:
       spec:
         externalTrafficPolicy: Local
       annotations:
-        metallb.io/loadBalancerIPs: 10.25.25.11
+        lbipam.cilium.io/ips: 10.25.25.11
     ports:
       web:
         forwardedHeaders:

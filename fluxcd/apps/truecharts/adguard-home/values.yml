@@ -2,46 +2,46 @@
 service:
   dns-tcp:
     type: LoadBalancer
-    externalTrafficPolicy: Local
+    externalTrafficPolicy: Cluster
     annotations:
-      metallb.io/loadBalancerIPs: 10.25.25.3
-      metallb.io/allow-shared-ip: dns
+      lbipam.cilium.io/ips: 10.25.25.3
+      lbipam.cilium.io/sharing-key: dns
   dns-udp:
     type: LoadBalancer
-    externalTrafficPolicy: Local
+    externalTrafficPolicy: Cluster
     annotations:
-      metallb.io/loadBalancerIPs: 10.25.25.3
-      metallb.io/allow-shared-ip: dns
+      lbipam.cilium.io/ips: 10.25.25.3
+      lbipam.cilium.io/sharing-key: dns
   dns-https:
     type: LoadBalancer
-    externalTrafficPolicy: Local
+    externalTrafficPolicy: Cluster
     annotations:
-      metallb.io/loadBalancerIPs: 10.25.25.3
-      metallb.io/allow-shared-ip: dns
+      lbipam.cilium.io/ips: 10.25.25.3
+      lbipam.cilium.io/sharing-key: dns
   dns-https-udp:
     type: LoadBalancer
-    externalTrafficPolicy: Local
+    externalTrafficPolicy: Cluster
     annotations:
-      metallb.io/loadBalancerIPs: 10.25.25.3
-      metallb.io/allow-shared-ip: dns
+      lbipam.cilium.io/ips: 10.25.25.3
+      lbipam.cilium.io/sharing-key: dns
   dns-crypt:
     type: LoadBalancer
-    externalTrafficPolicy: Local
+    externalTrafficPolicy: Cluster
     annotations:
-      metallb.io/loadBalancerIPs: 10.25.25.3
-      metallb.io/allow-shared-ip: dns
+      lbipam.cilium.io/ips: 10.25.25.3
+      lbipam.cilium.io/sharing-key: dns
   dns-crypt-udp:
     type: LoadBalancer
-    externalTrafficPolicy: Local
+    externalTrafficPolicy: Cluster
     annotations:
-      metallb.io/loadBalancerIPs: 10.25.25.3
-      metallb.io/allow-shared-ip: dns
+      lbipam.cilium.io/ips: 10.25.25.3
+      lbipam.cilium.io/sharing-key: dns
   dns-quic-udp-1:
     type: LoadBalancer
-    externalTrafficPolicy: Local
+    externalTrafficPolicy: Cluster
     annotations:
-      metallb.io/loadBalancerIPs: 10.25.25.3
-      metallb.io/allow-shared-ip: dns
+      lbipam.cilium.io/ips: 10.25.25.3
+      lbipam.cilium.io/sharing-key: dns
 persistence:
   data:
     size: 5Gi

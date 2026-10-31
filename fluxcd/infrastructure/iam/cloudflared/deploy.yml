@@ -19,6 +19,15 @@ spec:
           operator: Equal
           value: rpi5
           effect: NoSchedule
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: NotIn
+                    values:
+                      - rpi5
       securityContext:
         sysctls:
           - name: net.ipv4.ping_group_range

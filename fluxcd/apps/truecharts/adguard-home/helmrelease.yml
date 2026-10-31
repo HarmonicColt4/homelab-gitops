@@ -32,3 +32,20 @@ spec:
       name: global-values
     - kind: ConfigMap
       name: adguard-home-values
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+            patch: |-
+              - op: add
+                path: /spec/template/spec/affinity
+                value:
+                  nodeAffinity:
+                    requiredDuringSchedulingIgnoredDuringExecution:
+                      nodeSelectorTerms:
+                        - matchExpressions:
+                            - key: kubernetes.io/hostname
+                              operator: NotIn
+                              values:
+                                - rpi5

@@ -44,15 +44,6 @@ spec:
           operator: Equal
           value: rpi5
           effect: NoSchedule
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: NotIn
-                    values:
-                      - rpi5
   postRenderers:
     - kustomize:
         patches:
@@ -69,6 +60,20 @@ spec:
                       operator: Equal
                       value: rpi5
                       effect: NoSchedule
+                  nodeAffinity:
+                    requiredDuringSchedulingIgnoredDuringExecution:
+                      nodeSelectorTerms:
+                        - matchExpressions:
+                            - key: kubernetes.io/hostname
+                              operator: NotIn
+                              values:
+                                - rpi5
+          - target:
+              kind: Deployment
+            patch: |-
+              - op: add
+                path: /spec/template/spec/affinity
+                value:
                   nodeAffinity:
                     requiredDuringSchedulingIgnoredDuringExecution:
                       nodeSelectorTerms:

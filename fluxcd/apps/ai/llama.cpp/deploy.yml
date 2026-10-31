@@ -48,19 +48,10 @@ spec:
             # Offload every layer to the GPU.
             - --n-gpu-layers
             - "99"
-            # 32K context, the value in the model card's llama.cpp example
-            # (the model supports 262144 and the card notes servers can use
-            # up to `-c 65536`). Bonsai 2 27B is a hybrid-attention model
-            # (~75% linear attention), so only the ~25% full-attention layers
-            # grow a KV cache, which keeps this within the 16 GiB card.
-            - --ctx-size
-            - "32768"
-            # q8_0/q4_0 keep the KV cache small; q5_0 is documented as much
-            # slower for this model (see the upstream KNOWN_ISSUES).
-            - --cache-type-k
-            - q8_0
-            - --cache-type-v
-            - q4_0
+            # - --cache-type-k
+            # - q8_0
+            # - --cache-type-v
+            # - q4_0
             - --batch-size
             - "1024"
             - --ubatch-size

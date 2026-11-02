@@ -24,64 +24,53 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: llama-server
-          image: ghcr.io/ggml-org/llama.cpp:server-cuda13@sha256:38ca42e8fcc5e1de7759131069683cff636c159c428a1cd7b9c7eeae5507a2f5
-          args:
-            # Let llama-server pull the GGUF straight from Hugging Face.
-            # Pin the exact file: the `:Q2_0` quant suffix substring-matches
-            # the fork-only `PQ2_0` packing, which stock llama.cpp rejects
-            # (invalid ggml type 142). Q2_0 is the packing that runs on
-            # mainline llama.cpp; PTQ1_0/PQ2_0 need the PrismML fork kernels.
-            - -hf
-            - prism-ml/Ternary-Bonsai-2-27B-gguf
-            - --hf-file
-            - Ternary-Bonsai-2-27B-Q2_0.gguf
-            - --alias
-            - bonsai
-            - --host
-            - 0.0.0.0
-            - --port
-            - "8080"
-            - --jinja
-            # Flash attention is required for the quantized V cache.
-            - --flash-attn
-            - "on"
-            # Offload every layer to the GPU.
-            - --n-gpu-layers
-            - "99"
-            # - --cache-type-k
-            # - q8_0
-            # - --cache-type-v
-            # - q4_0
-            - --batch-size
-            - "1024"
-            - --ubatch-size
-            - "256"
-            - --parallel
-            - "1"
-            # Sampling defaults recommended by the model card for thinking mode.
-            - --temp
-            - "1.0"
-            - --top-p
-            - "0.95"
-            - --top-k
-            - "20"
-            - --min-p
-            - "0.05"
-            - --presence-penalty
-            - "0.0"
-            - --repeat-penalty
-            - "1.0"
+          # PrismML-fork llama.cpp with the Bonsai 2 PTQ1_0 + MTP kernels.
+          # The entrypoint downloads the GGUF, installs the calibrated KV bias,
+          # then execs llama-server. Configure ONLY via LLAMA_ARG_* env vars:
+          # there is no args block, because the wrapper forwards "$@" to
+          # llama-server and CLI flags would fight its model handling.
+          image: ghcr.io/snailium/bonsai2-8gb/llama-bonsai2:stable
           env:
-            # llama.cpp caches downloaded GGUFs under this directory; point it
-            # at the PVC so the model persists across pod restarts.
-            - name: LLAMA_CACHE
-              value: /models
-            # Token for authenticated/rate-limited Hugging Face downloads.
-            - name: HF_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: llama-cpp-hf-token
-                  key: HF_TOKEN
+            # Listen on 8080 to match the Service and probes below.
+            - name: LLAMA_ARG_PORT
+              value: "8080"
+            - name: LLAMA_ARG_HOST
+              value: "0.0.0.0"
+            # 16 GiB card: raise context above the image's 8 GiB default (40960).
+            - name: LLAMA_ARG_CTX_SIZE
+              value: "131072"
+            # --kv-mean-center requires a q4_0 K cache; do not change K.
+            - name: LLAMA_ARG_CACHE_TYPE_K
+              value: "q4_0"
+            - name: LLAMA_ARG_CACHE_TYPE_V
+              value: "q4_0"
+            - name: LLAMA_ARG_FLASH_ATTN
+              value: "on"
+            - name: LLAMA_ARG_N_GPU_LAYERS
+              value: "99"
+            - name: LLAMA_ARG_JINJA
+              value: "1"
+            - name: LLAMA_ARG_ALIAS
+              value: "bonsai"
+            - name: LLAMA_ARG_BATCH
+              value: "1024"
+            - name: LLAMA_ARG_UBATCH
+              value: "256"
+            - name: LLAMA_ARG_N_PARALLEL
+              value: "1"
+            # Sampling defaults recommended by the model card (thinking mode).
+            - name: LLAMA_ARG_TEMPERATURE
+              value: "1.0"
+            - name: LLAMA_ARG_TOP_P
+              value: "0.95"
+            - name: LLAMA_ARG_TOP_K
+              value: "20"
+            - name: LLAMA_ARG_MIN_P
+              value: "0.05"
+            - name: LLAMA_ARG_PRESENCE_PENALTY
+              value: "0.0"
+            - name: LLAMA_ARG_REPEAT_PENALTY
+              value: "1.0"
           ports:
             - name: http
               containerPort: 8080
@@ -97,13 +86,13 @@ spec:
           volumeMounts:
             - name: models
               mountPath: /models
-          # First start downloads the model and loads it; allow up to 10 minutes.
+          # First start downloads ~5.85 GiB into the PVC, then loads it.
           startupProbe:
             httpGet:
               path: /health
               port: 8080
             periodSeconds: 10
-            failureThreshold: 60
+            failureThreshold: 120
           readinessProbe:
             httpGet:
               path: /health

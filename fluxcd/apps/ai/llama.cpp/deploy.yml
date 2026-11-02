@@ -24,7 +24,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: llama-server
-          image: ghcr.io/ggml-org/llama.cpp:server-cuda13@sha256:07735071942842eb24ccc4b09db2721a2d124cdf3c591878a62c7561edd38bbe
+          image: ghcr.io/ggml-org/llama.cpp:server-cuda13@sha256:38ca42e8fcc5e1de7759131069683cff636c159c428a1cd7b9c7eeae5507a2f5
           args:
             # Let llama-server pull the GGUF straight from Hugging Face.
             # Pin the exact file: the `:Q2_0` quant suffix substring-matches

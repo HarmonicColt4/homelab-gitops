@@ -24,53 +24,68 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: llama-server
-          # PrismML-fork llama.cpp with the Bonsai 2 PTQ1_0 + MTP kernels.
-          # The entrypoint downloads the GGUF, installs the calibrated KV bias,
-          # then execs llama-server. Configure ONLY via LLAMA_ARG_* env vars:
-          # there is no args block, because the wrapper forwards "$@" to
-          # llama-server and CLI flags would fight its model handling.
-          image: ghcr.io/snailium/bonsai2-8gb/llama-bonsai2:stable
+          image: ghcr.io/ggml-org/llama.cpp:server-cuda13@sha256:07735071942842eb24ccc4b09db2721a2d124cdf3c591878a62c7561edd38bbe
+          args:
+            # Let llama-server pull the GGUF straight from Hugging Face into
+            # LLAMA_CACHE on the PVC. Pin the exact file: IQ3_S is one of
+            # several tiers (IQ2_XS, IQ2_S, IQ3_XXS, IQ3_S) plus optional
+            # -mtp variants, so name the full filename to avoid ambiguity.
+            - -hf
+            - ukisai/Swift-1.5-Qwen3.8-27B-GSQ-RCO-GGUF
+            - --hf-file
+            - Swift-1.5-Qwen3.8-27B-GSQ-RCO-IQ3_S.gguf
+            - --alias
+            - swift
+            - --host
+            - 0.0.0.0
+            - --port
+            - "8080"
+            - --jinja
+            # Flash attention is required for quantized V cache.
+            - --flash-attn
+            - "on"
+            # Offload every layer to the GPU.
+            - --n-gpu-layers
+            - "99"
+            # 96K context. Only the 16 full-attention layers grow a KV cache
+            # (4 KV heads x 256 head_dim), so Q8_0 KV costs ~34 KiB/token.
+            # 98304 tokens ~= 3.2 GiB, which fits the ~4 GiB left after the
+            # 11.77 GB IQ3_S weights + compute buffers on the 16 GiB card.
+            # - --ctx-size
+            # - "98304"
+            # Q8_0 KV cache is the near-lossless option (min accuracy loss).
+            - --cache-type-k
+            - q8_0
+            - --cache-type-v
+            - q4_0
+            - --batch-size
+            - "1024"
+            - --ubatch-size
+            - "256"
+            # Sampling defaults recommended by the model card.
+            - --temp
+            - "1.0"
+            - --top-p
+            - "0.95"
+            - --top-k
+            - "20"
+            - --min-p
+            - "0.0"
+            - --presence-penalty
+            - "0.0"
+            - --repeat-penalty
+            - "1.0"
           env:
-            # Listen on 8080 to match the Service and probes below.
-            - name: LLAMA_ARG_PORT
-              value: "8080"
-            - name: LLAMA_ARG_HOST
-              value: "0.0.0.0"
-            # 16 GiB card: raise context above the image's 8 GiB default (40960).
-            - name: LLAMA_ARG_CTX_SIZE
-              value: "131072"
-            # --kv-mean-center requires a q4_0 K cache; do not change K.
-            - name: LLAMA_ARG_CACHE_TYPE_K
-              value: "q4_0"
-            - name: LLAMA_ARG_CACHE_TYPE_V
-              value: "q4_0"
-            - name: LLAMA_ARG_FLASH_ATTN
-              value: "on"
-            - name: LLAMA_ARG_N_GPU_LAYERS
-              value: "99"
-            - name: LLAMA_ARG_JINJA
-              value: "1"
-            - name: LLAMA_ARG_ALIAS
-              value: "bonsai"
-            - name: LLAMA_ARG_BATCH
-              value: "1024"
-            - name: LLAMA_ARG_UBATCH
-              value: "256"
-            - name: LLAMA_ARG_N_PARALLEL
-              value: "1"
-            # Sampling defaults recommended by the model card (thinking mode).
-            - name: LLAMA_ARG_TEMPERATURE
-              value: "1.0"
-            - name: LLAMA_ARG_TOP_P
-              value: "0.95"
-            - name: LLAMA_ARG_TOP_K
-              value: "20"
-            - name: LLAMA_ARG_MIN_P
-              value: "0.05"
-            - name: LLAMA_ARG_PRESENCE_PENALTY
-              value: "0.0"
-            - name: LLAMA_ARG_REPEAT_PENALTY
-              value: "1.0"
+            # llama.cpp caches GGUFs pulled via -hf under this directory;
+            # point it at the PVC so the model persists across pod restarts.
+            - name: LLAMA_CACHE
+              value: /models
+            # Token for authenticated/rate-limited Hugging Face downloads.
+            - name: HF_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: llama-cpp-hf-token
+                  key: HF_TOKEN
           ports:
             - name: http
               containerPort: 8080
@@ -86,7 +101,7 @@ spec:
           volumeMounts:
             - name: models
               mountPath: /models
-          # First start downloads ~5.85 GiB into the PVC, then loads it.
+          # First start downloads ~11.8 GB via -hf then loads it; allow 20 min.
           startupProbe:
             httpGet:
               path: /health

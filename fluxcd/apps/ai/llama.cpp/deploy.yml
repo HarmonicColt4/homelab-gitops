@@ -27,15 +27,20 @@ spec:
           image: ghcr.io/ggml-org/llama.cpp:server-cuda13@sha256:07735071942842eb24ccc4b09db2721a2d124cdf3c591878a62c7561edd38bbe
           args:
             # Let llama-server pull the GGUF straight from Hugging Face into
-            # LLAMA_CACHE on the PVC. Pin the exact file: IQ3_S is one of
-            # several tiers (IQ2_XS, IQ2_S, IQ3_XXS, IQ3_S) plus optional
-            # -mtp variants, so name the full filename to avoid ambiguity.
+            # LLAMA_CACHE on the PVC. Pin the exact file: this repo ships many
+            # tiers (IQ2..Q8, MTP/non-MTP, plusIQ, plusIQ-TOOLS), so name the
+            # full filename to avoid ambiguity.
             - -hf
-            - ukisai/Swift-1.5-Qwen3.8-27B-GSQ-RCO-GGUF
+            - DavidAU/Qwen3.5-9B-The-Defiant-Fable-Uncensored-Heretic-NEO-IMATRIX-MAX-MTP-GGUF
             - --hf-file
-            - Swift-1.5-Qwen3.8-27B-GSQ-RCO-IQ3_S.gguf
+            - Qwen3.5-9B-The-Defiant-Fable-Uncnr-Heretic-plusIQ-NEO-MAX-MTP-Q8_0.gguf
             - --alias
-            - swift
+            - defiant
+            # Vision: pull the multimodal projector from the same HF repo so
+            # images are supported (adds ~0.9 GB VRAM). BF16/F16 are the same
+            # size; F16 is the standard choice.
+            - --mmproj
+            - mmproj-F16.gguf
             - --host
             - 0.0.0.0
             - --port
@@ -47,15 +52,18 @@ spec:
             # Offload every layer to the GPU.
             - --n-gpu-layers
             - "99"
-            # 96K context. Only the 16 full-attention layers grow a KV cache
-            # (4 KV heads x 256 head_dim), so Q8_0 KV costs ~34 KiB/token.
-            # 98304 tokens ~= 3.2 GiB, which fits the ~4 GiB left after the
-            # 11.77 GB IQ3_S weights + compute buffers on the 16 GiB card.
-            # - --ctx-size
-            # - "98304"
-            # Q8_0 KV cache is the near-lossless option (min accuracy loss).
+            # 128K context. This is a hybrid qwen35 model: only every 4th block
+            # is full attention (full_attention_interval=4 over 33 blocks), so
+            # just ~8 layers grow a KV cache (4 KV heads x 256 head_dim); the
+            # remaining SSM layers use a constant-size state.
+            # q4_0 KV costs ~9 KiB/token => 131072 tokens ~= 1.2 GiB, which
+            # fits the ~5 GiB left after the 10.74 GB plusIQ Q8_0 weights +
+            # compute buffers on the 16 GiB card.
+            - --ctx-size
+            - "131072"
+            # q4_0 KV cache keeps long-context memory tiny on the 16 GiB card.
             - --cache-type-k
-            - q8_0
+            - q4_0
             - --cache-type-v
             - q4_0
             - --batch-size
@@ -101,7 +109,8 @@ spec:
           volumeMounts:
             - name: models
               mountPath: /models
-          # First start downloads ~11.8 GB via -hf then loads it; allow 20 min.
+          # First start downloads ~11.6 GB via -hf (10.7 GB model + 0.9 GB
+          # mmproj) then loads it; allow 20 min.
           startupProbe:
             httpGet:
               path: /health

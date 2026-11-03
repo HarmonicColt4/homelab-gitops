@@ -26,63 +26,41 @@ spec:
         - name: llama-server
           image: ghcr.io/ggml-org/llama.cpp:server-cuda13@sha256:07735071942842eb24ccc4b09db2721a2d124cdf3c591878a62c7561edd38bbe
           args:
-            # Let llama-server pull the GGUF straight from Hugging Face into
-            # LLAMA_CACHE on the PVC. Pin the exact file: this repo ships many
-            # tiers (IQ2..Q8, MTP/non-MTP, plusIQ, plusIQ-TOOLS), so name the
-            # full filename to avoid ambiguity.
+            # Text-only model; no multimodal projector.
             - -hf
-            - DavidAU/Qwen3.5-9B-The-Defiant-Fable-Uncensored-Heretic-NEO-IMATRIX-MAX-MTP-GGUF
+            - nvidia/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB
             - --hf-file
-            - Qwen3.5-9B-The-Defiant-Fable-Uncnr-Heretic-plusIQ-NEO-MAX-MTP-Q8_0.gguf
+            - Nemotron-3.5-Bolt-E4B-Q4_K_M.gguf
             - --alias
-            - defiant
-            # Vision: pull the multimodal projector from the same HF repo so
-            # images are supported (adds ~0.9 GB VRAM). BF16/F16 are the same
-            # size; F16 is the standard choice.
-            # NOTE: --mmproj only accepts a LOCAL path and never downloads.
-            # Use --mmproj-url so llama.cpp fetches it into LLAMA_CACHE on the
-            # PVC (same as -hf does for the weights).
-            - --mmproj-url
-            - https://huggingface.co/DavidAU/Qwen3.5-9B-The-Defiant-Fable-Uncensored-Heretic-NEO-IMATRIX-MAX-MTP-GGUF/resolve/main/mmproj-F16.gguf
-            # MTP (multi-token prediction): this GGUF carries
-            # nextn_predict_layers=1, so use the built-in MTP head as the draft
-            # model for speculative decoding. Start at 2 draft tokens (the
-            # model card's tested config); raise toward 3-6 if acceptance stays
-            # high. Keep temp <= 1 and repeat-penalty 1.0 or acceptance drops.
+            - nemotron-bolt
+            # DFlash drafter from its own HF repo. --spec-draft-model pins the
+            # filename when used together with --spec-draft-hf.
+            - --spec-draft-hf
+            - nvidia/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB-DFlash
+            - --spec-draft-model
+            - Nemotron-3.5-Bolt-E4B-DFlash-BF16.gguf
             - --spec-type
-            - draft-mtp
+            - draft-dflash
             - --spec-draft-n-max
-            - "2"
+            - "7"
+            - --spec-draft-ngl
+            - "99"
             - --host
             - 0.0.0.0
             - --port
             - "8080"
             - --jinja
-            # Flash attention is required for quantized V cache.
+            # Flash attention is recommended for DFlash speculative decoding.
             - --flash-attn
             - "on"
             # Offload every layer to the GPU.
             - --n-gpu-layers
             - "99"
-            # 128K context. This is a hybrid qwen35 model: only every 4th block
-            # is full attention (full_attention_interval=4 over 33 blocks), so
-            # just ~8 layers grow a KV cache (4 KV heads x 256 head_dim); the
-            # remaining SSM layers use a constant-size state.
-            # q4_0 KV costs ~9 KiB/token => 131072 tokens ~= 1.2 GiB, which
-            # fits the ~5 GiB left after the 10.74 GB plusIQ Q8_0 weights +
-            # compute buffers on the 16 GiB card.
-            - --ctx-size
-            - "131072"
-            # q4_0 KV cache keeps long-context memory tiny on the 16 GiB card.
-            - --cache-type-k
-            - q4_0
-            - --cache-type-v
-            - q4_0
             - --batch-size
             - "1024"
             - --ubatch-size
             - "256"
-            # Sampling defaults recommended by the model card.
+            # Sampling defaults.
             - --temp
             - "1.0"
             - --top-p
@@ -121,8 +99,8 @@ spec:
           volumeMounts:
             - name: models
               mountPath: /models
-          # First start downloads ~11.6 GB via -hf (10.7 GB model + 0.9 GB
-          # mmproj) then loads it; allow 20 min.
+          # First start downloads ~6.9 GB (6.2 GB model + 0.7 GB drafter) then
+          # loads it; allow 20 min.
           startupProbe:
             httpGet:
               path: /health

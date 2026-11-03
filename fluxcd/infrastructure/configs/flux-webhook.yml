@@ -31,3 +31,27 @@ spec:
   resources:
     - kind: GitRepository
       name: flux-system
+---
+# The Flux-generated `allow-webhooks` NetworkPolicy only allows ingress from
+# namespaces (pods), not from external IPs. Gitea runs on TrueNAS
+# (10.25.25.10), which Cilium classifies as `world`, so its webhook SYNs are
+# dropped with "Policy denied". NetworkPolicies are additive, so this policy
+# adds the missing external source without touching the generated manifest.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-webhooks-truenas
+  namespace: flux-system
+spec:
+  podSelector:
+    matchLabels:
+      app: notification-controller
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - ipBlock:
+            cidr: 10.25.25.10/32
+      ports:
+        - port: 9292
+          protocol: TCP

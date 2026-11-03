@@ -26,41 +26,46 @@ spec:
         - name: llama-server
           image: ghcr.io/ggml-org/llama.cpp:server-cuda13@sha256:83faadeff67447144770f9b91b4c6694ce2ea2a218efa82f77092ebc29b0c31f
           args:
-            # Text-only model; no multimodal projector.
+            # Qwen3.8-27B, ByteShape ShapeLearn GPU-4 (labelled IQ3_S, 3.23 bpw,
+            # 11.0 GB). Hybrid attention: 48 Gated DeltaNet + 16 full-attention
+            # layers, so only 16 layers carry a KV cache (64 KiB/token at f16).
+            # GPU-4 over GPU-5: ~1.9 GiB more room for context, ~15% faster on
+            # a 4080, at 98.72% vs 99.63% of the BF16 baseline.
             - -hf
-            - nvidia/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB
-            - --hf-file
-            - Nemotron-3.5-Bolt-E4B-Q4_K_M.gguf
+            - byteshape/Qwen3.8-27B-GGUF:Qwen3.8-27B-IQ3_S-3.23bpw
             - --alias
-            - nemotron-bolt
-            # DFlash drafter from its own HF repo. --spec-draft-model pins the
-            # filename when used together with --spec-draft-hf.
-            - --spec-draft-hf
-            - nvidia/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB-DFlash
-            - --spec-draft-model
-            - Nemotron-3.5-Bolt-E4B-DFlash-BF16.gguf
-            - --spec-type
-            - draft-dflash
-            - --spec-draft-n-max
-            - "7"
-            - --spec-draft-ngl
-            - "99"
+            - qwen3.8-27b
+            # Vision-capable model: -hf pulls the mmproj by default. Text-only
+            # here, so skip it and keep ~0.5-1 GB of VRAM for the KV cache.
+            - --no-mmproj
+            # No speculative decoding: the embedded MTP head is left unloaded,
+            # which keeps its ~250 MB out of VRAM for the KV cache.
             - --host
             - 0.0.0.0
             - --port
             - "8080"
             - --jinja
-            # Flash attention is recommended for DFlash speculative decoding.
+            # Required for a quantized V cache.
             - --flash-attn
             - "on"
-            # Offload every layer to the GPU.
+            # q8_0 KV roughly halves the cache cost vs f16 for negligible loss.
+            - --cache-type-k
+            - q8_0
+            - --cache-type-v
+            - q8_0
+            # No --ctx-size on purpose: --fit (on by default) sizes the context
+            # to whatever fits in the remaining VRAM. --fit-target is the margin
+            # left free per device; 100 MiB squeezes out the largest context.
+            - --fit-target
+            - "100"
+            # Offload every layer and let --fit shrink context instead.
             - --n-gpu-layers
             - "99"
             - --batch-size
             - "1024"
             - --ubatch-size
             - "256"
-            # Sampling defaults.
+            # Sampling defaults (Qwen3.8 thinking mode).
             - --temp
             - "1.0"
             - --top-p
@@ -99,14 +104,14 @@ spec:
           volumeMounts:
             - name: models
               mountPath: /models
-          # First start downloads ~6.9 GB (6.2 GB model + 0.7 GB drafter) then
-          # loads it; allow 20 min.
+          # First start downloads ~11.0 GB (single GGUF, MTP head included) then
+          # loads it; allow 40 min.
           startupProbe:
             httpGet:
               path: /health
               port: 8080
             periodSeconds: 10
-            failureThreshold: 120
+            failureThreshold: 240
           readinessProbe:
             httpGet:
               path: /health

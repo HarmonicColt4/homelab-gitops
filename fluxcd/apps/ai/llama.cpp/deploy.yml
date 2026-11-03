@@ -39,8 +39,11 @@ spec:
             # Vision: pull the multimodal projector from the same HF repo so
             # images are supported (adds ~0.9 GB VRAM). BF16/F16 are the same
             # size; F16 is the standard choice.
-            - --mmproj
-            - mmproj-F16.gguf
+            # NOTE: --mmproj only accepts a LOCAL path and never downloads.
+            # Use --mmproj-url so llama.cpp fetches it into LLAMA_CACHE on the
+            # PVC (same as -hf does for the weights).
+            - --mmproj-url
+            - https://huggingface.co/DavidAU/Qwen3.5-9B-The-Defiant-Fable-Uncensored-Heretic-NEO-IMATRIX-MAX-MTP-GGUF/resolve/main/mmproj-F16.gguf
             # MTP (multi-token prediction): this GGUF carries
             # nextn_predict_layers=1, so use the built-in MTP head as the draft
             # model for speculative decoding. Start at 2 draft tokens (the

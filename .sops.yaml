@@ -64,6 +64,12 @@ creation_rules:
     age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
     mac_only_encrypted: true
 
+  # AI apps - encrypt mcpproxy-go secrets env file
+  - path_regex: ^fluxcd/apps/ai/mcpproxy-go/secrets/.*\.env$
+    encrypted_regex: MCPPROXY_API_KEY
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
   # Infrastructure configs - encrypt enc.yml files
   - path_regex: ^fluxcd/infrastructure/configs/.*enc\.yml$
     encrypted_regex: ^(data|stringData)$

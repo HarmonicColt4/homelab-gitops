@@ -1,0 +1,15 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: mcpproxy-go
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    # Web UI at /ui/, REST API at /api/v1/, MCP endpoint at /mcp/.
+    - match: Host(`mcpproxy.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: mcpproxy-go
+          port: 8080

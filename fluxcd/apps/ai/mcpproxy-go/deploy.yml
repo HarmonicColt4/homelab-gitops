@@ -30,7 +30,7 @@ spec:
         # its own UID. A Longhorn RWO volume mounts root-owned, and fsGroup
         # only changes the group, so hand /data to 65532 before the app starts.
         - name: fix-data-permissions
-          image: busybox:1.37.0
+          image: busybox:1.38.0
           command:
             - sh
             - -c

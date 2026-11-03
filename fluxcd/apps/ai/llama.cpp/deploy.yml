@@ -41,6 +41,15 @@ spec:
             # size; F16 is the standard choice.
             - --mmproj
             - mmproj-F16.gguf
+            # MTP (multi-token prediction): this GGUF carries
+            # nextn_predict_layers=1, so use the built-in MTP head as the draft
+            # model for speculative decoding. Start at 2 draft tokens (the
+            # model card's tested config); raise toward 3-6 if acceptance stays
+            # high. Keep temp <= 1 and repeat-penalty 1.0 or acceptance drops.
+            - --spec-type
+            - draft-mtp
+            - --spec-draft-n-max
+            - "2"
             - --host
             - 0.0.0.0
             - --port

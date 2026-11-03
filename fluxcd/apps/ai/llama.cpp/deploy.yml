@@ -40,10 +40,8 @@ spec:
             - --no-mmproj
             # No speculative decoding: the embedded MTP head is left unloaded,
             # which keeps its ~250 MB out of VRAM for the KV cache.
-            - --host
-            - 0.0.0.0
-            - --port
-            - "8080"
+            # --host/--port are omitted: the image bakes in LLAMA_ARG_HOST=0.0.0.0
+            # and LLAMA_ARG_PORT=8080.
             - --jinja
             # Required for a quantized V cache.
             - --flash-attn
@@ -58,6 +56,10 @@ spec:
             # left free per device; 100 MiB squeezes out the largest context.
             - --fit-target
             - "100"
+            # One slot, so a single conversation owns the whole KV pool instead
+            # of sharing it with three idle siblings.
+            - --parallel
+            - "1"
             # Offload every layer and let --fit shrink context instead.
             - --n-gpu-layers
             - "99"

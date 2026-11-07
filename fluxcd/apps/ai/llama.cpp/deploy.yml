@@ -24,7 +24,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: llama-server
-          image: ghcr.io/ggml-org/llama.cpp:server-cuda13@sha256:83faadeff67447144770f9b91b4c6694ce2ea2a218efa82f77092ebc29b0c31f
+          image: ghcr.io/ggml-org/llama.cpp:server-cuda13@sha256:38ab331a06df01e2c8a024e3c81dc66842b07d7cc015703bf2d648ea0d49e52c
           args:
             # Qwen3.8-27B, ByteShape ShapeLearn GPU-4 (labelled IQ3_S, 3.23 bpw,
             # 11.0 GB). Hybrid attention: 48 Gated DeltaNet + 16 full-attention

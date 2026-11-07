@@ -54,7 +54,7 @@ spec:
         # The image entrypoint is already
         # `mcpproxy serve --listen 0.0.0.0:8080`; args below are appended.
         - name: mcpproxy
-          image: ghcr.io/smart-mcp-proxy/mcpproxy-server:v0.72.0
+          image: ghcr.io/smart-mcp-proxy/mcpproxy-server:v0.73.0
           args:
             # State (mcp_config.json, config.db, Bleve index, certs, logs)
             # lives on the PVC.

@@ -7,13 +7,13 @@ global:
     storageClass: longhorn
     probeTimeouts:
       liveness:
-        initialDelaySeconds: 0
+        initialDelaySeconds: 12
         periodSeconds: 5
         timeoutSeconds: 5
         failureThreshold: 12
         successThreshold: 1
       readiness:
-        initialDelaySeconds: 0
+        initialDelaySeconds: 10
         periodSeconds: 5
         timeoutSeconds: 5
         failureThreshold: 8
@@ -28,7 +28,7 @@ global:
 podOptions:
   defaultAffinity: false
   nodeSelector:
-    kubernetes.io/arch: null
+    kubernetes.io/arch: ""
     kubernetes.io/os: linux
 
 resources:

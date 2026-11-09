@@ -39,7 +39,7 @@ spec:
             - --cache-type-v
             - kvarn5
             - --ctx-size
-            - "131072"
+            - "229376"
             - --parallel
             - "1"
             - --n-gpu-layers

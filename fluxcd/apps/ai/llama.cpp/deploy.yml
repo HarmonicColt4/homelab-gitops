@@ -33,9 +33,9 @@ spec:
             - --flash-attn
             - "on"
             - --cache-type-k
-            - q8_0
+            - kvarn5
             - --cache-type-v
-            - q8_0
+            - kvarn5
             - --ctx-size
             - "131072"
             - --parallel

@@ -29,7 +29,7 @@ spec:
             - --alias
             - qwen3.8-27b
             - --ctx-size
-            - "200000"
+            - "212992"
             - --jinja
             - --flash-attn
             - "on"

@@ -21,44 +21,16 @@ spec:
       containers:
         - name: llama-server
           image: ghcr.io/anbeeld/beellama.cpp:server-cuda13-v0.4.9@sha256:f33775ab75d2906a94e819802be54c1c30474fa4fc14dfc2e595f294b3af4470
+          # Router mode: per-model config comes from the generated
+          # ConfigMap (models-preset.ini) mounted at /config. Sampling,
+          # KV-cache and GPU args now live in the preset [*] section.
           args:
-            - -hf
-            - byteshape/Qwen3.8-27B-GGUF:IQ3_S
-            - --alias
-            - qwen3.8-27b
-            - --jinja
+            - --models-preset
+            - /config/models-preset.ini
+            - --models-max
+            - "1"
             - --port
             - "8080"
-            - --fit
-            - "off"
-            - --flash-attn
-            - "on"
-            - --cache-type-k
-            - kvarn5
-            - --cache-type-v
-            - kvarn4
-            - --ctx-size
-            - "212992"
-            - --parallel
-            - "1"
-            - --n-gpu-layers
-            - "99"
-            - --batch-size
-            - "4096"
-            - --ubatch-size
-            - "512"
-            - --temp
-            - "1.0"
-            - --top-p
-            - "0.95"
-            - --top-k
-            - "20"
-            - --min-p
-            - "0.0"
-            - --presence-penalty
-            - "0.0"
-            - --repeat-penalty
-            - "1.0"
           env:
             - name: LLAMA_CACHE
               value: /models
@@ -87,6 +59,9 @@ spec:
           volumeMounts:
             - name: models
               mountPath: /models
+            - name: preset
+              mountPath: /config
+              readOnly: true
           startupProbe:
             httpGet:
               path: /health
@@ -109,3 +84,6 @@ spec:
         - name: models
           persistentVolumeClaim:
             claimName: llama-cpp-models
+        - name: preset
+          configMap:
+            name: llama-cpp-models-preset

@@ -20,7 +20,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: llama-server
-          image: ghcr.io/ggml-org/llama.cpp:server-cuda13@sha256:38ab331a06df01e2c8a024e3c81dc66842b07d7cc015703bf2d648ea0d49e52c
+          image: ghcr.io/anbeeld/beellama.cpp:server-cuda13-v0.4.9@sha256:f33775ab75d2906a94e819802be54c1c30474fa4fc14dfc2e595f294b3af4470
           args:
             - -hf
             - webAI-Official/Air-26B-A4B-gguf

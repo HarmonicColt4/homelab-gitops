@@ -29,6 +29,9 @@ spec:
             - --jinja
             - --port
             - "8080"
+            # Do not let --fit silently shrink ctx-size / offload to fit VRAM.
+            - --fit
+            - "off"
             - --flash-attn
             - "on"
             - --cache-type-k

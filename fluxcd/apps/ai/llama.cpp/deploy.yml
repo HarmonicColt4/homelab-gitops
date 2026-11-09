@@ -23,9 +23,9 @@ spec:
           image: ghcr.io/anbeeld/beellama.cpp:server-cuda13-v0.4.9@sha256:f33775ab75d2906a94e819802be54c1c30474fa4fc14dfc2e595f294b3af4470
           args:
             - -hf
-            - webAI-Official/Air-26B-A4B-gguf
+            - byteshape/Qwen3.8-27B-GGUF:IQ3_S
             - --alias
-            - air-26b
+            - qwen3.8-27b
             - --jinja
             - --port
             - "8080"
@@ -37,8 +37,16 @@ spec:
             - kvarn5
             - --cache-type-v
             - kvarn4
+            # 212992 (208K) is the largest context that fits the 16 GiB
+            # RTX 4080 alongside the IQ3_S weights and the 931 MB vision
+            # projector. KV costs ~20 KiB/token with kvarn5/kvarn4.
+            # Measured: 229376 and 233472 load, but any image request
+            # OOMs in clip_encode (mmproj needs ~118 MiB transient);
+            # 217088 handles a single image but OOMs once the prompt is
+            # also long. At 212992 an image plus a ~200K token prompt
+            # completes with ~60 MiB free, and idle leaves ~240 MiB.
             - --ctx-size
-            - "96256"
+            - "212992"
             - --parallel
             - "1"
             - --n-gpu-layers
@@ -52,7 +60,7 @@ spec:
             - --top-p
             - "0.95"
             - --top-k
-            - "64"
+            - "20"
             - --min-p
             - "0.0"
             - --presence-penalty

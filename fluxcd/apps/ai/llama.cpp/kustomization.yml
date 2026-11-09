@@ -13,8 +13,3 @@ secretGenerator:
   - name: llama-cpp-hf-token
     envs:
       - secrets/enc.env
-
-configMapGenerator:
-  - name: llama-cpp-models-preset
-    files:
-      - models-preset.ini

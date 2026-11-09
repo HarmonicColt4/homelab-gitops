@@ -83,14 +83,12 @@
       "automergeType": "branch"
     },
     {
-      "description": "Only update adguard-home, seerr and unifi between 2am and 6am",
-      "matchPackageNames": [
+      "matchDepNames": [
         "adguard-home",
         "seerr",
         "ghcr.io/lemker/unifi-os-server"
       ],
-      "timezone": "Pacific/Auckland",
-      "schedule": ["* 2-6 * * *"]
+      "automergeSchedule": ["* 2-6 * * *"]
     }
   ],
   "major": {

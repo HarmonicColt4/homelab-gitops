@@ -31,6 +31,7 @@ spec:
             - "8080"
             - --fit
             - "off"
+            - --no-mmproj-offload
             - --flash-attn
             - "on"
             - --cache-type-k

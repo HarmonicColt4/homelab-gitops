@@ -63,6 +63,11 @@ spec:
           env:
             - name: LLAMA_CACHE
               value: /models
+            # KVarN flash-attn stages KV in a scratch buffer sized
+            # chunk * n_kv_heads * 512 * 2 bytes. The 65536 default needs
+            # ~256 MiB and OOMs during long prefill; 16384 needs ~64 MiB.
+            - name: GGML_KVARN_WINDOW_CHUNK
+              value: "16384"
             - name: HF_TOKEN
               valueFrom:
                 secretKeyRef:

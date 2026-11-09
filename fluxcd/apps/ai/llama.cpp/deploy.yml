@@ -31,15 +31,14 @@ spec:
             - "8080"
             - --fit
             - "off"
-            - --no-mmproj-offload
             - --flash-attn
             - "on"
             - --cache-type-k
             - kvarn5
             - --cache-type-v
-            - kvarn5
+            - kvarn4
             - --ctx-size
-            - "229376"
+            - "96256"
             - --parallel
             - "1"
             - --n-gpu-layers
@@ -47,7 +46,7 @@ spec:
             - --batch-size
             - "4096"
             - --ubatch-size
-            - "1024"
+            - "512"
             - --temp
             - "1.0"
             - --top-p

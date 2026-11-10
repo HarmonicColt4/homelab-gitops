@@ -126,10 +126,6 @@ it from Git leaves the data behind.
 
 ## Not wired yet
 
-- **mcpproxy-go** (`http://mcpproxy-go.ai.svc.cluster.local:8080`, see
-  `fluxcd/apps/ai/mcpproxy-go/`) can be attached as a tool server from
-  **Admin Panel -> Settings -> Tools**; it needs the `MCPPROXY_API_KEY` bearer
-  token from `fluxcd/apps/ai/mcpproxy-go/secrets/enc.env`.
 - **SSO via authentik**: the `authentik` forwardAuth middleware exists in
   `fluxcd/infrastructure/configs/traefik/middlewares/authentik.yml`, but Open
   WebUI has its own user system, so SSO is better configured as OIDC inside the

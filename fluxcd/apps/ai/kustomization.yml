@@ -4,5 +4,4 @@ kind: Kustomization
 resources:
   - namespace.yml
   - llama.cpp
-  - mcpproxy-go
   - open-webui

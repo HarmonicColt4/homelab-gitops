@@ -57,6 +57,7 @@ spec:
                               operator: NotIn
                               values:
                                 - rpi5
+                                - beast
           - target:
               kind: Deployment
             patch: |-
@@ -71,3 +72,4 @@ spec:
                               operator: NotIn
                               values:
                                 - rpi5
+                                - beast

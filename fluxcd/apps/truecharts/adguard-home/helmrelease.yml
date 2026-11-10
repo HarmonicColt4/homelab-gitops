@@ -49,3 +49,4 @@ spec:
                               operator: NotIn
                               values:
                                 - rpi5
+                                - beast

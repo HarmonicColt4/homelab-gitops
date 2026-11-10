@@ -22,41 +22,10 @@ spec:
         - name: llama-server
           image: ghcr.io/anbeeld/beellama.cpp:server-cuda13-v0.4.9@sha256:f33775ab75d2906a94e819802be54c1c30474fa4fc14dfc2e595f294b3af4470
           args:
-            - -hf
-            - byteshape/Qwen3.8-27B-GGUF
-            - -hff
-            - Qwen3.8-27B-IQ3_S-3.23bpw.gguf
-            - --alias
-            - qwen3.8-27b
-            - --ctx-size
-            - "212992"
-            - --jinja
-            - --flash-attn
-            - "on"
-            - --cache-type-k
-            - kvarn5
-            - --cache-type-v
-            - kvarn4
-            - --parallel
+            - --models-preset
+            - /config/models-preset.ini
+            - --models-max
             - "1"
-            - --n-gpu-layers
-            - "99"
-            - --batch-size
-            - "4096"
-            - --ubatch-size
-            - "512"
-            - --temp
-            - "1.0"
-            - --top-p
-            - "0.95"
-            - --top-k
-            - "20"
-            - --min-p
-            - "0.0"
-            - --presence-penalty
-            - "0.0"
-            - --repeat-penalty
-            - "1.0"
             - --port
             - "8080"
           env:
@@ -76,17 +45,23 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+          # The limit must exceed model size + working set, otherwise the
+          # cgroup reclaims the mmap'd GGUF pages and every model switch
+          # re-reads 11-13 GB from the PVC (~60 s at 200 MB/s).
           resources:
             requests:
               cpu: "4"
-              memory: 12Gi
+              memory: 16Gi
             limits:
               cpu: "4"
-              memory: 16Gi
+              memory: 24Gi
               nvidia.com/gpu: "1"
           volumeMounts:
             - name: models
               mountPath: /models
+            - name: config
+              mountPath: /config
+              readOnly: true
           startupProbe:
             httpGet:
               path: /health
@@ -108,4 +83,9 @@ spec:
       volumes:
         - name: models
           persistentVolumeClaim:
-            claimName: llama-cpp-models
+            # Local NVMe on beast (~1.6 GB/s) instead of the Longhorn
+            # volume (~277 MB/s). See pv-nvme.yml.
+            claimName: llama-cpp-models-nvme
+        - name: config
+          configMap:
+            name: llama-cpp-models-preset

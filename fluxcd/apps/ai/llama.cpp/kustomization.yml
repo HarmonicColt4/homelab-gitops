@@ -4,10 +4,16 @@ kind: Kustomization
 namespace: ai
 
 resources:
-  - pvc.yml
+  - pv-nvme.yml
+  - pvc-nvme.yml
   - deploy.yml
   - svc.yml
   - ingress-route.yml
+
+configMapGenerator:
+  - name: llama-cpp-models-preset
+    files:
+      - models-preset.ini=models-preset.ini
 
 secretGenerator:
   - name: llama-cpp-hf-token

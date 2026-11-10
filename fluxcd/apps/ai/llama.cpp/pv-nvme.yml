@@ -1,0 +1,42 @@
+---
+# Local NVMe storage for model weights.
+#
+# beast has a single NVMe (nvme0n1) fully partitioned by Talos:
+#   nvme0n1p4 -> /var (EPHEMERAL, 100 GiB)
+#   nvme0n1p5 -> /var/mnt/longhorn (829 GiB, Longhorn disk)
+# There is no unallocated space for a dedicated partition, so the models
+# live in a plain directory on the Longhorn filesystem and bypass the
+# Longhorn engine entirely. Measured on beast:
+#   Longhorn volume (iSCSI):  ~277 MB/s
+#   this directory (raw xfs): ~1.4 GB/s write, ~1.6 GB/s read
+# Longhorn accounts for the space via statfs, so it will not overfill.
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-nvme
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Retain
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: llama-cpp-models-nvme
+spec:
+  capacity:
+    storage: 100Gi
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-nvme
+  local:
+    path: /var/mnt/longhorn/llama-models
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - beast

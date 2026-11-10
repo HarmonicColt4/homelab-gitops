@@ -1,0 +1,16 @@
+---
+# Binds to the static local PV on beast's NVMe (see pv-nvme.yml).
+# The Longhorn PVC in pvc.yml is kept as a rollback target.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: llama-cpp-models-nvme
+spec:
+  storageClassName: local-nvme
+  volumeName: llama-cpp-models-nvme
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 100Gi

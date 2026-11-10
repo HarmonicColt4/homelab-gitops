@@ -7,7 +7,7 @@
 # There is no unallocated space for a dedicated partition, so the models
 # live in a plain directory on the Longhorn filesystem and bypass the
 # Longhorn engine entirely. Measured on beast:
-# Longhorn volume (iSCSI):  ~277 MB/s
+#   Longhorn volume (iSCSI):  ~277 MB/s
 #   this directory (raw xfs): ~1.4 GB/s write, ~1.6 GB/s read
 # Longhorn accounts for the space via statfs, so it will not overfill.
 #

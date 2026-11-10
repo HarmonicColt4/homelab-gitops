@@ -1,0 +1,20 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: open-webui
+  namespace: ai
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    # Path prefix must stay "/": Open WebUI does not support a sub-path
+    # deployment, so the whole host is dedicated to it.
+    - match: Host(`ai.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        # Service port 80 (named http) from the chart; the container listens
+        # on 8080 via targetPort. TLS uses the default TLSStore certificate
+        # (teamg-app-tls, wildcard *.teamg.app), so no tls block is needed.
+        - name: open-webui
+          port: 80

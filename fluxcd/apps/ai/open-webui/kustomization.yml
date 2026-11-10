@@ -1,0 +1,13 @@
+---
+# No global "namespace" directive on purpose: the HelmRelease has to stay in
+# flux-system (repo convention for all HelmReleases), while the Secret,
+# IngressRoute and the release target live in the ai namespace. Each manifest
+# therefore declares its own namespace explicitly.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - repository.yml
+  - helmrelease.yml
+  - secret.yml
+  - ingress-route.yml

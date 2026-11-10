@@ -11,3 +11,4 @@ spec:
   concurrency: 2
   groups:
     - default
+    - cnpg

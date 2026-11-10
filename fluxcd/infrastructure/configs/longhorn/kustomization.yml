@@ -4,6 +4,7 @@ kind: Kustomization
 
 resources:
   - backup.yml
-  # - snapshot.yml
+  - snapshot.yml
+  - snapshot-cleanup.yml
   - fs-trim.yml
   - ingress-route.yml

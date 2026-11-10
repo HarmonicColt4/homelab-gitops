@@ -5,9 +5,9 @@ metadata:
   name: snapshot
   namespace: longhorn-system
 spec:
-  cron: "0 12 * * *" # UTC
+  cron: "*/30 * * * *"
   task: "snapshot"
-  retain: 7
+  retain: 96 # 96 x 30m = 48h (2 days)
   concurrency: 2
   groups:
     - default

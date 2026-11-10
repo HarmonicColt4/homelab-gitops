@@ -1,9 +1,10 @@
 # Talos Cluster Information
 
-One control plane node and one worker node:
+One control plane node and two worker nodes:
 
 - `rpi5` — control plane
 - `hedy` — worker
+- `beast` — worker
 
 **Endpoint**: `k8s.home.arpa`
 **Cluster Name**: `teamg`
@@ -55,6 +56,12 @@ For `hedy` specifically:
 talosctl machineconfig patch configs/worker.yaml --patch @patches/common/metrics.yml --patch @patches/hedy.yml --output configs/hedy.yml
 ```
 
+For `beast` specifically:
+
+```
+talosctl machineconfig patch configs/worker.yaml --patch @patches/common/metrics.yml --patch @patches/beast.yml --output configs/beast.yml
+```
+
 ## Apply Configs
 
 ```
@@ -81,86 +88,10 @@ talosctl upgrade-k8s --to <version>
 > reaches the API through the shared endpoint (KubePrism/VIP), it can land on the older
 > API server, the informer never syncs, and the scheduler stays unready (`/readyz` 500).
 
-## Migrating hedy from control plane to worker
+## Historical: hedy migration
 
-Current live state: `hedy` (amd64, `10.25.25.191`) and `rpi5` (arm64, `10.25.25.186`) are **both**
-control-plane nodes; etcd has 2 members (quorum 2) and `hedy` is the bootstrap node. The target state
-is a **single** control plane (`rpi5`) with `hedy` as a worker.
-
-The node role is not stored in any committed file — it is the `machine.type` field of the **generated**
-machine config, produced by patching either `configs/controlplane.yaml` or `configs/worker.yaml`.
-`configs/` is gitignored. The committed per-node patch [`patches/hedy.yml`](patches/hedy.yml) never
-encodes the role.
-
-Perform the steps below **in order**. Longhorn data loss is not acceptable, so replicas must be
-relocated to `rpi5` and verified healthy **before** `hedy` is reset.
-
-### a. Pre-flight
-
-- Confirm `rpi5` is healthy and holds (or can hold) all Longhorn replicas.
-- Take an etcd snapshot from `rpi5`:
-
-```
-talosctl -n 10.25.25.186 etcd snapshot /tmp/etcd.db
-```
-
-### b. Relocate Longhorn replicas off hedy onto rpi5
-
-Move every replica currently on `hedy` to `rpi5` — for example by cordoning/evicting `hedy` in the
-Longhorn UI or by raising the replica count so fresh replicas land on `rpi5`. Wait until every volume
-is healthy and its replicas reside on `rpi5`. **Do not continue until this is verified** — proceeding
-with replicas still only on `hedy` risks data loss.
-
-### c. Drain hedy
-
-```
-kubectl drain hedy --ignore-daemonsets --delete-emptydir-data
-```
-
-### d. Remove hedy from etcd
-
-```
-talosctl -n 10.25.25.186 etcd remove-member <hedy-member-id>
-```
-
-Alternatively, leave etcd from the `hedy` node itself:
-
-```
-talosctl -n 10.25.25.191 etcd leave
-```
-
-Then verify only `rpi5` remains:
-
-```
-talosctl -n 10.25.25.186 etcd members
-```
-
-### e. Reset hedy
-
-```
-talosctl -n 10.25.25.191 reset --graceful=false --reboot
-```
-
-### f. Generate and apply the worker config
-
-```
-talosctl machineconfig patch configs/worker.yaml --patch @patches/common/metrics.yml --patch @patches/hedy.yml --output configs/hedy.yml
-talosctl apply-config --insecure --nodes <hedy-ip> --file configs/hedy.yml
-```
-
-> **Note:** `allow-cp-worker.yml` is applied **only** to control plane nodes (`rpi5`), never to a worker.
-> Do not include it in the `hedy` worker config.
-
-### g. Verify
-
-- `kubectl get nodes` — `hedy` has role `<none>` and is `Ready`.
-- `hedy` carries no control-plane taint.
-- `talosctl -n 10.25.25.186 etcd members` — etcd has a single member (`rpi5`).
-- Workloads reschedule onto `hedy`, and Longhorn volumes are healthy.
-
-> **Risk:** After migration etcd has a single member (`rpi5`) with **zero fault tolerance**. Any
-> outage of `rpi5` takes the control plane down; plan to restore a second control-plane (or etcd)
-> member soon.
+`hedy` was migrated from control plane to worker. The current state is a single control plane
+(`rpi5`) with workers `hedy` and `beast`. The old migration steps are no longer applicable.
 
 ## Migrating to Cilium (kube-proxy replacement)
 

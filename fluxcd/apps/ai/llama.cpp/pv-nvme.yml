@@ -7,9 +7,16 @@
 # There is no unallocated space for a dedicated partition, so the models
 # live in a plain directory on the Longhorn filesystem and bypass the
 # Longhorn engine entirely. Measured on beast:
-#   Longhorn volume (iSCSI):  ~277 MB/s
+# Longhorn volume (iSCSI):  ~277 MB/s
 #   this directory (raw xfs): ~1.4 GB/s write, ~1.6 GB/s read
 # Longhorn accounts for the space via statfs, so it will not overfill.
+#
+# The capacity below is bookkeeping only: directory-backed local volumes
+# report a size but cannot be provisioned or controller-expanded (node-side
+# expansion is a NO-OP). To grow this volume, raise BOTH the PV capacity and
+# the matching PVC request in pvc-nvme.yml; the existing claim then needs its
+# status converged (or the PV/PVC recreated) because no resizer exists for
+# kubernetes.io/no-provisioner.
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -17,11 +24,6 @@ metadata:
 provisioner: kubernetes.io/no-provisioner
 volumeBindingMode: WaitForFirstConsumer
 reclaimPolicy: Retain
-# Grew this claim from 100Gi to 200Gi. The capacity of a directory-backed
-# local volume is declarative only (expansion is a NO-OP on the node), but
-# the PVC resize controller refuses to process a resize request unless the
-# StorageClass is marked expandable.
-allowVolumeExpansion: true
 ---
 apiVersion: v1
 kind: PersistentVolume

@@ -30,6 +30,7 @@ spec:
       reclaimPolicy: "Retain"
     defaultSettings:
       createDefaultDiskLabeledNodes: true
+      defaultReplicaCount: "2"
       concurrentAutomaticEngineUpgradePerNodeLimit: "3"
       removeSnapshotsDuringFilesystemTrim: true
       replicaAutoBalance: best-effort

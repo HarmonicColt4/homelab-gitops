@@ -7,4 +7,3 @@ resources:
   # - snapshot.yml
   - fs-trim.yml
   - ingress-route.yml
-  - sc-cnpg.yml

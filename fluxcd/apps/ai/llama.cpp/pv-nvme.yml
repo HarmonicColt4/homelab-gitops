@@ -17,6 +17,11 @@ metadata:
 provisioner: kubernetes.io/no-provisioner
 volumeBindingMode: WaitForFirstConsumer
 reclaimPolicy: Retain
+# Grew this claim from 100Gi to 200Gi. The capacity of a directory-backed
+# local volume is declarative only (expansion is a NO-OP on the node), but
+# the PVC resize controller refuses to process a resize request unless the
+# StorageClass is marked expandable.
+allowVolumeExpansion: true
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -24,7 +29,7 @@ metadata:
   name: llama-cpp-models-nvme
 spec:
   capacity:
-    storage: 100Gi
+    storage: 200Gi
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem

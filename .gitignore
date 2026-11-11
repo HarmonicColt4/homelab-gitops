@@ -9,3 +9,5 @@
 talos/clusters/*/configs
 terraform/**/.terraform/
 plans/
+.roomodes
+.roo/

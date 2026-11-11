@@ -4,7 +4,7 @@ Terraform root module that provisions the Talos Linux VM for the `home` cluster 
 
 ## Prerequisites
 
-- Terraform `1.17.1`
+- Terraform `1.17.2`
 - A `garage` AWS profile for the S3 state backend (see [`version.tf`](version.tf))
 - Proxmox VE API credentials (see below)
 

@@ -17,7 +17,7 @@ spec:
             kubernetes.io/arch: amd64
           containers:
             - name: renovate
-              image: renovate/renovate:44.235.4
+              image: renovate/renovate:44.235.5
               env:
                 - name: LOG_LEVEL
                   value: info

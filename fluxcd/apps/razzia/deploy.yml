@@ -18,7 +18,7 @@ spec:
         app: razzia
     spec:
       containers:
-        - image: ralex91/razzia:4.0.2
+        - image: ralex91/razzia:4.1.0
           name: razzia
           envFrom:
             - secretRef:

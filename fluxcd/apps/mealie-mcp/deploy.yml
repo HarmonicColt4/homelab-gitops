@@ -1,0 +1,107 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mealie-mcp
+  labels:
+    app: mealie-mcp
+spec:
+  replicas: 1
+  # Stateless, but a single replica keeps one MCP session store and avoids
+  # duplicate SSE/streamable-http sessions behind the Service.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: mealie-mcp
+  template:
+    metadata:
+      labels:
+        app: mealie-mcp
+    spec:
+      # beast only. The workload is tiny, but it is pinned so it never lands
+      # on the arm64 control plane (rpi5) or the low-power nodes.
+      nodeSelector:
+        kubernetes.io/hostname: beast
+      # The server never talks to the Kubernetes API.
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: mealie-mcp
+          # Renovate tracks this tag (kubernetes manager, deploy.yml).
+          image: ghcr.io/mdlopresti/mealie-mcp:1.8.2
+          # Upstream only speaks MCP over stdio: the image ENTRYPOINT is
+          # `python -m src.server`, which ends in a bare `mcp.run()`. A
+          # cluster workload needs a network transport, so the entrypoint is
+          # replaced with an equivalent that serves Streamable HTTP on
+          # 0.0.0.0:8000/mcp. `server.py` inserts its own directory on
+          # sys.path, so importing it as a module keeps the `tools`/`client`
+          # imports working.
+          command:
+            - python
+            - -c
+            - |
+              import sys
+              sys.path.insert(0, "/app/src")
+              from server import mcp
+              mcp.run(transport="http", host="0.0.0.0", port=8000)
+          env:
+            # Non-secret config lives in Git; only the API token is SOPS
+            # encrypted (see secrets/enc.env).
+            - name: MEALIE_URL
+              value: http://mealie.mealie.svc.cluster.local:9000
+            # The root filesystem is read-only, so keep bytecode and any
+            # library scratch files in the writable /tmp emptyDir.
+            - name: PYTHONDONTWRITEBYTECODE
+              value: "1"
+            - name: HOME
+              value: /tmp
+          envFrom:
+            - secretRef:
+                name: mealie-mcp-config
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+          # FastMCP's HTTP transport only answers on /mcp and rejects plain
+          # GETs without MCP headers, so an httpGet probe would report a
+          # false failure. A TCP probe is enough to know uvicorn is bound.
+          startupProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 5
+            failureThreshold: 30
+          readinessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 30
+            failureThreshold: 3
+      volumes:
+        - name: tmp
+          emptyDir:
+            sizeLimit: 64Mi

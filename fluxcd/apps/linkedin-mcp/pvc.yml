@@ -1,0 +1,19 @@
+---
+# The only stateful thing in this app: the LinkedIn session cookies, the
+# derived runtime profile and the Patchright browser cache.
+#
+# Losing the volume costs a re-login, not data, but a re-login needs a human at
+# a browser (see bootstrap/login-job.yml), so it is a claim rather than an
+# emptyDir. Longhorn's default class carries the "default" recurring-job group,
+# so the volume is backed up to Garage along with the other app volumes.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: linkedin-mcp-session
+spec:
+  storageClassName: longhorn
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi

@@ -1,0 +1,175 @@
+# LinkedIn MCP Server
+
+[`stickerdaniel/linkedin-mcp-server`](https://github.com/stickerdaniel/linkedin-mcp-server)
+runs as a plain `Deployment` in the `linkedin-mcp` namespace and is served at
+<https://linkedin-mcp.teamg.app/mcp> over Streamable HTTP.
+
+| Item      | Value                                                         |
+| --------- | ------------------------------------------------------------- |
+| Manifests | `fluxcd/apps/linkedin-mcp/`                                   |
+| Workload  | `Deployment/linkedin-mcp`, 1 replica, pinned to `beast`       |
+| Image     | `stickerdaniel/linkedin-mcp-server:4.30.0` (Renovate-tracked) |
+| Service   | `linkedin-mcp/linkedin-mcp`, ClusterIP port `8080`            |
+| Edge      | `linkedin-mcp` IngressRoute, Traefik `websecure`              |
+| Storage   | PVC `linkedin-mcp-session`, 5Gi `longhorn`, ReadWriteOnce     |
+| Session   | `/home/pwuser/.linkedin-mcp` on that PVC, created by hand     |
+| Secrets   | none in Git — the session is state, not configuration         |
+
+## Why it looks like this
+
+Upstream ships a Docker image whose entrypoint is
+`tini -- linkedin-mcp-entrypoint python -m linkedin_mcp_server`. The entrypoint
+starts `Xvfb` on `:99` and the server runs a **headed** Chromium against it
+(`HEADLESS=false` is baked into the image), because LinkedIn's anti-automation
+checks behave differently in real headless mode. That drives most of the
+manifest:
+
+- **`nodeSelector: kubernetes.io/hostname: beast`** — a headed Chromium plus an
+  X server is far too heavy for the arm64 control plane (`rpi5`) and the
+  low-power nodes.
+- **`/dev/shm` is a 512Mi memory-backed `emptyDir`** — Kubernetes defaults it to
+  64Mi, which a headed Chromium exhausts and reports as renderer crashes.
+- **`/tmp`, `~/.cache`, `~/.config`, `~/.pki` are `emptyDir`s** — the root
+  filesystem is read-only, but Xvfb needs `/tmp/.X11-unix` and Chromium wants a
+  writable home.
+- **`fsGroup: 1000`** — the image creates `/home/pwuser/.linkedin-mcp` as
+  `pwuser`, but a Longhorn volume arrives owned by `root`. `fsGroup` makes the
+  claim writable without a privileged init container.
+- **`strategy: Recreate`** — the session volume is `ReadWriteOnce`, so a rolling
+  update would deadlock on a multi-attach.
+- **TCP probes, not HTTP** — FastMCP only answers on `/mcp` and rejects plain
+  `GET`s without MCP headers, so an `httpGet` probe reports a false failure.
+
+`FASTMCP_HTTP_ALLOWED_HOSTS` lists the public name and the in-cluster Service
+names. FastMCP answers `421` to any `Host` it was not told to serve; that check
+is what stops a website you merely visit from driving this server through your
+browser, so it must not be disabled — add names to the list instead.
+
+## First-time sign-in
+
+The server cannot create a LinkedIn session on its own in a container: upstream
+skips browser auto-import under Docker and tells you to run `--login` on the
+host. The equivalent here is a one-shot Job that mounts the same PVC and serves
+the login browser at a token-protected URL.
+
+The Job is **not** in `kustomization.yml` on purpose — Flux must never apply it,
+because it would race the Deployment for the `ReadWriteOnce` volume and it needs
+a human at a browser.
+
+```bash
+# 1. Release the session volume.
+kubectl -n linkedin-mcp scale deploy/linkedin-mcp --replicas=0
+
+# 2. Start the login job.
+kubectl apply -f fluxcd/apps/linkedin-mcp/bootstrap/login-job.yml
+kubectl -n linkedin-mcp wait --for=condition=Ready pod -l job-name=linkedin-mcp-login
+
+# 3. Read the token URL the job prints.
+kubectl -n linkedin-mcp logs -f job/linkedin-mcp-login
+
+# 4. In a second terminal, forward the viewer.
+kubectl -n linkedin-mcp port-forward job/linkedin-mcp-login 6080:6080
+```
+
+Open the **full** URL from step 3 (it carries the access token), sign in, and
+let the job exit on its own — it gives up after 30 minutes. `Ctrl+V` pastes
+plain ASCII into the login browser, which is what a password manager should
+give you.
+
+```bash
+# 5. Clean up and bring the server back.
+kubectl -n linkedin-mcp delete job linkedin-mcp-login
+kubectl -n linkedin-mcp scale deploy/linkedin-mcp --replicas=1
+```
+
+Verify with the `get_session_status` tool, or:
+
+```bash
+kubectl -n linkedin-mcp logs deploy/linkedin-mcp | grep -i session
+```
+
+### When the session expires
+
+LinkedIn invalidates sessions periodically. Tool calls then start returning an
+authentication error. Repeat the procedure above; nothing else changes. The
+volume keeps the old profile until the new login replaces it.
+
+## Connecting a client
+
+Point an MCP client at the Streamable HTTP endpoint:
+
+```json
+{
+  "mcpServers": {
+    "linkedin": {
+      "type": "streamable-http",
+      "url": "https://linkedin-mcp.teamg.app/mcp"
+    }
+  }
+}
+```
+
+In-cluster consumers should use
+`http://linkedin-mcp.linkedin-mcp.svc.cluster.local:8080/mcp` and skip the TLS
+hop. Both names are in `FASTMCP_HTTP_ALLOWED_HOSTS`.
+
+## Security
+
+**The endpoint has no authentication of its own.** Upstream says so explicitly:
+anything reachable beyond your own machine belongs behind something that
+provides it. Whoever can reach `/mcp` can read your inbox, send messages and
+send connection requests as you.
+
+The route is published on the wildcard `*.teamg.app` certificate like the other
+apps, so treat the hostname as the only control. If that is not enough, add a
+Traefik middleware to the IngressRoute — `IPAllowList` for LAN-only access, or
+`basicAuth` with an htpasswd `Secret` — before widening exposure. The
+`authentik` forwardAuth middleware in
+`fluxcd/infrastructure/configs/traefik/middlewares/` is **not** usable yet: no
+`authentik` namespace exists in this cluster.
+
+Also note that LinkedIn's User Agreement prohibits automated access. Accounts
+using tools like this can be restricted. Use it sparingly.
+
+## Upgrades
+
+Renovate tracks the image tag through the `kubernetes` manager, whose
+`managerFilePatterns` in `renovate.json` already covers `deploy.yml`. A new
+upstream release opens a PR that bumps `image:` in
+`fluxcd/apps/linkedin-mcp/deploy.yml`; merging it is the whole upgrade.
+
+- Upstream ships frequently and the server tracks LinkedIn's page structure, so
+  do not pin an old tag for long — a stale image is the usual cause of tools
+  returning empty data.
+- `bootstrap/login-job.yml` carries the same tag and is tracked by the same
+  manager (`/login-job\.yml$/` in `renovate.json`), so the two never drift.
+- The session survives image upgrades: the profile is on the PVC, and the
+  container re-derives its runtime profile from the stored cookies on start.
+
+## Rollback
+
+```bash
+# Pin the previous tag in Git and let Flux reconcile.
+flux reconcile kustomization apps --with-source
+
+# Or, to get the old pod back immediately without touching Git:
+kubectl -n linkedin-mcp set image deploy/linkedin-mcp \
+  linkedin-mcp=stickerdaniel/linkedin-mcp-server:<previous-tag>
+```
+
+Flux reverts the imperative change on the next reconcile, so treat the second
+form as a stopgap only.
+
+## Troubleshooting
+
+| Symptom                                             | Check                                                                                                                    |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `421 Misdirected Request`                           | The `Host` you used is not in `FASTMCP_HTTP_ALLOWED_HOSTS`. Add it rather than removing the check.                       |
+| `503` from Traefik                                  | `kubectl -n linkedin-mcp get ingressroute linkedin-mcp` and that the Service has endpoints.                              |
+| Pod `Pending`                                       | `beast` must be schedulable and the Longhorn volume attachable. `kubectl -n linkedin-mcp describe pod`.                  |
+| `CrashLoopBackOff`, Xvfb errors in logs             | `/tmp` must be writable. Confirm the `tmp` `emptyDir` is still mounted.                                                  |
+| Renderer crashes / blank pages                      | `/dev/shm` too small. Confirm the `dshm` `emptyDir` is mounted at `/dev/shm`.                                            |
+| `Permission denied` on `/home/pwuser/.linkedin-mcp` | `fsGroup: 1000` missing, or the volume was created by a root-owned run. Check `kubectl -n linkedin-mcp get pvc -o yaml`. |
+| Tools return "no valid session"                     | The session expired. Re-run the login procedure.                                                                         |
+| Tools time out on multi-page reads                  | Raise `TOOL_TIMEOUT` (seconds) or `TIMEOUT` (milliseconds) in `deploy.yml`.                                              |
+| `browser is busy`                                   | Only one process may hold the shared browser. Keep `replicas: 1`.                                                        |

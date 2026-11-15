@@ -1,0 +1,103 @@
+---
+# One-shot LinkedIn sign-in.
+#
+# NOT part of kustomization.yml, and it must stay that way: Flux would race the
+# Deployment for the ReadWriteOnce session volume, and the job needs a human at
+# a browser. Apply it by hand, following docs/linkedin-mcp.md:
+#
+#   kubectl -n linkedin-mcp scale deploy/linkedin-mcp --replicas=0
+#   kubectl apply -f fluxcd/apps/linkedin-mcp/bootstrap/login-job.yml
+#   kubectl -n linkedin-mcp wait --for=condition=Ready pod -l job-name=linkedin-mcp-login
+#   kubectl -n linkedin-mcp logs -f job/linkedin-mcp-login   # prints the token URL
+#   kubectl -n linkedin-mcp port-forward job/linkedin-mcp-login 6080:6080
+#   # open the token URL, sign in, let the job exit on its own
+#   kubectl -n linkedin-mcp delete job linkedin-mcp-login
+#   kubectl -n linkedin-mcp scale deploy/linkedin-mcp --replicas=1
+#
+# The session is written to the same PVC the Deployment mounts, so the server
+# picks it up on its next start.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: linkedin-mcp-login
+  namespace: linkedin-mcp
+spec:
+  backoffLimit: 0
+  # The viewer gives up after 30 minutes; leave room for the browser to close.
+  activeDeadlineSeconds: 2400
+  ttlSecondsAfterFinished: 3600
+  template:
+    metadata:
+      labels:
+        app: linkedin-mcp-login
+    spec:
+      restartPolicy: Never
+      nodeSelector:
+        kubernetes.io/hostname: beast
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: login
+          image: stickerdaniel/linkedin-mcp-server:4.30.0
+          # `--login-viewer` serves the login browser at a token-protected URL
+          # on 6080. Plain `--login` has no visible window in a container.
+          args:
+            - --login
+            - --login-viewer
+          ports:
+            - name: viewer
+              containerPort: 6080
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 100m
+              memory: 512Mi
+            limits:
+              cpu: "2"
+              memory: 3Gi
+          volumeMounts:
+            - name: session
+              mountPath: /home/pwuser/.linkedin-mcp
+            - name: tmp
+              mountPath: /tmp
+            - name: dshm
+              mountPath: /dev/shm
+            - name: cache
+              mountPath: /home/pwuser/.cache
+            - name: config
+              mountPath: /home/pwuser/.config
+            - name: pki
+              mountPath: /home/pwuser/.pki
+      volumes:
+        - name: session
+          persistentVolumeClaim:
+            claimName: linkedin-mcp-session
+        - name: tmp
+          emptyDir:
+            sizeLimit: 1Gi
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 512Mi
+        - name: cache
+          emptyDir:
+            sizeLimit: 1Gi
+        - name: config
+          emptyDir:
+            sizeLimit: 64Mi
+        - name: pki
+          emptyDir:
+            sizeLimit: 64Mi

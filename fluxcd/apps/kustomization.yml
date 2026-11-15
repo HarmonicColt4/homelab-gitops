@@ -4,6 +4,7 @@ kind: Kustomization
 
 resources:
   - ai
+  - linkedin-mcp
   - mealie
   - mealie-mcp
   - truenas-auto-update

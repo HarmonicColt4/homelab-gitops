@@ -1,0 +1,151 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linkedin-mcp
+  labels:
+    app: linkedin-mcp
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  # The LinkedIn session lives on a ReadWriteOnce volume, so the old pod has to
+  # release it before the new one starts. A rolling update would deadlock on a
+  # multi-attach.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: linkedin-mcp
+  template:
+    metadata:
+      labels:
+        app: linkedin-mcp
+    spec:
+      # beast only. The container runs a full headed Chromium on an Xvfb
+      # display, which is far too heavy for the arm64 control plane (rpi5) and
+      # the low-power nodes.
+      nodeSelector:
+        kubernetes.io/hostname: beast
+      # The server never talks to the Kubernetes API.
+      automountServiceAccountToken: false
+      # Chromium teardown is slow. The entrypoint stops Python before Xvfb so
+      # the browser can close cleanly, and that needs room to finish.
+      terminationGracePeriodSeconds: 60
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        # The image creates /home/pwuser/.linkedin-mcp as pwuser, but a Longhorn
+        # volume arrives owned by root. fsGroup makes the claim writable by the
+        # container user without a privileged init container.
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: linkedin-mcp
+          # Renovate tracks this tag (kubernetes manager, deploy.yml).
+          image: stickerdaniel/linkedin-mcp-server:4.30.0
+          # The image ENTRYPOINT is
+          # `tini -- linkedin-mcp-entrypoint python -m linkedin_mcp_server`, so
+          # these are appended to the module. Upstream defaults to stdio on
+          # 127.0.0.1:8000; a cluster workload needs a network transport bound
+          # to every interface in the pod.
+          args:
+            - --transport
+            - streamable-http
+            - --host
+            - 0.0.0.0
+            - --port
+            - "8080"
+            - --path
+            - /mcp
+            - --log-level
+            - INFO
+          env:
+            # FastMCP answers 421 to any Host it was not told to serve, which is
+            # what stops a random website from driving this server through a
+            # visitor's browser. Traefik forwards the public name and in-cluster
+            # clients use the Service name, so both are listed.
+            - name: FASTMCP_HTTP_ALLOWED_HOSTS
+              value: '["linkedin-mcp.teamg.app","linkedin-mcp.linkedin-mcp.svc.cluster.local","linkedin-mcp.linkedin-mcp.svc","linkedin-mcp"]'
+            # A cold-start Chromium plus multi-page reads exceed the 180s
+            # default for a whole tool call.
+            - name: TOOL_TIMEOUT
+              value: "300"
+            # Per page operation, in milliseconds.
+            - name: TIMEOUT
+              value: "10000"
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 100m
+              memory: 512Mi
+            limits:
+              cpu: "2"
+              memory: 3Gi
+          volumeMounts:
+            # Cookies, the derived runtime profile and the browser cache.
+            - name: session
+              mountPath: /home/pwuser/.linkedin-mcp
+            # Xvfb writes its socket, lock file and log here.
+            - name: tmp
+              mountPath: /tmp
+            # Chromium's default 64Mi /dev/shm is not enough for a headed
+            # browser and shows up as renderer crashes.
+            - name: dshm
+              mountPath: /dev/shm
+            # The root filesystem is read-only; Chromium and fontconfig still
+            # want a writable home for caches and NSS.
+            - name: cache
+              mountPath: /home/pwuser/.cache
+            - name: config
+              mountPath: /home/pwuser/.config
+            - name: pki
+              mountPath: /home/pwuser/.pki
+          # FastMCP only answers on /mcp and rejects plain GETs without MCP
+          # headers, so an httpGet probe would report a false failure. A TCP
+          # probe is enough to know uvicorn is bound.
+          startupProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 5
+            failureThreshold: 60
+          readinessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 30
+            failureThreshold: 3
+      volumes:
+        - name: session
+          persistentVolumeClaim:
+            claimName: linkedin-mcp-session
+        - name: tmp
+          emptyDir:
+            sizeLimit: 1Gi
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 512Mi
+        - name: cache
+          emptyDir:
+            sizeLimit: 1Gi
+        - name: config
+          emptyDir:
+            sizeLimit: 64Mi
+        - name: pki
+          emptyDir:
+            sizeLimit: 64Mi

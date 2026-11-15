@@ -1,0 +1,21 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: linkedin-mcp
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`linkedin-mcp.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        # TLS uses the default TLSStore certificate (teamg-app-tls, wildcard
+        # *.teamg.app), so no tls block is needed. Traefik's websecure
+        # respondingTimeouts are 1800s, which keeps Streamable HTTP / SSE
+        # sessions from being cut mid-stream.
+        #
+        # The host name is also listed in FASTMCP_HTTP_ALLOWED_HOSTS on the
+        # Deployment: FastMCP answers 421 to any Host it was not told to serve.
+        - name: linkedin-mcp
+          port: 8080

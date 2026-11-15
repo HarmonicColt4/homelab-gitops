@@ -37,9 +37,12 @@ manifest:
   Kubernetes `emptyDir` is (0777, no sticky). Mounting one at `/tmp` fails with
   `Installer temporary roots can be replaced by another account in /tmp`. The
   image's own `/tmp` is 1777 and passes, so it is left alone.
-- **`fsGroup: 1000`** — the image creates `/home/pwuser/.linkedin-mcp` as
-  `pwuser`, but a Longhorn volume arrives owned by `root`. `fsGroup` makes the
-  claim writable without a privileged init container.
+- **`fsGroup: 1000` plus a `fix-volume-ownership` init container** — a Longhorn
+  volume arrives owned by `root`. `fsGroup` only sets the _group_, and the
+  server `chmod`s its profile root to 0700 on start, which fails with
+  `EPERM` for a directory it does not own. The init container runs as root with
+  only `CAP_CHOWN` and fixes the owner once; everything below the mount root is
+  then created by `pwuser`.
 - **`strategy: Recreate`** — the session volume is `ReadWriteOnce`, so a rolling
   update would deadlock on a multi-attach.
 - **TCP probes, not HTTP** — FastMCP only answers on `/mcp` and rejects plain
@@ -167,15 +170,15 @@ form as a stopgap only.
 
 ## Troubleshooting
 
-| Symptom                                                                | Check                                                                                                                    |
-| ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `421 Misdirected Request`                                              | The `Host` you used is not in `FASTMCP_HTTP_ALLOWED_HOSTS`. Add it rather than removing the check.                       |
-| `503` from Traefik                                                     | `kubectl -n linkedin-mcp get ingressroute linkedin-mcp` and that the Service has endpoints.                              |
-| Pod `Pending`                                                          | `beast` must be schedulable and the Longhorn volume attachable. `kubectl -n linkedin-mcp describe pod`.                  |
-| `Installer temporary roots can be replaced by another account in /tmp` | `/tmp` was replaced by an `emptyDir`. Remove that mount; the image's own 1777 `/tmp` is required.                        |
-| `Browser installation failed` on a read-only root                      | `readOnlyRootFilesystem` is incompatible with this image. See the note in `deploy.yml`.                                  |
-| Renderer crashes / blank pages                                         | `/dev/shm` too small. Confirm the `dshm` `emptyDir` is mounted at `/dev/shm`.                                            |
-| `Permission denied` on `/home/pwuser/.linkedin-mcp`                    | `fsGroup: 1000` missing, or the volume was created by a root-owned run. Check `kubectl -n linkedin-mcp get pvc -o yaml`. |
-| Tools return "no valid session"                                        | The session expired. Re-run the login procedure.                                                                         |
-| Tools time out on multi-page reads                                     | Raise `TOOL_TIMEOUT` (seconds) or `TIMEOUT` (milliseconds) in `deploy.yml`.                                              |
-| `browser is busy`                                                      | Only one process may hold the shared browser. Keep `replicas: 1`.                                                        |
+| Symptom                                                                | Check                                                                                                                                                                          |
+| ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `421 Misdirected Request`                                              | The `Host` you used is not in `FASTMCP_HTTP_ALLOWED_HOSTS`. Add it rather than removing the check.                                                                             |
+| `503` from Traefik                                                     | `kubectl -n linkedin-mcp get ingressroute linkedin-mcp` and that the Service has endpoints.                                                                                    |
+| Pod `Pending`                                                          | `beast` must be schedulable and the Longhorn volume attachable. `kubectl -n linkedin-mcp describe pod`.                                                                        |
+| `Installer temporary roots can be replaced by another account in /tmp` | `/tmp` was replaced by an `emptyDir`. Remove that mount; the image's own 1777 `/tmp` is required.                                                                              |
+| `Browser installation failed` on a read-only root                      | `readOnlyRootFilesystem` is incompatible with this image. See the note in `deploy.yml`.                                                                                        |
+| Renderer crashes / blank pages                                         | `/dev/shm` too small. Confirm the `dshm` `emptyDir` is mounted at `/dev/shm`.                                                                                                  |
+| `[Errno 1] Operation not permitted: '/home/pwuser/.linkedin-mcp'`      | The volume root is not owned by uid 1000. The `fix-volume-ownership` init container did not run or failed; check `kubectl -n linkedin-mcp logs <pod> -c fix-volume-ownership`. |
+| Tools return "no valid session"                                        | The session expired. Re-run the login procedure.                                                                                                                               |
+| Tools time out on multi-page reads                                     | Raise `TOOL_TIMEOUT` (seconds) or `TIMEOUT` (milliseconds) in `deploy.yml`.                                                                                                    |
+| `browser is busy`                                                      | Only one process may hold the shared browser. Keep `replicas: 1`.                                                                                                              |

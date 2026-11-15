@@ -42,6 +42,32 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile:
           type: RuntimeDefault
+      initContainers:
+        # A Longhorn volume arrives owned by root, and the server chmods its
+        # profile root to 0700 on start, which fails with EPERM for a directory
+        # it does not own. fsGroup only sets the group, so the owner is fixed
+        # once here. Non-recursive on purpose: everything below the mount root
+        # is created by pwuser.
+        - name: fix-volume-ownership
+          image: stickerdaniel/linkedin-mcp-server:4.30.0
+          command:
+            - chown
+            - "1000:1000"
+            - /home/pwuser/.linkedin-mcp
+          securityContext:
+            runAsNonRoot: false
+            runAsUser: 0
+            runAsGroup: 0
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - CHOWN
+          volumeMounts:
+            - name: session
+              mountPath: /home/pwuser/.linkedin-mcp
       containers:
         - name: linkedin-mcp
           # Renovate tracks this tag (kubernetes manager, deploy.yml).

@@ -37,6 +37,8 @@ spec:
               to: websecure
               scheme: https
       websecure:
+        http3:
+          enabled: true
         forwardedHeaders:
           insecure: true
         transport:

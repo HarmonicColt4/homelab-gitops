@@ -37,7 +37,7 @@ spec:
           persistentVolumeClaim:
             claimName: pocket-id-data
       containers:
-        - image: ghcr.io/pocket-id/pocket-id:v2.19.2-distroless
+        - image: ghcr.io/pocket-id/pocket-id:v2.19.3-distroless
           name: pocket-id
           volumeMounts:
             - name: data

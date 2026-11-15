@@ -87,7 +87,9 @@ spec:
               mountPath: /etc/searxng/limiter.toml
               subPath: limiter.toml
               readOnly: true
-            # faviconcache.db and any other runtime cache.
+            # faviconcache.db and any other runtime cache. fsGroup makes the
+            # emptyDir group-writable; the entrypoint's "not owned by
+            # searxng:searxng" warning is expected because the pod is non-root.
             - name: cache
               mountPath: /var/cache/searxng
             # Granian/Python scratch space; the root filesystem is read-only.

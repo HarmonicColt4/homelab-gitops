@@ -2,7 +2,7 @@
 # Cluster-internal only: the MCP server holds a Mealie API token with full
 # access to the account, so it is deliberately not exposed through Traefik.
 # Consumers inside the cluster use:
-#   http://mealie-mcp.mealie-mcp.svc.cluster.local:8000/mcp
+#   http://mealie-mcp.ai.svc.cluster.local:8000/mcp
 apiVersion: v1
 kind: Service
 metadata:

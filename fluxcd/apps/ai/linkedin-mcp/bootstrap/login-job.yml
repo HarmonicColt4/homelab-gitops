@@ -5,14 +5,14 @@
 # Deployment for the ReadWriteOnce session volume, and the job needs a human at
 # a browser. Apply it by hand, following docs/linkedin-mcp.md:
 #
-#   kubectl -n linkedin-mcp scale deploy/linkedin-mcp --replicas=0
-#   kubectl apply -f fluxcd/apps/linkedin-mcp/bootstrap/login-job.yml
-#   kubectl -n linkedin-mcp wait --for=condition=Ready pod -l job-name=linkedin-mcp-login
-#   kubectl -n linkedin-mcp logs -f job/linkedin-mcp-login   # prints the token URL
-#   kubectl -n linkedin-mcp port-forward job/linkedin-mcp-login 6080:6080
+#   kubectl -n ai scale deploy/linkedin-mcp --replicas=0
+#   kubectl apply -f fluxcd/apps/ai/linkedin-mcp/bootstrap/login-job.yml
+#   kubectl -n ai wait --for=condition=Ready pod -l job-name=linkedin-mcp-login
+#   kubectl -n ai logs -f job/linkedin-mcp-login   # prints the token URL
+#   kubectl -n ai port-forward job/linkedin-mcp-login 6080:6080
 #   # open the token URL, sign in, let the job exit on its own
-#   kubectl -n linkedin-mcp delete job linkedin-mcp-login
-#   kubectl -n linkedin-mcp scale deploy/linkedin-mcp --replicas=1
+#   kubectl -n ai delete job linkedin-mcp-login
+#   kubectl -n ai scale deploy/linkedin-mcp --replicas=1
 #
 # The session is written to the same PVC the Deployment mounts, so the server
 # picks it up on its next start.
@@ -20,7 +20,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: linkedin-mcp-login
-  namespace: linkedin-mcp
+  namespace: ai
 spec:
   backoffLimit: 0
   # The viewer gives up after 30 minutes; leave room for the browser to close.

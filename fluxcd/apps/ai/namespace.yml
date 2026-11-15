@@ -2,3 +2,15 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: ai
+  labels:
+    # linkedin-mcp needs baseline, not restricted: its fix-volume-ownership init
+    # container runs as root with CAP_CHOWN to take ownership of a Longhorn
+    # volume. The application containers still run non-root with all
+    # capabilities dropped.
+    #
+    # enforce matches the cluster default in
+    # talos/clusters/home/configs/controlplane.yaml. audit/warn stay at
+    # restricted so weaker workloads in this namespace are still reported.
+    pod-security.kubernetes.io/enforce: baseline
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/warn: restricted

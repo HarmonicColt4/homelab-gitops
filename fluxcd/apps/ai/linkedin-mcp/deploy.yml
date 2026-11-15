@@ -94,7 +94,7 @@ spec:
             # visitor's browser. Traefik forwards the public name and in-cluster
             # clients use the Service name, so both are listed.
             - name: FASTMCP_HTTP_ALLOWED_HOSTS
-              value: '["linkedin-mcp.teamg.app","linkedin-mcp.linkedin-mcp.svc.cluster.local","linkedin-mcp.linkedin-mcp.svc","linkedin-mcp"]'
+              value: '["linkedin-mcp.teamg.app","linkedin-mcp.ai.svc.cluster.local","linkedin-mcp.ai.svc","linkedin-mcp"]'
             # A cold-start Chromium plus multi-page reads exceed the 180s
             # default for a whole tool call.
             - name: TOOL_TIMEOUT

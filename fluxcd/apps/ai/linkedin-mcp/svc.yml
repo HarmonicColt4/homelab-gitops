@@ -1,7 +1,7 @@
 ---
 # Cluster-internal. The MCP endpoint has no authentication of its own, so the
 # only ways in are the Traefik route (see ingress-route.yml) or another pod:
-#   http://linkedin-mcp.linkedin-mcp.svc.cluster.local:8080/mcp
+#   http://linkedin-mcp.ai.svc.cluster.local:8080/mcp
 apiVersion: v1
 kind: Service
 metadata:

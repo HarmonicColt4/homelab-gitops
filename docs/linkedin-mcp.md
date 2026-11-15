@@ -1,15 +1,15 @@
 # LinkedIn MCP Server
 
 [`stickerdaniel/linkedin-mcp-server`](https://github.com/stickerdaniel/linkedin-mcp-server)
-runs as a plain `Deployment` in the `linkedin-mcp` namespace and is served at
+runs as a plain `Deployment` in the shared `ai` namespace and is served at
 <https://linkedin-mcp.teamg.app/mcp> over Streamable HTTP.
 
 | Item      | Value                                                         |
 | --------- | ------------------------------------------------------------- |
-| Manifests | `fluxcd/apps/linkedin-mcp/`                                   |
+| Manifests | `fluxcd/apps/ai/linkedin-mcp/`                                |
 | Workload  | `Deployment/linkedin-mcp`, 1 replica, pinned to `beast`       |
 | Image     | `stickerdaniel/linkedin-mcp-server:4.30.0` (Renovate-tracked) |
-| Service   | `linkedin-mcp/linkedin-mcp`, ClusterIP port `8080`            |
+| Service   | `ai/linkedin-mcp`, ClusterIP port `8080`                      |
 | Edge      | `linkedin-mcp` IngressRoute, Traefik `websecure`              |
 | Storage   | PVC `linkedin-mcp-session`, 5Gi `longhorn`, ReadWriteOnce     |
 | Session   | `/home/pwuser/.linkedin-mcp` on that PVC, created by hand     |
@@ -66,17 +66,17 @@ a human at a browser.
 
 ```bash
 # 1. Release the session volume.
-kubectl -n linkedin-mcp scale deploy/linkedin-mcp --replicas=0
+kubectl -n ai scale deploy/linkedin-mcp --replicas=0
 
 # 2. Start the login job.
-kubectl apply -f fluxcd/apps/linkedin-mcp/bootstrap/login-job.yml
-kubectl -n linkedin-mcp wait --for=condition=Ready pod -l job-name=linkedin-mcp-login
+kubectl apply -f fluxcd/apps/ai/linkedin-mcp/bootstrap/login-job.yml
+kubectl -n ai wait --for=condition=Ready pod -l job-name=linkedin-mcp-login
 
 # 3. Read the token URL the job prints.
-kubectl -n linkedin-mcp logs -f job/linkedin-mcp-login
+kubectl -n ai logs -f job/linkedin-mcp-login
 
 # 4. In a second terminal, forward the viewer.
-kubectl -n linkedin-mcp port-forward job/linkedin-mcp-login 6080:6080
+kubectl -n ai port-forward job/linkedin-mcp-login 6080:6080
 ```
 
 Open the **full** URL from step 3 (it carries the access token), sign in, and
@@ -86,14 +86,14 @@ give you.
 
 ```bash
 # 5. Clean up and bring the server back.
-kubectl -n linkedin-mcp delete job linkedin-mcp-login
-kubectl -n linkedin-mcp scale deploy/linkedin-mcp --replicas=1
+kubectl -n ai delete job linkedin-mcp-login
+kubectl -n ai scale deploy/linkedin-mcp --replicas=1
 ```
 
 Verify with the `get_session_status` tool, or:
 
 ```bash
-kubectl -n linkedin-mcp logs deploy/linkedin-mcp | grep -i session
+kubectl -n ai logs deploy/linkedin-mcp | grep -i session
 ```
 
 ### When the session expires
@@ -118,7 +118,7 @@ Point an MCP client at the Streamable HTTP endpoint:
 ```
 
 In-cluster consumers should use
-`http://linkedin-mcp.linkedin-mcp.svc.cluster.local:8080/mcp` and skip the TLS
+`http://linkedin-mcp.ai.svc.cluster.local:8080/mcp` and skip the TLS
 hop. Both names are in `FASTMCP_HTTP_ALLOWED_HOSTS`.
 
 ## Security
@@ -144,7 +144,7 @@ using tools like this can be restricted. Use it sparingly.
 Renovate tracks the image tag through the `kubernetes` manager, whose
 `managerFilePatterns` in `renovate.json` already covers `deploy.yml`. A new
 upstream release opens a PR that bumps `image:` in
-`fluxcd/apps/linkedin-mcp/deploy.yml`; merging it is the whole upgrade.
+`fluxcd/apps/ai/linkedin-mcp/deploy.yml`; merging it is the whole upgrade.
 
 - Upstream ships frequently and the server tracks LinkedIn's page structure, so
   do not pin an old tag for long — a stale image is the usual cause of tools
@@ -161,7 +161,7 @@ upstream release opens a PR that bumps `image:` in
 flux reconcile kustomization apps --with-source
 
 # Or, to get the old pod back immediately without touching Git:
-kubectl -n linkedin-mcp set image deploy/linkedin-mcp \
+kubectl -n ai set image deploy/linkedin-mcp \
   linkedin-mcp=stickerdaniel/linkedin-mcp-server:<previous-tag>
 ```
 
@@ -170,15 +170,15 @@ form as a stopgap only.
 
 ## Troubleshooting
 
-| Symptom                                                                | Check                                                                                                                                                                          |
-| ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `421 Misdirected Request`                                              | The `Host` you used is not in `FASTMCP_HTTP_ALLOWED_HOSTS`. Add it rather than removing the check.                                                                             |
-| `503` from Traefik                                                     | `kubectl -n linkedin-mcp get ingressroute linkedin-mcp` and that the Service has endpoints.                                                                                    |
-| Pod `Pending`                                                          | `beast` must be schedulable and the Longhorn volume attachable. `kubectl -n linkedin-mcp describe pod`.                                                                        |
-| `Installer temporary roots can be replaced by another account in /tmp` | `/tmp` was replaced by an `emptyDir`. Remove that mount; the image's own 1777 `/tmp` is required.                                                                              |
-| `Browser installation failed` on a read-only root                      | `readOnlyRootFilesystem` is incompatible with this image. See the note in `deploy.yml`.                                                                                        |
-| Renderer crashes / blank pages                                         | `/dev/shm` too small. Confirm the `dshm` `emptyDir` is mounted at `/dev/shm`.                                                                                                  |
-| `[Errno 1] Operation not permitted: '/home/pwuser/.linkedin-mcp'`      | The volume root is not owned by uid 1000. The `fix-volume-ownership` init container did not run or failed; check `kubectl -n linkedin-mcp logs <pod> -c fix-volume-ownership`. |
-| Tools return "no valid session"                                        | The session expired. Re-run the login procedure.                                                                                                                               |
-| Tools time out on multi-page reads                                     | Raise `TOOL_TIMEOUT` (seconds) or `TIMEOUT` (milliseconds) in `deploy.yml`.                                                                                                    |
-| `browser is busy`                                                      | Only one process may hold the shared browser. Keep `replicas: 1`.                                                                                                              |
+| Symptom                                                                | Check                                                                                                                                                                |
+| ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `421 Misdirected Request`                                              | The `Host` you used is not in `FASTMCP_HTTP_ALLOWED_HOSTS`. Add it rather than removing the check.                                                                   |
+| `503` from Traefik                                                     | `kubectl -n ai get ingressroute linkedin-mcp` and that the Service has endpoints.                                                                                    |
+| Pod `Pending`                                                          | `beast` must be schedulable and the Longhorn volume attachable. `kubectl -n ai describe pod`.                                                                        |
+| `Installer temporary roots can be replaced by another account in /tmp` | `/tmp` was replaced by an `emptyDir`. Remove that mount; the image's own 1777 `/tmp` is required.                                                                    |
+| `Browser installation failed` on a read-only root                      | `readOnlyRootFilesystem` is incompatible with this image. See the note in `deploy.yml`.                                                                              |
+| Renderer crashes / blank pages                                         | `/dev/shm` too small. Confirm the `dshm` `emptyDir` is mounted at `/dev/shm`.                                                                                        |
+| `[Errno 1] Operation not permitted: '/home/pwuser/.linkedin-mcp'`      | The volume root is not owned by uid 1000. The `fix-volume-ownership` init container did not run or failed; check `kubectl -n ai logs <pod> -c fix-volume-ownership`. |
+| Tools return "no valid session"                                        | The session expired. Re-run the login procedure.                                                                                                                     |
+| Tools time out on multi-page reads                                     | Raise `TOOL_TIMEOUT` (seconds) or `TIMEOUT` (milliseconds) in `deploy.yml`.                                                                                          |
+| `browser is busy`                                                      | Only one process may hold the shared browser. Keep `replicas: 1`.                                                                                                    |

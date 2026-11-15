@@ -123,7 +123,7 @@ creation_rules:
     mac_only_encrypted: true
 
   # Mealie MCP - encrypt the Mealie API token in the env file
-  - path_regex: ^fluxcd/apps/mealie-mcp/secrets/.*\.env$
+  - path_regex: ^fluxcd/apps/ai/mealie-mcp/secrets/.*\.env$
     encrypted_regex: API_TOKEN
     age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
     mac_only_encrypted: true

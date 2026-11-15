@@ -80,9 +80,13 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+          # No readOnlyRootFilesystem: the image re-runs the Patchright
+          # installer on every start to record install metadata, and that
+          # installer takes a cache lock under /opt/patchright (chowned to
+          # pwuser in the image). A read-only root would fail the setup and the
+          # server would never be able to launch a browser.
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
             capabilities:
               drop:
                 - ALL
@@ -97,21 +101,16 @@ spec:
             # Cookies, the derived runtime profile and the browser cache.
             - name: session
               mountPath: /home/pwuser/.linkedin-mcp
-            # Xvfb writes its socket, lock file and log here.
-            - name: tmp
-              mountPath: /tmp
             # Chromium's default 64Mi /dev/shm is not enough for a headed
             # browser and shows up as renderer crashes.
+            #
+            # /tmp is deliberately NOT an emptyDir. The image's own /tmp is
+            # 1777, which the Patchright installer accepts; a Kubernetes
+            # emptyDir is 0777 without the sticky bit, and the installer
+            # refuses that as a temp parent ("Installer temporary roots can be
+            # replaced by another account in /tmp").
             - name: dshm
               mountPath: /dev/shm
-            # The root filesystem is read-only; Chromium and fontconfig still
-            # want a writable home for caches and NSS.
-            - name: cache
-              mountPath: /home/pwuser/.cache
-            - name: config
-              mountPath: /home/pwuser/.config
-            - name: pki
-              mountPath: /home/pwuser/.pki
           # FastMCP only answers on /mcp and rejects plain GETs without MCP
           # headers, so an httpGet probe would report a false failure. A TCP
           # probe is enough to know uvicorn is bound.
@@ -133,19 +132,7 @@ spec:
         - name: session
           persistentVolumeClaim:
             claimName: linkedin-mcp-session
-        - name: tmp
-          emptyDir:
-            sizeLimit: 1Gi
         - name: dshm
           emptyDir:
             medium: Memory
             sizeLimit: 512Mi
-        - name: cache
-          emptyDir:
-            sizeLimit: 1Gi
-        - name: config
-          emptyDir:
-            sizeLimit: 64Mi
-        - name: pki
-          emptyDir:
-            sizeLimit: 64Mi

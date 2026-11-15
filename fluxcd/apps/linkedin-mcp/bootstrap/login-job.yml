@@ -55,9 +55,11 @@ spec:
             - name: viewer
               containerPort: 6080
               protocol: TCP
+          # No readOnlyRootFilesystem: the Patchright installer takes a cache
+          # lock under /opt/patchright and needs a writable /tmp. See the same
+          # note in deploy.yml.
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
             capabilities:
               drop:
                 - ALL
@@ -71,33 +73,15 @@ spec:
           volumeMounts:
             - name: session
               mountPath: /home/pwuser/.linkedin-mcp
-            - name: tmp
-              mountPath: /tmp
+            # /tmp stays the image's own 1777 directory; an emptyDir is 0777
+            # without the sticky bit and the installer refuses it.
             - name: dshm
               mountPath: /dev/shm
-            - name: cache
-              mountPath: /home/pwuser/.cache
-            - name: config
-              mountPath: /home/pwuser/.config
-            - name: pki
-              mountPath: /home/pwuser/.pki
       volumes:
         - name: session
           persistentVolumeClaim:
             claimName: linkedin-mcp-session
-        - name: tmp
-          emptyDir:
-            sizeLimit: 1Gi
         - name: dshm
           emptyDir:
             medium: Memory
             sizeLimit: 512Mi
-        - name: cache
-          emptyDir:
-            sizeLimit: 1Gi
-        - name: config
-          emptyDir:
-            sizeLimit: 64Mi
-        - name: pki
-          emptyDir:
-            sizeLimit: 64Mi

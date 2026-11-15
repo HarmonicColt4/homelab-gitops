@@ -29,9 +29,14 @@ manifest:
   low-power nodes.
 - **`/dev/shm` is a 512Mi memory-backed `emptyDir`** — Kubernetes defaults it to
   64Mi, which a headed Chromium exhausts and reports as renderer crashes.
-- **`/tmp`, `~/.cache`, `~/.config`, `~/.pki` are `emptyDir`s** — the root
-  filesystem is read-only, but Xvfb needs `/tmp/.X11-unix` and Chromium wants a
-  writable home.
+- **The root filesystem is writable, and `/tmp` is _not_ an `emptyDir`.** The
+  image re-runs the Patchright installer on every start to record install
+  metadata, and that installer takes a cache lock under `/opt/patchright`
+  (chowned to `pwuser` in the image). It also refuses a temp parent that is
+  group- or other-writable without the sticky bit — which is exactly what a
+  Kubernetes `emptyDir` is (0777, no sticky). Mounting one at `/tmp` fails with
+  `Installer temporary roots can be replaced by another account in /tmp`. The
+  image's own `/tmp` is 1777 and passes, so it is left alone.
 - **`fsGroup: 1000`** — the image creates `/home/pwuser/.linkedin-mcp` as
   `pwuser`, but a Longhorn volume arrives owned by `root`. `fsGroup` makes the
   claim writable without a privileged init container.
@@ -162,14 +167,15 @@ form as a stopgap only.
 
 ## Troubleshooting
 
-| Symptom                                             | Check                                                                                                                    |
-| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `421 Misdirected Request`                           | The `Host` you used is not in `FASTMCP_HTTP_ALLOWED_HOSTS`. Add it rather than removing the check.                       |
-| `503` from Traefik                                  | `kubectl -n linkedin-mcp get ingressroute linkedin-mcp` and that the Service has endpoints.                              |
-| Pod `Pending`                                       | `beast` must be schedulable and the Longhorn volume attachable. `kubectl -n linkedin-mcp describe pod`.                  |
-| `CrashLoopBackOff`, Xvfb errors in logs             | `/tmp` must be writable. Confirm the `tmp` `emptyDir` is still mounted.                                                  |
-| Renderer crashes / blank pages                      | `/dev/shm` too small. Confirm the `dshm` `emptyDir` is mounted at `/dev/shm`.                                            |
-| `Permission denied` on `/home/pwuser/.linkedin-mcp` | `fsGroup: 1000` missing, or the volume was created by a root-owned run. Check `kubectl -n linkedin-mcp get pvc -o yaml`. |
-| Tools return "no valid session"                     | The session expired. Re-run the login procedure.                                                                         |
-| Tools time out on multi-page reads                  | Raise `TOOL_TIMEOUT` (seconds) or `TIMEOUT` (milliseconds) in `deploy.yml`.                                              |
-| `browser is busy`                                   | Only one process may hold the shared browser. Keep `replicas: 1`.                                                        |
+| Symptom                                                                | Check                                                                                                                    |
+| ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `421 Misdirected Request`                                              | The `Host` you used is not in `FASTMCP_HTTP_ALLOWED_HOSTS`. Add it rather than removing the check.                       |
+| `503` from Traefik                                                     | `kubectl -n linkedin-mcp get ingressroute linkedin-mcp` and that the Service has endpoints.                              |
+| Pod `Pending`                                                          | `beast` must be schedulable and the Longhorn volume attachable. `kubectl -n linkedin-mcp describe pod`.                  |
+| `Installer temporary roots can be replaced by another account in /tmp` | `/tmp` was replaced by an `emptyDir`. Remove that mount; the image's own 1777 `/tmp` is required.                        |
+| `Browser installation failed` on a read-only root                      | `readOnlyRootFilesystem` is incompatible with this image. See the note in `deploy.yml`.                                  |
+| Renderer crashes / blank pages                                         | `/dev/shm` too small. Confirm the `dshm` `emptyDir` is mounted at `/dev/shm`.                                            |
+| `Permission denied` on `/home/pwuser/.linkedin-mcp`                    | `fsGroup: 1000` missing, or the volume was created by a root-owned run. Check `kubectl -n linkedin-mcp get pvc -o yaml`. |
+| Tools return "no valid session"                                        | The session expired. Re-run the login procedure.                                                                         |
+| Tools time out on multi-page reads                                     | Raise `TOOL_TIMEOUT` (seconds) or `TIMEOUT` (milliseconds) in `deploy.yml`.                                              |
+| `browser is busy`                                                      | Only one process may hold the shared browser. Keep `replicas: 1`.                                                        |

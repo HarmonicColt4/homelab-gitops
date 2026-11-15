@@ -1,0 +1,111 @@
+---
+# SearXNG configuration for a single-user instance that backs LLM tooling
+# (Open WebUI, LangChain, ...).
+#
+# `use_default_settings` keeps the engine catalogue, plugin defaults and
+# locale data shipped with the image, so only the overrides that matter for
+# this deployment are listed here. See:
+#   https://docs.searxng.org/admin/settings/
+use_default_settings:
+  engines:
+    # Tor-only engines: there is no Tor proxy in this deployment, so they
+    # would only log registration failures on every start. `remove` drops
+    # them from the catalogue entirely; `disabled: true` would still
+    # initialize them.
+    remove:
+      - ahmia
+      - torch
+
+general:
+  instance_name: "SearXNG"
+  # Required by the Wikipedia, Wikidata and OpenStreetMap engines: they put
+  # this URL in their User-Agent so upstream can contact the operator.
+  contact_url: "https://teamg.app/"
+  # Keep the Prometheus counters available for the cluster monitoring stack.
+  enable_metrics: true
+
+search:
+  # LLM clients consume the JSON API; the HTML UI stays available for humans.
+  formats:
+    - html
+    - json
+  # No content filtering: the consumer is a trusted single user.
+  safe_search: 0
+  # Autocomplete would issue one extra upstream request per keystroke and is
+  # useless for programmatic clients.
+  autocomplete: ""
+  favicon_resolver: ""
+  # Let SearXNG decide the language from the query instead of pinning one.
+  default_lang: "auto"
+  # Back off harder than the public-instance defaults when an upstream engine
+  # rate-limits or blocks us. A single user does not need to retry a blocked
+  # engine every few minutes; a longer suspension keeps the shared egress IP
+  # out of trouble and avoids cascading 429s.
+  ban_time_on_fail: 10
+  max_ban_time_on_fail: 300
+  suspended_times:
+    SearxEngineAccessDenied: 3600
+    SearxEngineCaptcha: 3600
+    SearxEngineTooManyRequests: 900
+    cf_SearxEngineCaptcha: 1296000
+    cf_SearxEngineAccessDenied: 86400
+    recaptcha_SearxEngineCaptcha: 604800
+
+server:
+  # Public URL used to build absolute links; must match the IngressRoute host.
+  base_url: https://searxng.teamg.app/
+  # Single user behind Traefik: the inbound limiter needs Valkey and only adds
+  # latency. Upstream rate limiting is handled by `search.suspended_times`.
+  limiter: false
+  public_instance: false
+  # Image proxying makes SearXNG fetch every thumbnail itself. LLM clients do
+  # not render images, so this only burns upstream requests.
+  image_proxy: false
+  # secret_key is injected from the SOPS-managed Secret as $SEARXNG_SECRET.
+  method: "GET"
+
+# No Valkey: the limiter is disabled and there is a single replica.
+valkey:
+  url: false
+
+outgoing:
+  # Give slow engines room to answer, but cap the total fan-out so one dead
+  # engine cannot stall the whole response.
+  request_timeout: 6.0
+  max_request_timeout: 15.0
+  # Reuse connections across the fan-out to every enabled engine.
+  pool_connections: 100
+  enable_http2: true
+  # One retry on transient upstream errors (429/5xx) before the engine is
+  # suspended by the rules above.
+  retries: 1
+  max_redirects: 10
+
+ui:
+  default_theme: simple
+  default_locale: "en"
+  query_in_title: false
+
+preferences:
+  # Keep the UI aligned with the API defaults above.
+  lock:
+    - autocomplete
+    - favicon_resolver
+    - safesearch
+    - method
+
+# The Google engines are enabled by default but answer a self-hosted instance
+# with CAPTCHAs/429s almost immediately. Disable the ones that would otherwise
+# be queried for every general search; DuckDuckGo, Wikipedia, Wikidata,
+# GitHub, arXiv, etc. remain enabled from the image defaults.
+engines:
+  - name: google cse
+    disabled: true
+  - name: google cse images
+    disabled: true
+  - name: google scholar
+    disabled: true
+  - name: google news
+    disabled: true
+  - name: google videos
+    disabled: true

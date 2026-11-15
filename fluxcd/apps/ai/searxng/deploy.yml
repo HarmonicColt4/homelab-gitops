@@ -1,0 +1,123 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: searxng
+  labels:
+    app: searxng
+spec:
+  replicas: 1
+  # Stateless: the only writable state is the favicon cache in an emptyDir,
+  # so a rolling update can keep the Service answering during a bump.
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: searxng
+  template:
+    metadata:
+      labels:
+        app: searxng
+    spec:
+      # The image is published for amd64/arm64/armv7, but the arm64 node
+      # (rpi5) is tainted and reserved for cluster duties. Pin to amd64.
+      nodeSelector:
+        kubernetes.io/arch: amd64
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 977
+        runAsGroup: 977
+        fsGroup: 977
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: searxng
+          # Renovate tracks this tag (kubernetes manager, deploy.yml) with
+          # regex versioning for the YYYY.M.DD-<sha> scheme. GHCR is the
+          # official mirror and avoids Docker Hub pull-rate limits.
+          image: ghcr.io/searxng/searxng:2026.11.15-2d500cb6b
+          imagePullPolicy: IfNotPresent
+          env:
+            # The entrypoint only chowns the mounted volumes when it runs as
+            # root; this pod runs as 977, so skip the attempt.
+            - name: FORCE_OWNERSHIP
+              value: "false"
+            # The image's home directory is read-only; keep any user-level
+            # scratch files in the writable /tmp emptyDir.
+            - name: HOME
+              value: /tmp
+            - name: SEARXNG_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: searxng-secret
+                  key: SEARXNG_SECRET
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          volumeMounts:
+            # Single-file mount: the image already owns /etc/searxng as
+            # searxng:searxng, and the entrypoint only writes settings.yml
+            # when it is missing.
+            - name: config
+              mountPath: /etc/searxng/settings.yml
+              subPath: settings.yml
+              readOnly: true
+            # Silences the botdetection "missing config file" warning; the
+            # limiter itself is disabled in settings.yml.
+            - name: config
+              mountPath: /etc/searxng/limiter.toml
+              subPath: limiter.toml
+              readOnly: true
+            # faviconcache.db and any other runtime cache.
+            - name: cache
+              mountPath: /var/cache/searxng
+            # Granian/Python scratch space; the root filesystem is read-only.
+            - name: tmp
+              mountPath: /tmp
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 5
+            failureThreshold: 30
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 30
+            failureThreshold: 3
+      volumes:
+        - name: config
+          configMap:
+            name: searxng-config
+        - name: cache
+          emptyDir:
+            sizeLimit: 256Mi
+        - name: tmp
+          emptyDir:
+            sizeLimit: 64Mi

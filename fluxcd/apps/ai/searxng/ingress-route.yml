@@ -1,0 +1,21 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: searxng
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`searxng.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      middlewares:
+        # Single-user instance with the inbound limiter disabled: keep the
+        # route reachable from the LAN/cluster only. In-cluster LLM clients
+        # should use http://searxng.ai.svc.cluster.local:8080 directly.
+        - name: searxng-lan-only
+      services:
+        # TLS uses the default TLSStore certificate (teamg-app-tls, wildcard
+        # *.teamg.app), so no tls block is needed.
+        - name: searxng
+          port: 8080

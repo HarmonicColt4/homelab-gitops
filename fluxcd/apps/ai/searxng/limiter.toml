@@ -1,0 +1,3 @@
+# The inbound limiter is disabled (server.limiter: false) because this is a
+# single-user, LLM-facing instance. This file only silences the botdetection
+# "missing config file" warning; the defaults from searx/limiter.toml apply.

@@ -1,0 +1,18 @@
+---
+# SearXNG has no authentication of its own and the inbound limiter is
+# disabled (single-user, LLM-facing instance). Restrict the Traefik route to
+# private address space so the wildcard host cannot be used as an open search
+# proxy from the internet. Cluster CIDRs (10.0.0.0/8) and the LAN VLAN
+# (10.25.25.0/24) are both covered.
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: searxng-lan-only
+spec:
+  ipAllowList:
+    sourceRange:
+      - 10.0.0.0/8
+      - 172.16.0.0/12
+      - 192.168.0.0/16
+      - 127.0.0.1/32
+      - ::1/128

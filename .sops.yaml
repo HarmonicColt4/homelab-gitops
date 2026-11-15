@@ -128,6 +128,12 @@ creation_rules:
     age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
     mac_only_encrypted: true
 
+  # SearXNG - encrypt the Flask secret key in the env file
+  - path_regex: ^fluxcd/apps/ai/searxng/secrets/.*\.env$
+    encrypted_regex: SEARXNG_SECRET
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
 stores:
   yaml:
     indent: 2

@@ -78,6 +78,16 @@
       "minimumReleaseAge": "14 days"
     },
     {
+      "description": "SearXNG publishes date-based tags (YYYY.M.DD-<sha>); use regex versioning so Renovate can order them",
+      "matchManagers": ["kubernetes"],
+      "matchPackageNames": [
+        "ghcr.io/searxng/searxng",
+        "docker.io/searxng/searxng",
+        "searxng/searxng"
+      ],
+      "versioning": "regex:^(?<major>\\d{4})\\.(?<minor>\\d{1,2})\\.(?<patch>\\d{1,2})-[a-f0-9]+$"
+    },
+    {
       "matchManagers": ["flux"],
       "matchDatasources": ["docker"],
       "commitMessageTopic": "Helm release {{{depName}}}"

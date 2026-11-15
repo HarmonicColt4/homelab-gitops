@@ -10,6 +10,12 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: linkedin-mcp-session
+  annotations:
+    # The LinkedIn session cannot be recreated from Git. If the claim already
+    # exists (namespace migration, Longhorn restore), adopt it instead of
+    # applying: a manifest without spec.volumeName would try to clear the
+    # immutable volumeName on a bound claim. A fresh install still creates it.
+    kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
 spec:
   storageClassName: longhorn
   accessModes:

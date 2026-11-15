@@ -1,0 +1,18 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: mealie-mcp
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`mealie-mcp.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        # TLS uses the default TLSStore certificate (teamg-app-tls, wildcard
+        # *.teamg.app), so no tls block is needed. Traefik's websecure
+        # respondingTimeouts are 1800s, which keeps Streamable HTTP / SSE
+        # sessions from being cut mid-stream.
+        - name: mealie-mcp
+          port: 8000

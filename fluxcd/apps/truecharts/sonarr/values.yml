@@ -1,5 +1,7 @@
 ---
 persistence:
+  config:
+    size: 2Gi
   shows:
     enabled: true
     type: nfs

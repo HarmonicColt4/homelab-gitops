@@ -14,6 +14,13 @@ spec:
       - name: alertname
         matchType: "!="
         value: Watchdog
+    routes:
+      - receiver: blackhole
+        matchers:
+          - name: alertname
+            matchType: "="
+            value: KubeCPUOvercommit
+        continue: false
 
   receivers:
     - name: discord
@@ -21,3 +28,4 @@ spec:
         - apiURL:
             name: alertmanager-discord-webhook
             key: webhook_url
+    - name: blackhole

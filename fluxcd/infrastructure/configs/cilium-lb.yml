@@ -17,6 +17,9 @@ metadata:
 spec:
   loadBalancerIPs: true
   interfaces:
-    - ^end0\.25$
-    - ^netr\.25$
+    # Match any VLAN-25 interface regardless of the parent NIC name, so the
+    # announcer works on every node (beast: net0.25, hedy: netr.25,
+    # rpi5: end0.25) instead of only the nodes whose NIC name was hardcoded.
+    - ^.*\.25$
+    # Untagged LAN interface (legacy nodes).
     - ^ens18$

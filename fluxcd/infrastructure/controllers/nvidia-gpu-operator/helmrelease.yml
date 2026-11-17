@@ -9,7 +9,7 @@ spec:
   interval: 1h
   url: oci://nvcr.io/nvidia/cloud-native-charts/gpu-operator
   ref:
-    tag: v26.7.2
+    tag: v26.7.3
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease

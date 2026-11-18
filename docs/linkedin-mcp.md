@@ -131,10 +131,7 @@ send connection requests as you.
 The route is published on the wildcard `*.teamg.app` certificate like the other
 apps, so treat the hostname as the only control. If that is not enough, add a
 Traefik middleware to the IngressRoute — `IPAllowList` for LAN-only access, or
-`basicAuth` with an htpasswd `Secret` — before widening exposure. The
-`authentik` forwardAuth middleware in
-`fluxcd/infrastructure/configs/traefik/middlewares/` is **not** usable yet: no
-`authentik` namespace exists in this cluster.
+`basicAuth` with an htpasswd `Secret` — before widening exposure.
 
 Also note that LinkedIn's User Agreement prohibits automated access. Accounts
 using tools like this can be restricted. Use it sparingly.

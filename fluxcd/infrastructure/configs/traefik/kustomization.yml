@@ -6,6 +6,5 @@ resources:
   - services
   - ingress-routes
   - certificates
-  - middlewares
 
 namespace: traefik

@@ -126,9 +126,10 @@ it from Git leaves the data behind.
 
 ## Not wired yet
 
-- **SSO via authentik**: the `authentik` forwardAuth middleware exists in
-  `fluxcd/infrastructure/configs/traefik/middlewares/authentik.yml`, but Open
-  WebUI has its own user system, so SSO is better configured as OIDC inside the
-  app (**Admin Panel -> Settings -> Authentication**) than as a proxy gate. Set
-  `WEBUI_URL` correctly first (`ENABLE_OAUTH_PERSISTENT_CONFIG` aside, a wrong
-  `WEBUI_URL` breaks OAuth callbacks).
+- **SSO via OIDC**: Open WebUI has its own user system, so SSO is better
+  configured as OIDC inside the app
+  (**Admin Panel -> Settings -> Authentication**) against Pocket-ID at
+  <https://id.teamg.app>, the same IdP the other apps use, rather than as a
+  Traefik proxy gate. Set `WEBUI_URL` correctly first
+  (`ENABLE_OAUTH_PERSISTENT_CONFIG` aside, a wrong `WEBUI_URL` breaks OAuth
+  callbacks).

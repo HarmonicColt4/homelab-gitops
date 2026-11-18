@@ -22,10 +22,11 @@ dashboard, and it runs shell commands and browser automation as tools.
 
 ## Blocking manual steps
 
-Three things are not done by Git alone. The pod runs without them, but the
-dashboard is not usable until the first is finished.
+Two of these were required before the deployment was usable and are now done.
+They are recorded here so a rebuild can repeat them; Git alone cannot perform
+any of the three.
 
-1. **Register the Pocket-ID client.** In the Pocket-ID UI at
+1. **Register the Pocket-ID client** — _done 2026-11-18_. In the Pocket-ID UI at
    <https://id.teamg.app>, create a **public (PKCE) client** for the dashboard
    with redirect URI `https://hermes.teamg.app/*` (or the exact callback Hermes
    documents). No client secret is issued or needed: a public client
@@ -355,17 +356,26 @@ digest would silently freeze the app. Never use `stable`, `latest` or `main`.
 
 ## Current status
 
-Verified on 2026-11-18:
+Verified on 2026-11-18, revision `3cc1383b`:
 
 - Flux `Kustomization apps` is `Ready=True`.
-- Pod `hermes-agent-6ddb4cb597-ffxkx` is `1/1 Running`, 0 restarts, on `beast`
-  (amd64).
+- Pod is `1/1 Running`, 0 restarts, on `beast` (amd64). `rpi5` is never
+  selected.
 - `GET /health` returns:
 
   ```json
   { "status": "ok", "platform": "hermes-agent", "version": "0.23.2" }
   ```
 
+- A real completion through the gateway reached llama.cpp and returned
+  content (`prompt_tokens: 10229`), so the managed model config is in effect.
+- `hermes config check` prints `Config version: 53 ✓`. The PVC copy of
+  `config.yaml` had a stray `{}` at line 54 that made Hermes fall back to
+  defaults; it was repaired in place, with a timestamped backup left on the
+  volume.
+- OIDC login returns `302` to `https://id.teamg.app/authorize` with
+  `code_challenge_method=S256` and callback
+  `https://hermes.teamg.app/auth/callback` — a public PKCE client, no secret.
 - PVC `hermes-agent-data` is `Bound`, 10Gi, `ReadWriteOnce`, class `longhorn`.
 - Service `hermes-agent` is ClusterIP with ports `8642` and `9119`.
 - The pod CIDR is `10.244.0.0/16`, which is the `dashboard.trusted_proxies`
@@ -464,17 +474,19 @@ An untested backup is a hypothesis. Run this drill after any storage change:
 
 ## Troubleshooting
 
-| Symptom                                                     | Check                                                                                                                                                                                                                         |
-| ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Pod `Pending`                                               | `nodeSelector` requires `kubernetes.io/arch: amd64`; `rpi5` is arm64 and tainted `dedicated=rpi5:NoSchedule`. `kubectl -n ai describe pod` shows the predicate. If both amd64 workers are full, add `kubernetes.io/hostname`. |
-| Pod `Ready` but the agent does not answer                   | s6 keeps PID 1 alive when the gateway dies, so a listener check is not enough. `curl .../health` and `kubectl -n ai logs deploy/hermes-agent`.                                                                                |
-| Dashboard shows a fail-closed or auth error                 | `dashboard.trusted_proxies` must contain the pod CIDR (`10.244.0.0/16`), and the OIDC client must exist in Pocket-ID with a non-empty secret.                                                                                 |
-| OIDC redirects to `http://` instead of `https://`           | `dashboard.public_url` must be `https://hermes.teamg.app`; the callback is built from it.                                                                                                                                     |
-| First request hangs for minutes                             | llama.cpp runs `--models-max 1`; a cold or swapped model reloads an 11-13 GB GGUF. Open WebUI uses a 900 s timeout for the same reason.                                                                                       |
-| `nous` provider warnings, or calls go to the wrong endpoint | The managed config is not mounted. Check the `subPath` mount at `/etc/hermes/config.yaml` and that the ConfigMap key is `config.yaml`.                                                                                        |
-| Browser tools fail (Chromium)                               | Unverified under `RuntimeDefault` seccomp. Roll back the last browser-tools config change first, then test a less restrictive profile before changing the pod.                                                                |
-| `503` from Traefik                                          | `kubectl -n ai get ingressroute hermes-agent` and that Service `hermes-agent` has endpoints on `9119`.                                                                                                                        |
-| PVC `Pending`                                               | `kubectl -n ai describe pvc hermes-agent-data` — Longhorn replica scheduling or disk pressure.                                                                                                                                |
+| Symptom                                                             | Check                                                                                                                                                                                                                                                                                                                                            |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Pod `Pending`                                                       | `nodeSelector` requires `kubernetes.io/arch: amd64`; `rpi5` is arm64 and tainted `dedicated=rpi5:NoSchedule`. `kubectl -n ai describe pod` shows the predicate. If both amd64 workers are full, add `kubernetes.io/hostname`.                                                                                                                    |
+| Pod `Ready` but the agent does not answer                           | s6 keeps PID 1 alive when the gateway dies, so a listener check is not enough. `curl .../health` and `kubectl -n ai logs deploy/hermes-agent`.                                                                                                                                                                                                   |
+| Dashboard shows a fail-closed or auth error                         | `dashboard.trusted_proxies` must contain the pod CIDR (`10.244.0.0/16`), and `HERMES_DASHBOARD_OIDC_CLIENT_ID` must match a client registered in Pocket-ID.                                                                                                                                                                                      |
+| OIDC redirects to `http://` instead of `https://`                   | `dashboard.public_url` must be `https://hermes.teamg.app`; the callback is built from it.                                                                                                                                                                                                                                                        |
+| First request hangs for minutes                                     | llama.cpp runs `--models-max 1`; a cold or swapped model reloads an 11-13 GB GGUF. Open WebUI uses a 900 s timeout for the same reason.                                                                                                                                                                                                          |
+| `nous` provider warnings, or calls go to the wrong endpoint         | The managed config is not mounted. Check the `subPath` mount at `/etc/hermes/config.yaml` and that the ConfigMap key is `config.yaml`.                                                                                                                                                                                                           |
+| `config.yaml has a formatting error` and saved settings are ignored | `/opt/data/config.yaml` is the image's 2,000+ line default template. An interrupted `hermes config edit` can leave a stray fragment (seen: a bare `{}` at line 54) that terminates the `model:` block and poisons the merge. Back it up, fix the offending lines, then `hermes config check` must print `Config version: N ✓` before restarting. |
+| `/v1/models` lists only `hermes-agent`                              | Expected: Hermes _is_ the OpenAI-compatible server, so it advertises itself. Upstream wiring is proven by a completion (`POST /v1/chat/completions`), not by the model list.                                                                                                                                                                     |
+| Browser tools fail (Chromium)                                       | Unverified under `RuntimeDefault` seccomp. Roll back the last browser-tools config change first, then test a less restrictive profile before changing the pod.                                                                                                                                                                                   |
+| `503` from Traefik                                                  | `kubectl -n ai get ingressroute hermes-agent` and that Service `hermes-agent` has endpoints on `9119`.                                                                                                                                                                                                                                           |
+| PVC `Pending`                                                       | `kubectl -n ai describe pvc hermes-agent-data` — Longhorn replica scheduling or disk pressure.                                                                                                                                                                                                                                                   |
 
 ## Known limitations
 

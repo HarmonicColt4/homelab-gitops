@@ -138,6 +138,14 @@ spec:
             # SQLite database, sessions and the agent's working state.
             - name: data
               mountPath: /opt/data
+            # The managed config. Mounted as a single file via subPath rather
+            # than the whole directory: /etc/hermes also holds the image's
+            # chromium-executable-path and image-provenance.json, which a
+            # directory mount would shadow.
+            - name: config
+              mountPath: /etc/hermes/config.yaml
+              subPath: config.yaml
+              readOnly: true
             # Chromium/Playwright and other shared-memory consumers need more
             # than the default 64Mi /dev/shm.
             - name: dshm
@@ -171,6 +179,9 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: hermes-agent-data
+        - name: config
+          configMap:
+            name: hermes-agent-config
         - name: dshm
           emptyDir:
             medium: Memory

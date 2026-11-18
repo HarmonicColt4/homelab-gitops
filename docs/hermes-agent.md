@@ -26,11 +26,12 @@ Three things are not done by Git alone. The pod runs without them, but the
 dashboard is not usable until the first is finished.
 
 1. **Register the Pocket-ID client.** In the Pocket-ID UI at
-   <https://id.teamg.app>, create a client for the dashboard with redirect URI
-   `https://hermes.teamg.app/*` (or the exact callback Hermes documents). Then
-   put the issued values into
-   [`secrets/enc.env`](../fluxcd/apps/ai/hermes-agent/secrets/enc.env) and
-   re-encrypt:
+   <https://id.teamg.app>, create a **public (PKCE) client** for the dashboard
+   with redirect URI `https://hermes.teamg.app/*` (or the exact callback Hermes
+   documents). No client secret is issued or needed: a public client
+   authenticates with PKCE, so only the client ID is stored in
+   [`secrets/enc.env`](../fluxcd/apps/ai/hermes-agent/secrets/enc.env). To
+   change it:
 
    ```bash
    # Decrypts to a temp file, re-encrypts on save.
@@ -40,9 +41,9 @@ dashboard is not usable until the first is finished.
    sops --encrypt --in-place fluxcd/apps/ai/hermes-agent/secrets/enc.env
    ```
 
-   Commit and reconcile. Until then OIDC login fails. The pod still starts
-   because `HERMES_DASHBOARD_OIDC_CLIENT_SECRET` is referenced with
-   `optional: true`, and the key is currently present but empty.
+   Commit and reconcile. `HERMES_DASHBOARD_OIDC_CLIENT_ID` holds the real client
+   ID. If it is missing or stale, the dashboard fails closed at startup rather
+   than falling back to an unauthenticated mode.
 
 2. **Confirm the model wiring.** The llama.cpp Service must still be named
    `llama-cpp` on port `8080`, and the preset alias must still be
@@ -318,8 +319,7 @@ API.
 | `HERMES_DASHBOARD` / `..._PORT`       | `1` / `9119`           | dashboard process                              |
 | `HERMES_DASHBOARD_OIDC_ISSUER`        | `https://id.teamg.app` | Pocket-ID                                      |
 | `API_SERVER_KEY`                      | Secret                 | bearer token for `/v1`                         |
-| `HERMES_DASHBOARD_OIDC_CLIENT_ID`     | Secret                 | OIDC client                                    |
-| `HERMES_DASHBOARD_OIDC_CLIENT_SECRET` | Secret, optional       | OIDC client secret                             |
+| `HERMES_DASHBOARD_OIDC_CLIENT_ID`     | Secret                 | OIDC client ID (public PKCE client)            |
 
 All three probes hit `GET /health` on port `8642`:
 

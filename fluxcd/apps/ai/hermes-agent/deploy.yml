@@ -94,14 +94,6 @@ spec:
                 secretKeyRef:
                   name: hermes-agent-secret
                   key: HERMES_DASHBOARD_OIDC_CLIENT_ID
-            # Optional: the Pocket-ID client is registered out-of-band, so the
-            # pod must still start before the secret is filled in.
-            - name: HERMES_DASHBOARD_OIDC_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: hermes-agent-secret
-                  key: HERMES_DASHBOARD_OIDC_CLIENT_SECRET
-                  optional: true
           ports:
             - name: api
               containerPort: 8642

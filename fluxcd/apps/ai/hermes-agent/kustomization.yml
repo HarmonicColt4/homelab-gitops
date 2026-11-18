@@ -17,7 +17,8 @@ configMapGenerator:
     files:
       - config.yaml=config.yml
 
-# Only the API bearer key and the OIDC client credentials are secret.
+# Only the API bearer key and the OIDC client ID are secret. Pocket-ID issues a
+# public PKCE client, so there is no client secret to store.
 # The model endpoint, public URL and trusted proxies are all in Git.
 secretGenerator:
   - name: hermes-agent-secret

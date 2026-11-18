@@ -1,0 +1,505 @@
+# Hermes Agent
+
+[Nous Research Hermes Agent](https://github.com/NousResearch/hermes-agent) runs as
+a single `Deployment` in the shared `ai` namespace. The dashboard is served at
+<https://hermes.teamg.app>; the OpenAI-compatible API stays cluster-internal. It
+is a self-improving agent: it takes instructions from messaging platforms and its
+dashboard, and it runs shell commands and browser automation as tools.
+
+| Item       | Value                                                                         |
+| ---------- | ----------------------------------------------------------------------------- |
+| Manifests  | [`fluxcd/apps/ai/hermes-agent/`](../fluxcd/apps/ai/hermes-agent/)             |
+| Workload   | `Deployment/hermes-agent`, 1 replica, `Recreate`, `kubernetes.io/arch: amd64` |
+| Image      | `nousresearch/hermes-agent:v0.23.2` (Renovate-tracked, tag only)              |
+| Service    | `ai/hermes-agent`, ClusterIP `8642` (api) and `9119` (dashboard)              |
+| Edge       | `hermes-agent` IngressRoute, Traefik `websecure`, host `hermes.teamg.app`     |
+| Config     | ConfigMap `ai/hermes-agent-config` (`config.yaml`, mounted via `subPath`)     |
+| Secrets    | Secret `ai/hermes-agent-secret` (`API_SERVER_KEY`, OIDC client, SOPS)         |
+| Storage    | PVC `ai/hermes-agent-data`, 10Gi `longhorn`, ReadWriteOnce                    |
+| Model      | llama.cpp `gemma4-12b-q6` at `http://llama-cpp.ai.svc.cluster.local:8080/v1`  |
+| Auth       | Pocket-ID OIDC at `https://id.teamg.app`                                      |
+| Scheduling | `kubernetes.io/arch: amd64`; currently on `beast`                             |
+
+## Blocking manual steps
+
+Three things are not done by Git alone. The pod runs without them, but the
+dashboard is not usable until the first is finished.
+
+1. **Register the Pocket-ID client.** In the Pocket-ID UI at
+   <https://id.teamg.app>, create a client for the dashboard with redirect URI
+   `https://hermes.teamg.app/*` (or the exact callback Hermes documents). Then
+   put the issued values into
+   [`secrets/enc.env`](../fluxcd/apps/ai/hermes-agent/secrets/enc.env) and
+   re-encrypt:
+
+   ```bash
+   # Decrypts to a temp file, re-encrypts on save.
+   sops fluxcd/apps/ai/hermes-agent/secrets/enc.env
+
+   # Or, when replacing the file from a plaintext copy:
+   sops --encrypt --in-place fluxcd/apps/ai/hermes-agent/secrets/enc.env
+   ```
+
+   Commit and reconcile. Until then OIDC login fails. The pod still starts
+   because `HERMES_DASHBOARD_OIDC_CLIENT_SECRET` is referenced with
+   `optional: true`, and the key is currently present but empty.
+
+2. **Confirm the model wiring.** The llama.cpp Service must still be named
+   `llama-cpp` on port `8080`, and the preset alias must still be
+   `gemma4-12b-q6`. Both are referenced by
+   [`config.yml`](../fluxcd/apps/ai/hermes-agent/config.yml).
+
+3. **Accept the terminal warning.** Hermes logs that `terminal.backend: local`
+   is unsandboxed while the API binds `0.0.0.0`. This is accepted: the API is
+   not published, and the only consumer is in-cluster.
+
+## What it is, and what it is not
+
+Hermes is **one container**, not a microservice stack. The image is supervised by
+s6-overlay, and the gateway, the OpenAI-compatible API, the dashboard and the
+cron scheduler are processes inside that container. There is no Postgres and no
+Redis: state is a SQLite database plus files on one volume.
+
+Because the agent executes shell commands and drives a browser, treat it as a
+workload with the same trust level as a shell on the node it runs on. The
+controls that matter are the ones around it: the OIDC gate on the dashboard, the
+fact that the API is not published, and the fact that it runs on a worker rather
+than the control plane.
+
+## Architecture
+
+```mermaid
+flowchart LR
+  browser["Browser"] -->|"HTTPS hermes.teamg.app"| traefik["Traefik websecure"]
+  traefik -->|"9119"| dash["Dashboard"]
+  owui["Open WebUI"] -->|"8642 /v1"| api["OpenAI-compatible API"]
+
+  subgraph pod["Pod hermes-agent — one container, s6-overlay"]
+    dash
+    api
+    gw["Gateway + cron scheduler"]
+  end
+
+  gw -->|"OIDC"| pid["Pocket-ID id.teamg.app"]
+  gw -->|"/v1"| llama["llama.cpp :8080"]
+  gw -->|"read/write"| pvc[("PVC hermes-agent-data 10Gi")]
+  gw -->|"outbound"| msg["Telegram, Discord, Slack, Matrix, email"]
+  gw -->|"browser tools"| web["Internet"]
+```
+
+The dashboard and the API are the same process tree; the Service exposes both
+ports. Only `9119` is routed from outside the cluster.
+
+## Files
+
+| File                                                                    | Purpose                                                                     |
+| ----------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| [`kustomization.yml`](../fluxcd/apps/ai/hermes-agent/kustomization.yml) | Namespace, resource list, `configMapGenerator`, `secretGenerator`           |
+| [`deploy.yml`](../fluxcd/apps/ai/hermes-agent/deploy.yml)               | Deployment: image, args, env, security context, probes, resources, mounts   |
+| [`config.yml`](../fluxcd/apps/ai/hermes-agent/config.yml)               | Source for the managed `config.yaml` (model, terminal, dashboard, database) |
+| [`svc.yml`](../fluxcd/apps/ai/hermes-agent/svc.yml)                     | ClusterIP Service, ports `8642` and `9119`                                  |
+| [`pvc.yml`](../fluxcd/apps/ai/hermes-agent/pvc.yml)                     | 10Gi Longhorn ReadWriteOnce claim for `/opt/data`                           |
+| [`ingress-route.yml`](../fluxcd/apps/ai/hermes-agent/ingress-route.yml) | Traefik route `hermes.teamg.app` -> `9119`                                  |
+| [`secrets/enc.env`](../fluxcd/apps/ai/hermes-agent/secrets/enc.env)     | SOPS-encrypted API bearer key and OIDC client credentials                   |
+
+## Decisions and why
+
+| Decision                                  | Rejected alternative                                  | Why                                                                                                                                                                                                                                            |
+| ----------------------------------------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `nodeSelector: kubernetes.io/arch: amd64` | Schedule anywhere, or pin a hostname                  | The image is published for amd64 only. `rpi5` is arm64 _and_ tainted `dedicated=rpi5:NoSchedule`, so it is excluded twice over. Add `kubernetes.io/hostname` only if `hedy`/`beast` contention appears; `Recreate` + RWO makes the move safe.  |
+| Tag only, no digest                       | Pin `image@sha256:...`                                | `renovate.json` has no `pinDigests`, so a digest pin would silently freeze the app. Upstream publishes moving `vX.Y.Z` tags.                                                                                                                   |
+| Root container with five capabilities     | `runAsNonRoot: true`                                  | The s6 entrypoint must chown `/opt/data` to `HERMES_UID:HERMES_GID` (10000) and then drop to that user. It cannot chown as non-root.                                                                                                           |
+| No `fsGroup`                              | `fsGroup: 10000`                                      | The image owns the chown. `fsGroup` would make the kubelet recursively rewrite ownership of a growing volume on every mount.                                                                                                                   |
+| `strategy: Recreate`                      | `RollingUpdate`                                       | The RWO volume cannot be attached by two pods; a rolling update would deadlock on a multi-attach.                                                                                                                                              |
+| Longhorn RWO volume                       | NFS/SMB, or `hostPath`                                | SQLite in WAL mode needs real POSIX locking and `fsync`. Longhorn provides a block-backed filesystem and automatic backups.                                                                                                                    |
+| Pocket-ID OIDC                            | Basic auth, or the `authentik` forwardAuth middleware | Hermes fails closed when bound non-loopback without an auth provider. Basic auth is one shared string with no MFA on a publicly resolvable hostname. The `authentik` middleware in the repo is not functional: no authentik deployment exists. |
+| API `8642` cluster-internal only          | Publish it on Traefik                                 | Only in-cluster clients need it. Keeping it unpublished keeps the unsandboxed `local` terminal backend off the internet.                                                                                                                       |
+| Managed ConfigMap mounted via `subPath`   | Mount the whole `/etc/hermes` directory               | A directory mount would shadow the image's `chromium-executable-path` and `image-provenance.json`, breaking browser tools.                                                                                                                     |
+| HTTP `/health` probes on `8642`           | `tcpSocket` probes                                    | s6 keeps PID 1 alive when the gateway dies, so a TCP probe would report `Ready` on a dead agent.                                                                                                                                               |
+| Single replica                            | Two or more replicas                                  | One SQLite data directory on one RWO volume. A second replica would corrupt the database, not add availability.                                                                                                                                |
+| Writable root filesystem                  | `readOnlyRootFilesystem: true`                        | s6 writes its supervision tree and service state under `/run` and `/var/run`. A read-only root would need a long list of `emptyDir`s and still risk the s6 hand-off.                                                                           |
+
+## Configuration layering
+
+Hermes reads two config files:
+
+- `/opt/data/config.yaml` — user config on the PVC, editable from inside the pod.
+- `/etc/hermes/config.yaml` — managed config from the ConfigMap, read because
+  `HERMES_MANAGED_DIR=/etc/hermes`.
+
+**Managed scope wins per leaf key.** Editing the model endpoint or API key in
+`/opt/data/config.yaml` from inside the pod therefore has no effect. That is the
+point: the endpoint and auth cannot drift from Git.
+
+The mount is a **single file**, not a directory:
+
+```yaml
+- name: config
+  mountPath: /etc/hermes/config.yaml
+  subPath: config.yaml
+  readOnly: true
+```
+
+This is a real trap. `/etc/hermes` also holds the image's
+`chromium-executable-path` and `image-provenance.json`. Mounting the ConfigMap
+over the whole directory would hide both, and browser tools would fail in a way
+that looks unrelated to configuration.
+
+The generator key must be literally `config.yaml`, because that is the filename
+Hermes looks for under `HERMES_MANAGED_DIR`. The source file keeps the repo's
+`.yml` extension and is remapped on the way in:
+
+```yaml
+configMapGenerator:
+  - name: hermes-agent-config
+    files:
+      - config.yaml=config.yml
+```
+
+Everything else the agent persists lives on the PVC and is not in Git: `.env`,
+`auth.json`, `SOUL.md`, `state.db`, `sessions/`, `memories/`, `skills/`,
+`cron/`, `hooks/`, `logs/` and `home/`.
+
+## Model backend
+
+```yaml
+model:
+  default: gemma4-12b-q6
+  provider: custom
+  base_url: http://llama-cpp.ai.svc.cluster.local:8080/v1
+  api_key: sk-no-key-required
+  context_length: 65536
+```
+
+- The in-cluster Service URL skips a TLS hop and keeps the model off the public
+  edge. llama.cpp ignores the `Authorization` header, so the placeholder key is
+  enough.
+- `context_length: 65536` is a deliberate floor with headroom: Hermes rejects
+  values below 64000, and llama.cpp serves 262144. It is not the model's ceiling.
+- `gemma4-12b-q6` is the alias of the `load-on-startup = 1` preset in
+  [`models-preset.ini`](../fluxcd/apps/ai/llama.cpp/models-preset.ini). llama.cpp
+  runs `--models-max 1`, so asking for a different model swaps an 11-13 GB GGUF
+  and can take a minute or more.
+- `terminal.backend: local` because the docker backend cannot work on containerd
+  (there is no Docker socket). The agent runs commands directly in its own
+  container.
+
+## Storage
+
+```yaml
+spec:
+  storageClassName: longhorn
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+```
+
+The claim carries `kustomize.toolkit.fluxcd.io/ssa: IfNotPresent`, so pruning or
+re-applying the Kustomization never recreates it. Longhorn creates volumes with
+reclaim policy `Retain` (`persistence.reclaimPolicy` in the Longhorn
+HelmRelease), so the data also survives deleting the claim.
+
+SQLite runs in WAL mode (`database.journal_mode: wal`). WAL needs real POSIX
+locking and `fsync`; Longhorn's block-backed filesystem provides both. Never move
+this volume to NFS or SMB.
+
+Backups are automatic. The Longhorn HelmRelease attaches the `default`
+recurring-job group to every volume, and the `backup` RecurringJob runs every
+4 hours with 42 retained copies to the Garage S3 target. There is no per-app
+annotation to add.
+
+## Exposure
+
+The dashboard is routed at the root of its own host:
+
+```yaml
+- match: Host(`hermes.teamg.app`) && PathPrefix(`/`)
+  kind: Rule
+  services:
+    - name: hermes-agent
+      port: 9119
+```
+
+There is no `tls:` block: TLS comes from the default TLSStore certificate
+`teamg-app-tls`, the wildcard `*.teamg.app` certificate.
+
+The API is **not** published. It is reachable only through the ClusterIP
+Service:
+
+```text
+http://hermes-agent.ai.svc.cluster.local:8642/v1
+```
+
+Open WebUI is the intended consumer. Its provider connection is configured in
+the Admin UI, not in Git (see [Open WebUI](open-webui.md)), using that base URL
+and `API_SERVER_KEY` as the bearer token.
+
+Subpath hosting (`https://teamg.app/hermes`) is **not supported**: the
+dashboard's asset and API paths are absolute, so any `PathPrefix` other than `/`
+breaks the UI.
+
+The webapp on `9120` is not enabled. Upstream requires `webapp.enabled: true`,
+it binds loopback, and it does not support subpath hosting either.
+
+## Authentication
+
+The dashboard uses Pocket-ID OIDC with issuer `https://id.teamg.app`. The client
+ID and secret come from the SOPS secret.
+
+This is not optional. Hermes fails closed when it is bound to a non-loopback
+address without an auth provider, so the dashboard would refuse to serve without
+one. Basic auth was rejected: it is one shared string, it has no MFA, and
+`*.teamg.app` is publicly resolvable.
+
+`dashboard.trusted_proxies` is set to the pod CIDR:
+
+```yaml
+dashboard:
+  public_url: https://hermes.teamg.app
+  trusted_proxies:
+    - 10.244.0.0/16
+```
+
+Cilium runs with `ipam: kubernetes`, so the pod CIDR comes from the
+kube-controller-manager `--cluster-cidr` and the node `podCIDRs`, not from a
+Cilium pool setting. Without the correct CIDR the dashboard does not trust
+Traefik's forwarded headers and builds `http://` callbacks.
+
+The `authentik` forwardAuth middleware in
+[`fluxcd/infrastructure/configs/traefik/middlewares/`](../fluxcd/infrastructure/configs/traefik/middlewares/)
+is **not functional** — no authentik deployment exists. Do not treat it as an
+option.
+
+## Security posture
+
+The container must start as root. The image's s6 entrypoint remaps its internal
+user to `HERMES_UID`/`HERMES_GID` (10000), chowns `/opt/data`, then drops
+privileges with `s6-setuidgid`. `runAsNonRoot: true` is impossible.
+
+```yaml
+securityContext:
+  runAsUser: 0
+  runAsGroup: 0
+  runAsNonRoot: false
+  seccompProfile:
+    type: RuntimeDefault
+```
+
+The container adds back only what the hand-off needs:
+
+```yaml
+allowPrivilegeEscalation: false
+privileged: false
+capabilities:
+  drop:
+    - ALL
+  add:
+    - CHOWN
+    - DAC_OVERRIDE
+    - FOWNER
+    - SETGID
+    - SETUID
+```
+
+There is no `fsGroup`, and the root filesystem is writable on purpose. The
+namespace enforces Pod Security `baseline` with `restricted` audit and warn, so
+this pod is admitted but flagged. That is the intended trade-off: the
+alternative is a container that cannot start.
+
+`automountServiceAccountToken: false` — the agent never talks to the Kubernetes
+API.
+
+## Runtime settings
+
+| Variable                              | Value                  | Why                                            |
+| ------------------------------------- | ---------------------- | ---------------------------------------------- |
+| `HERMES_UID` / `HERMES_GID`           | `10000`                | uid/gid s6 drops to after chowning `/opt/data` |
+| `TZ`                                  | `Pacific/Auckland`     | log and cron timestamps                        |
+| `HERMES_MANAGED_DIR`                  | `/etc/hermes`          | where the managed `config.yaml` is read from   |
+| `API_SERVER_ENABLED`                  | `true`                 | enables `/health` and the `/v1` API            |
+| `API_SERVER_HOST` / `API_SERVER_PORT` | `0.0.0.0` / `8642`     | bind for in-cluster clients                    |
+| `HERMES_DASHBOARD` / `..._PORT`       | `1` / `9119`           | dashboard process                              |
+| `HERMES_DASHBOARD_OIDC_ISSUER`        | `https://id.teamg.app` | Pocket-ID                                      |
+| `API_SERVER_KEY`                      | Secret                 | bearer token for `/v1`                         |
+| `HERMES_DASHBOARD_OIDC_CLIENT_ID`     | Secret                 | OIDC client                                    |
+| `HERMES_DASHBOARD_OIDC_CLIENT_SECRET` | Secret, optional       | OIDC client secret                             |
+
+All three probes hit `GET /health` on port `8642`:
+
+| Probe     | Period | Failure threshold | Notes                             |
+| --------- | ------ | ----------------- | --------------------------------- |
+| startup   | 10s    | 60                | up to 10 minutes for a cold start |
+| readiness | 10s    | 3                 |                                   |
+| liveness  | 30s    | 3                 |                                   |
+
+`/health` is served by the gateway process itself, and it only exists when
+`API_SERVER_ENABLED=true`. That is why the API is enabled even though it is not
+published: the probes depend on it.
+
+Resources: requests `500m` / `2Gi`, limits `2` / `4Gi`. Upstream recommends
+2-4 GiB, and browser tools need at least 2 GiB.
+
+Other settings: `terminationGracePeriodSeconds: 60` so s6 can stop both
+processes and flush the SQLite WAL; `revisionHistoryLimit: 3`;
+`imagePullPolicy: IfNotPresent`; `args: [gateway, run]` appended to the image
+entrypoint (never override the entrypoint — it performs the chown and the
+privilege drop). `/dev/shm` is a 1Gi memory-backed `emptyDir` for Chromium, and
+`/tmp` is a 256Mi `emptyDir`.
+
+## Updates
+
+Renovate tracks the image tag through the `kubernetes` manager, which already
+scans `deploy.yml`. The package rule for `nousresearch/hermes-agent` disables
+automerge and enforces a 7-day `minimumReleaseAge`, because this is a stateful
+single-replica agent.
+
+The image is pinned by tag only. `renovate.json` has no `pinDigests`, so adding a
+digest would silently freeze the app. Never use `stable`, `latest` or `main`.
+
+## Current status
+
+Verified on 2026-11-18:
+
+- Flux `Kustomization apps` is `Ready=True`.
+- Pod `hermes-agent-6ddb4cb597-ffxkx` is `1/1 Running`, 0 restarts, on `beast`
+  (amd64).
+- `GET /health` returns:
+
+  ```json
+  { "status": "ok", "platform": "hermes-agent", "version": "0.23.2" }
+  ```
+
+- PVC `hermes-agent-data` is `Bound`, 10Gi, `ReadWriteOnce`, class `longhorn`.
+- Service `hermes-agent` is ClusterIP with ports `8642` and `9119`.
+- The pod CIDR is `10.244.0.0/16`, which is the `dashboard.trusted_proxies`
+  value.
+
+## Operations
+
+### Verify
+
+```bash
+flux get kustomization apps
+kubectl -n ai get deploy hermes-agent -o wide
+kubectl -n ai get pod -l app=hermes-agent -o wide
+kubectl -n ai get pvc hermes-agent-data
+kubectl -n ai get svc hermes-agent
+```
+
+Check the agent itself, not just the listener. Run this from a pod in the
+cluster, or port-forward the Service:
+
+```bash
+kubectl -n ai port-forward svc/hermes-agent 8642:8642
+curl -s http://localhost:8642/health
+```
+
+### Upgrade
+
+1. Read the upstream changelog for state migrations.
+2. Optionally take a manual Longhorn snapshot. Scale to 0 first for a clean copy:
+
+   ```bash
+   kubectl -n ai scale deploy/hermes-agent --replicas=0
+   # Create the snapshot of hermes-agent-data in the Longhorn UI.
+   kubectl -n ai scale deploy/hermes-agent --replicas=1
+   ```
+
+   Flux re-applies `replicas: 1` on its next reconcile, so take the snapshot
+   promptly.
+
+3. Bump the tag in [`deploy.yml`](../fluxcd/apps/ai/hermes-agent/deploy.yml),
+   commit, and reconcile:
+
+   ```bash
+   flux reconcile kustomization apps --with-source
+   kubectl -n ai rollout status deploy/hermes-agent
+   ```
+
+Expect a short outage. `Recreate` plus a single replica is inherent to the
+single-data-dir design.
+
+### Rollback
+
+Revert the tag commit and reconcile. The PVC is never recreated: it carries
+`kustomize.toolkit.fluxcd.io/ssa: IfNotPresent`, and Longhorn's reclaim policy is
+`Retain`.
+
+```bash
+git revert <tag-bump-commit>
+flux reconcile kustomization apps --with-source
+```
+
+### Restore drill
+
+An untested backup is a hypothesis. Run this drill after any storage change:
+
+1. Create a volume from the Longhorn backup (Longhorn UI, or a `Volume` with
+   `fromBackup`).
+2. Bind a PVC to it:
+
+   ```yaml
+   apiVersion: v1
+   kind: PersistentVolumeClaim
+   metadata:
+     name: hermes-agent-data-restore
+     namespace: ai
+   spec:
+     storageClassName: longhorn
+     accessModes:
+       - ReadWriteOnce
+     resources:
+       requests:
+         storage: 10Gi
+     volumeName: <restored-volume-name>
+   ```
+
+3. Point `claimName` in [`deploy.yml`](../fluxcd/apps/ai/hermes-agent/deploy.yml)
+   at the restored claim, apply out of band, and confirm `state.db` opens and
+   sessions are present:
+
+   ```bash
+   kubectl -n ai exec deploy/hermes-agent -- ls -la /opt/data
+   kubectl -n ai logs deploy/hermes-agent | grep -i sqlite
+   ```
+
+4. Revert `claimName` and reconcile.
+
+## Troubleshooting
+
+| Symptom                                                     | Check                                                                                                                                                                                                                         |
+| ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Pod `Pending`                                               | `nodeSelector` requires `kubernetes.io/arch: amd64`; `rpi5` is arm64 and tainted `dedicated=rpi5:NoSchedule`. `kubectl -n ai describe pod` shows the predicate. If both amd64 workers are full, add `kubernetes.io/hostname`. |
+| Pod `Ready` but the agent does not answer                   | s6 keeps PID 1 alive when the gateway dies, so a listener check is not enough. `curl .../health` and `kubectl -n ai logs deploy/hermes-agent`.                                                                                |
+| Dashboard shows a fail-closed or auth error                 | `dashboard.trusted_proxies` must contain the pod CIDR (`10.244.0.0/16`), and the OIDC client must exist in Pocket-ID with a non-empty secret.                                                                                 |
+| OIDC redirects to `http://` instead of `https://`           | `dashboard.public_url` must be `https://hermes.teamg.app`; the callback is built from it.                                                                                                                                     |
+| First request hangs for minutes                             | llama.cpp runs `--models-max 1`; a cold or swapped model reloads an 11-13 GB GGUF. Open WebUI uses a 900 s timeout for the same reason.                                                                                       |
+| `nous` provider warnings, or calls go to the wrong endpoint | The managed config is not mounted. Check the `subPath` mount at `/etc/hermes/config.yaml` and that the ConfigMap key is `config.yaml`.                                                                                        |
+| Browser tools fail (Chromium)                               | Unverified under `RuntimeDefault` seccomp. Roll back the last browser-tools config change first, then test a less restrictive profile before changing the pod.                                                                |
+| `503` from Traefik                                          | `kubectl -n ai get ingressroute hermes-agent` and that Service `hermes-agent` has endpoints on `9119`.                                                                                                                        |
+| PVC `Pending`                                               | `kubectl -n ai describe pvc hermes-agent-data` — Longhorn replica scheduling or disk pressure.                                                                                                                                |
+
+## Known limitations
+
+- **No HA.** One replica and `Recreate` mean every upgrade and every node drain
+  is a short outage.
+- **Root container under `baseline` PSA.** Admitted, but flagged by the
+  `restricted` audit and warn levels.
+- **No NetworkPolicy yet.** The agent needs broad egress (messaging APIs, model
+  downloads, browser traffic). Upstream's egress-isolation pattern is the
+  documented next hardening step.
+- **No ServiceMonitor or PrometheusRule.** Pod metrics and Flux alerts only.
+- **Subpath hosting is unsupported.** The dashboard must own the root of its
+  host.
+- **`readOnlyRootFilesystem` is deliberately false.** s6 needs a writable root.
+- **One data directory.** A second replica would corrupt SQLite rather than add
+  capacity.
+
+## References
+
+- Upstream Docker guide:
+  <https://hermes-agent.nousresearch.com/docs/user-guide/docker>
+- Upstream repository: <https://github.com/NousResearch/hermes-agent>
+- Related: [Open WebUI](open-webui.md), [SearXNG](searxng.md)

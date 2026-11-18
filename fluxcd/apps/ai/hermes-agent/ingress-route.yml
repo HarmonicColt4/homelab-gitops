@@ -1,0 +1,19 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: hermes-agent
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    # The dashboard is served at the root of its own host. Subpath hosting is
+    # not supported: the dashboard's asset and API paths are absolute, so a
+    # PathPrefix other than / would break the UI.
+    - match: Host(`hermes.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        # TLS uses the default TLSStore certificate (teamg-app-tls, wildcard
+        # *.teamg.app), so no tls block is needed.
+        - name: hermes-agent
+          port: 9119

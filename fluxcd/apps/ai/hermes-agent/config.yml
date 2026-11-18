@@ -1,0 +1,17 @@
+model:
+  default: gemma4-12b-q6
+  provider: custom
+  base_url: http://llama-cpp.ai.svc.cluster.local:8080/v1
+  api_key: sk-no-key-required
+  context_length: 65536
+
+terminal:
+  backend: local
+
+dashboard:
+  public_url: https://hermes.teamg.app
+  trusted_proxies:
+    - 10.244.0.0/16
+
+database:
+  journal_mode: wal

@@ -134,6 +134,12 @@ creation_rules:
     age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
     mac_only_encrypted: true
 
+  # Hermes Agent - encrypt the API bearer key and the OIDC client credentials
+  - path_regex: ^fluxcd/apps/ai/hermes-agent/secrets/.*\.env$
+    encrypted_regex: (API_SERVER_KEY|HERMES_DASHBOARD_OIDC_CLIENT_ID|HERMES_DASHBOARD_OIDC_CLIENT_SECRET)
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
 stores:
   yaml:
     indent: 2

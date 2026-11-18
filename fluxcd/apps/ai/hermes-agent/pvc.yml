@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: hermes-agent-data
+  annotations:
+    # The agent's SQLite database and session state are not reproducible from
+    # Git. Keep the claim (and its data) if the Kustomization is pruned or
+    # re-applied.
+    kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
+spec:
+  # SQLite runs in WAL mode (see config.yml). WAL needs real POSIX locking and
+  # fsync, which Longhorn's block-backed filesystem provides; a network
+  # filesystem would corrupt the database.
+  storageClassName: longhorn
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi

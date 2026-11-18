@@ -1,0 +1,25 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: ai
+
+resources:
+  - pvc.yml
+  - deploy.yml
+  - svc.yml
+  - ingress-route.yml
+
+# The managed config. The key must be literally "config.yaml": Hermes looks
+# for that filename under HERMES_MANAGED_DIR. The source file keeps the repo's
+# .yml extension rule and is remapped on the way in.
+configMapGenerator:
+  - name: hermes-agent-config
+    files:
+      - config.yaml=config.yml
+
+# Only the API bearer key and the OIDC client credentials are secret.
+# The model endpoint, public URL and trusted proxies are all in Git.
+secretGenerator:
+  - name: hermes-agent-secret
+    envs:
+      - secrets/enc.env

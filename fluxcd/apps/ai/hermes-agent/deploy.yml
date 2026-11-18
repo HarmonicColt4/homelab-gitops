@@ -1,0 +1,180 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hermes-agent
+  labels:
+    app: hermes-agent
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  # The agent keeps its SQLite database and session state on a ReadWriteOnce
+  # Longhorn volume. A rolling update would try to attach the same claim to two
+  # pods at once and deadlock on a multi-attach, so the old pod must release it
+  # before the new one starts.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: hermes-agent
+  template:
+    metadata:
+      labels:
+        app: hermes-agent
+    spec:
+      # The image is published for amd64 only. The arm64 node (rpi5) is tainted
+      # and reserved for cluster duties, so pin to amd64.
+      nodeSelector:
+        kubernetes.io/arch: amd64
+      # The agent never talks to the Kubernetes API.
+      automountServiceAccountToken: false
+      # s6 supervises the gateway and the dashboard; give it room to stop both
+      # cleanly and flush the SQLite WAL on shutdown.
+      terminationGracePeriodSeconds: 60
+      securityContext:
+        # Root is mandatory. The image's s6 entrypoint chowns /opt/data to
+        # HERMES_UID:HERMES_GID and then drops to that user itself; it cannot
+        # perform the chown if it does not start as root. The container
+        # capabilities below are the minimum needed for that hand-off.
+        runAsUser: 0
+        runAsGroup: 0
+        runAsNonRoot: false
+        # No fsGroup on purpose: the image chowns /opt/data itself on start, and
+        # an fsGroup would make the kubelet recursively rewrite ownership of the
+        # Longhorn volume on every mount.
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: hermes-agent
+          # Renovate tracks this tag (kubernetes manager, deploy.yml). Tag only,
+          # not a digest: upstream publishes moving vX.Y.Z tags and does not
+          # guarantee digest stability across re-pushes.
+          image: nousresearch/hermes-agent:v0.23.2
+          imagePullPolicy: IfNotPresent
+          # Never override the entrypoint: the image's s6 init is what performs
+          # the /opt/data chown and the privilege drop. These args are appended
+          # to it to start the gateway.
+          args:
+            - gateway
+            - run
+          env:
+            # The uid/gid the s6 entrypoint drops to after chowning /opt/data.
+            - name: HERMES_UID
+              value: "10000"
+            - name: HERMES_GID
+              value: "10000"
+            - name: TZ
+              value: Pacific/Auckland
+            # Directory Hermes reads its managed config.yaml from.
+            - name: HERMES_MANAGED_DIR
+              value: /etc/hermes
+            # The HTTP API the gateway exposes for in-cluster clients.
+            - name: API_SERVER_ENABLED
+              value: "true"
+            - name: API_SERVER_HOST
+              value: 0.0.0.0
+            - name: API_SERVER_PORT
+              value: "8642"
+            # The web dashboard, published through Traefik.
+            - name: HERMES_DASHBOARD
+              value: "1"
+            - name: HERMES_DASHBOARD_PORT
+              value: "9119"
+            - name: HERMES_DASHBOARD_OIDC_ISSUER
+              value: https://id.teamg.app
+            # The API bearer key and the OIDC client credentials are the only
+            # secrets; everything else is in Git.
+            - name: API_SERVER_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-agent-secret
+                  key: API_SERVER_KEY
+            - name: HERMES_DASHBOARD_OIDC_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-agent-secret
+                  key: HERMES_DASHBOARD_OIDC_CLIENT_ID
+            # Optional: the Pocket-ID client is registered out-of-band, so the
+            # pod must still start before the secret is filled in.
+            - name: HERMES_DASHBOARD_OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-agent-secret
+                  key: HERMES_DASHBOARD_OIDC_CLIENT_SECRET
+                  optional: true
+          ports:
+            - name: api
+              containerPort: 8642
+              protocol: TCP
+            - name: dashboard
+              containerPort: 9119
+              protocol: TCP
+          # No readOnlyRootFilesystem: s6 writes its supervision tree and the
+          # service state under /run and /var/run, and the image's own layout
+          # assumes a writable root. A read-only root would need a long list of
+          # extra emptyDirs and still risks breaking the s6 hand-off.
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            capabilities:
+              drop:
+                - ALL
+              # The s6 entrypoint needs these to chown /opt/data and drop to
+              # HERMES_UID:HERMES_GID. Nothing else is granted.
+              add:
+                - CHOWN
+                - DAC_OVERRIDE
+                - FOWNER
+                - SETGID
+                - SETUID
+          resources:
+            requests:
+              cpu: 500m
+              memory: 2Gi
+            limits:
+              cpu: "2"
+              memory: 4Gi
+          volumeMounts:
+            # SQLite database, sessions and the agent's working state.
+            - name: data
+              mountPath: /opt/data
+            # Chromium/Playwright and other shared-memory consumers need more
+            # than the default 64Mi /dev/shm.
+            - name: dshm
+              mountPath: /dev/shm
+            # Scratch space for the gateway and dashboard.
+            - name: tmp
+              mountPath: /tmp
+          # /health is served by the gateway process itself. s6 keeps PID 1
+          # alive even when the gateway dies, so a TCP probe would stay green on
+          # a dead gateway; all three probes must hit /health to catch that.
+          startupProbe:
+            httpGet:
+              path: /health
+              port: api
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 60
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: api
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: api
+            periodSeconds: 30
+            failureThreshold: 3
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: hermes-agent-data
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 1Gi
+        - name: tmp
+          emptyDir:
+            sizeLimit: 256Mi

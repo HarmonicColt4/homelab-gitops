@@ -103,6 +103,14 @@
         "ghcr.io/lemker/unifi-os-server"
       ],
       "automergeSchedule": ["* 2-6 * * *"]
+    },
+    {
+      "description": "Hermes Agent is a stateful single-replica agent; never automerge, and wait a week after release",
+      "matchManagers": ["kubernetes"],
+      "matchPackageNames": ["nousresearch/hermes-agent"],
+      "automerge": false,
+      "minimumReleaseAge": "7 days",
+      "assignees": ["gpenda"]
     }
   ],
   "major": {

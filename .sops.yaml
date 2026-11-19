@@ -1,5 +1,11 @@
 ---
 creation_rules:
+  # TrueCharts apps - paperless-ngx secrets (must precede the generic truecharts rule)
+  - path_regex: ^fluxcd/apps/truecharts/paperless-ngx/.*\.yml$
+    encrypted_regex: ^ADMIN_PASSWORD$
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
   # TrueCharts apps - encrypt all yml files with specific field patterns
   - path_regex: ^fluxcd/apps/truecharts/.*/.*\.yml$
     encrypted_regex: ^(admin_|api_key|client_|CF_APITOKEN|password|installation|SSO)$

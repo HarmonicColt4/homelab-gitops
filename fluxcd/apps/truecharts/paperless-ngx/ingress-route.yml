@@ -1,0 +1,14 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: paperless-ngx
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`paperless.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: paperless-ngx
+          port: 10140

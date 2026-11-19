@@ -3,7 +3,7 @@ model:
   provider: custom
   base_url: http://llama-cpp.ai.svc.cluster.local:8080/v1
   api_key: sk-no-key-required
-  context_length: 65536
+  context_length: 262144
 
 terminal:
   backend: local

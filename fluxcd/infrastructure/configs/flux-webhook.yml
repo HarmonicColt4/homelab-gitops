@@ -8,6 +8,12 @@ metadata:
     lbipam.cilium.io/ips: 10.25.25.26
 spec:
   type: LoadBalancer
+  # Keep the client source IP intact. With the default `Cluster` policy Cilium
+  # masquerades external traffic to the ingress node's cilium_host IP whenever
+  # the backend pod lives on another node, which breaks the ipBlock-based
+  # NetworkPolicy below (Gitea's 10.25.25.10 is replaced by e.g. 10.244.3.250).
+  # `Local` also makes the L2 announcer follow the node that runs the pod.
+  externalTrafficPolicy: Local
   selector:
     app: notification-controller
   ports:

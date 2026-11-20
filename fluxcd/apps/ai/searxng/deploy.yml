@@ -40,7 +40,7 @@ spec:
           # Renovate tracks this tag (kubernetes manager, deploy.yml) with
           # regex versioning for the YYYY.M.DD-<sha> scheme. GHCR is the
           # official mirror and avoids Docker Hub pull-rate limits.
-          image: ghcr.io/searxng/searxng:2026.11.19-368baa340
+          image: ghcr.io/searxng/searxng:2026.11.20-d756ba75f
           imagePullPolicy: IfNotPresent
           env:
             # The entrypoint only chowns the mounted volumes when it runs as

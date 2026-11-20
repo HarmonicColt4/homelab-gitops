@@ -102,6 +102,16 @@ spec:
             # Per page operation, in milliseconds.
             - name: TIMEOUT
               value: "10000"
+            # 4.31.0 refuses to bind a non-loopback host without a client
+            # token: the server exits before uvicorn starts, so the TCP probe
+            # never passes and the pod crashloops. Clients must send
+            # `Authorization: Bearer <token>`; the value lives in the
+            # SOPS-encrypted secrets/enc.env.
+            - name: LINKEDIN_MCP_HTTP_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: linkedin-mcp-secret
+                  key: LINKEDIN_MCP_HTTP_TOKEN
           ports:
             - name: http
               containerPort: 8080

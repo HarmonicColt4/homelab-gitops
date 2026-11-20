@@ -8,12 +8,12 @@ runs as a plain `Deployment` in the shared `ai` namespace and is served at
 | --------- | ------------------------------------------------------------- |
 | Manifests | `fluxcd/apps/ai/linkedin-mcp/`                                |
 | Workload  | `Deployment/linkedin-mcp`, 1 replica, pinned to `beast`       |
-| Image     | `stickerdaniel/linkedin-mcp-server:4.30.0` (Renovate-tracked) |
+| Image     | `stickerdaniel/linkedin-mcp-server:4.31.0` (Renovate-tracked) |
 | Service   | `ai/linkedin-mcp`, ClusterIP port `8080`                      |
 | Edge      | `linkedin-mcp` IngressRoute, Traefik `websecure`              |
 | Storage   | PVC `linkedin-mcp-session`, 5Gi `longhorn`, ReadWriteOnce     |
 | Session   | `/home/pwuser/.linkedin-mcp` on that PVC, created by hand     |
-| Secrets   | none in Git — the session is state, not configuration         |
+| Secrets   | `LINKEDIN_MCP_HTTP_TOKEN` in SOPS-encrypted `secrets/enc.env` |
 
 ## Why it looks like this
 
@@ -47,6 +47,11 @@ manifest:
   update would deadlock on a multi-attach.
 - **TCP probes, not HTTP** — FastMCP only answers on `/mcp` and rejects plain
   `GET`s without MCP headers, so an `httpGet` probe reports a false failure.
+- **`LINKEDIN_MCP_HTTP_TOKEN` is mandatory from 4.31.0.** The server refuses to
+  bind a non-loopback host without a client token and exits before `uvicorn`
+  starts, so the TCP probe never passes and the pod crashloops. The token comes
+  from the SOPS-encrypted `secrets/enc.env` through a `secretGenerator`, and
+  every client must send `Authorization: Bearer <token>`.
 
 `FASTMCP_HTTP_ALLOWED_HOSTS` lists the public name and the in-cluster Service
 names. FastMCP answers `421` to any `Host` it was not told to serve; that check
@@ -111,27 +116,47 @@ Point an MCP client at the Streamable HTTP endpoint:
   "mcpServers": {
     "linkedin": {
       "type": "streamable-http",
-      "url": "https://linkedin-mcp.teamg.app/mcp"
+      "url": "https://linkedin-mcp.teamg.app/mcp",
+      "headers": {
+        "Authorization": "Bearer <token>"
+      }
     }
   }
 }
 ```
 
+Read the token with:
+
+```bash
+sops --decrypt fluxcd/apps/ai/linkedin-mcp/secrets/enc.env | grep LINKEDIN_MCP_HTTP_TOKEN
+```
+
 In-cluster consumers should use
 `http://linkedin-mcp.ai.svc.cluster.local:8080/mcp` and skip the TLS
-hop. Both names are in `FASTMCP_HTTP_ALLOWED_HOSTS`.
+hop. Both names are in `FASTMCP_HTTP_ALLOWED_HOSTS`. The token is required on
+every transport, in-cluster included.
 
 ## Security
 
-**The endpoint has no authentication of its own.** Upstream says so explicitly:
-anything reachable beyond your own machine belongs behind something that
-provides it. Whoever can reach `/mcp` can read your inbox, send messages and
-send connection requests as you.
+**The endpoint requires a bearer token.** Since 4.31.0 the server refuses to
+start on a non-loopback host without one, so `LINKEDIN_MCP_HTTP_TOKEN` is not
+optional here. The value lives in the SOPS-encrypted
+`fluxcd/apps/ai/linkedin-mcp/secrets/enc.env` and reaches the container through
+a `secretGenerator`-backed `Secret`. Whoever holds the token can read your
+inbox, send messages and send connection requests as you, so treat it as a
+credential: keep it out of client configs committed to Git and rotate it if it
+leaks.
 
 The route is published on the wildcard `*.teamg.app` certificate like the other
-apps, so treat the hostname as the only control. If that is not enough, add a
-Traefik middleware to the IngressRoute — `IPAllowList` for LAN-only access, or
-`basicAuth` with an htpasswd `Secret` — before widening exposure.
+apps. The token is the only control on the endpoint; if that is not enough, add
+a Traefik middleware to the IngressRoute — `IPAllowList` for LAN-only access —
+before widening exposure. Do not set
+`LINKEDIN_MCP_ALLOW_UNAUTHENTICATED_HTTP=true`: it disables the check that
+exists to stop exactly this exposure.
+
+To rotate the token, replace the value in `secrets/enc.env` with
+`sops fluxcd/apps/ai/linkedin-mcp/secrets/enc.env`, commit, and update every
+client. The `secretGenerator` hash changes, so the Deployment rolls on its own.
 
 Also note that LinkedIn's User Agreement prohibits automated access. Accounts
 using tools like this can be restricted. Use it sparingly.
@@ -167,15 +192,17 @@ form as a stopgap only.
 
 ## Troubleshooting
 
-| Symptom                                                                | Check                                                                                                                                                                |
-| ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `421 Misdirected Request`                                              | The `Host` you used is not in `FASTMCP_HTTP_ALLOWED_HOSTS`. Add it rather than removing the check.                                                                   |
-| `503` from Traefik                                                     | `kubectl -n ai get ingressroute linkedin-mcp` and that the Service has endpoints.                                                                                    |
-| Pod `Pending`                                                          | `beast` must be schedulable and the Longhorn volume attachable. `kubectl -n ai describe pod`.                                                                        |
-| `Installer temporary roots can be replaced by another account in /tmp` | `/tmp` was replaced by an `emptyDir`. Remove that mount; the image's own 1777 `/tmp` is required.                                                                    |
-| `Browser installation failed` on a read-only root                      | `readOnlyRootFilesystem` is incompatible with this image. See the note in `deploy.yml`.                                                                              |
-| Renderer crashes / blank pages                                         | `/dev/shm` too small. Confirm the `dshm` `emptyDir` is mounted at `/dev/shm`.                                                                                        |
-| `[Errno 1] Operation not permitted: '/home/pwuser/.linkedin-mcp'`      | The volume root is not owned by uid 1000. The `fix-volume-ownership` init container did not run or failed; check `kubectl -n ai logs <pod> -c fix-volume-ownership`. |
-| Tools return "no valid session"                                        | The session expired. Re-run the login procedure.                                                                                                                     |
-| Tools time out on multi-page reads                                     | Raise `TOOL_TIMEOUT` (seconds) or `TIMEOUT` (milliseconds) in `deploy.yml`.                                                                                          |
-| `browser is busy`                                                      | Only one process may hold the shared browser. Keep `replicas: 1`.                                                                                                    |
+| Symptom                                                                     | Check                                                                                                                                                                |
+| --------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Configuration error: HTTP transport on 0.0.0.0 ... no client token is set` | `LINKEDIN_MCP_HTTP_TOKEN` is missing or empty. Check the `linkedin-mcp-secret` Secret and the `secretKeyRef` in `deploy.yml`.                                        |
+| `401 Unauthorized` from the MCP endpoint                                    | The client is not sending `Authorization: Bearer <token>`, or the token is stale. Re-read it from `secrets/enc.env`.                                                 |
+| `421 Misdirected Request`                                                   | The `Host` you used is not in `FASTMCP_HTTP_ALLOWED_HOSTS`. Add it rather than removing the check.                                                                   |
+| `503` from Traefik                                                          | `kubectl -n ai get ingressroute linkedin-mcp` and that the Service has endpoints.                                                                                    |
+| Pod `Pending`                                                               | `beast` must be schedulable and the Longhorn volume attachable. `kubectl -n ai describe pod`.                                                                        |
+| `Installer temporary roots can be replaced by another account in /tmp`      | `/tmp` was replaced by an `emptyDir`. Remove that mount; the image's own 1777 `/tmp` is required.                                                                    |
+| `Browser installation failed` on a read-only root                           | `readOnlyRootFilesystem` is incompatible with this image. See the note in `deploy.yml`.                                                                              |
+| Renderer crashes / blank pages                                              | `/dev/shm` too small. Confirm the `dshm` `emptyDir` is mounted at `/dev/shm`.                                                                                        |
+| `[Errno 1] Operation not permitted: '/home/pwuser/.linkedin-mcp'`           | The volume root is not owned by uid 1000. The `fix-volume-ownership` init container did not run or failed; check `kubectl -n ai logs <pod> -c fix-volume-ownership`. |
+| Tools return "no valid session"                                             | The session expired. Re-run the login procedure.                                                                                                                     |
+| Tools time out on multi-page reads                                          | Raise `TOOL_TIMEOUT` (seconds) or `TIMEOUT` (milliseconds) in `deploy.yml`.                                                                                          |
+| `browser is busy`                                                           | Only one process may hold the shared browser. Keep `replicas: 1`.                                                                                                    |

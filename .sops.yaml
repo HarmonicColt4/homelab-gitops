@@ -147,6 +147,12 @@ creation_rules:
     age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
     mac_only_encrypted: true
 
+  # LinkedIn MCP - encrypt the HTTP bearer token in the env file
+  - path_regex: ^fluxcd/apps/ai/linkedin-mcp/secrets/.*\.env$
+    encrypted_regex: LINKEDIN_MCP_HTTP_TOKEN
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
 stores:
   yaml:
     indent: 2

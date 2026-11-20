@@ -9,6 +9,11 @@ resources:
   - svc.yml
   - ingress-route.yml
 
-# No secretGenerator: the LinkedIn session is not a Git value. It is created
-# once by bootstrap/login-job.yml and lives on the PVC. bootstrap/ is
-# deliberately not listed here, so Flux never applies it.
+# The HTTP bearer token. 4.31.0 refuses to bind a non-loopback host without
+# one. The LinkedIn session itself is still not a Git value: it is created once
+# by bootstrap/login-job.yml and lives on the PVC. bootstrap/ is deliberately
+# not listed here, so Flux never applies it.
+secretGenerator:
+  - name: linkedin-mcp-secret
+    envs:
+      - secrets/enc.env

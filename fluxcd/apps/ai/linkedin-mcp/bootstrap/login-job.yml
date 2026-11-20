@@ -47,7 +47,7 @@ spec:
         # Same ownership fix as the Deployment: the server chmods its profile
         # root to 0700 and a Longhorn volume arrives owned by root.
         - name: fix-volume-ownership
-          image: stickerdaniel/linkedin-mcp-server:4.30.0
+          image: stickerdaniel/linkedin-mcp-server:4.31.0
           command:
             - chown
             - "1000:1000"
@@ -68,7 +68,7 @@ spec:
               mountPath: /home/pwuser/.linkedin-mcp
       containers:
         - name: login
-          image: stickerdaniel/linkedin-mcp-server:4.30.0
+          image: stickerdaniel/linkedin-mcp-server:4.31.0
           # `--login-viewer` serves the login browser at a token-protected URL
           # on 6080. Plain `--login` has no visible window in a container.
           args:

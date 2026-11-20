@@ -49,7 +49,7 @@ spec:
         # once here. Non-recursive on purpose: everything below the mount root
         # is created by pwuser.
         - name: fix-volume-ownership
-          image: stickerdaniel/linkedin-mcp-server:4.30.0
+          image: stickerdaniel/linkedin-mcp-server:4.31.0
           command:
             - chown
             - "1000:1000"
@@ -71,7 +71,7 @@ spec:
       containers:
         - name: linkedin-mcp
           # Renovate tracks this tag (kubernetes manager, deploy.yml).
-          image: stickerdaniel/linkedin-mcp-server:4.30.0
+          image: stickerdaniel/linkedin-mcp-server:4.31.0
           # The image ENTRYPOINT is
           # `tini -- linkedin-mcp-entrypoint python -m linkedin_mcp_server`, so
           # these are appended to the module. Upstream defaults to stdio on

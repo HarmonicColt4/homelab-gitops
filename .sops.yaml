@@ -88,7 +88,7 @@ creation_rules:
     mac_only_encrypted: true
 
   # Infrastructure controllers/renovate - encrypt enc.yml files
-  - path_regex: ^fluxcd/infrastructure/controllers/renovate/enc\.yml$
+  - path_regex: ^fluxcd/infrastructure/controllers/renovate/.*\.enc\.yml$
     encrypted_regex: ^(data|stringData)$
     age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
 

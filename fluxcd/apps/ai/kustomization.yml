@@ -5,7 +5,7 @@ resources:
   - namespace.yml
   - llama.cpp
   - open-webui
-  - linkedin-mcp
-  - mealie-mcp
+  - mcp/linkedin-mcp
+  - mcp/mealie-mcp
   - searxng
   - hermes-agent

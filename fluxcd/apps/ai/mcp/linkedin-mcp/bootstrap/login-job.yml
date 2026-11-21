@@ -6,7 +6,7 @@
 # a browser. Apply it by hand, following docs/linkedin-mcp.md:
 #
 #   kubectl -n ai scale deploy/linkedin-mcp --replicas=0
-#   kubectl apply -f fluxcd/apps/ai/linkedin-mcp/bootstrap/login-job.yml
+#   kubectl apply -f fluxcd/apps/ai/mcp/linkedin-mcp/bootstrap/login-job.yml
 #   kubectl -n ai wait --for=condition=Ready pod -l job-name=linkedin-mcp-login
 #   kubectl -n ai logs -f job/linkedin-mcp-login   # prints the token URL
 #   kubectl -n ai port-forward job/linkedin-mcp-login 6080:6080

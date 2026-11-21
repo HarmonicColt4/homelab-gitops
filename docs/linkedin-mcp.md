@@ -6,7 +6,7 @@ runs as a plain `Deployment` in the shared `ai` namespace and is served at
 
 | Item      | Value                                                         |
 | --------- | ------------------------------------------------------------- |
-| Manifests | `fluxcd/apps/ai/linkedin-mcp/`                                |
+| Manifests | `fluxcd/apps/ai/mcp/linkedin-mcp/`                            |
 | Workload  | `Deployment/linkedin-mcp`, 1 replica, pinned to `beast`       |
 | Image     | `stickerdaniel/linkedin-mcp-server:4.31.0` (Renovate-tracked) |
 | Service   | `ai/linkedin-mcp`, ClusterIP port `8080`                      |
@@ -74,7 +74,7 @@ a human at a browser.
 kubectl -n ai scale deploy/linkedin-mcp --replicas=0
 
 # 2. Start the login job.
-kubectl apply -f fluxcd/apps/ai/linkedin-mcp/bootstrap/login-job.yml
+kubectl apply -f fluxcd/apps/ai/mcp/linkedin-mcp/bootstrap/login-job.yml
 kubectl -n ai wait --for=condition=Ready pod -l job-name=linkedin-mcp-login
 
 # 3. Read the token URL the job prints.
@@ -128,7 +128,7 @@ Point an MCP client at the Streamable HTTP endpoint:
 Read the token with:
 
 ```bash
-sops --decrypt fluxcd/apps/ai/linkedin-mcp/secrets/enc.env | grep LINKEDIN_MCP_HTTP_TOKEN
+sops --decrypt fluxcd/apps/ai/mcp/linkedin-mcp/secrets/enc.env | grep LINKEDIN_MCP_HTTP_TOKEN
 ```
 
 In-cluster consumers should use
@@ -141,7 +141,7 @@ every transport, in-cluster included.
 **The endpoint requires a bearer token.** Since 4.31.0 the server refuses to
 start on a non-loopback host without one, so `LINKEDIN_MCP_HTTP_TOKEN` is not
 optional here. The value lives in the SOPS-encrypted
-`fluxcd/apps/ai/linkedin-mcp/secrets/enc.env` and reaches the container through
+`fluxcd/apps/ai/mcp/linkedin-mcp/secrets/enc.env` and reaches the container through
 a `secretGenerator`-backed `Secret`. Whoever holds the token can read your
 inbox, send messages and send connection requests as you, so treat it as a
 credential: keep it out of client configs committed to Git and rotate it if it
@@ -155,7 +155,7 @@ before widening exposure. Do not set
 exists to stop exactly this exposure.
 
 To rotate the token, replace the value in `secrets/enc.env` with
-`sops fluxcd/apps/ai/linkedin-mcp/secrets/enc.env`, commit, and update every
+`sops fluxcd/apps/ai/mcp/linkedin-mcp/secrets/enc.env`, commit, and update every
 client. The `secretGenerator` hash changes, so the Deployment rolls on its own.
 
 Also note that LinkedIn's User Agreement prohibits automated access. Accounts
@@ -166,7 +166,7 @@ using tools like this can be restricted. Use it sparingly.
 Renovate tracks the image tag through the `kubernetes` manager, whose
 `managerFilePatterns` in `renovate.json` already covers `deploy.yml`. A new
 upstream release opens a PR that bumps `image:` in
-`fluxcd/apps/ai/linkedin-mcp/deploy.yml`; merging it is the whole upgrade.
+`fluxcd/apps/ai/mcp/linkedin-mcp/deploy.yml`; merging it is the whole upgrade.
 
 - Upstream ships frequently and the server tracks LinkedIn's page structure, so
   do not pin an old tag for long — a stale image is the usual cause of tools

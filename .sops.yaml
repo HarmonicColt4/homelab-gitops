@@ -114,7 +114,6 @@ creation_rules:
 
   # Infrastructure monitoring/kube-prometheus-stack - encrypt env files with admin pattern
   - path_regex: ^fluxcd/infrastructure/monitoring/kube-prometheus-stack/.*env$
-    encrypted_regex: admin
     age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
     mac_only_encrypted: true
 

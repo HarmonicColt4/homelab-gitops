@@ -74,7 +74,6 @@ than the control plane.
 flowchart LR
   browser["Browser"] -->|"HTTPS hermes.teamg.app"| traefik["Traefik websecure"]
   traefik -->|"9119"| dash["Dashboard"]
-  owui["Open WebUI"] -->|"8642 /v1"| api["OpenAI-compatible API"]
 
   subgraph pod["Pod hermes-agent — one container, s6-overlay"]
     dash
@@ -234,9 +233,8 @@ Service:
 http://hermes-agent.ai.svc.cluster.local:8642/v1
 ```
 
-Open WebUI is the intended consumer. Its provider connection is configured in
-the Admin UI, not in Git (see [Open WebUI](open-webui.md)), using that base URL
-and `API_SERVER_KEY` as the bearer token.
+No LLM front-end is deployed in this repository; an external client can use
+that base URL directly with `API_SERVER_KEY` as the bearer token.
 
 Subpath hosting (`https://teamg.app/hermes`) is **not supported**: the
 dashboard's asset and API paths are absolute, so any `PathPrefix` other than `/`
@@ -480,7 +478,7 @@ An untested backup is a hypothesis. Run this drill after any storage change:
 | Pod `Ready` but the agent does not answer                           | s6 keeps PID 1 alive when the gateway dies, so a listener check is not enough. `curl .../health` and `kubectl -n ai logs deploy/hermes-agent`.                                                                                                                                                                                                   |
 | Dashboard shows a fail-closed or auth error                         | `dashboard.trusted_proxies` must contain the pod CIDR (`10.244.0.0/16`), and `HERMES_DASHBOARD_OIDC_CLIENT_ID` must match a client registered in Pocket-ID.                                                                                                                                                                                      |
 | OIDC redirects to `http://` instead of `https://`                   | `dashboard.public_url` must be `https://hermes.teamg.app`; the callback is built from it.                                                                                                                                                                                                                                                        |
-| First request hangs for minutes                                     | llama.cpp runs `--models-max 1`; a cold or swapped model reloads an 11-13 GB GGUF. Open WebUI uses a 900 s timeout for the same reason.                                                                                                                                                                                                          |
+| First request hangs for minutes                                     | llama.cpp runs `--models-max 1`; a cold or swapped model reloads an 11-13 GB GGUF.                                                                                                                                                                                                          |
 | `nous` provider warnings, or calls go to the wrong endpoint         | The managed config is not mounted. Check the `subPath` mount at `/etc/hermes/config.yaml` and that the ConfigMap key is `config.yaml`.                                                                                                                                                                                                           |
 | `config.yaml has a formatting error` and saved settings are ignored | `/opt/data/config.yaml` is the image's 2,000+ line default template. An interrupted `hermes config edit` can leave a stray fragment (seen: a bare `{}` at line 54) that terminates the `model:` block and poisons the merge. Back it up, fix the offending lines, then `hermes config check` must print `Config version: N ✓` before restarting. |
 | `/v1/models` lists only `hermes-agent`                              | Expected: Hermes _is_ the OpenAI-compatible server, so it advertises itself. Upstream wiring is proven by a completion (`POST /v1/chat/completions`), not by the model list.                                                                                                                                                                     |
@@ -509,4 +507,4 @@ An untested backup is a hypothesis. Run this drill after any storage change:
 - Upstream Docker guide:
   <https://hermes-agent.nousresearch.com/docs/user-guide/docker>
 - Upstream repository: <https://github.com/NousResearch/hermes-agent>
-- Related: [Open WebUI](open-webui.md), [SearXNG](searxng.md)
+- Related: [SearXNG](searxng.md)

@@ -30,7 +30,7 @@ kubectl apply --dry-run=client -f /tmp/out.yml
 - Renovate tracks Kubernetes images only in `deploy.yml`, `cronjob.yml`, `login-job.yml` and charts in `helmrelease.yml`/`repository.yml`; an image tag in any other filename is invisible. Regex managers additionally track the Talos installer image in `talos/clusters/*/patches/*.yml` and the Terraform version in `terraform/talos-clusters/*/README.md`.
 - The Gitea `upgrade-container-image` workflow only fires on PRs touching `**/deploy.yml` or `**/cronjob.yml`.
 - PVCs that must survive pruning need `kustomize.toolkit.fluxcd.io/ssa: IfNotPresent`.
-- IngressRoutes: Traefik `websecure`, host `<name>.teamg.app`, no `tls:` block (wildcard cert). The name is usually the app (`mealie`, `sonarr`) but is sometimes abbreviated (`git` for Gitea, `nas` for TrueNAS, `ai` for Open WebUI, `id` for Pocket ID).
+- IngressRoutes: Traefik `websecure`, host `<name>.teamg.app`, no `tls:` block (wildcard cert). The name is usually the app (`mealie`, `sonarr`) but is sometimes abbreviated (`git` for Gitea, `nas` for TrueNAS, `id` for Pocket ID).
 - Use `strategy: Recreate` for any Deployment mounting a ReadWriteOnce volume (multi-attach deadlock).
 - A new app must be listed in its group kustomization (`fluxcd/apps/<group>/kustomization.yml`) and, for a new group, in `fluxcd/apps/kustomization.yml` — an app that is not listed is never reconciled. `fluxcd/apps/razzia` is currently in that state.
 - Per-app operational docs live in `docs/<app>.md` and are linked from the README guide list; keep deep operational detail there, not in the README.

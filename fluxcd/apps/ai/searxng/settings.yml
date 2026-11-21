@@ -1,6 +1,6 @@
 ---
 # SearXNG configuration for a single-user instance that backs LLM tooling
-# (Open WebUI, LangChain, ...).
+# (LLM agents and chat front-ends).
 #
 # `use_default_settings` keeps the engine catalogue, plugin defaults and
 # locale data shipped with the image, so only the overrides that matter for

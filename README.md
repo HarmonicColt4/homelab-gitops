@@ -40,7 +40,7 @@ Cluster `teamg`: control plane `rpi5`, workers `hedy` and `beast`, endpoint
 
 | Group                                  | Contents                                                                            |
 | -------------------------------------- | ----------------------------------------------------------------------------------- |
-| [`ai`](fluxcd/apps/ai)                 | `llama.cpp`, `open-webui`, `hermes-agent`, `linkedin-mcp`, `mealie-mcp`, `searxng`. |
+| [`ai`](fluxcd/apps/ai)                 | `llama.cpp`, `hermes-agent`, `linkedin-mcp`, `mealie-mcp`, `searxng`.               |
 | `mealie`                               | Mealie recipe manager.                                                              |
 | `truenas-auto-update`                  | Scheduled TrueNAS updater, per-host overlays.                                       |
 | `unifi-os-server`                      | UniFi OS Server.                                                                    |
@@ -50,7 +50,6 @@ Application guides live in [`docs/`](docs):
 [`hermes-agent.md`](docs/hermes-agent.md),
 [`linkedin-mcp.md`](docs/linkedin-mcp.md),
 [`llama.cpp.md`](docs/llama.cpp.md),
-[`open-webui.md`](docs/open-webui.md),
 [`searxng.md`](docs/searxng.md).
 
 ## Validation

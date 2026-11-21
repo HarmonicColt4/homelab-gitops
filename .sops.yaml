@@ -58,12 +58,6 @@ creation_rules:
     age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
     mac_only_encrypted: true
 
-  # AI apps - encrypt all yml files with stringData pattern
-  - path_regex: ^fluxcd/apps/ai/open-webui/.*yml$
-    encrypted_regex: ^(stringData)$
-    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
-    mac_only_encrypted: true
-
   # AI apps - encrypt llama.cpp secrets env file
   - path_regex: ^fluxcd/apps/ai/llama\.cpp/secrets/.*\.env$
     encrypted_regex: HF_TOKEN

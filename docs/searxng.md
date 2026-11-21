@@ -2,7 +2,7 @@
 
 SearXNG is deployed as plain Kubernetes manifests in the `ai` namespace and
 served at <https://searxng.teamg.app> (LAN/cluster only). It is tuned as a
-single-user, JSON-first metasearch backend for LLM tooling such as Open WebUI.
+single-user, JSON-first metasearch backend for LLM tooling.
 
 | Item       | Value                                                              |
 | ---------- | ------------------------------------------------------------------ |
@@ -45,8 +45,8 @@ In-cluster consumers should use the Service directly and skip Traefik:
 http://searxng.ai.svc.cluster.local:8080/search?q=<query>&format=json
 ```
 
-For Open WebUI: **Admin Panel -> Settings -> Web Search**, enable Web Search,
-set the engine to `searxng`, and set the query URL to the URL above. The
+In an LLM front end's web-search settings, enable the feature, choose engine
+`searxng` and point the query URL at the URL above. The
 `format=json` parameter is what makes the response machine-readable.
 
 The Traefik route is restricted to private address space by the

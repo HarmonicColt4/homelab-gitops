@@ -4,54 +4,81 @@ Monorepo consolidating the homelab GitOps configuration and Talos Linux node
 provisioning that were previously kept in separate repositories
 (`gpenda/fluxcd` and `gpenda/talos-linux`).
 
+Everything the cluster runs is declared here and reconciled by Flux. There is no
+application code, package manager or test suite — "build" means render manifests
+and "test" means dry-run apply.
+
+Cluster `teamg`: control plane `rpi5`, workers `hedy` and `beast`, endpoint
+`k8s.home.arpa`.
+
 ## Layout
 
-| Path                             | Description                                                                                       |
-| -------------------------------- | ------------------------------------------------------------------------------------------------- |
-| [`fluxcd/`](fluxcd)              | Flux GitOps configuration for the Talos Kubernetes cluster (`apps`, `infrastructure`, `cluster`). |
-| [`talos/`](talos)                | Talos Linux machine configuration (extensions, patches, secrets) for the `home` cluster.          |
-| [`.gitea/`](.gitea)              | Gitea Actions workflows and composite actions.                                                    |
-| [`renovate.json`](renovate.json) | Renovate configuration covering both Flux and Talos dependencies.                                 |
-| [`.sops.yaml`](.sops.yaml)       | SOPS/age creation rules for `fluxcd/` content.                                                    |
+| Path                             | Description                                                                                             |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| [`fluxcd/`](fluxcd)              | Flux GitOps configuration: `apps`, `infrastructure` (controllers, configs, iam, monitoring), `cluster`. |
+| [`talos/`](talos)                | Talos machine configuration for the `home` cluster (extensions, patches, secrets).                      |
+| [`terraform/`](terraform)        | Proxmox VM, Talos schematic and node modules, plus the `talos-clusters/home` root module.               |
+| [`docs/`](docs)                  | Per-application operational guides.                                                                     |
+| [`.gitea/`](.gitea)              | Gitea Actions workflow and composite action for the container-image upgrade PRs.                        |
+| [`renovate.json`](renovate.json) | Renovate configuration covering both Flux and Talos dependencies.                                       |
+| [`.sops.yaml`](.sops.yaml)       | SOPS/age creation rules for all encrypted content (`fluxcd/` and `talos/`).                             |
+| [`AGENTS.md`](AGENTS.md)         | Working agreements for agents and contributors (validation commands, YAML rules, patch ordering).       |
+
+## Reconciliation
+
+- The Flux `GitRepository` `flux-system` points at this repository
+  (`ssh://git@truenas.home.arpa:30009/gpenda/homelab-gitops.git`, branch `main`,
+  1h interval), and the `flux-system` Kustomization reconciles from
+  [`fluxcd/cluster`](fluxcd/cluster).
+- [`apps.yml`](fluxcd/cluster/apps.yml) declares `apps` (path `./fluxcd/apps`)
+  and `truecharts-apps` (path `./fluxcd/apps/truecharts`); both depend on
+  `infra-configs` and decrypt SOPS secrets with the `sops-age` secret.
+- Workloads live in their own namespaces; HelmReleases are created in
+  `flux-system` and select the workload namespace with `targetNamespace`.
+
+## Applications
+
+| Group                                  | Contents                                                                            |
+| -------------------------------------- | ----------------------------------------------------------------------------------- |
+| [`ai`](fluxcd/apps/ai)                 | `llama.cpp`, `open-webui`, `hermes-agent`, `linkedin-mcp`, `mealie-mcp`, `searxng`. |
+| `mealie`                               | Mealie recipe manager.                                                              |
+| `truenas-auto-update`                  | Scheduled TrueNAS updater, per-host overlays.                                       |
+| `unifi-os-server`                      | UniFi OS Server.                                                                    |
+| [`truecharts`](fluxcd/apps/truecharts) | TrueCharts HelmReleases (`global-values` plus `<app>-values`).                      |
+
+Application guides live in [`docs/`](docs):
+[`hermes-agent.md`](docs/hermes-agent.md),
+[`linkedin-mcp.md`](docs/linkedin-mcp.md),
+[`llama.cpp.md`](docs/llama.cpp.md),
+[`open-webui.md`](docs/open-webui.md),
+[`searxng.md`](docs/searxng.md).
+
+## Validation
+
+Render a directory and dry-run the result before committing:
+
+```sh
+kustomize build fluxcd/apps/<group>/<app> > /tmp/out.yml
+kubectl apply --dry-run=client -f /tmp/out.yml
+```
+
+## Secrets
+
+- Plaintext secrets are never committed. `secrets/enc.env` is SOPS-encrypted and
+  consumed by `secretGenerator`; Flux decrypts with the `sops-age` secret.
+- The root [`.sops.yaml`](.sops.yaml) is the only SOPS config and uses
+  path-specific `creation_rules`. A new secret path fails with
+  `no matching creation rules` until a rule is added.
+- Talos secrets are covered by the same file
+  (`^talos/clusters/home/secrets\.yml$`). `sops` matches the path relative to
+  the config file, so it works from the repo root or from
+  `talos/clusters/home`.
 
 ## Notes
 
 - Both projects retain their original commit history (imported with `git subtree`).
-- The Flux `GitRepository` points at this repository, and the `flux-system`
-  Kustomization reconciles from [`fluxcd/cluster`](fluxcd/cluster).
-- Talos secrets use the local [`talos/clusters/home/.sops.yaml`](talos/clusters/home/.sops.yaml) rules.
-
-## llama.cpp model serving
-
-[`fluxcd/apps/ai/llama.cpp`](fluxcd/apps/ai/llama.cpp) runs `llama-server` in
-router mode: models are declared in
-[`models-preset.ini`](fluxcd/apps/ai/llama.cpp/models-preset.ini) and served
-from a single process with `--models-max 1`, so only one model is resident at a
-time and switching models unloads the previous one.
-
-Two things matter for switching latency, both already configured:
-
-- **Model storage is local NVMe, not Longhorn.** The models live in
-  `/var/mnt/longhorn/llama-models` on `beast`, exposed through the static
-  `local-nvme` PV in [`pv-nvme.yml`](fluxcd/apps/ai/llama.cpp/pv-nvme.yml).
-  Reading through the Longhorn engine measured ~277 MB/s; the raw filesystem
-  gives ~1.6 GB/s, which is the difference between a ~60 s and a ~6 s model
-  switch. `beast` has a single fully-partitioned NVMe, so the directory sits on
-  the Longhorn filesystem and bypasses the engine; Longhorn accounts for the
-  space via `statfs`.
-- **The container memory limit must exceed model size + working set** (24Gi for
-  the current 11-13 GB GGUFs). Below that the cgroup reclaims the mmap'd GGUF
-  pages and every switch re-reads the weights from disk.
-
-Operational notes:
-
-- The `local` volume source does **not** create its directory. After a `beast`
-  reinstall, recreate `/var/mnt/longhorn/llama-models` before the Deployment
-  can schedule, or the pod will stay `Pending`.
-- The PV is pinned to `beast` via `nodeAffinity`; the Deployment must stay on
-  that node.
-- Model ids in requests are the section names in `models-preset.ini`
-  (`qwen3.8-27b`, `air`), with the `alias` values as additional names.
-- `/v1/models` answers before a model is loaded - it lists presets with
-  `status.value` of `unloaded`/`loading`/`loaded`. Do not use it as a readiness
-  signal; `/health` only reflects the router process.
+- [`talos/clusters/home/README.md`](talos/clusters/home/README.md) documents the
+  manual `talosctl` patch workflow; [`terraform/`](terraform) drives the same
+  cluster from Proxmox. Keep the two in sync when node configuration changes.
+- `.flux-preview/` is gitignored and holds branch-tracking preview
+  `GitRepository`/`Kustomization` objects.

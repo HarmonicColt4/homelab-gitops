@@ -54,14 +54,16 @@ spec:
               value: int8_float16
             # Keep large-v3 resident. Reloading it costs seconds and a VRAM
             # spike that can collide with llama.cpp's prefill working set.
-            - name: STT_MODEL_TTL
+            # The field is whisper.ttl, so the nested delimiter is required:
+            # STT_MODEL_TTL is silently ignored and leaves the 300s default.
+            - name: WHISPER__TTL
               value: "-1"
             - name: ENABLE_UI
               value: "false"
             # large-v3, not turbo: Russian WER is 3.8% vs 6.0% for turbo, and
-            # the target languages are English, French and Russian.
-            - name: PRELOAD_MODELS
-              value: '["Systran/faster-whisper-large-v3"]'
+            # the target languages are English, French and Russian. This image
+            # has no PRELOAD_MODELS option, so the model is loaded by the
+            # postStart hook below instead.
           # API_KEY is the only secret. Speaches requires it on every endpoint
           # except /health, /docs and /openapi.json, so the IngressRoute is
           # keyed even though it is published.
@@ -93,26 +95,61 @@ spec:
             # larger to leave room for the original snapshot and future models.
             - name: models
               mountPath: /home/ubuntu/.cache/huggingface/hub
-          # /health is public (no API key) and reflects the ASGI app, not the
-          # model. The first start also downloads large-v3, hence the generous
-          # startup budget.
+          # This image has no PRELOAD_MODELS option, so the model is loaded
+          # explicitly once the server is listening. The work is backgrounded
+          # and the hook always exits 0: a failing postStart would kill the
+          # container, and a missed preload only costs a lazy load on the
+          # first request (WHISPER__TTL=-1 keeps it resident afterwards).
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - |
+                    (
+                      i=0
+                      while [ "$i" -lt 120 ]; do
+                        code=$(curl -s -o /dev/null -w '%{http_code}' -X POST -H "Authorization: Bearer $API_KEY" http://127.0.0.1:8000/api/ps/Systran/faster-whisper-large-v3)
+                        case "$code" in
+                          200|409) exit 0 ;;
+                        esac
+                        i=$((i + 1))
+                        sleep 5
+                      done
+                    ) >/dev/null 2>&1 &
+                    exit 0
+          # Speaches registers the API key as an app-level FastAPI dependency,
+          # so /health is keyed too: an unauthenticated httpGet gets 403 and
+          # the pod never becomes ready. The probes send the key from the env
+          # var injected by envFrom. curl -f fails on 4xx/5xx, so a wrong key
+          # still fails the probe instead of masking it.
           startupProbe:
-            httpGet:
-              path: /health
-              port: http
+            exec:
+              command:
+                - sh
+                - -c
+                - 'curl -fsS -H "Authorization: Bearer $API_KEY" http://127.0.0.1:8000/health'
             periodSeconds: 10
+            timeoutSeconds: 5
             failureThreshold: 120
           readinessProbe:
-            httpGet:
-              path: /health
-              port: http
+            exec:
+              command:
+                - sh
+                - -c
+                - 'curl -fsS -H "Authorization: Bearer $API_KEY" http://127.0.0.1:8000/health'
             periodSeconds: 10
+            timeoutSeconds: 5
             failureThreshold: 3
           livenessProbe:
-            httpGet:
-              path: /health
-              port: http
+            exec:
+              command:
+                - sh
+                - -c
+                - 'curl -fsS -H "Authorization: Bearer $API_KEY" http://127.0.0.1:8000/health'
             periodSeconds: 30
+            timeoutSeconds: 5
             failureThreshold: 5
       volumes:
         - name: models

@@ -5,17 +5,17 @@ faster-whisper/CTranslate2 in the `ai` namespace. It shares the single RTX 4080
 with llama.cpp through GPU time-slicing and is the STT backend for the Hermes
 gateway. It is published at <https://whisper.teamg.app> behind an API key.
 
-| Item      | Value                                                                  |
-| --------- | ---------------------------------------------------------------------- |
-| Manifests | `fluxcd/apps/ai/whisper/`                                              |
-| Image     | `ghcr.io/speaches-ai/speaches:latest-cuda` (floating tag)              |
-| Service   | `ai/whisper`, ClusterIP port `8000`                                    |
-| Edge      | `ai/whisper` IngressRoute, Traefik `websecure`, `whisper.teamg.app`    |
-| Model     | `Systran/faster-whisper-large-v3`, `int8_float16`, resident (`TTL=-1`) |
-| Secret    | Secret `ai/whisper-secret` (`API_KEY`, SOPS)                           |
-| Storage   | PVC `ai/whisper-models`, 10Gi `longhorn`, ReadWriteOnce                |
-| GPU       | `nvidia.com/gpu: 1` (time-sliced), pinned to `beast`                   |
-| Strategy  | `Recreate` (the model cache is ReadWriteOnce)                          |
+| Item      | Value                                                                           |
+| --------- | ------------------------------------------------------------------------------- |
+| Manifests | `fluxcd/apps/ai/whisper/`                                                       |
+| Image     | `ghcr.io/speaches-ai/speaches:latest-cuda` (floating tag)                       |
+| Service   | `ai/whisper`, ClusterIP port `8000`                                             |
+| Edge      | `ai/whisper` IngressRoute, Traefik `websecure`, `whisper.teamg.app`             |
+| Model     | `Systran/faster-whisper-large-v3`, `int8_float16`, resident (`WHISPER__TTL=-1`) |
+| Secret    | Secret `ai/whisper-secret` (`API_KEY`, SOPS)                                    |
+| Storage   | PVC `ai/whisper-models`, 10Gi `longhorn`, ReadWriteOnce                         |
+| GPU       | `nvidia.com/gpu: 1` (time-sliced), pinned to `beast`                            |
+| Strategy  | `Recreate` (the model cache is ReadWriteOnce)                                   |
 
 ## Why large-v3, not turbo
 
@@ -84,7 +84,20 @@ curl -s -H "Authorization: Bearer $OPENAI_API_KEY" \
 ```
 
 In-cluster clients use `http://whisper.ai.svc.cluster.local:8000/v1` and skip
-the ingress. `/health` is public; every other endpoint requires the key.
+the ingress. Every endpoint, including `/health`, requires the key: Speaches
+registers the API key as an app-level FastAPI dependency, so only the
+auto-generated `/docs` and `/openapi.json` routes are unauthenticated. The
+Kubernetes probes therefore use an `exec` handler that sends
+`Authorization: Bearer $API_KEY` (see `deploy.yml`).
+
+## Configuration gotchas
+
+- `whisper.ttl` is a nested field, so the env var is `WHISPER__TTL` (double
+  underscore). `STT_MODEL_TTL` is silently ignored and leaves the 300 s default.
+- This image has no `PRELOAD_MODELS` option. The model is loaded by a
+  `postStart` hook that calls `POST /api/ps/Systran/faster-whisper-large-v3`;
+  the hook is backgrounded and always exits 0 so a failed preload cannot kill
+  the container.
 
 ## Rotating the API key
 

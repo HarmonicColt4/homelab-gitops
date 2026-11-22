@@ -16,7 +16,7 @@ dashboard, and it runs shell commands and browser automation as tools.
 | Config     | ConfigMap `ai/hermes-agent-config` (`config.yaml`, mounted via `subPath`)     |
 | Secrets    | Secret `ai/hermes-agent-secret` (`API_SERVER_KEY`, OIDC client, SOPS)         |
 | Storage    | PVC `ai/hermes-agent-data`, 10Gi `longhorn`, ReadWriteOnce                    |
-| Model      | llama.cpp `gemma4-12b-q6` at `http://llama-cpp.ai.svc.cluster.local:8080/v1`  |
+| Model      | OpenRouter `deepseek/deepseek-v4.1-flash-1017` (key from `/opt/data/.env`)    |
 | Auth       | Pocket-ID OIDC at `https://id.teamg.app`                                      |
 | Scheduling | `kubernetes.io/arch: amd64`; currently on `beast`                             |
 
@@ -46,10 +46,12 @@ any of the three.
    ID. If it is missing or stale, the dashboard fails closed at startup rather
    than falling back to an unauthenticated mode.
 
-2. **Confirm the model wiring.** The llama.cpp Service must still be named
-   `llama-cpp` on port `8080`, and the preset alias must still be
-   `gemma4-12b-q6`. Both are referenced by
-   [`config.yml`](../fluxcd/apps/ai/hermes-agent/config.yml).
+2. **Confirm the model credentials.** The default model is hosted
+   (`openrouter/deepseek/deepseek-v4.1-flash-1017`), so the pod needs
+   `OPENROUTER_API_KEY` in `/opt/data/.env` on the PVC — the managed config in
+   [`config.yml`](../fluxcd/apps/ai/hermes-agent/config.yml) carries no key. The
+   llama.cpp Service (`llama-cpp:8080`) and its `gemma4-12b-q6` preset alias are
+   still what a session gets when it is switched back to the local model.
 
 3. **Accept the terminal warning.** Hermes logs that `terminal.backend: local`
    is unsandboxed while the API binds `0.0.0.0`. This is accepted: the API is
@@ -165,20 +167,26 @@ Everything else the agent persists lives on the PVC and is not in Git: `.env`,
 
 ```yaml
 model:
-  default: gemma4-12b-q6
-  provider: custom
-  base_url: http://llama-cpp.ai.svc.cluster.local:8080/v1
-  api_key: sk-no-key-required
-  context_length: 65536
+  default: deepseek/deepseek-v4.1-flash-1017
+  provider: openrouter
+  context_length: 1048576
 ```
 
-- The in-cluster Service URL skips a TLS hop and keeps the model off the public
-  edge. llama.cpp ignores the `Authorization` header, so the placeholder key is
-  enough.
-- `context_length: 65536` is a deliberate floor with headroom: Hermes rejects
-  values below 64000, and llama.cpp serves 262144. It is not the model's ceiling.
-- `gemma4-12b-q6` is the alias of the `load-on-startup = 1` preset in
-  [`models-preset.ini`](../fluxcd/apps/ai/llama.cpp/models-preset.ini). llama.cpp
+- Hosted default via OpenRouter, so no `base_url` and no `api_key`: the
+  provider resolves `https://openrouter.ai/api/v1` and reads
+  `OPENROUTER_API_KEY` from `/opt/data/.env` on the PVC. The key never enters
+  Git.
+- `context_length: 1048576` is the window OpenRouter reports for this model,
+  not a floor. Hermes fires compression at 0.5 x that (~512k tokens), so a
+  session can grow very large before it is compressed; lower this value if
+  per-turn input cost matters more than depth.
+- The local llama.cpp preset is still wired: `provider: custom`,
+  `base_url: http://llama-cpp.ai.svc.cluster.local:8080/v1` with the
+  `sk-no-key-required` placeholder (llama.cpp ignores the `Authorization`
+  header) and default `gemma4-12b-q6`. Override it per session instead of
+  editing Git, or make it the default again by restoring those four keys.
+  `gemma4-12b-q6` is the `load-on-startup = 1` preset in
+  [`models-preset.ini`](../fluxcd/apps/ai/llama.cpp/models-preset.ini); llama.cpp
   runs `--models-max 1`, so asking for a different model swaps an 11-13 GB GGUF
   and can take a minute or more.
 - `terminal.backend: local` because the docker backend cannot work on containerd

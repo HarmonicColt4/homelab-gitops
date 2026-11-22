@@ -1,9 +1,12 @@
 model:
-  default: gemma4-12b-q6
-  provider: custom
-  base_url: http://llama-cpp.ai.svc.cluster.local:8080/v1
-  api_key: sk-no-key-required
-  context_length: 262144
+  # Hosted default. The local llama.cpp preset (gemma4-12b-q6, provider: custom,
+  # base_url http://llama-cpp.ai.svc.cluster.local:8080/v1) stays available by
+  # overriding model.default/provider in the session, but is no longer the default.
+  default: deepseek/deepseek-v4.1-flash-1017
+  provider: openrouter
+  # The 1M-token window OpenRouter reports for this model. No api_key here:
+  # OPENROUTER_API_KEY lives in /opt/data/.env on the PVC, never in Git.
+  context_length: 1048576
 
 terminal:
   backend: local

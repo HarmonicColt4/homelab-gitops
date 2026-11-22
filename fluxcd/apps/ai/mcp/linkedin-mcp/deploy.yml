@@ -68,6 +68,34 @@ spec:
           volumeMounts:
             - name: session
               mountPath: /home/pwuser/.linkedin-mcp
+        # Chromium records the owning host and PID in SingletonLock inside the
+        # profile directory. A pod name changes on every restart, so the lock
+        # the previous pod left behind always looks foreign and the new browser
+        # refuses to start with:
+        #   "The profile appears to be in use by another Chromium process (506)
+        #    on another computer (linkedin-mcp-5898f759d4-cgfmq)"
+        # Every tool call then fails before it reaches LinkedIn, and a restart
+        # does not clear it because the lock lives on the PVC, not in the pod.
+        # Safe here: strategy Recreate means no other pod holds this
+        # ReadWriteOnce volume, and this runs before the server starts.
+        - name: clear-profile-locks
+          image: stickerdaniel/linkedin-mcp-server:4.31.0
+          command:
+            - sh
+            - -c
+            - rm -f /home/pwuser/.linkedin-mcp/profile/Singleton*
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: session
+              mountPath: /home/pwuser/.linkedin-mcp
       containers:
         - name: linkedin-mcp
           # Renovate tracks this tag (kubernetes manager, deploy.yml).

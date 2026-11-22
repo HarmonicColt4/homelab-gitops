@@ -206,3 +206,30 @@ form as a stopgap only.
 | Tools return "no valid session"                                             | The session expired. Re-run the login procedure.                                                                                                                     |
 | Tools time out on multi-page reads                                          | Raise `TOOL_TIMEOUT` (seconds) or `TIMEOUT` (milliseconds) in `deploy.yml`.                                                                                          |
 | `browser is busy`                                                           | Only one process may hold the shared browser. Keep `replicas: 1`.                                                                                                    |
+
+### Every tool call fails with `Network error` after a restart
+
+The underlying browser error is a profile lock, not the network:
+
+```
+The profile appears to be in use by another Chromium process (506)
+on another computer (linkedin-mcp-5898f759d4-cgfmq)
+```
+
+Chromium writes `SingletonLock`, `SingletonCookie` and `SingletonSocket` into
+the profile directory, recording the owning host and PID. The pod name changes
+on every rollout, so the lock left by the previous pod always names a foreign
+host and the new browser refuses to start — every tool call then dies before it
+reaches LinkedIn, while `get_session_status` still reports healthy cookies. A
+pod restart does not help, because the lock lives on the PVC.
+
+`clear-profile-locks` in `deploy.yml` now removes `profile/Singleton*` on every
+pod start (safe under `strategy: Recreate`, which guarantees no other pod holds
+the volume). To clear it on a running pod without a rollout:
+
+```bash
+kubectl -n ai exec deploy/linkedin-mcp -- sh -c 'rm -f /home/pwuser/.linkedin-mcp/profile/Singleton*'
+```
+
+Never clear it while a browser is running in that pod: the lock is what stops a
+second Chromium from opening the same profile.

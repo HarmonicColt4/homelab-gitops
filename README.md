@@ -38,19 +38,20 @@ Cluster `teamg`: control plane `rpi5`, workers `hedy` and `beast`, endpoint
 
 ## Applications
 
-| Group                                  | Contents                                                                            |
-| -------------------------------------- | ----------------------------------------------------------------------------------- |
-| [`ai`](fluxcd/apps/ai)                 | `llama.cpp`, `hermes-agent`, `linkedin-mcp`, `mealie-mcp`, `searxng`.               |
-| `mealie`                               | Mealie recipe manager.                                                              |
-| `truenas-auto-update`                  | Scheduled TrueNAS updater, per-host overlays.                                       |
-| `unifi-os-server`                      | UniFi OS Server.                                                                    |
-| [`truecharts`](fluxcd/apps/truecharts) | TrueCharts HelmReleases (`global-values` plus `<app>-values`).                      |
+| Group                                  | Contents                                                                         |
+| -------------------------------------- | -------------------------------------------------------------------------------- |
+| [`ai`](fluxcd/apps/ai)                 | `llama.cpp`, `whisper`, `hermes-agent`, `linkedin-mcp`, `mealie-mcp`, `searxng`. |
+| `mealie`                               | Mealie recipe manager.                                                           |
+| `truenas-auto-update`                  | Scheduled TrueNAS updater, per-host overlays.                                    |
+| `unifi-os-server`                      | UniFi OS Server.                                                                 |
+| [`truecharts`](fluxcd/apps/truecharts) | TrueCharts HelmReleases (`global-values` plus `<app>-values`).                   |
 
 Application guides live in [`docs/`](docs):
 [`hermes-agent.md`](docs/hermes-agent.md),
 [`linkedin-mcp.md`](docs/linkedin-mcp.md),
 [`llama.cpp.md`](docs/llama.cpp.md),
-[`searxng.md`](docs/searxng.md).
+[`searxng.md`](docs/searxng.md),
+[`whisper.md`](docs/whisper.md).
 
 ## Validation
 

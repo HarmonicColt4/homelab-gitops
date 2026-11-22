@@ -36,3 +36,11 @@ spec:
       enabled: false
     hostPaths:
       driverInstallDir: /usr/local
+    # Advertise two nvidia.com/gpu resources for the single RTX 4080 so
+    # llama.cpp and Whisper can both schedule. This is time-slicing, not
+    # memory partitioning: both pods see the whole 16 GB card and the first
+    # over-allocator wins. See time-slicing.yml for the full warning.
+    devicePlugin:
+      config:
+        name: time-slicing-config
+        default: any

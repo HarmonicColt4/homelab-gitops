@@ -18,3 +18,22 @@ dashboard:
 
 database:
   journal_mode: wal
+
+# Speech-to-text. The gateway relays audio to the in-cluster Whisper service
+# (see docs/whisper.md). The api_key must be set explicitly: Hermes' credential
+# ladder is config api_key > keyless placeholder for private/loopback base_urls
+# > env key, and a private base_url with no api_key resolves to the literal
+# placeholder "not-needed", which a keyed Speaches rejects with 401.
+# ${WHISPER_API_KEY} is expanded from the process environment at config load.
+stt:
+  provider: openai
+  language: "" # auto-detect: English, French, Russian
+  prompt: "Hermes, Nous Research, Talos, Flux, kustomization, Traefik, Longhorn, kubectl, Gitea, Renovate, Kubernetes"
+  openai:
+    base_url: http://whisper.ai.svc.cluster.local:8000/v1
+    model: Systran/faster-whisper-large-v3
+    api_key: ${WHISPER_API_KEY}
+    timeout: 120
+
+voice:
+  client_direct: false # the gateway relays, so mobile clients work too

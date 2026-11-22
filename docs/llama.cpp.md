@@ -55,9 +55,9 @@ capacity and the PVC request.
 ## Memory limit
 
 The container limit must exceed model size plus working set — it is 24Gi,
-comfortably above the current presets (a 9B Q8_0 and a 12B Q6_K). Below that the
-cgroup reclaims the mmap'd GGUF pages and every model switch re-reads the
-weights from disk.
+comfortably above the current preset (a 12B Q4_K_M). Below that the cgroup
+reclaims the mmap'd GGUF pages and every model switch re-reads the weights from
+disk.
 
 ## Operating it
 
@@ -65,8 +65,9 @@ weights from disk.
   reinstall, recreate `/var/mnt/longhorn/llama-models` before the Deployment can
   schedule, or the pod stays `Pending`.
 - Model ids in requests are the section names in `models-preset.ini`
-  (`qwen3.5-9b`, `gemma4-12b-q6-mtp`), with the `alias` values as additional
-  names (`gemma4-12b-q6`).
+  (`gemma4-12b-q6-mtp`), with the `alias` values as additional names
+  (`gemma4-12b-q6`). The `q6` suffix is historical: the preset now loads
+  Q4_K_M so Whisper can share the card (see [`whisper.md`](whisper.md)).
 - `/v1/models` answers before a model is loaded — it lists presets with
   `status.value` of `unloaded`/`loading`/`loaded`. Do not use it as a readiness
   signal; `/health` only reflects the router process, which is what the

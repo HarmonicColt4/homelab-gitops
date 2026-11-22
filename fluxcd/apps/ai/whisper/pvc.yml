@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: whisper-models
+  annotations:
+    # The model is reproducible, but re-downloading large-v3 on every prune is
+    # wasteful. Keep the claim across Kustomization re-applies.
+    kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
+spec:
+  # Longhorn is fast enough here: the model is loaded once and kept resident
+  # (STT_MODEL_TTL=-1), so disk speed only matters on the first start. This is
+  # deliberately separate from llama.cpp's local-nvme PV.
+  storageClassName: longhorn
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi

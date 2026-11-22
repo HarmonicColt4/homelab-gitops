@@ -1,0 +1,19 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: whisper
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    # Published so clients outside the cluster can use the ASR endpoint.
+    # Speaches enforces API_KEY on every route except /health, /docs and
+    # /openapi.json, so the host is keyed even though it is public.
+    # TLS uses the default TLSStore certificate (teamg-app-tls, wildcard
+    # *.teamg.app), so no tls block is needed.
+    - match: Host(`whisper.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: whisper
+          port: 8000

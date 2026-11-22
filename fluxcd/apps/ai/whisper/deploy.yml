@@ -1,0 +1,120 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: whisper
+  labels:
+    app: whisper
+spec:
+  replicas: 1
+  # The model cache is a ReadWriteOnce volume. A rolling update would try to
+  # attach the same claim to two pods at once and deadlock on a multi-attach,
+  # so the old pod must release it before the new one starts.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: whisper
+  template:
+    metadata:
+      labels:
+        app: whisper
+    spec:
+      # The CUDA image is amd64 only. The nvidia.com/gpu request already pins
+      # the pod to beast (the only node advertising the resource), but the arch
+      # selector keeps it off the arm64 control plane if that ever changes.
+      nodeSelector:
+        kubernetes.io/arch: amd64
+      automountServiceAccountToken: false
+      # The image runs as the "ubuntu" user (uid/gid 1000). fsGroup makes the
+      # Longhorn model cache group-writable so the container can populate it;
+      # without it the mount is root-owned and the download fails with EACCES.
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: whisper
+          # Floating tag: upstream publishes latest-cuda as a moving pointer.
+          # Renovate cannot pin a floating tag, so Always re-pulls on restart.
+          image: ghcr.io/speaches-ai/speaches:latest-cuda
+          imagePullPolicy: Always
+          env:
+            # faster-whisper/CTranslate2 on the shared RTX 4080.
+            - name: WHISPER__INFERENCE_DEVICE
+              value: cuda
+            # int8 weights with fp16 compute: ~2.9 GB resident for large-v3,
+            # versus ~4.5 GB for fp16. The VRAM budget in
+            # fluxcd/apps/ai/llama.cpp/models-preset.ini assumes this figure.
+            - name: WHISPER__COMPUTE_TYPE
+              value: int8_float16
+            # Keep large-v3 resident. Reloading it costs seconds and a VRAM
+            # spike that can collide with llama.cpp's prefill working set.
+            - name: STT_MODEL_TTL
+              value: "-1"
+            - name: ENABLE_UI
+              value: "false"
+            # large-v3, not turbo: Russian WER is 3.8% vs 6.0% for turbo, and
+            # the target languages are English, French and Russian.
+            - name: PRELOAD_MODELS
+              value: '["Systran/faster-whisper-large-v3"]'
+          # API_KEY is the only secret. Speaches requires it on every endpoint
+          # except /health, /docs and /openapi.json, so the IngressRoute is
+          # keyed even though it is published.
+          envFrom:
+            - secretRef:
+                name: whisper-secret
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: "2"
+              memory: 4Gi
+            limits:
+              cpu: "4"
+              memory: 8Gi
+              # Time-sliced: the device plugin advertises two of these for the
+              # one physical card. This is not a memory reservation.
+              nvidia.com/gpu: "1"
+          volumeMounts:
+            # HuggingFace Hub cache. large-v3 int8 is ~1.5 GB; the claim is
+            # larger to leave room for the original snapshot and future models.
+            - name: models
+              mountPath: /home/ubuntu/.cache/huggingface/hub
+          # /health is public (no API key) and reflects the ASGI app, not the
+          # model. The first start also downloads large-v3, hence the generous
+          # startup budget.
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 10
+            failureThreshold: 120
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 30
+            failureThreshold: 5
+      volumes:
+        - name: models
+          persistentVolumeClaim:
+            claimName: whisper-models

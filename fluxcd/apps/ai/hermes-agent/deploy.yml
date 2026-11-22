@@ -94,6 +94,14 @@ spec:
                 secretKeyRef:
                   name: hermes-agent-secret
                   key: HERMES_DASHBOARD_OIDC_CLIENT_ID
+            # The Whisper ASR key. config.yml references it as
+            # ${WHISPER_API_KEY}; Hermes expands that from the process
+            # environment at config load.
+            - name: WHISPER_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-agent-secret
+                  key: WHISPER_API_KEY
           ports:
             - name: api
               containerPort: 8642

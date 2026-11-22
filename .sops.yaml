@@ -133,10 +133,17 @@ creation_rules:
     age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
     mac_only_encrypted: true
 
-  # Hermes Agent - encrypt the API bearer key and the OIDC client credentials
+  # Whisper ASR - encrypt the API key in the env file
+  - path_regex: ^fluxcd/apps/ai/whisper/secrets/.*\.env$
+    encrypted_regex: API_KEY
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
+  # Hermes Agent - encrypt the API bearer key, the OIDC client credentials and
+  # the Whisper ASR key the STT config references as ${WHISPER_API_KEY}
   - path_regex: ^fluxcd/apps/ai/hermes-agent/secrets/.*\.env$
     # Pocket-ID issues a public PKCE client, so there is no client secret.
-    encrypted_regex: (API_SERVER_KEY|HERMES_DASHBOARD_OIDC_CLIENT_ID)
+    encrypted_regex: (API_SERVER_KEY|HERMES_DASHBOARD_OIDC_CLIENT_ID|WHISPER_API_KEY)
     age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
     mac_only_encrypted: true
 

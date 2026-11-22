@@ -169,17 +169,19 @@ Everything else the agent persists lives on the PVC and is not in Git: `.env`,
 model:
   default: deepseek/deepseek-v4.1-flash-1017
   provider: openrouter
-  context_length: 1048576
 ```
 
 - Hosted default via OpenRouter, so no `base_url` and no `api_key`: the
   provider resolves `https://openrouter.ai/api/v1` and reads
   `OPENROUTER_API_KEY` from `/opt/data/.env` on the PVC. The key never enters
   Git.
-- `context_length: 1048576` is the window OpenRouter reports for this model,
-  not a floor. Hermes fires compression at 0.5 x that (~512k tokens), so a
-  session can grow very large before it is compressed; lower this value if
-  per-turn input cost matters more than depth.
+- No `context_length` either. It is an override, not a required field
+  (`get_model_context_length`, step 0 in `agent/model_metadata.py`); with it
+  absent the window comes from the OpenRouter catalog for this model
+  (currently `1048576`), so a provider-side change is followed automatically
+  instead of being overridden by a stale number. Hermes fires compression at
+  0.5 x the window. Pin `model.context_length` only when nothing advertises the
+  real limit — e.g. a llama.cpp preset, where it is `ctx-size / parallel`.
 - The local llama.cpp preset is still wired: `provider: custom`,
   `base_url: http://llama-cpp.ai.svc.cluster.local:8080/v1` with the
   `sk-no-key-required` placeholder (llama.cpp ignores the `Authorization`

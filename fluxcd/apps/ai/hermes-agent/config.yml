@@ -4,9 +4,9 @@ model:
   # overriding model.default/provider in the session, but is no longer the default.
   default: deepseek/deepseek-v4.1-flash-1017
   provider: openrouter
-  # The 1M-token window OpenRouter reports for this model. No api_key here:
-  # OPENROUTER_API_KEY lives in /opt/data/.env on the PVC, never in Git.
-  context_length: 1048576
+  # No context_length and no api_key here on purpose. Hermes reads the window from
+  # the OpenRouter catalog for this model (currently 1048576) and the key from
+  # OPENROUTER_API_KEY in /opt/data/.env on the PVC, so neither can drift from Git.
 
 terminal:
   backend: local

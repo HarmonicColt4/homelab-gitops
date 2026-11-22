@@ -91,8 +91,9 @@ spec:
               # one physical card. This is not a memory reservation.
               nvidia.com/gpu: "1"
           volumeMounts:
-            # HuggingFace Hub cache. large-v3 int8 is ~1.5 GB; the claim is
-            # larger to leave room for the original snapshot and future models.
+            # HuggingFace Hub cache. The CTranslate2 model.bin is ~3 GB on
+            # disk (int8 is applied at load time, not in the cache); the claim
+            # is larger to leave room for future models.
             - name: models
               mountPath: /home/ubuntu/.cache/huggingface/hub
           # This image has no PRELOAD_MODELS option, so the model is loaded
@@ -112,7 +113,7 @@ spec:
                       while [ "$i" -lt 120 ]; do
                         code=$(curl -s -o /dev/null -w '%{http_code}' -X POST -H "Authorization: Bearer $API_KEY" http://127.0.0.1:8000/api/ps/Systran/faster-whisper-large-v3)
                         case "$code" in
-                          200|409) exit 0 ;;
+                          200|201|409) exit 0 ;;
                         esac
                         i=$((i + 1))
                         sleep 5

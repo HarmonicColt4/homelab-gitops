@@ -41,9 +41,16 @@ voice:
 # MCP servers that live on this cluster. URLs point at the in-cluster Service
 # rather than the Traefik host: the gateway runs inside the cluster, so the
 # extra DNS + TLS hop buys nothing and an IngressRoute change cannot take a
-# toolset offline. Hosted SaaS servers (microsoft-learn) and the locally-run
-# stdio server (gitea) intentionally stay in /opt/data/config.yaml on the PVC.
+# toolset offline. The hosted SaaS server (microsoft-learn) intentionally
+# stays in /opt/data/config.yaml on the PVC.
 mcp_servers:
+  gitea:
+    # ClusterIP only by design: the server holds a Gitea PAT (sealed in
+    # secrets/enc.env, SOPS), so it is not exposed through Traefik. Replaces
+    # the stdio binary on the PVC (/opt/data/bin/gitea-mcp); the stdio
+    # mcp_servers.gitea block is removed from /opt/data/config.yaml.
+    url: http://gitea-mcp.ai.svc.cluster.local:8080/mcp
+    enabled: true
   kubernetes:
     # Read-only cluster access through the kubernetes-mcp ServiceAccount
     # (ClusterRole view). auth is the pod's ServiceAccount, so no header.

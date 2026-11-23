@@ -51,6 +51,12 @@
   "ignoreTests": true,
   "packageRules": [
     {
+      "description": "Never automerge pre-1.0 dependencies; 0.x may break at any time",
+      "matchCurrentVersion": "/^[~^<>=v\\s]*0\\./",
+      "automerge": false,
+      "assignees": ["gpenda"]
+    },
+    {
       "description": "Terraform core and provider minor/major bumps require manual review (no automerge); patches automerge",
       "matchManagers": ["terraform"],
       "matchUpdateTypes": ["minor", "major"],

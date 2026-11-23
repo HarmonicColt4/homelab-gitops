@@ -117,6 +117,12 @@
       "automerge": false,
       "minimumReleaseAge": "7 days",
       "assignees": ["gpenda"]
+    },
+    {
+      "description": "beellama.cpp tags are <backend>-vX.Y.Z (e.g. server-cuda13-v0.4.9); default docker versioning cannot parse the backend prefix, so scope candidates to the CUDA 13 backend",
+      "matchManagers": ["kubernetes"],
+      "matchPackageNames": ["ghcr.io/anbeeld/beellama.cpp"],
+      "versioning": "regex:^server-cuda13-v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
     }
   ],
   "major": {

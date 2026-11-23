@@ -116,6 +116,63 @@ auto-generated `/docs` and `/openapi.json` routes are unauthenticated. The
 Kubernetes probes therefore use an `exec` handler that sends
 `Authorization: Bearer $API_KEY` (see `deploy.yml`).
 
+## Phone dictation clients
+
+An Android keyboard can use this endpoint as its speech provider, so the
+transcript is typed into whatever field has focus (WhatsApp, Telegram, Signal,
+SMS) and the message is sent from the app itself. Two clients are known to
+work, and both take the same three settings.
+
+| Client | Shape | Install |
+| ------ | ----- | ------- |
+| [Voice Keyboard](https://github.com/rustemar/voice-keyboard) | IME: a mic key on the keyboard records, then inserts the text, with optional silence auto-stop and "send after a pause" | F-Droid or GitHub Releases |
+| [Sasayaki](https://github.com/pluja/sasayaki) | floating bubble over the keyboard, or the mic key of HeliBoard/FlorisBoard | GitHub Releases |
+
+| Setting | Value |
+| ------- | ----- |
+| API base URL | `https://whisper.teamg.app/v1` |
+| Model | `Systran/faster-whisper-large-v3` |
+| API key | the `API_KEY` value of this app's secret, see [Rotating the API key](#rotating-the-api-key) |
+
+Rules that cost time when they are missed:
+
+- The base URL is the gateway, never `127.0.0.1` and never a pod address. A
+  phone that is told `localhost` calls itself, and `*.svc.cluster.local` does
+  not resolve off-cluster at all.
+- The key is required on every route, so the client's key field must be filled
+  in. A blank key sends no `Authorization` header and gets `403`.
+- The client uploads the container its own recorder produces (OGG/Opus on
+  Android 10 and later, M4A/AAC below that). Speaches decodes it with PyAV, so
+  no `ffmpeg` or format conversion is needed on the phone.
+- `Systran/faster-whisper-large-v3` is the only model in `ai/whisper-models`.
+  Naming another one returns `404` telling the client to download it first.
+- Set the client's language list to the languages actually spoken (here `en`,
+  `fr`, `ru`). Auto-detect works, but an explicit language is better on short
+  utterances, and none of these clients switches language mid-recording.
+
+Measured 2026-11-24, model warm on the RTX 4080: an 11 s English clip through
+`https://whisper.teamg.app` returned `200` in 0.43 s and 0.54 s wall clock,
+including the Traefik hop.
+
+### Reaching it from the phone
+
+`whisper.teamg.app` resolves inside the LAN (to the ingress address
+`10.25.25.11`) and the name has no public DNS record, so coverage depends on the
+network the phone is on:
+
+- Home Wi-Fi: works as-is, no extra record needed.
+- Away from home: the phone needs a route to the LAN whose DNS resolves
+  `teamg.app` to the internal address. Without that the name does not resolve
+  at all. The public address `202.169.209.225` does forward `443` to Traefik and
+  serves the wildcard certificate (verified with `curl --resolve`), so a
+  `whisper.teamg.app` A record at Cloudflare is the single change that makes the
+  endpoint reachable from any network.
+
+To check the phone side, open `https://whisper.teamg.app/health` in its
+browser. A `403` means routing and the certificate are fine and only the key is
+missing, which is the expected answer from a network that can reach the
+service.
+
 ## Configuration gotchas
 
 - `whisper.ttl` is a nested field, so the env var is `WHISPER__TTL` (double

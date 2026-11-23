@@ -1,0 +1,120 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: actual-mcp
+  labels:
+    app: actual-mcp
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  # MCP sessions live in-process and the budget cache sits on a ReadWriteOnce
+  # volume, so a rolling update would deadlock on a multi-attach.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: actual-mcp
+  template:
+    metadata:
+      labels:
+        app: actual-mcp
+    spec:
+      # The server never talks to the Kubernetes API.
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        runAsGroup: 1001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: actual-mcp
+          # Renovate tracks this tag (kubernetes manager, deploy.yml).
+          image: ghcr.io/agigante80/actual-mcp-server:0.35.2
+          imagePullPolicy: IfNotPresent
+          # Upstream ENTRYPOINT is tini plus docker/entrypoint.sh, which starts
+          # as root to align PUID/PGID and chown the volume directories. That
+          # cannot run under runAsNonRoot, so the image's own runtime user is
+          # pinned (uid 1001) and tini is kept as init while the PUID/PGID
+          # entrypoint script is skipped. HTTP mode is the image default.
+          command:
+            - /sbin/tini
+            - --
+            - node
+            - dist/src/index.js
+            - --http
+          env:
+            - name: TZ
+              value: Pacific/Auckland
+            # Read-only first: every write-capable tool is hidden and refused.
+            # Flip to false once the write paths have been exercised.
+            - name: MCP_READ_ONLY
+              value: "true"
+            # In-cluster Actual Budget server (TrueCharts chart, Service port
+            # 10293 -> container 5006). Credentials and the bearer token are
+            # SOPS encrypted (see secrets/enc.env).
+            - name: ACTUAL_SERVER_URL
+              value: http://actualserver.actualserver.svc.cluster.local:10293
+            # @actual-app/api downloads a local SQLite copy of the budget here,
+            # so it must be persistent: a restart without it re-downloads.
+            - name: MCP_BRIDGE_DATA_DIR
+              value: /app/data
+          envFrom:
+            - secretRef:
+                name: actual-mcp-secret
+          ports:
+            - name: http
+              containerPort: 3600
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+            # The image chowns /app/data and /app/logs for its runtime user and
+            # the root filesystem is read-only, so both stay writable.
+            - name: logs
+              mountPath: /app/logs
+            - name: tmp
+              mountPath: /tmp
+          # /health answers a plain GET on the same port as the MCP endpoint
+          # (/http, which rejects GETs), so the probes are real HTTP checks.
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 5
+            failureThreshold: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 30
+            failureThreshold: 3
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: actual-mcp-data
+        - name: logs
+          emptyDir:
+            sizeLimit: 64Mi
+        - name: tmp
+          emptyDir:
+            sizeLimit: 64Mi

@@ -162,6 +162,13 @@ creation_rules:
     age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
     mac_only_encrypted: true
 
+  # Actual MCP - encrypt the Actual server password, the budget sync ID and the
+  # HTTP bearer token in the env file
+  - path_regex: ^fluxcd/apps/ai/mcp/actual-mcp/secrets/.*\.env$
+    encrypted_regex: (ACTUAL_PASSWORD|ACTUAL_BUDGET_PASSWORD|ACTUAL_BUDGET_SYNC_ID|MCP_SSE_AUTHORIZATION)
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
   # Talos - encrypt the whole machine secrets file (no encrypted_regex: every
   # value in it is sensitive). Merged from talos/clusters/home/.sops.yaml.
   - path_regex: ^talos/clusters/home/secrets\.yml$

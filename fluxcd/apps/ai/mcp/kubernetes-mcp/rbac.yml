@@ -4,18 +4,20 @@ kind: ServiceAccount
 metadata:
   name: kubernetes-mcp
 ---
-# Read-only cluster access. The built-in `view` ClusterRole covers pods, pod
-# logs, events, and most resources, but excludes Secrets and pods/exec, so the
-# server cannot read credentials or open shells even though its default
-# toolset registers write tools. RBAC, not the toolset list, is the boundary.
+# Full cluster-admin access, granted explicitly so the MCP can exec into pods,
+# delete resources, read Secrets and node logs. The server is reachable only on
+# the private LoadBalancer range (k8s-mcp.teamg.app resolves to 10.25.25.11),
+# but any host on that network can drive the API with these credentials.
+# Restrict the IngressRoute or add authentication before exposing it beyond the
+# LAN.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: kubernetes-mcp-view
+  name: kubernetes-mcp-admin
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: view
+  name: cluster-admin
 subjects:
   - kind: ServiceAccount
     name: kubernetes-mcp

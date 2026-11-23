@@ -1,0 +1,18 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kubernetes-mcp
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`k8s-mcp.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        # TLS uses the default TLSStore certificate (teamg-app-tls, wildcard
+        # *.teamg.app), so no tls block is needed. Traefik's websecure
+        # respondingTimeouts are 1800s, which keeps Streamable HTTP sessions
+        # from being cut mid-stream.
+        - name: kubernetes-mcp
+          port: 8080

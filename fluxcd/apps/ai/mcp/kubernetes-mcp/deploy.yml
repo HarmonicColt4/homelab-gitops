@@ -1,0 +1,86 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubernetes-mcp
+  labels:
+    app: kubernetes-mcp
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  # Streamable HTTP keeps per-session state in memory, so a single replica
+  # avoids a session landing on a pod that does not know it.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: kubernetes-mcp
+  template:
+    metadata:
+      labels:
+        app: kubernetes-mcp
+    spec:
+      serviceAccountName: kubernetes-mcp
+      # The server authenticates to the API server with this ServiceAccount.
+      automountServiceAccountToken: true
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: kubernetes-mcp
+          # Renovate tracks this tag (kubernetes manager, deploy.yml).
+          image: quay.io/containers/kubernetes_mcp_server:v0.1.3
+          imagePullPolicy: IfNotPresent
+          # The image ships /etc/kubernetes-mcp-server/config.toml containing
+          # `port = "8080"`, which is what selects HTTP mode (Streamable HTTP
+          # at /mcp). Nothing is mounted over it, so the server runs with its
+          # default settings: toolsets core+config, read_only=false.
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: TZ
+              value: Pacific/Auckland
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+          # /mcp rejects plain GETs, but the server also serves /healthz on the
+          # same port, so the probes can use a real HTTP check.
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 5
+            failureThreshold: 30
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 30
+            failureThreshold: 3
+      volumes:
+        - name: tmp
+          emptyDir:
+            sizeLimit: 32Mi

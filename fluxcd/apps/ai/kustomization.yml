@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - namespace.yml
   - llama.cpp
+  - mcp/kubernetes-mcp
   - mcp/linkedin-mcp
   - mcp/mealie-mcp
   - searxng

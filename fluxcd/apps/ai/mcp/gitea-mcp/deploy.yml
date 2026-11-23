@@ -1,0 +1,100 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitea-mcp
+  labels:
+    app: gitea-mcp
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  # HTTP mode is stateless, but a single replica keeps one process and avoids
+  # duplicate tool registries behind the Service.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: gitea-mcp
+  template:
+    metadata:
+      labels:
+        app: gitea-mcp
+    spec:
+      # The server never talks to the Kubernetes API.
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: gitea-mcp
+          # Renovate tracks this tag (kubernetes manager, deploy.yml).
+          image: docker.gitea.com/gitea-mcp-server:1.13.0
+          imagePullPolicy: IfNotPresent
+          # The image has no ENTRYPOINT, only CMD ["/app/gitea-mcp"], so the
+          # binary must be named explicitly when overriding the arguments.
+          # Upstream defaults to stdio. HTTP mode serves /mcp (POST only) and
+          # /healthz on 8080.
+          command:
+            - /app/gitea-mcp
+          args:
+            - -t
+            - http
+          env:
+            - name: TZ
+              value: Pacific/Auckland
+            # Non-secret config lives in Git; only the access token is SOPS
+            # encrypted (see secrets/enc.env).
+            - name: GITEA_HOST
+              value: https://git.teamg.app
+            # The image is distroless and the root filesystem is read-only, so
+            # the healthcheck state file and any scratch data go to /tmp.
+            - name: GITEA_MCP_HEALTHCHECK_FILE
+              value: /tmp/gitea-mcp-healthcheck
+          envFrom:
+            - secretRef:
+                name: gitea-mcp-secret
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+          # HTTP mode serves /healthz for probes.
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 5
+            failureThreshold: 30
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 30
+            failureThreshold: 3
+      volumes:
+        - name: tmp
+          emptyDir:
+            sizeLimit: 32Mi

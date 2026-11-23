@@ -1,0 +1,18 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: gitea-mcp
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`gitea-mcp.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        # TLS uses the default TLSStore certificate (teamg-app-tls, wildcard
+        # *.teamg.app), so no tls block is needed. Traefik forwards the
+        # Mcp-Protocol-Version, Mcp-Method and Mcp-Name headers unchanged,
+        # which the server requires.
+        - name: gitea-mcp
+          port: 8080

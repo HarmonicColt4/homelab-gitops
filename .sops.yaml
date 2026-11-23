@@ -156,6 +156,12 @@ creation_rules:
     age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
     mac_only_encrypted: true
 
+  # Gitea MCP - encrypt the Gitea access token in the env file
+  - path_regex: ^fluxcd/apps/ai/mcp/gitea-mcp/secrets/.*\.env$
+    encrypted_regex: GITEA_ACCESS_TOKEN
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
   # Talos - encrypt the whole machine secrets file (no encrypted_regex: every
   # value in it is sensitive). Merged from talos/clusters/home/.sops.yaml.
   - path_regex: ^talos/clusters/home/secrets\.yml$

@@ -126,7 +126,7 @@ spec:
         - name: whisper
           # Floating tag: upstream publishes latest-cuda as a moving pointer.
           # Renovate cannot pin a floating tag, so Always re-pulls on restart.
-          image: ghcr.io/speaches-ai/speaches:0.8.1-cuda
+          image: ghcr.io/speaches-ai/speaches:0.8.3-cuda
           imagePullPolicy: Always
           env:
             # faster-whisper/CTranslate2 on the shared RTX 4080.

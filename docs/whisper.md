@@ -154,6 +154,15 @@ Measured 2026-11-24, model warm on the RTX 4080: an 11 s English clip through
 `https://whisper.teamg.app` returned `200` in 0.43 s and 0.54 s wall clock,
 including the Traefik hop.
 
+### On-device models are a different trade
+
+FUTO Voice Input and FUTO Keyboard run whisper.cpp on the phone itself and
+never send audio anywhere, so they cannot use this service. Their largest
+model is a 244M `small` variant, which the numbers above put at roughly 16% WER
+on Russian and 14% on French against 3.8% and 5.8% for `large-v3`. Worth
+installing for the case this endpoint does not cover (no route to the cluster,
+or the GPU is busy), not as a replacement for it.
+
 ### Reaching it from the phone
 
 `whisper.teamg.app` resolves inside the LAN (to the ingress address

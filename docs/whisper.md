@@ -125,7 +125,7 @@ work, and both take the same three settings.
 
 | Client | Shape | Install |
 | ------ | ----- | ------- |
-| [Voice Keyboard](https://github.com/rustemar/voice-keyboard) | IME: a mic key on the keyboard records, then inserts the text, with optional silence auto-stop and "send after a pause" | F-Droid or GitHub Releases |
+| [Voice Keyboard](https://github.com/rustemar/voice-keyboard) | IME: a mic key on the keyboard records, then inserts the text, with optional silence auto-stop and "send after a pause" | GitHub Releases (Obtainium tracks new ones) |
 | [Sasayaki](https://github.com/pluja/sasayaki) | floating bubble over the keyboard, or the mic key of HeliBoard/FlorisBoard | GitHub Releases |
 
 | Setting | Value |

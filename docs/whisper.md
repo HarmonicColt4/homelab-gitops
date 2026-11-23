@@ -50,6 +50,32 @@ same time can exceed the card even inside this budget, because neither process
 knows the other's allocation. If that happens, the OOM kills whichever process
 allocates last. The mitigation is the margin, not the scheduler.
 
+## Model installation and cold starts
+
+The model is installed by the `fetch-model` initContainer in `deploy.yml`,
+before Speaches starts. It calls `huggingface_hub.snapshot_download()` with no
+`allow_patterns`, so the cache receives the CTranslate2 weights **and** the
+model card (`README.md`). Speaches reads that card at inference time to
+discover the model's languages and task; without it the server raises an
+assertion in `stt.py` and every transcription returns 500. The download runs in
+an init container that exits non-zero on failure, so a bad install blocks the
+pod instead of leaving a half-populated cache behind.
+
+A fresh PVC therefore needs no manual step: create the claim and the first pod
+start downloads ~3 GB. Expect the pod to sit in `Init:0/1` for several minutes
+on a cold pull (there is no `activeDeadlineSeconds`, so a slow network does not
+become a crash loop), then show `Completed` before the server container starts.
+
+A cache created by the previous `postStart` warm-up holds the weights but no
+`README.md`. On the first start against such a cache the init container logs
+the missing card, deletes `models--Systran--faster-whisper-large-v3/` and
+re-downloads once. That is a one-time migration; later starts find the card and
+do nothing.
+
+First-message-after-restart latency for a cold load is **unmeasured**. Record
+it here once measured; `WHISPER__TTL=-1` keeps the model resident after that
+first message.
+
 ## Measured numbers
 
 Baseline before the co-tenant (2026-11-22, `nvidia-smi` inside the llama.cpp
@@ -94,10 +120,9 @@ Kubernetes probes therefore use an `exec` handler that sends
 
 - `whisper.ttl` is a nested field, so the env var is `WHISPER__TTL` (double
   underscore). `STT_MODEL_TTL` is silently ignored and leaves the 300 s default.
-- This image has no `PRELOAD_MODELS` option. The model is loaded by a
-  `postStart` hook that calls `POST /api/ps/Systran/faster-whisper-large-v3`;
-  the hook is backgrounded and always exits 0 so a failed preload cannot kill
-  the container.
+- The model is fetched by the `fetch-model` initContainer, not by the server
+  process. Keep its image tag and pull policy in sync with the server container:
+  the interpreter it runs lives in that image's own venv.
 
 ## Rotating the API key
 

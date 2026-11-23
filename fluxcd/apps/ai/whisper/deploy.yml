@@ -37,6 +37,91 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile:
           type: RuntimeDefault
+      # The model is installed here, before Speaches starts, instead of from a
+      # postStart hook. postStart runs concurrently with the entrypoint and
+      # cannot fail the pod, so a broken download only surfaced as an HTTP 500
+      # on the first transcription. An initContainer blocks the server until
+      # the cache is complete and exits non-zero if it is not.
+      #
+      # snapshot_download() is called with no allow_patterns, so it fetches
+      # every file in the repo including README.md. That model card is what
+      # Speaches reads at inference time to discover the model's languages and
+      # task; downloading only the CTranslate2 weights leaves it absent and
+      # every transcription fails. When the cache is already complete this
+      # container is a no-op.
+      initContainers:
+        - name: fetch-model
+          # Same tag and pull policy as the server below: the interpreter is
+          # inside this image's venv, and a floating tag must not let the two
+          # containers resolve to different digests.
+          image: ghcr.io/speaches-ai/speaches:latest-cuda
+          imagePullPolicy: Always
+          command:
+            - /home/ubuntu/speaches/.venv/bin/python
+            - -c
+            - |
+              import os
+              import shutil
+              import sys
+
+              from huggingface_hub import snapshot_download
+
+              REPO_ID = "Systran/faster-whisper-large-v3"
+              CARD = "README.md"
+
+
+              def fetch():
+                  # No allow_patterns: the model card must be downloaded too.
+                  return snapshot_download(repo_id=REPO_ID)
+
+
+              snapshot = fetch()
+              card = os.path.join(snapshot, CARD)
+
+              # A cache populated by the old warm-up holds the weights but no
+              # model card, and a re-check of that cache can succeed without
+              # the card. Delete the repo's cache directory once and fetch
+              # again. The single retry is the loop guard: if the card is still
+              # absent after a clean download this container fails loudly.
+              if not os.path.isfile(card):
+                  repo_cache = os.path.dirname(os.path.dirname(snapshot))
+                  print(
+                      f"{CARD} missing in {snapshot}: cache was populated "
+                      f"without it. Deleting {repo_cache} and re-downloading "
+                      "once.",
+                      flush=True,
+                  )
+                  shutil.rmtree(repo_cache, ignore_errors=True)
+                  snapshot = fetch()
+                  card = os.path.join(snapshot, CARD)
+
+              if not os.path.isfile(card):
+                  print(
+                      f"ERROR: {CARD} still missing in {snapshot}; refusing to "
+                      "start",
+                      file=sys.stderr,
+                      flush=True,
+                  )
+                  sys.exit(1)
+
+              print(f"model ready: {snapshot} ({CARD} present)", flush=True)
+          volumeMounts:
+            # Same path as the server: another mountPath would download into a
+            # location the main container cannot see.
+            - name: models
+              mountPath: /home/ubuntu/.cache/huggingface/hub
+          resources:
+            # Download only; it does no inference, so it requests no GPU.
+            requests:
+              cpu: "1"
+              memory: 1Gi
+          # No securityContext override: this inherits the pod-level
+          # runAsUser/runAsGroup/fsGroup 1000, so the files it writes remain
+          # readable by the server.
+          #
+          # No activeDeadlineSeconds either: a cold pull of ~3 GB over the
+          # network legitimately takes minutes, and a deadline would turn a
+          # slow first start into a crash loop.
       containers:
         - name: whisper
           # Floating tag: upstream publishes latest-cuda as a moving pointer.
@@ -61,9 +146,9 @@ spec:
             - name: ENABLE_UI
               value: "false"
             # large-v3, not turbo: Russian WER is 3.8% vs 6.0% for turbo, and
-            # the target languages are English, French and Russian. This image
-            # has no PRELOAD_MODELS option, so the model is loaded by the
-            # postStart hook below instead.
+            # the target languages are English, French and Russian. The model
+            # is installed into the shared cache by the fetch-model init
+            # container above, which also fetches the card Speaches reads.
           # API_KEY is the only secret. Speaches requires it on every endpoint
           # except /health, /docs and /openapi.json, so the IngressRoute is
           # keyed even though it is published.
@@ -96,30 +181,6 @@ spec:
             # is larger to leave room for future models.
             - name: models
               mountPath: /home/ubuntu/.cache/huggingface/hub
-          # This image has no PRELOAD_MODELS option, so the model is loaded
-          # explicitly once the server is listening. The work is backgrounded
-          # and the hook always exits 0: a failing postStart would kill the
-          # container, and a missed preload only costs a lazy load on the
-          # first request (WHISPER__TTL=-1 keeps it resident afterwards).
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - sh
-                  - -c
-                  - |
-                    (
-                      i=0
-                      while [ "$i" -lt 120 ]; do
-                        code=$(curl -s -o /dev/null -w '%{http_code}' -X POST -H "Authorization: Bearer $API_KEY" http://127.0.0.1:8000/api/ps/Systran/faster-whisper-large-v3)
-                        case "$code" in
-                          200|201|409) exit 0 ;;
-                        esac
-                        i=$((i + 1))
-                        sleep 5
-                      done
-                    ) >/dev/null 2>&1 &
-                    exit 0
           # Speaches registers the API key as an app-level FastAPI dependency,
           # so /health is keyed too: an unauthenticated httpGet gets 403 and
           # the pod never becomes ready. The probes send the key from the env

@@ -102,6 +102,16 @@ spec:
                 secretKeyRef:
                   name: hermes-agent-secret
                   key: WHISPER_API_KEY
+            # The LinkedIn MCP client token, referenced as ${LINKEDIN_MCP_TOKEN}
+            # by config.yml and expanded from the process environment at config
+            # load. Must equal LINKEDIN_MCP_HTTP_TOKEN in the linkedin-mcp
+            # secret: FastMCP exits without it and 401s a client that sends a
+            # different one.
+            - name: LINKEDIN_MCP_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-agent-secret
+                  key: LINKEDIN_MCP_TOKEN
           ports:
             - name: api
               containerPort: 8642

@@ -37,3 +37,28 @@ stt:
 
 voice:
   client_direct: false # the gateway relays, so mobile clients work too
+
+# MCP servers that live on this cluster. URLs point at the in-cluster Service
+# rather than the Traefik host: the gateway runs inside the cluster, so the
+# extra DNS + TLS hop buys nothing and an IngressRoute change cannot take a
+# toolset offline. Hosted SaaS servers (microsoft-learn) and the locally-run
+# stdio server (gitea) intentionally stay in /opt/data/config.yaml on the PVC.
+mcp_servers:
+  kubernetes:
+    # Read-only cluster access through the kubernetes-mcp ServiceAccount
+    # (ClusterRole view). auth is the pod's ServiceAccount, so no header.
+    url: http://kubernetes-mcp.ai.svc.cluster.local:8080/mcp
+    enabled: true
+  mealie:
+    # ClusterIP only by design: the server holds a full-access Mealie token.
+    url: http://mealie-mcp.ai.svc.cluster.local:8000/mcp
+    enabled: true
+  linkedin:
+    url: http://linkedin-mcp.ai.svc.cluster.local:8080/mcp
+    enabled: true
+    headers:
+      # FastMCP exits at startup without a client token. The value is sealed in
+      # secrets/enc.env (SOPS) as LINKEDIN_MCP_TOKEN and reaches the gateway as an env var
+      # from the hermes-agent-secret Secret; the managed overlay expands
+      # ${LINKEDIN_MCP_TOKEN} from the process env, so no secret is stored in Git.
+      Authorization: Bearer ${LINKEDIN_MCP_TOKEN}

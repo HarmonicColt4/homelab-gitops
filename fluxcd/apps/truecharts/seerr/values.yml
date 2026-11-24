@@ -1,7 +1,3 @@
-persistence:
-  config:
-    enabled: true
-    mountPath: /app/config
 credentials:
   garage:
     type: s3

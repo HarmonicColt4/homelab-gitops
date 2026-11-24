@@ -112,6 +112,15 @@ spec:
                 secretKeyRef:
                   name: hermes-agent-secret
                   key: LINKEDIN_MCP_TOKEN
+            # The Actual MCP bearer token, referenced as ${ACTUAL_MCP_TOKEN} by
+            # config.yml. Must equal MCP_SSE_AUTHORIZATION in the actual-mcp
+            # secret: the server refuses a session whose bearer it does not
+            # recognise.
+            - name: ACTUAL_MCP_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-agent-secret
+                  key: ACTUAL_MCP_TOKEN
           ports:
             - name: api
               containerPort: 8642

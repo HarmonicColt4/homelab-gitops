@@ -103,7 +103,7 @@ ports. Only `9119` is routed from outside the cluster.
 | [`svc.yml`](../fluxcd/apps/ai/hermes-agent/svc.yml)                     | ClusterIP Service, ports `8642` and `9119`                                  |
 | [`pvc.yml`](../fluxcd/apps/ai/hermes-agent/pvc.yml)                     | 10Gi Longhorn ReadWriteOnce claim for `/opt/data`                           |
 | [`ingress-route.yml`](../fluxcd/apps/ai/hermes-agent/ingress-route.yml) | Traefik route `hermes.teamg.app` -> `9119`                                  |
-| [`secrets/enc.env`](../fluxcd/apps/ai/hermes-agent/secrets/enc.env)     | SOPS-encrypted API bearer key and OIDC client credentials                   |
+| [`secrets/enc.env`](../fluxcd/apps/ai/hermes-agent/secrets/enc.env)     | SOPS-encrypted API bearer key, OIDC client ID and MCP client tokens         |
 
 ## Decisions and why
 
@@ -194,6 +194,63 @@ model:
 - `terminal.backend: local` because the docker backend cannot work on containerd
   (there is no Docker socket). The agent runs commands directly in its own
   container.
+
+## MCP servers
+
+`mcp_servers` in the managed config points at the in-cluster MCP workloads under
+[`fluxcd/apps/ai/mcp/`](../fluxcd/apps/ai/mcp/). The Traefik hosts are not used:
+the gateway already runs inside the cluster, so the extra DNS and TLS hop would
+only add a way to break a toolset.
+
+| Server       | Endpoint                                              | Auth                                        |
+| ------------ | ----------------------------------------------------- | ------------------------------------------- |
+| `gitea`      | `http://gitea-mcp.ai.svc.cluster.local:8080/mcp`      | server holds the Gitea PAT, no header       |
+| `kubernetes` | `http://kubernetes-mcp.ai.svc.cluster.local:8080/mcp` | pod ServiceAccount, **cluster-admin**       |
+| `mealie`     | `http://mealie-mcp.ai.svc.cluster.local:8000/mcp`     | server holds the Mealie token, no header    |
+| `linkedin`   | `http://linkedin-mcp.ai.svc.cluster.local:8080/mcp`   | `Bearer ${LINKEDIN_MCP_TOKEN}`              |
+| `actual`     | `http://actual-mcp.ai.svc.cluster.local:3600/http`    | `Bearer ${ACTUAL_MCP_TOKEN}`, read-only     |
+
+The `kubernetes` entry is a full cluster-admin credential by design
+([`rbac.yml`](../fluxcd/apps/ai/mcp/kubernetes-mcp/rbac.yml) says why): it is how
+the agent applies a fix directly when Git is the slow path, and it is also how
+the SOPS age key is retrievable for a `sops` edit. Treat any agent session with
+that MCP enabled as root on the cluster.
+
+Two path conventions exist and they are not interchangeable: the FastMCP servers
+answer on `/mcp`, `actual-mcp-server` on `/http` (with `/health` on the same port
+for its probes). A server wired to the wrong path registers with no usable
+tools.
+
+`microsoft-learn` (hosted SaaS) and `playwright` (stdio binary inside the pod)
+are not workloads of this repository and stay in `/opt/data/config.yaml` on the
+PVC.
+
+### Adding a token for a new MCP server
+
+Worked example: `actual`.
+
+1. The consuming server's own Secret holds the token
+   (`MCP_SSE_AUTHORIZATION` in
+   [`actual-mcp/secrets/enc.env`](../fluxcd/apps/ai/mcp/actual-mcp/secrets/enc.env)).
+2. This app's [`secrets/enc.env`](../fluxcd/apps/ai/hermes-agent/secrets/enc.env)
+   holds the same value sealed as `ACTUAL_MCP_TOKEN`.
+3. [`deploy.yml`](../fluxcd/apps/ai/hermes-agent/deploy.yml) maps that key to
+   the `ACTUAL_MCP_TOKEN` env var.
+4. [`config.yml`](../fluxcd/apps/ai/hermes-agent/config.yml) references
+   `Bearer ${ACTUAL_MCP_TOKEN}`. The managed overlay expands `${...}` from the
+   **process** environment only, so a missing env entry leaves the literal
+   `${ACTUAL_MCP_TOKEN}` and the server answers 401.
+
+Two traps. A key added to `secrets/enc.env` without a matching
+`.sops.yaml` `encrypted_regex` entry is written and committed in plaintext. And
+two sops env files cannot share one `secretGenerator`: both carry the same
+`sops_*` metadata keys and kustomize rejects the repeated key, so every token
+belongs in this one file rather than in a new file per server.
+
+The age key needed for `sops -d` and `sops -e -i` is in the
+`flux-system/sops-age` Secret (`age.agekey`): read it, write it to a mode-600
+file, and point `SOPS_AGE_KEY_FILE` at it. Every value is re-encrypted on save,
+so the diff shows all lines changed even when a single key was added.
 
 ## Storage
 
@@ -329,6 +386,7 @@ API.
 | `HERMES_DASHBOARD_OIDC_ISSUER`        | `https://id.teamg.app` | Pocket-ID                                      |
 | `API_SERVER_KEY`                      | Secret                 | bearer token for `/v1`                         |
 | `HERMES_DASHBOARD_OIDC_CLIENT_ID`     | Secret                 | OIDC client ID (public PKCE client)            |
+| `ACTUAL_MCP_TOKEN`                    | Secret                 | bearer for the Actual MCP server               |
 
 All three probes hit `GET /health` on port `8642`:
 

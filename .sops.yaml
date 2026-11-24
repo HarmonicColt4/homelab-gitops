@@ -140,13 +140,14 @@ creation_rules:
     mac_only_encrypted: true
 
   # Hermes Agent - encrypt the API bearer key, the OIDC client credentials, the
-  # Whisper ASR key the STT config references as ${WHISPER_API_KEY}, and the
-  # LinkedIn MCP client token the managed config references as
-  # ${LINKEDIN_MCP_TOKEN}. Every key the app consumes must be listed here: an
-  # unlisted key is written to disk in plaintext and committed as-is.
+  # Whisper ASR key the STT config references as ${WHISPER_API_KEY}, and one
+  # client token per MCP server the managed config authenticates to
+  # (${LINKEDIN_MCP_TOKEN}, ${ACTUAL_MCP_TOKEN}). Every key the app consumes
+  # must be listed here: an unlisted key is written to disk in plaintext and
+  # committed as-is.
   - path_regex: ^fluxcd/apps/ai/hermes-agent/secrets/.*\.env$
     # Pocket-ID issues a public PKCE client, so there is no client secret.
-    encrypted_regex: (API_SERVER_KEY|HERMES_DASHBOARD_OIDC_CLIENT_ID|WHISPER_API_KEY|LINKEDIN_MCP_TOKEN)
+    encrypted_regex: (API_SERVER_KEY|HERMES_DASHBOARD_OIDC_CLIENT_ID|WHISPER_API_KEY|LINKEDIN_MCP_TOKEN|ACTUAL_MCP_TOKEN)
     age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
     mac_only_encrypted: true
 

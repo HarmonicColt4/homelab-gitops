@@ -52,8 +52,10 @@ mcp_servers:
     url: http://gitea-mcp.ai.svc.cluster.local:8080/mcp
     enabled: true
   kubernetes:
-    # Read-only cluster access through the kubernetes-mcp ServiceAccount
-    # (ClusterRole view). auth is the pod's ServiceAccount, so no header.
+    # cluster-admin, deliberately: rbac.yml binds that ClusterRole so the MCP
+    # can exec into pods, delete resources and read Secrets. auth is the pod's
+    # ServiceAccount, so no header; the blast radius is the whole cluster, and
+    # the client-side toolset is not the boundary.
     url: http://kubernetes-mcp.ai.svc.cluster.local:8080/mcp
     enabled: true
   mealie:
@@ -69,3 +71,17 @@ mcp_servers:
       # from the hermes-agent-secret Secret; the managed overlay expands
       # ${LINKEDIN_MCP_TOKEN} from the process env, so no secret is stored in Git.
       Authorization: Bearer ${LINKEDIN_MCP_TOKEN}
+  actual:
+    # Actual Budget household budget, read-only surface: the server runs with
+    # MCP_READ_ONLY=true, which hides every write tool and refuses the call if
+    # one is attempted anyway.
+    # The path is /http, not /mcp: this server is its own Node/Express MCP
+    # implementation, not FastMCP. ClusterIP only by design (it holds the
+    # Actual server password). The bearer token is sealed in
+    # secrets/actual-mcp.env (SOPS) as ACTUAL_MCP_TOKEN and reaches the gateway
+    # as an env var from hermes-agent-secret; the overlay expands the
+    # placeholder from the process env, so no secret is stored in Git.
+    url: http://actual-mcp.ai.svc.cluster.local:3600/http
+    enabled: true
+    headers:
+      Authorization: Bearer ${ACTUAL_MCP_TOKEN}

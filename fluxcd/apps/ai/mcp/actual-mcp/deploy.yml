@@ -26,6 +26,15 @@ spec:
         runAsNonRoot: true
         runAsUser: 1001
         runAsGroup: 1001
+        # The image's PUID/PGID entrypoint, which chowned /app/data, is skipped
+        # (it needs root), so nothing makes the Longhorn volume writable for
+        # uid 1001. Without fsGroup every session dies at
+        # `mkdir /app/data/<budget-id>` with EACCES and MCP answers
+        # "the Actual connection for this session could not be initialised".
+        # OnRootMismatch keeps the kubelet from walking the volume on every
+        # mount now that the root already carries the group.
+        fsGroup: 1001
+        fsGroupChangePolicy: OnRootMismatch
         seccompProfile:
           type: RuntimeDefault
       containers:

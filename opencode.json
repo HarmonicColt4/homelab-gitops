@@ -19,12 +19,5 @@
         }
       }
     }
-  },
-  "permissions": [
-    { "action": "talos_talos_upgrade", "resource": "*", "effect": "deny" },
-    { "action": "talos_talos_rollback", "resource": "*", "effect": "deny" },
-    { "action": "talos_talos_reset", "resource": "*", "effect": "deny" },
-    { "action": "talos_talos_patch_config", "resource": "*", "effect": "deny" },
-    { "action": "talos_talos_meta", "resource": "*", "effect": "deny" }
-  ]
+  }
 }

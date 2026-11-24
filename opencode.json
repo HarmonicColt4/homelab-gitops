@@ -2,6 +2,18 @@
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
     "servers": {
+      "flux": {
+        "type": "local",
+        "command": [
+          "/home/linuxbrew/.linuxbrew/bin/flux-operator-mcp",
+          "serve",
+          "-n",
+          "flux-system"
+        ],
+        "environment": {
+          "KUBECONFIG": "{env:HOME}/.kube/config"
+        }
+      },
       "gitea": {
         "type": "remote",
         "url": "https://gitea-mcp.teamg.app/mcp"

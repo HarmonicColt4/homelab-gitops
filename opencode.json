@@ -14,6 +14,14 @@
           "KUBECONFIG": "{env:HOME}/.kube/config"
         }
       },
+      "garage": {
+        "type": "remote",
+        "url": "https://garage-mcp.teamg.app/mcp",
+        "oauth": false,
+        "headers": {
+          "Authorization": "Basic {env:GARAGE_MCP_BASIC_AUTH}"
+        }
+      },
       "gitea": {
         "type": "remote",
         "url": "https://gitea-mcp.teamg.app/mcp"

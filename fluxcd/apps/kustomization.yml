@@ -4,6 +4,7 @@ kind: Kustomization
 
 resources:
   - ai
+  - comms
   - mealie
   - truenas-auto-update
   - unifi-os-server

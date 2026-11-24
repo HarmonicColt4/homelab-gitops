@@ -41,6 +41,7 @@ Cluster `teamg`: control plane `rpi5`, workers `hedy` and `beast`, endpoint
 | Group                                  | Contents                                                                         |
 | -------------------------------------- | -------------------------------------------------------------------------------- |
 | [`ai`](fluxcd/apps/ai)                 | `llama.cpp`, `whisper`, `hermes-agent`, `linkedin-mcp`, `mealie-mcp`, `searxng`. |
+| [`comms`](fluxcd/apps/comms)           | `waha` (WhatsApp HTTP API, linked device).                                       |
 | `mealie`                               | Mealie recipe manager.                                                           |
 | `truenas-auto-update`                  | Scheduled TrueNAS updater, per-host overlays.                                    |
 | `unifi-os-server`                      | UniFi OS Server.                                                                 |
@@ -51,6 +52,7 @@ Application guides live in [`docs/`](docs):
 [`linkedin-mcp.md`](docs/linkedin-mcp.md),
 [`llama.cpp.md`](docs/llama.cpp.md),
 [`searxng.md`](docs/searxng.md),
+[`waha.md`](docs/waha.md),
 [`whisper.md`](docs/whisper.md).
 
 ## Validation

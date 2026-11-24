@@ -1,0 +1,123 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: waha
+  labels:
+    app: waha
+spec:
+  replicas: 1
+  # The WhatsApp device credentials live on a ReadWriteOnce volume, and a second
+  # pod cannot attach it while the first still holds the volume.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: waha
+  template:
+    metadata:
+      labels:
+        app: waha
+    spec:
+      # The image publishes amd64 only; rpi5 is the tainted control plane.
+      nodeSelector:
+        kubernetes.io/arch: amd64
+      automountServiceAccountToken: false
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: waha
+          # Renovate tracks this tag (kubernetes manager, deploy.yml). The tag
+          # carries the engine (gows = whatsmeow in Go, no browser) and the
+          # version, so the pin has to stay in the `gows-<version>` series.
+          image: devlikeapro/waha:gows-2026.10.1
+          imagePullPolicy: IfNotPresent
+          # The image ships no USER directive, so this runs as root and cannot
+          # pass runAsNonRoot. The namespace enforces baseline for the same
+          # reason; every capability is still dropped.
+          env:
+            - name: TZ
+              value: Pacific/Auckland
+            # No Chromium in this image; GOWS talks the WhatsApp websocket
+            # directly, which is what keeps the pod under 1Gi.
+            - name: WHATSAPP_DEFAULT_ENGINE
+              value: GOWS
+            # The browser-facing surfaces are noise here: reads go through the
+            # REST API from inside the cluster.
+            - name: WAHA_DASHBOARD_ENABLED
+              value: "false"
+            - name: WHATSAPP_SWAGGER_ENABLED
+              value: "false"
+            # Probes must answer without the API key, or kubelet reads 401 as
+            # a dead container. Both spellings are set: WAHA has shipped the
+            # exclusion under WHATSAPP_* and WAHA_* prefixes across versions.
+            - name: WAHA_API_KEY_EXCLUDE_PATH
+              value: health,ping
+            - name: WHATSAPP_API_KEY_EXCLUDE_PATH
+              value: health,ping
+            # Hashed form: the Secret holds sha512:<hex>, and clients send the
+            # plain key in X-Api-Key. The plain key is not stored in Git.
+            - name: WAHA_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: waha-secret
+                  key: WAHA_API_KEY
+            # Keep the pairing session across restarts without a QR rescan.
+            - name: WAHA_LOCAL_STORE_BASE_DIR
+              value: /app/.sessions
+            - name: WHATSAPP_FILES_FOLDER
+              value: /app/.media
+            - name: WHATSAPP_FILES_LIFETIME
+              value: "0"
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            # NOT read-only: the entrypoint writes under /app (engine binaries,
+            # media, sqlite wal) beyond the mounted session volume.
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 50m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          volumeMounts:
+            - name: sessions
+              mountPath: /app/.sessions
+            # Media is a cache: 180s default lifetime is useless for reading, so
+            # keep files for the pod's life and let them die with it.
+            - name: media
+              mountPath: /app/.media
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 5
+            failureThreshold: 60
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: http
+            periodSeconds: 30
+            failureThreshold: 3
+      volumes:
+        - name: sessions
+          persistentVolumeClaim:
+            claimName: waha-sessions
+        - name: media
+          emptyDir:
+            sizeLimit: 2Gi

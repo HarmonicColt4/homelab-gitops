@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: comms
+  labels:
+    # WAHA's image sets no USER, so its entrypoint runs as root and writes under
+    # /app. baseline admits that while still refusing privileged pods and host
+    # namespaces; audit/warn stay at restricted so the gap keeps being reported
+    # instead of silently accepted.
+    pod-security.kubernetes.io/enforce: baseline
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/warn: restricted

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: waha-sessions
+  annotations:
+    # The WhatsApp device credentials live here; losing them means a fresh QR
+    # scan, so the volume must survive a prune the same way mealie-data does.
+    kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
+spec:
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce

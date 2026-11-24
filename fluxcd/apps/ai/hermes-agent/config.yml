@@ -13,15 +13,9 @@ dashboard:
 database:
   journal_mode: wal
 
-# Speech-to-text. The gateway relays audio to the in-cluster Whisper service
-# (see docs/whisper.md). The api_key must be set explicitly: Hermes' credential
-# ladder is config api_key > keyless placeholder for private/loopback base_urls
-# > env key, and a private base_url with no api_key resolves to the literal
-# placeholder "not-needed", which a keyed Speaches rejects with 401.
-# ${WHISPER_API_KEY} is expanded from the process environment at config load.
 stt:
   provider: openai
-  language: "" # auto-detect: English, French, Russian
+  language: ""
   prompt: "Hermes, Nous Research, Talos, Flux, kustomization, Traefik, Longhorn, kubectl, Gitea, Renovate, Kubernetes"
   openai:
     base_url: http://whisper.ai.svc.cluster.local:8000/v1
@@ -30,73 +24,34 @@ stt:
     timeout: 120
 
 voice:
-  client_direct: false # the gateway relays, so mobile clients work too
+  client_direct: false
 
-# MCP servers that live on this cluster. URLs point at the in-cluster Service
-# rather than the Traefik host: the gateway runs inside the cluster, so the
-# extra DNS + TLS hop buys nothing and an IngressRoute change cannot take a
-# toolset offline. The hosted SaaS server (microsoft-learn) intentionally
-# stays in /opt/data/config.yaml on the PVC.
 mcp_servers:
   gitea:
-    # ClusterIP only by design: the server holds a Gitea PAT (sealed in
-    # secrets/enc.env, SOPS), so it is not exposed through Traefik. Replaces
-    # the stdio binary on the PVC (/opt/data/bin/gitea-mcp); the stdio
-    # mcp_servers.gitea block is removed from /opt/data/config.yaml.
     url: http://gitea-mcp.ai.svc.cluster.local:8080/mcp
     enabled: true
   kubernetes:
-    # cluster-admin, deliberately: rbac.yml binds that ClusterRole so the MCP
-    # can exec into pods, delete resources and read Secrets. auth is the pod's
-    # ServiceAccount, so no header; the blast radius is the whole cluster, and
-    # the client-side toolset is not the boundary.
     url: http://kubernetes-mcp.ai.svc.cluster.local:8080/mcp
     enabled: true
   mealie:
-    # ClusterIP only by design: the server holds a full-access Mealie token.
     url: http://mealie-mcp.ai.svc.cluster.local:8000/mcp
     enabled: true
   linkedin:
     url: http://linkedin-mcp.ai.svc.cluster.local:8080/mcp
     enabled: true
     headers:
-      # FastMCP exits at startup without a client token. The value is sealed in
-      # secrets/enc.env (SOPS) as LINKEDIN_MCP_TOKEN and reaches the gateway as an env var
-      # from the hermes-agent-secret Secret; the managed overlay expands
-      # ${LINKEDIN_MCP_TOKEN} from the process env, so no secret is stored in Git.
       Authorization: Bearer ${LINKEDIN_MCP_TOKEN}
   actual:
-    # Actual Budget household budget, read-only surface: the server runs with
-    # MCP_READ_ONLY=true, which hides every write tool and refuses the call if
-    # one is attempted anyway.
-    # The path is /http, not /mcp: this server is its own Node/Express MCP
-    # implementation, not FastMCP. ClusterIP only by design (it holds the
-    # Actual server password). The bearer token is sealed in
-    # secrets/actual-mcp.env (SOPS) as ACTUAL_MCP_TOKEN and reaches the gateway
-    # as an env var from hermes-agent-secret; the overlay expands the
-    # placeholder from the process env, so no secret is stored in Git.
     url: http://actual-mcp.ai.svc.cluster.local:3600/http
     enabled: true
     headers:
       Authorization: Bearer ${ACTUAL_MCP_TOKEN}
   wger:
-    # ClusterIP only: the server holds the wger.de account API key, so it is
-    # not exposed through Traefik. MCP_AUTH=static_token means every call
-    # from here acts as the one wger.de account behind that key. The bearer
-    # is sealed in secrets/enc.env as WGER_MCP_TOKEN and expanded by the
-    # managed overlay; it must equal MCP_STATIC_TOKEN in the wger-mcp secret.
     url: http://wger-mcp.ai.svc.cluster.local:8765/mcp
     enabled: true
     headers:
       Authorization: Bearer ${WGER_MCP_TOKEN}
   paperless:
-    # Paperless-ngx document archive. ClusterIP only by design: the server
-    # holds a Paperless API token (sealed in secrets/enc.env, SOPS), so it is
-    # not exposed through Traefik. The gateway connects over the in-cluster
-    # Service and sends the token as a bearer header; ${PAPERLESS_MCP_TOKEN}
-    # is expanded from the process environment at config load, so no secret
-    # is stored in Git. It must match PAPERLESS_TOKEN in the paperless-mcp
-    # secret, which is also the token the server uses to talk to Paperless.
     url: http://paperless-mcp.ai.svc.cluster.local:3001/mcp
     enabled: true
     headers:

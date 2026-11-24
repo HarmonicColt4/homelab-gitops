@@ -121,6 +121,15 @@ spec:
                 secretKeyRef:
                   name: hermes-agent-secret
                   key: ACTUAL_MCP_TOKEN
+            # The wger MCP bearer token, referenced as ${WGER_MCP_TOKEN} by
+            # config.yml. Must equal MCP_STATIC_TOKEN in the wger-mcp secret:
+            # the server gates /mcp with it (MCP_AUTH=static_token) and 401s
+            # a client that sends a different one. Sealed in secrets/enc.env.
+            - name: WGER_MCP_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-agent-secret
+                  key: WGER_MCP_TOKEN
           ports:
             - name: api
               containerPort: 8642

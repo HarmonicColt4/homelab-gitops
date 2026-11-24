@@ -153,7 +153,7 @@ creation_rules:
   # committed as-is.
   - path_regex: ^fluxcd/apps/ai/hermes-agent/secrets/.*\.env$
     # Pocket-ID issues a public PKCE client, so there is no client secret.
-    encrypted_regex: (API_SERVER_KEY|HERMES_DASHBOARD_OIDC_CLIENT_ID|WHISPER_API_KEY|LINKEDIN_MCP_TOKEN|ACTUAL_MCP_TOKEN)
+    encrypted_regex: (API_SERVER_KEY|HERMES_DASHBOARD_OIDC_CLIENT_ID|WHISPER_API_KEY|LINKEDIN_MCP_TOKEN|ACTUAL_MCP_TOKEN|WGER_MCP_TOKEN)
     age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
     mac_only_encrypted: true
 

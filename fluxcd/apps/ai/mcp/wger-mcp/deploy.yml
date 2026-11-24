@@ -48,10 +48,11 @@ spec:
               value: static_token
             - name: WGER_BASE_URL
               value: https://wger.de
-            # DNS-rebinding protection: only the in-cluster Service hostname
-            # is accepted in the Host header.
+            # DNS-rebinding protection: the MCP SDK matches the full Host
+            # header (port included) or a host:* pattern, so allow any port on
+            # the in-cluster Service hostname — hermes connects on :8765.
             - name: ALLOWED_HOSTS
-              value: wger-mcp.ai.svc.cluster.local
+              value: wger-mcp.ai.svc.cluster.local:*
             # The root filesystem is read-only, so keep any scratch files in
             # the writable /tmp volume.
             - name: HOME

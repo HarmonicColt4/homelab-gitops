@@ -10,3 +10,6 @@ talos/clusters/*/configs
 terraform/**/.terraform/
 plans/
 .flux-preview/
+.opencode/
+.roo/
+.roomodes

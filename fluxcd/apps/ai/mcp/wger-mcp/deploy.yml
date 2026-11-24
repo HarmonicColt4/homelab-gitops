@@ -1,0 +1,107 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wger-mcp
+  labels:
+    app: wger-mcp
+spec:
+  replicas: 1
+  # Stateless, but a single replica keeps one MCP session store and avoids
+  # duplicate streamable-http sessions behind the Service.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: wger-mcp
+  template:
+    metadata:
+      labels:
+        app: wger-mcp
+    spec:
+      # amd64 workers only: the arm64 control plane (rpi5) is tainted
+      # NoSchedule already, this just keeps the workload off any future
+      # arm64 node as well.
+      nodeSelector:
+        kubernetes.io/arch: amd64
+      # The server never talks to the Kubernetes API.
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: wger-mcp
+          # Renovate tracks this tag (kubernetes manager, deploy.yml).
+          image: ghcr.io/wger-project/mcp-server:2.7.1
+          imagePullPolicy: IfNotPresent
+          # The image's CMD already serves Streamable HTTP on
+          # 0.0.0.0:8765/mcp (--transport is pinned in the Dockerfile), so
+          # no entrypoint override is needed.
+          env:
+            # Single-user deployment against the free hosted instance
+            # (wger.de): MCP_STATIC_TOKEN gates /mcp, and every call acts
+            # as the wger.de account behind WGER_API_KEY. No IdP involved.
+            - name: MCP_AUTH
+              value: static_token
+            - name: WGER_BASE_URL
+              value: https://wger.de
+            # DNS-rebinding protection: only the in-cluster Service hostname
+            # is accepted in the Host header.
+            - name: ALLOWED_HOSTS
+              value: wger-mcp.ai.svc.cluster.local
+            # The root filesystem is read-only, so keep any scratch files in
+            # the writable /tmp volume.
+            - name: HOME
+              value: /tmp
+          # WGER_API_KEY (wger.de account key, acts like a password) and
+          # MCP_STATIC_TOKEN (shared bearer, >= 32 chars) are SOPS
+          # encrypted in secrets/enc.env.
+          envFrom:
+            - secretRef:
+                name: wger-mcp-config
+          ports:
+            - name: http
+              containerPort: 8765
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+          # /health answers a plain GET (the image's own HEALTHCHECK uses it),
+          # so the probes are real HTTP checks.
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 5
+            failureThreshold: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 30
+            failureThreshold: 3
+      volumes:
+        - name: tmp
+          emptyDir:
+            sizeLimit: 64Mi

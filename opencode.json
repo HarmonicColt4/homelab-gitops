@@ -12,11 +12,7 @@
       },
       "talos": {
         "type": "local",
-        "command": ["npx", "-y", "talos-mcp"],
-        "environment": {
-          "TALOS_MCP_ENABLE_INSECURE": "true",
-          "TALOS_MCP_INSECURE_ALLOWED_NODES": "10.25.25.0/24"
-        }
+        "command": ["npx", "-y", "talos-mcp"]
       }
     }
   }

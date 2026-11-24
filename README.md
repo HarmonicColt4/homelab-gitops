@@ -17,7 +17,7 @@ Cluster `teamg`: control plane `rpi5`, workers `hedy` and `beast`, endpoint
 | -------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | [`fluxcd/`](fluxcd)              | Flux GitOps configuration: `apps`, `infrastructure` (controllers, configs, iam, monitoring), `cluster`. |
 | [`talos/`](talos)                | Talos machine configuration for the `home` cluster (extensions, patches, secrets).                      |
-| [`terraform/`](terraform)        | Proxmox VM, Talos schematic and node modules, plus the `talos-clusters/home` root module.               |
+| [`terraform/`](terraform)        | Talos schematic and node modules, plus the `talos-clusters/home` root module. Proxmox is no longer used; `beast` is bare metal. |
 | [`docs/`](docs)                  | Per-application operational guides.                                                                     |
 | [`.gitea/`](.gitea)              | Gitea Actions workflow and composite action for the container-image upgrade PRs.                        |
 | [`renovate.json`](renovate.json) | Renovate configuration covering both Flux and Talos dependencies.                                       |
@@ -40,9 +40,10 @@ Cluster `teamg`: control plane `rpi5`, workers `hedy` and `beast`, endpoint
 
 | Group                                  | Contents                                                                         |
 | -------------------------------------- | -------------------------------------------------------------------------------- |
-| [`ai`](fluxcd/apps/ai)                 | `llama.cpp`, `whisper`, `hermes-agent`, `linkedin-mcp`, `mealie-mcp`, `searxng`, `wger-mcp`. |
+| [`ai`](fluxcd/apps/ai)                 | `llama.cpp`, `whisper`, `hermes-agent`, `searxng`, and MCP servers `actual-mcp`, `gitea-mcp`, `kubernetes-mcp`, `linkedin-mcp`, `mealie-mcp`, `paperless-mcp`, `wger-mcp`. |
 | [`comms`](fluxcd/apps/comms)           | `waha` (WhatsApp HTTP API, linked device).                                       |
 | `mealie`                               | Mealie recipe manager.                                                           |
+| [`razzia`](fluxcd/apps/razzia)         | Present in the repo but not listed in `fluxcd/apps/kustomization.yml`, so Flux does not reconcile it. |
 | `truenas-auto-update`                  | Scheduled TrueNAS updater, per-host overlays.                                    |
 | `unifi-os-server`                      | UniFi OS Server.                                                                 |
 | [`truecharts`](fluxcd/apps/truecharts) | TrueCharts HelmReleases (`global-values` plus `<app>-values`).                   |
@@ -82,7 +83,11 @@ kubectl apply --dry-run=client -f /tmp/out.yml
 
 - Both projects retain their original commit history (imported with `git subtree`).
 - [`talos/clusters/home/README.md`](talos/clusters/home/README.md) documents the
-  manual `talosctl` patch workflow; [`terraform/`](terraform) drives the same
-  cluster from Proxmox. Keep the two in sync when node configuration changes.
+  manual `talosctl` patch workflow used for every node. `beast` is bare metal,
+  installed via its `UnattendedInstallConfig` and the Talos metal installer.
+  [`terraform/`](terraform) still contains the legacy Proxmox VM provisioning
+  (module and root module wiring); Proxmox is no longer in use. Keep the patch
+  files and any Terraform node configuration in sync when node configuration
+  changes.
 - `.flux-preview/` is gitignored and holds branch-tracking preview
   `GitRepository`/`Kustomization` objects.

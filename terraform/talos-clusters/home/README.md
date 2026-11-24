@@ -2,6 +2,13 @@
 
 Terraform root module that provisions the Talos Linux VM for the `home` cluster on Proxmox VE.
 
+> **Legacy:** Proxmox VE is no longer in use. `beast` runs Talos Linux bare metal and is
+> installed/applied with the manual `talosctl` workflow in
+> [`talos/clusters/home/README.md`](../../../talos/clusters/home/README.md). This root module and
+> [`modules/proxmox/vm`](../../modules/proxmox/vm) are kept for reference only; the
+> [`modules/talos/node`](../../modules/talos/node) module still applies machine config to any node
+> address.
+
 ## Prerequisites
 
 - Terraform `1.17.2`

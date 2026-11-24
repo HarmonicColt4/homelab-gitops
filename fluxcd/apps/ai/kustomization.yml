@@ -9,6 +9,7 @@ resources:
   - mcp/kubernetes-mcp
   - mcp/linkedin-mcp
   - mcp/mealie-mcp
+  - mcp/wger-mcp
   - searxng
   - whisper
   - hermes-agent

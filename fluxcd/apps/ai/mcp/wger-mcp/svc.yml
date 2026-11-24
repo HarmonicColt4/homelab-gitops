@@ -1,0 +1,20 @@
+---
+# Cluster-internal only: MCP_AUTH=static_token with the shared bearer token,
+# and only in-cluster clients (hermes-agent) are expected to connect, so
+# there is deliberately no IngressRoute.
+# Consumers inside the cluster use:
+#   http://wger-mcp.ai.svc.cluster.local:8765/mcp
+#   Authorization: Bearer <MCP_STATIC_TOKEN>
+apiVersion: v1
+kind: Service
+metadata:
+  name: wger-mcp
+spec:
+  type: ClusterIP
+  selector:
+    app: wger-mcp
+  ports:
+    - name: http
+      port: 8765
+      targetPort: http
+      protocol: TCP

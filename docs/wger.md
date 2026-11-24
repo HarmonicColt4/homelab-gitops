@@ -32,12 +32,15 @@ sops -d fluxcd/apps/ai/mcp/wger-mcp/secrets/enc.env \
   | sops --encrypt > fluxcd/apps/ai/mcp/wger-mcp/secrets/enc.env
 ```
 
-## Wiring hermes
+## Hermes
 
-Point the MCP client at `http://wger-mcp.ai.svc.cluster.local:8765/mcp` with
-header `Authorization: Bearer <MCP_STATIC_TOKEN>`. Every call acts as the
-single wger.de account behind `WGER_API_KEY` — rotate the key in wger.de and
-re-encrypt the file if you suspect a leak.
+Already wired in `fluxcd/apps/ai/hermes-agent/config.yml` as
+`mcp_servers.wger` (`http://wger-mcp.ai.svc.cluster.local:8765/mcp`). The bearer
+is held in the gateway's SOPS secret as `WGER_MCP_TOKEN` and expanded from the
+process environment, so no credential is stored in Git. Every call acts as the
+single wger.de account behind `WGER_API_KEY`. If the token or key is rotated,
+update **both** `fluxcd/apps/ai/mcp/wger-mcp/secrets/enc.env` and
+`fluxcd/apps/ai/hermes-agent/secrets/enc.env` — they must stay in sync.
 
 ## Notes
 

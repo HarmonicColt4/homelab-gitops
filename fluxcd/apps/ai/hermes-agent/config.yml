@@ -79,3 +79,13 @@ mcp_servers:
     enabled: true
     headers:
       Authorization: Bearer ${ACTUAL_MCP_TOKEN}
+  wger:
+    # ClusterIP only: the server holds the wger.de account API key, so it is
+    # not exposed through Traefik. MCP_AUTH=static_token means every call
+    # from here acts as the one wger.de account behind that key. The bearer
+    # is sealed in secrets/enc.env as WGER_MCP_TOKEN and expanded by the
+    # managed overlay; it must equal MCP_STATIC_TOKEN in the wger-mcp secret.
+    url: http://wger-mcp.ai.svc.cluster.local:8765/mcp
+    enabled: true
+    headers:
+      Authorization: Bearer ${WGER_MCP_TOKEN}

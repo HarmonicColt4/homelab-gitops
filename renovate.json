@@ -75,13 +75,17 @@
       "automerge": false
     },
     {
-      "description": "Talos Linux upgrades reboot nodes; require manual review and wait 2 weeks after release",
+      "description": "Talos upgrades reboot nodes: manual review, 14-day wait, one PR per node, one open at a time (limit is repo-wide)",
       "matchDepNames": [
         "siderolabs/talos",
         "ghcr.io/yama6a/talos-raspberry-pi5"
       ],
       "automerge": false,
-      "minimumReleaseAge": "14 days"
+      "minimumReleaseAge": "14 days",
+      "prConcurrentLimit": 1,
+      "additionalBranchPrefix": "talos-{{{replace '^.*/(.*)\\.yml$' '$1' packageFile}}}-",
+      "semanticCommitScope": "talos/{{{replace '^.*/(.*)\\.yml$' '$1' packageFile}}}",
+      "commitMessageTopic": "Talos Linux"
     },
     {
       "description": "SearXNG publishes date-based tags (YYYY.M.DD-<sha>); use regex versioning so Renovate can order them",

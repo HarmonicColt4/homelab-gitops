@@ -2,6 +2,14 @@
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
     "servers": {
+      "gitea": {
+        "type": "remote",
+        "url": "https://gitea-mcp.teamg.app/mcp"
+      },
+      "kubernetes": {
+        "type": "remote",
+        "url": "https://k8s-mcp.teamg.app/mcp"
+      },
       "talos": {
         "type": "local",
         "command": ["npx", "-y", "talos-mcp"],

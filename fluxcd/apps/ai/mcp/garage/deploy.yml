@@ -1,0 +1,103 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: garage-mcp
+  labels:
+    app: garage-mcp
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  # Stateless, but a single replica keeps one MCP session store behind the
+  # Service, matching the other MCP deployments in this namespace.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: garage-mcp
+  template:
+    metadata:
+      labels:
+        app: garage-mcp
+    spec:
+      # The server never talks to the Kubernetes API.
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: garage-mcp
+          # Renovate tracks this tag (kubernetes manager, deploy.yml).
+          image: ghcr.io/halmsascha/garage-admin-mcp:1.0.0
+          imagePullPolicy: IfNotPresent
+          env:
+            # Non-secret config lives in Git; only the Garage admin token is
+            # SOPS encrypted (see secrets/enc.env). The Admin API is on a
+            # different TrueNAS host port than the S3 API (30190 vs 30188).
+            - name: GARAGE_ADMIN_URL
+              value: http://truenas.home.arpa:30190
+            # Read and write tools are registered. The token's Garage-side
+            # scopes must independently allow them for this to be useful.
+            - name: GARAGE_ADMIN_READ_ONLY
+              value: "false"
+            - name: GARAGE_ADMIN_HTTP_HOST
+              value: 0.0.0.0
+            - name: GARAGE_ADMIN_HTTP_PORT
+              value: "8000"
+            - name: TZ
+              value: Pacific/Auckland
+            # The root filesystem is read-only, so keep bytecode and library
+            # scratch files in the writable /tmp emptyDir.
+            - name: HOME
+              value: /tmp
+            - name: PYTHONDONTWRITEBYTECODE
+              value: "1"
+          envFrom:
+            - secretRef:
+                name: garage-mcp-secret
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+          # Upstream serves a real plain-text /healthz, so an HTTP probe is
+          # enough (unlike FastMCP servers that only answer on /mcp).
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 5
+            failureThreshold: 30
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 30
+            failureThreshold: 3
+      volumes:
+        - name: tmp
+          emptyDir:
+            sizeLimit: 64Mi

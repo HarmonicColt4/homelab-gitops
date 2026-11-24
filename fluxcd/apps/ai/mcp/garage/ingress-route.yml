@@ -1,0 +1,20 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: garage-mcp
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`garage-mcp.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      # The upstream server has no client authentication of its own. Traefik
+      # supplies it at the edge; do not remove this middleware.
+      middlewares:
+        - name: garage-mcp-auth
+      services:
+        # TLS uses the default TLSStore certificate (teamg-app-tls, wildcard
+        # *.teamg.app), so no tls block is needed.
+        - name: garage-mcp
+          port: 8000

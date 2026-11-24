@@ -5,6 +5,7 @@ resources:
   - namespace.yml
   - llama.cpp
   - mcp/actual-mcp
+  - mcp/garage
   - mcp/gitea-mcp
   - mcp/kubernetes-mcp
   - mcp/linkedin-mcp

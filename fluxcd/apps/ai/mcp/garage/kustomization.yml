@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: ai
+
+resources:
+  - deploy.yml
+  - svc.yml
+  - ingress-route.yml
+  - middleware.yml
+  - secrets/basic-auth.enc.yml
+
+# The scoped Garage admin token used for every Admin API request.
+secretGenerator:
+  - name: garage-mcp-secret
+    envs:
+      - secrets/enc.env

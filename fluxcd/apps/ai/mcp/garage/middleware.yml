@@ -1,0 +1,13 @@
+---
+# The server has no built-in client authentication: anyone reaching /mcp could
+# otherwise drive the Garage admin API with the pod's read+write token. The
+# BasicAuth middleware is the only control on the public route.
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: garage-mcp-auth
+spec:
+  basicAuth:
+    # Secret is generated from secrets/basic-auth.enc.yml in this directory.
+    # Traefik requires the key to be named exactly "users".
+    secret: garage-mcp-basic-auth

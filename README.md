@@ -40,7 +40,7 @@ Cluster `teamg`: control plane `rpi5`, workers `hedy` and `beast`, endpoint
 
 | Group                                  | Contents                                                                         |
 | -------------------------------------- | -------------------------------------------------------------------------------- |
-| [`ai`](fluxcd/apps/ai)                 | `llama.cpp`, `whisper`, `hermes-agent`, `searxng`, and MCP servers `actual-mcp`, `gitea-mcp`, `kubernetes-mcp`, `linkedin-mcp`, `mealie-mcp`, `paperless-mcp`, `wger-mcp`. |
+| [`ai`](fluxcd/apps/ai)                 | `llama.cpp`, `whisper`, `hermes-agent`, `searxng`, and MCP servers `actual-mcp`, `garage-mcp`, `gitea-mcp`, `kubernetes-mcp`, `linkedin-mcp`, `mealie-mcp`, `paperless-mcp`, `wger-mcp`. |
 | [`comms`](fluxcd/apps/comms)           | `waha` (WhatsApp HTTP API, linked device).                                       |
 | `mealie`                               | Mealie recipe manager.                                                           |
 | [`razzia`](fluxcd/apps/razzia)         | Present in the repo but not listed in `fluxcd/apps/kustomization.yml`, so Flux does not reconcile it. |
@@ -49,6 +49,7 @@ Cluster `teamg`: control plane `rpi5`, workers `hedy` and `beast`, endpoint
 | [`truecharts`](fluxcd/apps/truecharts) | TrueCharts HelmReleases (`global-values` plus `<app>-values`).                   |
 
 Application guides live in [`docs/`](docs):
+[`garage-mcp.md`](docs/garage-mcp.md),
 [`hermes-agent.md`](docs/hermes-agent.md),
 [`linkedin-mcp.md`](docs/linkedin-mcp.md),
 [`llama.cpp.md`](docs/llama.cpp.md),

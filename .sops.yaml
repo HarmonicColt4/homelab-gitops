@@ -181,6 +181,20 @@ creation_rules:
     age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
     mac_only_encrypted: true
 
+  # Garage Admin MCP - encrypt the Garage admin token in the env file
+  - path_regex: ^fluxcd/apps/ai/mcp/garage/secrets/.*\.env$
+    encrypted_regex: GARAGE_ADMIN_TOKEN
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
+  # Garage Admin MCP - encrypt the Traefik BasicAuth users hash. A Secret
+  # manifest is used instead of secretGenerator because Traefik requires the
+  # key to be named exactly "users".
+  - path_regex: ^fluxcd/apps/ai/mcp/garage/secrets/basic-auth\.enc\.yml$
+    encrypted_regex: ^users$
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
   # Actual MCP - encrypt the Actual server password, the budget sync ID and the
   # HTTP bearer token in the env file
   - path_regex: ^fluxcd/apps/ai/mcp/actual-mcp/secrets/.*\.env$

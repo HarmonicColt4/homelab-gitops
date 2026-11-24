@@ -1,0 +1,112 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paperless-mcp
+  labels:
+    app: paperless-mcp
+spec:
+  replicas: 1
+  # HTTP mode keeps MCP sessions in one process; a single replica avoids
+  # duplicate session stores behind the Service.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: paperless-mcp
+  template:
+    metadata:
+      labels:
+        app: paperless-mcp
+    spec:
+      # The server never talks to the Kubernetes API.
+      automountServiceAccountToken: false
+      # The image entrypoint only chowns /data when running as root. Running as
+      # the image's node user directly avoids needing that privilege; /data and
+      # /tmp are writable emptyDirs.
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: paperless-mcp
+          # Renovate tracks this tag (kubernetes manager, deploy.yml).
+          image: ghcr.io/orellbuehler/paperless-mcp:1.8.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: Pacific/Auckland
+            # Explicit rather than relying on the image default. HTTP mode is
+            # the transport used by the Service and IngressRoute.
+            - name: MCP_TRANSPORT
+              value: http
+            - name: PORT
+              value: "3001"
+            - name: PAPERLESS_URL
+              value: https://paperless.teamg.app
+            # ClusterIP only: no IngressRoute. Restrict the Host header to the
+            # in-cluster Service name used by Hermes (DNS-rebinding protection).
+            - name: MCP_ALLOWED_HOSTS
+              value: paperless-mcp.ai.svc.cluster.local
+            # Paperless 3.5 serves both v9 and v10; v9 is the server's default
+            # and keeps request shapes stable across Paperless upgrades.
+            - name: PAPERLESS_API_VERSION
+              value: "9"
+            - name: PAPERLESS_MCP_DATA
+              value: /data
+            # The root filesystem is read-only, so keep scratch files in /tmp.
+            - name: HOME
+              value: /tmp
+            # Semantic search is opt-in and needs an embedding provider.
+            - name: EMBEDDINGS_ENABLED
+              value: "false"
+          envFrom:
+            - secretRef:
+                name: paperless-mcp-secret
+          ports:
+            - name: http
+              containerPort: 3001
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: tmp
+              mountPath: /tmp
+          # No dedicated health endpoint, so a TCP probe confirms the HTTP
+          # listener is bound without sending MCP protocol headers.
+          startupProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 5
+            failureThreshold: 30
+          readinessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 30
+            failureThreshold: 3
+      volumes:
+        - name: data
+          emptyDir:
+            sizeLimit: 64Mi
+        - name: tmp
+          emptyDir:
+            sizeLimit: 64Mi

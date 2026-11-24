@@ -130,6 +130,15 @@ spec:
                 secretKeyRef:
                   name: hermes-agent-secret
                   key: WGER_MCP_TOKEN
+            # The Paperless MCP bearer token, referenced as
+            # ${PAPERLESS_MCP_TOKEN} by config.yml. Must match PAPERLESS_TOKEN
+            # in the paperless-mcp secret: the server verifies the caller's
+            # token against Paperless on every new MCP session.
+            - name: PAPERLESS_MCP_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-agent-secret
+                  key: PAPERLESS_MCP_TOKEN
           ports:
             - name: api
               containerPort: 8642

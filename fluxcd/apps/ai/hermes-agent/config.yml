@@ -89,3 +89,15 @@ mcp_servers:
     enabled: true
     headers:
       Authorization: Bearer ${WGER_MCP_TOKEN}
+  paperless:
+    # Paperless-ngx document archive. ClusterIP only by design: the server
+    # holds a Paperless API token (sealed in secrets/enc.env, SOPS), so it is
+    # not exposed through Traefik. The gateway connects over the in-cluster
+    # Service and sends the token as a bearer header; ${PAPERLESS_MCP_TOKEN}
+    # is expanded from the process environment at config load, so no secret
+    # is stored in Git. It must match PAPERLESS_TOKEN in the paperless-mcp
+    # secret, which is also the token the server uses to talk to Paperless.
+    url: http://paperless-mcp.ai.svc.cluster.local:3001/mcp
+    enabled: true
+    headers:
+      Authorization: Bearer ${PAPERLESS_MCP_TOKEN}

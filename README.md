@@ -51,6 +51,7 @@ Application guides live in [`docs/`](docs):
 [`hermes-agent.md`](docs/hermes-agent.md),
 [`linkedin-mcp.md`](docs/linkedin-mcp.md),
 [`llama.cpp.md`](docs/llama.cpp.md),
+[`paperless-ngx.md`](docs/paperless-ngx.md),
 [`searxng.md`](docs/searxng.md),
 [`waha.md`](docs/waha.md),
 [`whisper.md`](docs/whisper.md),

@@ -35,20 +35,30 @@ gets a CUDA OOM.
 
 The budget that keeps them apart:
 
-| Component                                            | MiB     |
-| ---------------------------------------------------- | ------- |
-| llama.cpp Gemma 4 12B Q4_K_M @ 131072, expected peak | ~12,275 |
-| Whisper large-v3 int8_float16, expected resident     | ~2,970  |
-| Remaining margin                                     | ~1,131  |
+| Component                                              | MiB     |
+| ------------------------------------------------------ | ------- |
+| llama.cpp Gemma 4 12B Q4_K_M @ 131072, expected peak   | ~12,275 |
+| llama.cpp bge-m3 Q8_0 embedding, full GPU              | ~933    |
+| Whisper large-v3 int8_float16, expected resident       | ~2,970  |
+| Remaining margin                                       | ~198    |
 
 llama.cpp was downshifted from Q6_K @ 262144 (measured peak 15,713 MiB) to
 Q4_K_M @ 131072 for this. The arithmetic and the TODO for re-measurement live
-in [`models-preset.ini`](../fluxcd/apps/ai/llama.cpp/models-preset.ini).
+in [`models-preset.ini`](../fluxcd/apps/ai/llama.cpp/models-preset.ini). The
+embedding model is required by Paperless-ngx; its preset and pooling setup are
+in [`llama.cpp.md`](llama.cpp.md).
 
-The risk is real: a long llama.cpp prefill and a Whisper transcription at the
-same time can exceed the card even inside this budget, because neither process
-knows the other's allocation. If that happens, the OOM kills whichever process
-allocates last. The mitigation is the margin, not the scheduler.
+That 198 MiB row is the conservative arithmetic. On 2026-11-25 the card
+reported 2,602 MiB free with Gemma loaded and a CPU-only bge-m3 test instance
+resident; moving that instance to the Q8_0 weights adds roughly 605 MiB, so the
+practical peak margin is closer to 0.6 GiB. Treat 0.2–0.6 GiB as the real range;
+it can approach zero once driver and compute overheads are counted.
+
+The risk is real: a long llama.cpp prefill, a Whisper transcription and an
+embedding request at the same time can exceed the card even inside this budget,
+because neither process knows the other's allocation. If that happens, the OOM
+kills whichever process allocates last. The mitigation is the margin, not the
+scheduler.
 
 ## Model installation and cold starts
 

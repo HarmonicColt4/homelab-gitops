@@ -50,7 +50,7 @@ any of the three.
    (`openrouter/deepseek/deepseek-v4.1-flash-1017`), so the pod needs
    `OPENROUTER_API_KEY` in `/opt/data/.env` on the PVC — the managed config in
    [`config.yml`](../fluxcd/apps/ai/hermes-agent/config.yml) carries no key. The
-   llama.cpp Service (`llama-cpp:8080`) and its `gemma4-12b-q6` preset alias are
+   llama.cpp Service (`llama-cpp:8080`) and its `gemma4-12b-mtp` preset are
    still what a session gets when it is switched back to the local model.
 
 3. **Accept the terminal warning.** Hermes logs that `terminal.backend: local`
@@ -185,12 +185,13 @@ model:
 - The local llama.cpp preset is still wired: `provider: custom`,
   `base_url: http://llama-cpp.ai.svc.cluster.local:8080/v1` with the
   `sk-no-key-required` placeholder (llama.cpp ignores the `Authorization`
-  header) and default `gemma4-12b-q6`. Override it per session instead of
+  header) and default `gemma4-12b-mtp`. Override it per session instead of
   editing Git, or make it the default again by restoring those four keys.
-  `gemma4-12b-q6` is the `load-on-startup = 1` preset in
+  `gemma4-12b-mtp` is a `load-on-startup = 1` preset in
   [`models-preset.ini`](../fluxcd/apps/ai/llama.cpp/models-preset.ini); llama.cpp
-  runs `--models-max 1`, so asking for a different model swaps an 11-13 GB GGUF
-  and can take a minute or more.
+  runs `--models-max 2`, so Gemma and the `bge-m3` embedder stay resident.
+  Asking for a third model would swap an 11-13 GB GGUF and can take a minute or
+  more.
 - `terminal.backend: local` because the docker backend cannot work on containerd
   (there is no Docker socket). The agent runs commands directly in its own
   container.
@@ -546,7 +547,7 @@ An untested backup is a hypothesis. Run this drill after any storage change:
 | Pod `Ready` but the agent does not answer                           | s6 keeps PID 1 alive when the gateway dies, so a listener check is not enough. `curl .../health` and `kubectl -n ai logs deploy/hermes-agent`.                                                                                                                                                                                                   |
 | Dashboard shows a fail-closed or auth error                         | `dashboard.trusted_proxies` must contain the pod CIDR (`10.244.0.0/16`), and `HERMES_DASHBOARD_OIDC_CLIENT_ID` must match a client registered in Pocket-ID.                                                                                                                                                                                      |
 | OIDC redirects to `http://` instead of `https://`                   | `dashboard.public_url` must be `https://hermes.teamg.app`; the callback is built from it.                                                                                                                                                                                                                                                        |
-| First request hangs for minutes                                     | llama.cpp runs `--models-max 1`; a cold or swapped model reloads an 11-13 GB GGUF.                                                                                                                                                                                                          |
+| First request hangs for minutes                                     | llama.cpp runs `--models-max 2`; a cold or third-model swap reloads an 11-13 GB GGUF.                                                                                                                                                                                                       |
 | `nous` provider warnings, or calls go to the wrong endpoint         | The managed config is not mounted. Check the `subPath` mount at `/etc/hermes/config.yaml` and that the ConfigMap key is `config.yaml`.                                                                                                                                                                                                           |
 | `config.yaml has a formatting error` and saved settings are ignored | `/opt/data/config.yaml` is the image's 2,000+ line default template. An interrupted `hermes config edit` can leave a stray fragment (seen: a bare `{}` at line 54) that terminates the `model:` block and poisons the merge. Back it up, fix the offending lines, then `hermes config check` must print `Config version: N ✓` before restarting. |
 | `/v1/models` lists only `hermes-agent`                              | Expected: Hermes _is_ the OpenAI-compatible server, so it advertises itself. Upstream wiring is proven by a completion (`POST /v1/chat/completions`), not by the model list.                                                                                                                                                                     |

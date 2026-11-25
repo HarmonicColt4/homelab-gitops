@@ -25,7 +25,7 @@ name: net0.25
 apiVersion: v1alpha1
 kind: UnattendedInstallConfig
 installer:
-  image: factory.talos.dev/metal-installer/e6a68146e08bac983d34c6a621626ace2a768d6d5132e052dd3f5013d15d0b64:v1.14.2
+  image: factory.talos.dev/metal-installer/e6a68146e08bac983d34c6a621626ace2a768d6d5132e052dd3f5013d15d0b64:v1.14.6
 provisioning:
   diskSelector:
     match: disk.wwid == "eui.000000000000000100a075202879d5aa"

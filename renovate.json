@@ -75,14 +75,13 @@
       "automerge": false
     },
     {
-      "description": "Talos upgrades reboot nodes: manual review, 14-day wait, one PR per node, one open at a time (limit is repo-wide)",
+      "description": "Talos upgrades reboot nodes: manual review, 14-day wait, one PR per node. One node at a time is enforced by the upgrade workflow, not by prConcurrentLimit (Renovate checks that limit against a repo-wide open-PR count)",
       "matchDepNames": [
         "siderolabs/talos",
         "ghcr.io/yama6a/talos-raspberry-pi5"
       ],
       "automerge": false,
       "minimumReleaseAge": "14 days",
-      "prConcurrentLimit": 1,
       "additionalBranchPrefix": "talos-{{{replace '^.*/(.*)\\.yml$' '$1' packageFile}}}-",
       "semanticCommitScope": "talos/{{{replace '^.*/(.*)\\.yml$' '$1' packageFile}}}",
       "commitMessageTopic": "Talos Linux"

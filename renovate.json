@@ -45,6 +45,123 @@
       "datasourceTemplate": "github-releases",
       "depNameTemplate": "hashicorp/terraform",
       "versioningTemplate": "hashicorp"
+    },
+    {
+      "customType": "regex",
+      "description": "OpenCloud web extension: arcade (tags are arcade-<semver>)",
+      "managerFilePatterns": [
+        "/^fluxcd/apps/opencloud/deploy\\.yml$/"
+      ],
+      "matchStrings": [
+        "opencloudeu/web-extensions:(?<currentValue>arcade-\\d+\\.\\d+\\.\\d+)"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "opencloudeu/web-extensions",
+      "versioningTemplate": "regex:^arcade-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
+    },
+    {
+      "customType": "regex",
+      "description": "OpenCloud web extension: cast (tags are cast-<semver>)",
+      "managerFilePatterns": [
+        "/^fluxcd/apps/opencloud/deploy\\.yml$/"
+      ],
+      "matchStrings": [
+        "opencloudeu/web-extensions:(?<currentValue>cast-\\d+\\.\\d+\\.\\d+)"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "opencloudeu/web-extensions",
+      "versioningTemplate": "regex:^cast-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
+    },
+    {
+      "customType": "regex",
+      "description": "OpenCloud web extension: draw-io (tags are draw-io-<semver>)",
+      "managerFilePatterns": [
+        "/^fluxcd/apps/opencloud/deploy\\.yml$/"
+      ],
+      "matchStrings": [
+        "opencloudeu/web-extensions:(?<currentValue>draw-io-\\d+\\.\\d+\\.\\d+)"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "opencloudeu/web-extensions",
+      "versioningTemplate": "regex:^draw-io-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
+    },
+    {
+      "customType": "regex",
+      "description": "OpenCloud web extension: external-sites (tags are external-sites-<semver>)",
+      "managerFilePatterns": [
+        "/^fluxcd/apps/opencloud/deploy\\.yml$/"
+      ],
+      "matchStrings": [
+        "opencloudeu/web-extensions:(?<currentValue>external-sites-\\d+\\.\\d+\\.\\d+)"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "opencloudeu/web-extensions",
+      "versioningTemplate": "regex:^external-sites-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
+    },
+    {
+      "customType": "regex",
+      "description": "OpenCloud web extension: importer (tags are importer-<semver>)",
+      "managerFilePatterns": [
+        "/^fluxcd/apps/opencloud/deploy\\.yml$/"
+      ],
+      "matchStrings": [
+        "opencloudeu/web-extensions:(?<currentValue>importer-\\d+\\.\\d+\\.\\d+)"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "opencloudeu/web-extensions",
+      "versioningTemplate": "regex:^importer-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
+    },
+    {
+      "customType": "regex",
+      "description": "OpenCloud web extension: json-viewer (tags are json-viewer-<semver>)",
+      "managerFilePatterns": [
+        "/^fluxcd/apps/opencloud/deploy\\.yml$/"
+      ],
+      "matchStrings": [
+        "opencloudeu/web-extensions:(?<currentValue>json-viewer-\\d+\\.\\d+\\.\\d+)"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "opencloudeu/web-extensions",
+      "versioningTemplate": "regex:^json-viewer-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
+    },
+    {
+      "customType": "regex",
+      "description": "OpenCloud web extension: maps (tags are maps-<semver>)",
+      "managerFilePatterns": [
+        "/^fluxcd/apps/opencloud/deploy\\.yml$/"
+      ],
+      "matchStrings": [
+        "opencloudeu/web-extensions:(?<currentValue>maps-\\d+\\.\\d+\\.\\d+)"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "opencloudeu/web-extensions",
+      "versioningTemplate": "regex:^maps-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
+    },
+    {
+      "customType": "regex",
+      "description": "OpenCloud web extension: progress-bars (tags are progress-bars-<semver>)",
+      "managerFilePatterns": [
+        "/^fluxcd/apps/opencloud/deploy\\.yml$/"
+      ],
+      "matchStrings": [
+        "opencloudeu/web-extensions:(?<currentValue>progress-bars-\\d+\\.\\d+\\.\\d+)"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "opencloudeu/web-extensions",
+      "versioningTemplate": "regex:^progress-bars-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
+    },
+    {
+      "customType": "regex",
+      "description": "OpenCloud web extension: unzip (tags are unzip-<semver>)",
+      "managerFilePatterns": [
+        "/^fluxcd/apps/opencloud/deploy\\.yml$/"
+      ],
+      "matchStrings": [
+        "opencloudeu/web-extensions:(?<currentValue>unzip-\\d+\\.\\d+\\.\\d+)"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "opencloudeu/web-extensions",
+      "versioningTemplate": "regex:^unzip-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
     }
   ],
   "rebaseWhen": "conflicted",
@@ -126,6 +243,38 @@
       "matchManagers": ["kubernetes"],
       "matchPackageNames": ["ghcr.io/anbeeld/beellama.cpp"],
       "versioning": "regex:^server-cuda13-v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$"
+    },
+    {
+      "description": "OpenCloud only starts once its Tika sidecar and every web extension init container have succeeded, so a bad tag is an outage; review these by hand",
+      "matchPackageNames": [
+        "opencloudeu/opencloud-rolling",
+        "docker.io/opencloudeu/opencloud-rolling",
+        "apache/tika",
+        "docker.io/apache/tika",
+        "opencloudeu/web-extensions"
+      ],
+      "automerge": false,
+      "minimumReleaseAge": "7 days",
+      "assignees": [
+        "gpenda"
+      ]
+    },
+    {
+      "description": "One deploy.yml entry per extension; keep their bumps in a single PR",
+      "matchPackageNames": [
+        "opencloudeu/web-extensions"
+      ],
+      "groupName": "OpenCloud web extensions"
+    },
+    {
+      "description": "Docker versioning cannot order the prefixed extension tags (arcade-3.0.0 vs cast-1.0.0); the custom.regex managers above handle them",
+      "matchManagers": [
+        "kubernetes"
+      ],
+      "matchPackageNames": [
+        "opencloudeu/web-extensions"
+      ],
+      "enabled": false
     }
   ],
   "major": {

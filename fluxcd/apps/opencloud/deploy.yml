@@ -1,0 +1,219 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opencloud
+  labels:
+    app: opencloud
+spec:
+  # Stays at 0 until the TrueNAS data has been copied onto the PVC
+  replicas: 0
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: opencloud
+  template:
+    metadata:
+      labels:
+        app: opencloud
+    spec:
+      securityContext:
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+      initContainers:
+        # /etc/opencloud is a Secret, but the app expects a writable directory
+        - name: config
+          image: opencloudeu/opencloud-rolling:9.2.0
+          command:
+            - /bin/sh
+            - -c
+            - cp -a /seed/. /etc/opencloud/ && chown -R 568:568 /etc/opencloud
+          volumeMounts:
+            - name: opencloud-config
+              mountPath: /seed
+              readOnly: true
+            - name: opencloud-etc
+              mountPath: /etc/opencloud
+        # Web extensions are copied from their release images so that a tag bump
+        # in this file is the only thing needed to update them
+        - name: extension-arcade
+          image: opencloudeu/web-extensions:arcade-3.0.0
+          command:
+            - /bin/sh
+            - -c
+            - mkdir -p /extensions/arcade && cp -R /usr/share/nginx/html/apps/arcade/. /extensions/arcade/
+          volumeMounts:
+            - name: extensions
+              mountPath: /extensions
+        - name: extension-cast
+          image: opencloudeu/web-extensions:cast-1.0.0
+          command:
+            - /bin/sh
+            - -c
+            - mkdir -p /extensions/cast && cp -R /usr/share/nginx/html/cast/. /extensions/cast/
+          volumeMounts:
+            - name: extensions
+              mountPath: /extensions
+        - name: extension-draw-io
+          image: opencloudeu/web-extensions:draw-io-2.2.1
+          command:
+            - /bin/sh
+            - -c
+            - mkdir -p /extensions/draw-io && cp -R /usr/share/nginx/html/apps/draw-io/. /extensions/draw-io/
+          volumeMounts:
+            - name: extensions
+              mountPath: /extensions
+        - name: extension-external-sites
+          image: opencloudeu/web-extensions:external-sites-2.2.0
+          command:
+            - /bin/sh
+            - -c
+            - mkdir -p /extensions/external-sites && cp -R /usr/share/nginx/html/apps/external-sites/. /extensions/external-sites/
+          volumeMounts:
+            - name: extensions
+              mountPath: /extensions
+        - name: extension-importer
+          image: opencloudeu/web-extensions:importer-2.0.2
+          command:
+            - /bin/sh
+            - -c
+            - mkdir -p /extensions/importer && cp -R /usr/share/nginx/html/apps/importer/. /extensions/importer/
+          volumeMounts:
+            - name: extensions
+              mountPath: /extensions
+        - name: extension-json-viewer
+          image: opencloudeu/web-extensions:json-viewer-2.1.0
+          command:
+            - /bin/sh
+            - -c
+            - mkdir -p /extensions/json-viewer && cp -R /usr/share/nginx/html/apps/json-viewer/. /extensions/json-viewer/
+          volumeMounts:
+            - name: extensions
+              mountPath: /extensions
+        - name: extension-maps
+          image: opencloudeu/web-extensions:maps-3.1.1
+          command:
+            - /bin/sh
+            - -c
+            - mkdir -p /extensions/maps && cp -R /usr/share/nginx/html/apps/maps/. /extensions/maps/
+          volumeMounts:
+            - name: extensions
+              mountPath: /extensions
+        - name: extension-progress-bars
+          image: opencloudeu/web-extensions:progress-bars-2.1.0
+          command:
+            - /bin/sh
+            - -c
+            - mkdir -p /extensions/progress-bars && cp -R /usr/share/nginx/html/apps/progress-bars/. /extensions/progress-bars/
+          volumeMounts:
+            - name: extensions
+              mountPath: /extensions
+        - name: extension-unzip
+          image: opencloudeu/web-extensions:unzip-2.2.3
+          command:
+            - /bin/sh
+            - -c
+            - mkdir -p /extensions/unzip && cp -R /usr/share/nginx/html/apps/unzip/. /extensions/unzip/
+          volumeMounts:
+            - name: extensions
+              mountPath: /extensions
+      containers:
+        - name: opencloud
+          image: opencloudeu/opencloud-rolling:9.2.0
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+          env:
+            - name: TZ
+              value: Pacific/Auckland
+            - name: OC_URL
+              value: https://cloud.teamg.app
+            - name: OC_INSECURE
+              value: "false"
+            - name: OC_CONFIG_DIR
+              value: /etc/opencloud
+            - name: OC_BASE_DATA_PATH
+              value: /var/lib/opencloud
+            # Traefik terminates TLS; the proxy speaks plain HTTP inside the cluster
+            - name: PROXY_TLS
+              value: "false"
+            - name: PROXY_HTTP_ADDR
+              value: ":9200"
+            - name: PROXY_CSP_CONFIG_FILE_LOCATION
+              value: /etc/opencloud/csp.yaml
+            - name: STORAGE_USERS_DRIVER
+              value: posix
+            - name: STORAGE_USERS_ID_CACHE_STORE
+              value: nats-js-kv
+            - name: OC_ADD_RUN_SERVICES
+              value: notifications
+            - name: WEB_ASSET_APPS_PATH
+              value: /opt/web-extensions
+            - name: FRONTEND_FULL_TEXT_SEARCH_ENABLED
+              value: "true"
+            - name: SEARCH_EXTRACTOR_TYPE
+              value: tika
+            - name: SEARCH_EXTRACTOR_TIKA_TIKA_URL
+              value: http://127.0.0.1:9998
+          ports:
+            - name: http
+              containerPort: 9200
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1Gi
+            limits:
+              cpu: 2000m
+              memory: 4Gi
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: 9200
+            periodSeconds: 10
+            failureThreshold: 60
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 9200
+            periodSeconds: 10
+            failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 9200
+            periodSeconds: 30
+            failureThreshold: 5
+          volumeMounts:
+            - name: opencloud-etc
+              mountPath: /etc/opencloud
+            - name: opencloud-data
+              mountPath: /var/lib/opencloud
+            - name: extensions
+              mountPath: /opt/web-extensions
+              readOnly: true
+        - name: tika
+          image: apache/tika:3.3.3.1-full
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+          ports:
+            - name: tika
+              containerPort: 9998
+              protocol: TCP
+      volumes:
+        - name: opencloud-config
+          secret:
+            secretName: opencloud-config
+        - name: opencloud-etc
+          emptyDir: {}
+        - name: extensions
+          emptyDir: {}
+        - name: opencloud-data
+          persistentVolumeClaim:
+            claimName: opencloud-data

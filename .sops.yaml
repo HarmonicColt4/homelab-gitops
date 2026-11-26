@@ -121,6 +121,10 @@ creation_rules:
     age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
     mac_only_encrypted: true
 
+  # OpenCloud - the whole /etc/opencloud config (opencloud.yaml, csp.yaml) is one Secret
+  - path_regex: ^fluxcd/apps/opencloud/secrets/.*\.yml$
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+
   # Mealie MCP - encrypt the Mealie API token in the env file
   - path_regex: ^fluxcd/apps/ai/mcp/mealie-mcp/secrets/.*\.env$
     encrypted_regex: API_TOKEN

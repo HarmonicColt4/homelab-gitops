@@ -1,0 +1,18 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: opencloud
+
+resources:
+  - namespace.yml
+  - deploy.yml
+  - service.yml
+  - storage.yml
+
+secretGenerator:
+  # Both files land in /etc/opencloud; the name hash rolls the pod on change
+  - name: opencloud-config
+    files:
+      - opencloud.yaml=secrets/opencloud.enc.yml
+      - csp.yaml=secrets/csp.enc.yml

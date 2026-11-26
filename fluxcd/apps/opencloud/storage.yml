@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: opencloud-data
+  annotations:
+    # Longhorn reclaims with Retain; keep the volume when Flux prunes the app
+    kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
+spec:
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 50Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce

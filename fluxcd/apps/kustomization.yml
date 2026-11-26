@@ -6,6 +6,7 @@ resources:
   - ai
   - comms
   - mealie
+  - opencloud
   - truenas-auto-update
   - unifi-os-server
 

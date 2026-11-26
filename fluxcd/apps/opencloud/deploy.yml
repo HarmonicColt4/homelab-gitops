@@ -178,6 +178,9 @@ spec:
               value: nats-js-kv
             - name: OC_ADD_RUN_SERVICES
               value: notifications
+            # must parse as a single RFC 5322 address or the server refuses to start
+            - name: NOTIFICATIONS_SMTP_SENDER
+              value: OpenCloud notifications <notifications@cloud.opencloud.test>
             - name: WEB_ASSET_APPS_PATH
               value: /opt/web-extensions
             - name: FRONTEND_FULL_TEXT_SEARCH_ENABLED

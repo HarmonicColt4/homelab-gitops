@@ -6,6 +6,7 @@ resources:
   - namespace.yml
   - helmrelease.yml
   - ingress-route.yml
+  - secrets/vaultwarden-db.enc.yml
 
 secretGenerator:
   - name: vaultwarden-values

@@ -1,5 +1,13 @@
 ---
 creation_rules:
+  # TrueCharts apps - vaultwarden values hold the admin token hash, the push
+  # installation key and the OIDC client secret, none of which the generic
+  # truecharts rule matches. Unanchored on purpose: it also covers
+  # `installationId`/`installationKey` and every `SSO_*` key.
+  - path_regex: ^fluxcd/apps/truecharts/vaultwarden/secrets/values\.enc\.yml$
+    encrypted_regex: (token|password|installation|SSO)
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+
   # TrueCharts apps - credentials for databases on the shared PostgreSQL cluster
   # (must precede the paperless-ngx and generic truecharts rules)
   - path_regex: ^fluxcd/apps/truecharts/(seerr|vaultwarden|paperless-ngx|home-assistant)/secrets/.*-db\.enc\.yml$

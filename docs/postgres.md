@@ -55,6 +55,37 @@ hand once the shared cluster's backups have been verified.
 Backup granularity is per cluster, not per database: a point-in-time restore
 rolls all four apps back together.
 
+## Migration history
+
+The four small apps were moved off their per-app clusters onto `shared-db` on
+2026-11-27, one app per PR, each as a `pg_dump -Fc` / `pg_restore` with the row
+counts of every table compared before and after:
+
+| App | Tables | Notes |
+| --- | ------ | ----- |
+| seerr | 15 | identical |
+| vaultwarden | 29 | identical |
+| paperless-ngx | 75 | identical |
+| home-assistant | 13 | `events` +1: a write landed between the baseline and the shutdown |
+
+`home-assistant` also dropped from 127 MB to ~41 MB, the rest from 17 MB to
+16 MB and the two small ones stayed put — the per-app clusters carried a lot of
+index bloat that the dump/restore reclaimed.
+
+The old backup chains are still in Garage and are the rollback path for each
+app until they are deleted:
+
+| App | Old chain |
+| --- | --------- |
+| seerr | `s3://seerr/seerr-cnpg-main/` |
+| vaultwarden | `s3://vaultwarden/vaultwarden-cnpg-main-r3/` |
+| paperless-ngx | `s3://paperless-ngx/paperless-ngx-cnpg-main/` |
+| home-assistant | `s3://home-assistant/home-assistant-cnpg-main/` |
+
+`vaultwarden` is the awkward one: the chart's revision scheme left `-r1`,
+`-r2` and `-r3` prefixes, and the bare `vaultwarden-cnpg-main/` is a stale
+2025 leftover. Only `-r3` holds the data from before the migration.
+
 ## Removing an app
 
 Deleting a CNPG `Cluster` **deletes its PVCs**. There is no retain option

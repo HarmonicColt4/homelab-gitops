@@ -55,6 +55,23 @@ hand once the shared cluster's backups have been verified.
 Backup granularity is per cluster, not per database: a point-in-time restore
 rolls all four apps back together.
 
+## Removing an app
+
+Deleting a CNPG `Cluster` **deletes its PVCs**. There is no retain option
+([cnpg#8442](https://github.com/cloudnative-pg/cloudnative-pg/issues/8442)), so
+the moment a migrated app's old `Cluster` is pruned, the only remaining copy of
+its data is the Barman chain in Garage (`s3://<app>/<cluster>/`). Keep that
+prefix until the app has been running on `shared-db` for a while; restoring
+from it is the rollback path.
+
+The Longhorn volumes behind those PVCs can survive as orphaned `detached`
+volumes and need deleting by hand:
+
+```sh
+kubectl -n longhorn-system get volumes.longhorn.io \
+  -o json | jq -r '.items[] | select(.status.kubernetesStatus.pvcName|test("<cluster>")) | .metadata.name'
+```
+
 ## Recovering
 
 `recovery/cluster.yml` restores the `shared-db` backup chain into a throwaway

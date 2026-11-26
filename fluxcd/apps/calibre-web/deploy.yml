@@ -1,0 +1,112 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calibre-web
+  labels:
+    app: calibre-web
+spec:
+  replicas: 1
+  # The config and ingest volumes are ReadWriteOnce, and a second pod cannot
+  # attach them while the first still holds the volumes.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: calibre-web
+  template:
+    metadata:
+      labels:
+        app: calibre-web
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        fsGroup: 568
+      # The entrypoint creates part of /config as root (notably
+      # processed_books), but the app below runs as PUID:PGID and cannot
+      # create subdirectories in a root-owned tree. Normalize ownership
+      # before every boot; on a warm volume this is a no-op chown of a small
+      # tree. Keep 568 in sync with PUID/PGID below.
+      initContainers:
+        - name: config-perms
+          # Same image and tag as the container below: no new dependency,
+          # and Renovate keeps both pins in sync.
+          image: ghcr.io/new-usemame/calibre-web-nextgen:v4.1.74
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - chown -R 568:568 /config
+          volumeMounts:
+            - name: config
+              mountPath: /config
+      containers:
+        - name: calibre-web
+          # Renovate tracks this tag (kubernetes manager, deploy.yml), and the
+          # Gitea upgrade-container-image workflow fires on this file.
+          image: ghcr.io/new-usemame/calibre-web-nextgen:v4.1.74
+          imagePullPolicy: IfNotPresent
+          # The image starts as root and drops to PUID:PGID itself, so no
+          # runAsUser here. 568 is the TrueNAS `apps` user, which owns the
+          # library files: any other uid is locked out of the 0755 directories
+          # and cannot write metadata.db.
+          env:
+            - name: TZ
+              value: Pacific/Auckland
+            - name: PUID
+              value: "568"
+            - name: PGID
+              value: "568"
+            # The library is on NFS: disables SQLite WAL mode (NFS does not
+            # support the shared memory it needs, so without this you get
+            # "database is locked"), skips the recursive startup chown, and
+            # switches the ingest watcher from inotify to polling.
+            - name: NETWORK_SHARE_MODE
+              value: "true"
+          ports:
+            - name: http
+              containerPort: 8083
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 10m
+              memory: 256Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: library
+              mountPath: /calibre-library
+            - name: ingest
+              mountPath: /cwa-book-ingest
+          # /health answers without auth and also fails when the library
+          # database or the ingest/metadata-change services are down.
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 10
+            failureThreshold: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 10
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: calibre-web-config
+        - name: library
+          nfs:
+            server: truenas.home.arpa
+            path: /mnt/media/books/library
+        - name: ingest
+          persistentVolumeClaim:
+            claimName: calibre-web-ingest

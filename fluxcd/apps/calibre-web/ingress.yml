@@ -1,0 +1,26 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: calibre-web
+spec:
+  selector:
+    app: calibre-web
+  ports:
+    - protocol: TCP
+      port: 8083
+      targetPort: 8083
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: calibre-web
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`books.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: calibre-web
+          port: 8083

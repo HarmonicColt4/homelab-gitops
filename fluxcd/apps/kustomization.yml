@@ -4,6 +4,7 @@ kind: Kustomization
 
 resources:
   - ai
+  - calibre-web
   - comms
   - mealie
   - opencloud

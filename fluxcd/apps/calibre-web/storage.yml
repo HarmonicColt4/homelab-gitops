@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: calibre-web-config
+  annotations:
+    # Longhorn reclaims with Retain; keep the volume when Flux prunes the app.
+    # This also makes Flux create-only for this object, so changing `storage`
+    # below does NOT resize it: patch the live PVC by hand (see docs/calibre-web.md).
+    kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
+spec:
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: calibre-web-ingest
+  annotations:
+    # Longhorn reclaims with Retain; keep the volume when Flux prunes the app.
+    # This also makes Flux create-only for this object, so changing `storage`
+    # below does NOT resize it: patch the live PVC by hand (see docs/calibre-web.md).
+    kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
+spec:
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce

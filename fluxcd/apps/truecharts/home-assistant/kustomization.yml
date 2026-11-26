@@ -7,6 +7,7 @@ resources:
   - helmrelease.yml
   - ingress-route.yml
   - net-attach-def.yml
+  - secrets/home-assistant-db.enc.yml
   - mosquitto
   - zigbee2mqtt
 

@@ -4,7 +4,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: opencloud-data
   annotations:
-    # Longhorn reclaims with Retain; keep the volume when Flux prunes the app
+    # Longhorn reclaims with Retain; keep the volume when Flux prunes the app.
+    # This also makes Flux create-only for this object, so changing `storage`
+    # below does NOT resize it: patch the live PVC by hand (see docs/opencloud.md).
     kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
 spec:
   storageClassName: longhorn

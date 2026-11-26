@@ -109,6 +109,20 @@ volume gets a snapshot every 30 minutes (96 retained) and a block backup to
 The PVC carries `kustomize.toolkit.fluxcd.io/ssa: IfNotPresent` so pruning the
 app does not delete the volume.
 
+### Resizing
+
+That same annotation makes Flux **create-only** for the PVC: editing
+`storage.yml` to a larger size changes nothing in the cluster. Expand by hand,
+then keep `storage.yml` in sync so the next reader sees the truth:
+
+```sh
+kubectl -n opencloud patch pvc opencloud-data --type=merge \
+  -p '{"spec":{"resources":{"requests":{"storage":"100Gi"}}}}'
+kubectl -n opencloud get pvc opencloud-data   # capacity follows online
+```
+
+Longhorn has `allowVolumeExpansion`, so this completes while the pod runs.
+
 ## Verifying
 
 ```sh

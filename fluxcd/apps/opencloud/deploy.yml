@@ -21,6 +21,31 @@ spec:
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
       initContainers:
+        # Tika is a sidecar init container (restartPolicy: Always): it starts
+        # before every other container and keeps running, and the app
+        # containers wait for its startup probe. That ordering matters because
+        # the search service probes /version at boot and terminates the whole
+        # process after 5 failed attempts.
+        - name: tika
+          image: apache/tika:3.4.0.0-full
+          restartPolicy: Always
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+          ports:
+            - name: tika
+              containerPort: 9998
+              protocol: TCP
+          startupProbe:
+            httpGet:
+              path: /version
+              port: 9998
+            periodSeconds: 3
+            failureThreshold: 40
         # /etc/opencloud is a Secret, but the app expects a writable directory
         - name: config
           image: opencloudeu/opencloud-rolling:9.2.0
@@ -226,19 +251,6 @@ spec:
             - name: extensions
               mountPath: /opt/web-extensions
               readOnly: true
-        - name: tika
-          image: apache/tika:3.4.0.0-full
-          resources:
-            requests:
-              cpu: 100m
-              memory: 256Mi
-            limits:
-              cpu: 1000m
-              memory: 1Gi
-          ports:
-            - name: tika
-              containerPort: 9998
-              protocol: TCP
       volumes:
         - name: opencloud-config
           secret:

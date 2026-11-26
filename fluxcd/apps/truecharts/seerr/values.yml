@@ -20,9 +20,9 @@ workload:
               secretKeyRef:
                 expandObjectName: false
                 name: seerr-db
-                key: plainhost
+                key: host
             DB_PASS:
               secretKeyRef:
                 expandObjectName: false
                 name: seerr-db
-                key: postgresql-password
+                key: password

@@ -6,8 +6,7 @@ metadata:
   labels:
     app: opencloud
 spec:
-  # Stays at 0 until the TrueNAS data has been copied onto the PVC
-  replicas: 0
+  replicas: 1
   strategy:
     type: Recreate
   selector:

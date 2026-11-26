@@ -49,7 +49,6 @@ dependencies:
     depconfig:
       password: ENC[AES256_GCM,data:OtGiF3LtEPldQV3Yww4wRe2tFG9mLY01xDbeg5+yTshzd9gg/nRfyK0S0DAbQWOSIAlTt7NQmOUdP1zQ3L9xsA==,iv:1/Q0jOJYDvt2/C7zerreXpIhcxpbN8AOo63iZjBWKgI=,tag:UsAIFE2uJnWXCnKwu0IHeg==,type:str]
     operator:
-      pgVersion: 16
       type: vectorchord
       mode: recovery
       backups:
@@ -99,7 +98,7 @@ sops:
         -----END AGE ENCRYPTED FILE-----
       recipient: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
   encrypted_regex: ^(password)$
-  lastmodified: "2026-11-26T10:06:34Z"
-  mac: ENC[AES256_GCM,data:tGVjlj6MhGludJifhlRnC++R6i6XLtu4JClGkvbqSHtpi7FgUEj/PwgUgVfPKUoza4GJeQtyytMHX6SE2ZJuArgKuHkmcr+xrPXyiMLPUlrR2NjQH65PqaBNkvadv2MuvOve+KMpyi4gGa7XWBV17hHL7lLAt/N2pasW3nmYwdM=,iv:ghjdqcGK9Ikq/S+10EagBZn6JnuAxmx+dxF78Z2G9cM=,tag:54JBu4JfLAVgsitE994yYg==,type:str]
+  lastmodified: "2026-11-26T17:29:41Z"
+  mac: ENC[AES256_GCM,data:lQt0Xv6yVb2HMlKoyGI6/vqpiR+67G6Sp5Z0laI1bRqJl2bROcxgNP+C2NM5bGTgGX0GBC4F05eVO24uu5mURUIxfVk5KnPl2+e4im5gnol79cPstZFqAkfUC8XNNrQiiObpP/qY0yQhpM0u5LS46lq26hpOzqSaTFJD6D19D8M=,iv:iYJEmJbR+C/uIG0+Fz8TBf/0h4zzLArD9XN55D7528w=,tag:Els1DgDjwIQCI5XEuGZ3jg==,type:str]
   mac_only_encrypted: true
   version: 3.13.3

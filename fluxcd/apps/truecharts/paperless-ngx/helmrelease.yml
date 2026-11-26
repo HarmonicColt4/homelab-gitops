@@ -30,4 +30,6 @@ spec:
     - kind: ConfigMap
       name: global-values
     - kind: Secret
+      name: cnpg-values
+    - kind: Secret
       name: paperless-ngx-values

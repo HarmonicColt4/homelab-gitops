@@ -6,15 +6,17 @@ credentials:
     type: s3
     url: http://truenas.home.arpa:30188
     bucket: home-assistant
-cnpg:
-  main:
-    backups:
-      enabled: true
-      credentials: garage
-      destinationPath: s3://home-assistant
-    recovery:      
-      credentials: garage
-      destinationPath: s3://home-assistant
+# common-2026: cnpg.main moved to dependencies.postgresql. pgVersion is pinned to
+# 16 so the cluster stays on its current major; drop it later to move to 18.
+dependencies:
+  postgresql:
+    enabled: true
+    operator:
+      pgVersion: 16
+      backups:
+        enabled: true
+        credentials: garage
+        destinationPath: s3://home-assistant
 workload:
   main:
     podSpec:

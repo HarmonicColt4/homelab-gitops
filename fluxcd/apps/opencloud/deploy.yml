@@ -24,10 +24,14 @@ spec:
         # /etc/opencloud is a Secret, but the app expects a writable directory
         - name: config
           image: opencloudeu/opencloud-rolling:9.2.0
+          # the image defaults to USER 1000; the copy needs to set ownership
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
           command:
             - /bin/sh
             - -c
-            - cp -a /seed/. /etc/opencloud/ && chown -R 568:568 /etc/opencloud
+            - cp -L /seed/*.yaml /etc/opencloud/ && chown -R 568:568 /etc/opencloud
           volumeMounts:
             - name: opencloud-config
               mountPath: /seed
@@ -42,6 +46,9 @@ spec:
             - /bin/sh
             - -c
             - mkdir -p /extensions/arcade && cp -R /usr/share/nginx/html/apps/arcade/. /extensions/arcade/
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
           volumeMounts:
             - name: extensions
               mountPath: /extensions
@@ -51,6 +58,9 @@ spec:
             - /bin/sh
             - -c
             - mkdir -p /extensions/cast && cp -R /usr/share/nginx/html/cast/. /extensions/cast/
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
           volumeMounts:
             - name: extensions
               mountPath: /extensions
@@ -60,6 +70,9 @@ spec:
             - /bin/sh
             - -c
             - mkdir -p /extensions/draw-io && cp -R /usr/share/nginx/html/apps/draw-io/. /extensions/draw-io/
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
           volumeMounts:
             - name: extensions
               mountPath: /extensions
@@ -69,6 +82,9 @@ spec:
             - /bin/sh
             - -c
             - mkdir -p /extensions/external-sites && cp -R /usr/share/nginx/html/apps/external-sites/. /extensions/external-sites/
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
           volumeMounts:
             - name: extensions
               mountPath: /extensions
@@ -78,6 +94,9 @@ spec:
             - /bin/sh
             - -c
             - mkdir -p /extensions/importer && cp -R /usr/share/nginx/html/apps/importer/. /extensions/importer/
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
           volumeMounts:
             - name: extensions
               mountPath: /extensions
@@ -87,6 +106,9 @@ spec:
             - /bin/sh
             - -c
             - mkdir -p /extensions/json-viewer && cp -R /usr/share/nginx/html/apps/json-viewer/. /extensions/json-viewer/
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
           volumeMounts:
             - name: extensions
               mountPath: /extensions
@@ -96,6 +118,9 @@ spec:
             - /bin/sh
             - -c
             - mkdir -p /extensions/maps && cp -R /usr/share/nginx/html/apps/maps/. /extensions/maps/
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
           volumeMounts:
             - name: extensions
               mountPath: /extensions
@@ -105,6 +130,9 @@ spec:
             - /bin/sh
             - -c
             - mkdir -p /extensions/progress-bars && cp -R /usr/share/nginx/html/apps/progress-bars/. /extensions/progress-bars/
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
           volumeMounts:
             - name: extensions
               mountPath: /extensions
@@ -114,6 +142,9 @@ spec:
             - /bin/sh
             - -c
             - mkdir -p /extensions/unzip && cp -R /usr/share/nginx/html/apps/unzip/. /extensions/unzip/
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
           volumeMounts:
             - name: extensions
               mountPath: /extensions

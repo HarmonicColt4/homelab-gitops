@@ -58,6 +58,7 @@ Application guides live in [`docs/`](docs):
 [`llama.cpp.md`](docs/llama.cpp.md),
 [`opencloud.md`](docs/opencloud.md),
 [`paperless-ngx.md`](docs/paperless-ngx.md),
+[`postgres.md`](docs/postgres.md),
 [`searxng.md`](docs/searxng.md),
 [`waha.md`](docs/waha.md),
 [`whisper.md`](docs/whisper.md),

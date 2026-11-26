@@ -1,5 +1,12 @@
 ---
 creation_rules:
+  # Shared PostgreSQL cluster - role passwords and Garage credentials
+  # (must precede the generic truecharts rule)
+  - path_regex: ^fluxcd/apps/truecharts/postgres/secrets/.*\.enc\.yml$
+    encrypted_regex: ^(data|stringData)$
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
   # TrueCharts apps - paperless-ngx secrets (must precede the generic truecharts rule)
   - path_regex: ^fluxcd/apps/truecharts/paperless-ngx/.*\.yml$
     encrypted_regex: ^ADMIN_PASSWORD$

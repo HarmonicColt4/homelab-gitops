@@ -1,0 +1,15 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# recovery/cluster.yml is intentionally NOT listed: it is a manual
+# disaster-recovery manifest, see docs/postgres.md.
+resources:
+  - namespace.yml
+  - cluster.yml
+  - roles.yml
+  - databases.yml
+  - objectstore.yml
+  - scheduledbackup.yml
+  - secrets/db-roles.enc.yml
+  - secrets/garage.enc.yml

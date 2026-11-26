@@ -48,6 +48,18 @@
     },
     {
       "customType": "regex",
+      "description": "Track the PostgreSQL image of the shared CNPG cluster (tags are <major>.<minor>-standard-trixie; the suffix is captured as compatibility so Renovate never switches to system/minimal)",
+      "managerFilePatterns": [
+        "/^fluxcd/apps/truecharts/postgres/(?:recovery/)?cluster\\.yml$/"
+      ],
+      "matchStrings": [
+        "imageName: (?<depName>ghcr\\.io/cloudnative-pg/postgresql):(?<currentValue>\\d+\\.\\d+-standard-trixie)@(?<currentDigest>sha256:[a-f0-9]+)"
+      ],
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)(?:\\.(?<patch>\\d+))?-(?<compatibility>.+)$"
+    },
+    {
+      "customType": "regex",
       "description": "OpenCloud web extension: arcade (tags are arcade-<semver>)",
       "managerFilePatterns": [
         "/^fluxcd/apps/opencloud/deploy\\.yml$/"
@@ -237,6 +249,16 @@
       "automerge": false,
       "minimumReleaseAge": "7 days",
       "assignees": ["gpenda"]
+    },
+    {
+      "description": "The shared CNPG cluster image bump restarts the database instances; review by hand and let the release age",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["ghcr.io/cloudnative-pg/postgresql"],
+      "automerge": false,
+      "minimumReleaseAge": "7 days",
+      "assignees": ["gpenda"],
+      "commitMessageTopic": "PostgreSQL (CNPG)",
+      "semanticCommitScope": "postgres"
     },
     {
       "description": "beellama.cpp tags are <backend>-vX.Y.Z (e.g. server-cuda13-v0.4.9); default docker versioning cannot parse the backend prefix, so scope candidates to the CUDA 13 backend",

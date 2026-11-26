@@ -12,6 +12,7 @@ resources:
   - home-assistant
   - immich
   - paperless-ngx
+  - postgres
   - seerr
   - prowlarr
   - profilarr

@@ -1,0 +1,63 @@
+---
+# MANUAL DISASTER-RECOVERY MANIFEST — NOT RECONCILED BY FLUX.
+# It is deliberately absent from kustomization.yml, so `kustomize build` never
+# emits it and Flux never applies it. See docs/postgres.md.
+#
+# Default use: verify the backup chain by restoring into a throwaway cluster
+# named `shared-db-restore`. It reads the `shared-db` backup chain and writes
+# its own WAL under `serverName: shared-db-restore`, so the live cluster and
+# its backups are never touched.
+#
+#   kubectl apply -f fluxcd/apps/truecharts/postgres/recovery/cluster.yml
+#   kubectl -n postgres wait --for condition=Ready --timeout=600s cluster shared-db-restore
+#   kubectl -n postgres exec shared-db-restore-1 -c postgres -- \
+#     psql -U postgres -c '\l'
+#   kubectl -n postgres delete cluster shared-db-restore
+#
+# Real rebuild of `shared-db`: delete the Cluster (PVCs included), copy this
+# file, replace every `shared-db-restore` with `shared-db`, set the archiving
+# `serverName` to `shared-db` so the existing backup chain continues, and apply.
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: shared-db-restore
+  namespace: postgres
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.7-standard-trixie@sha256:1abcfd1cac6d53cda5185706819aab36d66a4ed88e99fc2ae44ab0826aa99f00
+  enableSuperuserAccess: true
+
+  resources:
+    requests:
+      cpu: 10m
+      memory: 200Mi
+    limits:
+      cpu: 1000m
+      memory: 2400Mi
+
+  storage:
+    size: 2Gi
+    storageClass: longhorn
+  walStorage:
+    size: 1Gi
+    storageClass: longhorn
+
+  bootstrap:
+    recovery:
+      source: shared-db
+
+  externalClusters:
+    - name: shared-db
+      plugin:
+        name: barman-cloud.cloudnative-pg.io
+        parameters:
+          barmanObjectName: shared-db-backup
+          serverName: shared-db
+
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      enabled: true
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: shared-db-backup
+        serverName: shared-db-restore

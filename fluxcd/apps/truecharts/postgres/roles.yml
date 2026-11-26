@@ -1,0 +1,60 @@
+---
+# Application roles. Each password comes from a `kubernetes.io/basic-auth`
+# Secret in secrets/db-roles.enc.yml, so no plaintext secret lives in git.
+# Reclaim policy is `retain`: removing a manifest must never drop a role that
+# owns a database.
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: shared-db-seerr
+  namespace: postgres
+spec:
+  cluster:
+    name: shared-db
+  name: seerr
+  login: true
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: shared-db-seerr
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: shared-db-vaultwarden
+  namespace: postgres
+spec:
+  cluster:
+    name: shared-db
+  name: vaultwarden
+  login: true
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: shared-db-vaultwarden
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: shared-db-paperless-ng
+  namespace: postgres
+spec:
+  cluster:
+    name: shared-db
+  name: paperless-ng
+  login: true
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: shared-db-paperless-ng
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: shared-db-home-assistant
+  namespace: postgres
+spec:
+  cluster:
+    name: shared-db
+  name: home-assistant
+  login: true
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: shared-db-home-assistant

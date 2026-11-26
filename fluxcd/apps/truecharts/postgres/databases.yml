@@ -1,0 +1,64 @@
+---
+# One database per app, owned by the matching role in roles.yml.
+# `C` collation matches the per-app clusters and, unlike glibc locales, does not
+# break when the base image ships a newer glibc (see the immich collation
+# warning). Reclaim policy `retain`: deleting a manifest never drops data.
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: shared-db-seerr
+  namespace: postgres
+spec:
+  cluster:
+    name: shared-db
+  name: seerr
+  owner: seerr
+  encoding: UTF8
+  localeCType: C
+  localeCollate: C
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: shared-db-vaultwarden
+  namespace: postgres
+spec:
+  cluster:
+    name: shared-db
+  name: vaultwarden
+  owner: vaultwarden
+  encoding: UTF8
+  localeCType: C
+  localeCollate: C
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: shared-db-paperless-ng
+  namespace: postgres
+spec:
+  cluster:
+    name: shared-db
+  name: paperless-ng
+  owner: paperless-ng
+  encoding: UTF8
+  localeCType: C
+  localeCollate: C
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: shared-db-home-assistant
+  namespace: postgres
+spec:
+  cluster:
+    name: shared-db
+  name: home-assistant
+  owner: home-assistant
+  encoding: UTF8
+  localeCType: C
+  localeCollate: C
+  databaseReclaimPolicy: retain

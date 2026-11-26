@@ -1,0 +1,29 @@
+---
+# Garage object store holding base backups and the WAL archive. The same store
+# is used for archiving and for recovery (supported by the Barman Cloud
+# plugin), so no separate read-only store is needed.
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: shared-db-backup
+  namespace: postgres
+spec:
+  retentionPolicy: 30d
+  configuration:
+    destinationPath: s3://shared-db
+    endpointURL: http://truenas.home.arpa:30188
+    s3Credentials:
+      accessKeyId:
+        name: shared-db-garage
+        key: ACCESS_KEY_ID
+      secretAccessKey:
+        name: shared-db-garage
+        key: ACCESS_SECRET_KEY
+      region:
+        name: shared-db-garage
+        key: REGION
+    wal:
+      compression: bzip2
+    data:
+      compression: bzip2
+      jobs: 2

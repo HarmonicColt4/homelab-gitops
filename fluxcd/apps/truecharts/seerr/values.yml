@@ -1,19 +1,28 @@
-credentials:
-  garage:
-    type: s3
-    url: http://truenas.home.arpa:30188
-    bucket: seerr
 dependencies:
   postgresql:
-    enabled: true
-    operator:
-      backups:
-        enabled: true
-        credentials: garage
-        destinationPath: s3://seerr
+    enabled: false
+    depconfig:
+      postgresqlUsername: seerr
+      postgresqlDatabase: seerr
 podOptions:
   tolerations:
     - key: dedicated
       operator: Equal
       value: rpi5
       effect: NoSchedule
+workload:
+  main:
+    podSpec:
+      containers:
+        main:
+          env:
+            DB_HOST:
+              secretKeyRef:
+                expandObjectName: false
+                name: seerr-db
+                key: plainhost
+            DB_PASS:
+              secretKeyRef:
+                expandObjectName: false
+                name: seerr-db
+                key: postgresql-password

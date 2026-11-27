@@ -1,0 +1,19 @@
+---
+# Cluster-internal only: the MCP server holds a Tandoor API token with full
+# access to the account, so it is deliberately not exposed through Traefik.
+# Consumers inside the cluster use:
+#   http://tandoor-mcp.ai.svc.cluster.local:3737/mcp
+#   Authorization: Bearer <TANDOOR_MCP_HTTP_TOKEN>
+apiVersion: v1
+kind: Service
+metadata:
+  name: tandoor-mcp
+spec:
+  type: ClusterIP
+  selector:
+    app: tandoor-mcp
+  ports:
+    - name: http
+      port: 3737
+      targetPort: http
+      protocol: TCP

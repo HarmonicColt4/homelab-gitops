@@ -40,7 +40,7 @@ Cluster `teamg`: control plane `rpi5`, workers `hedy` and `beast`, endpoint
 
 | Group                                  | Contents                                                                         |
 | -------------------------------------- | -------------------------------------------------------------------------------- |
-| [`ai`](fluxcd/apps/ai)                 | `llama.cpp`, `whisper`, `hermes-agent`, `searxng`, and MCP servers `actual-mcp`, `garage-mcp`, `gitea-mcp`, `kubernetes-mcp`, `linkedin-mcp`, `mealie-mcp`, `paperless-mcp`, `wger-mcp`. |
+| [`ai`](fluxcd/apps/ai)                 | `llama.cpp`, `whisper`, `hermes-agent`, `searxng`, and MCP servers `actual-mcp`, `garage-mcp`, `gitea-mcp`, `kubernetes-mcp`, `linkedin-mcp`, `mealie-mcp`, `paperless-mcp`, `tandoor-mcp`, `wger-mcp`. |
 | `calibre-web`                          | Calibre-Web NextGen ebook library at `books.teamg.app`; library on TrueNAS.      |
 | [`comms`](fluxcd/apps/comms)           | `waha` (WhatsApp HTTP API, linked device).                                       |
 | `mealie`                               | Mealie recipe manager.                                                           |

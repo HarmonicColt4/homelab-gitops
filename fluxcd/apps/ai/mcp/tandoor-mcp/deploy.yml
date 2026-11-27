@@ -1,0 +1,112 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tandoor-mcp
+  labels:
+    app: tandoor-mcp
+spec:
+  replicas: 1
+  # Stateless, but a single replica keeps one MCP session store and avoids
+  # duplicate streamable-http sessions behind the Service.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: tandoor-mcp
+  template:
+    metadata:
+      labels:
+        app: tandoor-mcp
+    spec:
+      # beast only. The workload is tiny, but it is pinned so it never lands
+      # on the arm64 control plane (rpi5) or the low-power nodes.
+      nodeSelector:
+        kubernetes.io/hostname: beast
+      # The server never talks to the Kubernetes API.
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: tandoor-mcp
+          # Renovate tracks this tag (kubernetes manager, deploy.yml).
+          image: ghcr.io/cliftonz/tandoor-recipes-mcp:3.5.2
+          imagePullPolicy: IfNotPresent
+          # The image already serves Streamable HTTP on 0.0.0.0:3737/mcp
+          # (TANDOOR_MCP_TRANSPORT=http and TANDOOR_MCP_HTTP_HOST=0.0.0.0 are
+          # baked into the image, runs as the `node` user), so no entrypoint
+          # override is needed. The transport is restated here anyway so a
+          # future image defaulting to the remote OAuth mode cannot silently
+          # change the deployment.
+          env:
+            # Non-secret config lives in Git; only the tokens are SOPS
+            # encrypted (see secrets/enc.env).
+            - name: TANDOOR_MCP_TRANSPORT
+              value: http
+            - name: TANDOOR_MCP_HTTP_HOST
+              value: 0.0.0.0
+            - name: TANDOOR_URL
+              value: http://tandoor-recipes.tandoor-recipes.svc.cluster.local:10029
+            # TANDOOR_TOKEN (Tandoor API token, created in the app UI under
+            # Settings → API Tokens) and TANDOOR_MCP_HTTP_TOKEN (shared
+            # bearer, >= 32 chars, gates /mcp) are SOPS encrypted in
+            # secrets/enc.env.
+            # The root filesystem is read-only, so keep any scratch files in
+            # the writable /tmp volume; /data is the image's data directory
+            # (TANDOOR_MCP_DATA_DIR).
+            - name: HOME
+              value: /tmp
+          envFrom:
+            - secretRef:
+                name: tandoor-mcp-config
+          ports:
+            - name: http
+              containerPort: 3737
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            - name: data
+              mountPath: /data
+          # The Streamable HTTP transport only answers on /mcp and rejects
+          # plain GETs without MCP headers, so an httpGet probe would report
+          # a false failure. A TCP probe is enough to know the server is
+          # bound.
+          startupProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 5
+            failureThreshold: 30
+          readinessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 30
+            failureThreshold: 3
+      volumes:
+        - name: tmp
+          emptyDir:
+            sizeLimit: 64Mi
+        - name: data
+          emptyDir:
+            sizeLimit: 64Mi

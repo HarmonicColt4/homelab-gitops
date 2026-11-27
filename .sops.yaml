@@ -172,6 +172,13 @@ creation_rules:
     age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
     mac_only_encrypted: true
 
+  # Tandoor MCP - encrypt the Tandoor API token and the shared MCP bearer
+  # token in the env file
+  - path_regex: ^fluxcd/apps/ai/mcp/tandoor-mcp/secrets/.*\.env$
+    encrypted_regex: ^(TANDOOR_TOKEN|TANDOOR_MCP_HTTP_TOKEN)$
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
   # SearXNG - encrypt the Flask secret key in the env file
   - path_regex: ^fluxcd/apps/ai/searxng/secrets/.*\.env$
     encrypted_regex: SEARXNG_SECRET

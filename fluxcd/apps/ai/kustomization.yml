@@ -11,6 +11,7 @@ resources:
   - mcp/linkedin-mcp
   - mcp/mealie-mcp
   - mcp/paperless-mcp
+  - mcp/tandoor-mcp
   - mcp/wger-mcp
   - searxng
   - whisper

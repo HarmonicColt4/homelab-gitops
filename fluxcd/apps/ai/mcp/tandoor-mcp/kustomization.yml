@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: ai
+
+# Cluster-internal only, to be wired to hermes-agent. The Tandoor backend is
+# the in-cluster tandoor-recipes release; TANDOOR_MCP_HTTP_TOKEN makes the
+# SOPS secrets in secrets/enc.env the only credentials involved.
+resources:
+  - deploy.yml
+  - svc.yml
+
+secretGenerator:
+  - name: tandoor-mcp-config
+    envs:
+      - secrets/enc.env

@@ -31,7 +31,7 @@ spec:
         - name: config-perms
           # Same image and tag as the container below: no new dependency,
           # and Renovate keeps both pins in sync.
-          image: ghcr.io/new-usemame/calibre-web-nextgen:v4.1.74
+          image: ghcr.io/new-usemame/calibre-web-nextgen:v4.1.75
           imagePullPolicy: IfNotPresent
           command:
             - sh
@@ -44,7 +44,7 @@ spec:
         - name: calibre-web
           # Renovate tracks this tag (kubernetes manager, deploy.yml), and the
           # Gitea upgrade-container-image workflow fires on this file.
-          image: ghcr.io/new-usemame/calibre-web-nextgen:v4.1.74
+          image: ghcr.io/new-usemame/calibre-web-nextgen:v4.1.75
           imagePullPolicy: IfNotPresent
           # The image starts as root and drops to PUID:PGID itself, so no
           # runAsUser here. 568 is the TrueNAS `apps` user, which owns the

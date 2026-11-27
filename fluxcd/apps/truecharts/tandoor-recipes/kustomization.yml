@@ -1,0 +1,31 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - namespace.yml
+  - helmrelease.yml
+  - ingress-route.yml
+  - secrets/tandoor-recipes-db.enc.yml
+
+secretGenerator:
+  - name: tandoor-recipes-values
+    namespace: flux-system
+    options:
+      disableNameSuffixHash: true
+    files:
+      - values.yaml=secrets/values.enc.yml
+
+transformers:
+  - |
+    apiVersion: builtin
+    kind: NamespaceTransformer
+    metadata:
+      name: not-important-to-example
+      namespace: tandoor-recipes
+    setRoleBindingSubjects: none
+    unsetOnly: true
+    fieldSpecs:
+      - kind: HelmRelease
+        path: spec/targetNamespace
+        create: true

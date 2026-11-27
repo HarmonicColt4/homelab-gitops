@@ -62,3 +62,18 @@ spec:
   localeCType: C
   localeCollate: C
   databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: shared-db-tandoor-recipes
+  namespace: postgres
+spec:
+  cluster:
+    name: shared-db
+  name: tandoor-recipes
+  owner: tandoor-recipes
+  encoding: UTF8
+  localeCType: C
+  localeCollate: C
+  databaseReclaimPolicy: retain

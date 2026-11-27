@@ -60,6 +60,7 @@ Application guides live in [`docs/`](docs):
 [`paperless-ngx.md`](docs/paperless-ngx.md),
 [`postgres.md`](docs/postgres.md),
 [`searxng.md`](docs/searxng.md),
+[`tandoor.md`](docs/tandoor.md),
 [`waha.md`](docs/waha.md),
 [`whisper.md`](docs/whisper.md),
 [`wger.md`](docs/wger.md).

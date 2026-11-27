@@ -18,6 +18,7 @@ resources:
   - profilarr
   - radarr
   - sonarr
+  - tandoor-recipes
   - vaultwarden
   - uptime-kuma
 

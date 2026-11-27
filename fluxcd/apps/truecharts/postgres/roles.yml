@@ -58,3 +58,17 @@ spec:
   databaseRoleReclaimPolicy: retain
   passwordSecret:
     name: shared-db-home-assistant
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: shared-db-tandoor-recipes
+  namespace: postgres
+spec:
+  cluster:
+    name: shared-db
+  name: tandoor-recipes
+  login: true
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: shared-db-tandoor-recipes

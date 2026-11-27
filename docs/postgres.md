@@ -6,7 +6,7 @@ Two CNPG clusters serve the whole cluster. The operator is the upstream
 
 | Cluster     | Namespace  | Used by                                            |
 | ----------- | ---------- | -------------------------------------------------- |
-| `shared-db` | `postgres` | home-assistant, seerr, vaultwarden, paperless-ngx   |
+| `shared-db` | `postgres` | home-assistant, seerr, vaultwarden, paperless-ngx, tandoor-recipes |
 | `immich-cnpg-main` | `immich` | immich only (`vectorchord` image, high WAL churn) |
 
 | Item       | Value                                                                 |
@@ -53,7 +53,7 @@ The plugin archives WAL continuously and takes a base backup daily at 00:00.
 hand once the shared cluster's backups have been verified.
 
 Backup granularity is per cluster, not per database: a point-in-time restore
-rolls all four apps back together.
+rolls all five apps back together.
 
 ## Migration history
 
@@ -143,4 +143,4 @@ recovery instead of restoring the latest WAL.
 - The unused `app` database/role created by `initdb` bootstrap is expected;
   it is not used by any application.
 - immich is intentionally separate: it needs the `vectorchord` image and
-  generates far more WAL than the other four combined.
+  generates far more WAL than the other five combined.

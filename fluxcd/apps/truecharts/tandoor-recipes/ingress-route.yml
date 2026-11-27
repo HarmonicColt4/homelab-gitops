@@ -1,0 +1,14 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: tandoor-recipes
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`tandoor.teamg.app`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: tandoor-recipes
+          port: 10029

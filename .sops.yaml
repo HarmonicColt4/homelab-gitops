@@ -10,7 +10,7 @@ creation_rules:
 
   # TrueCharts apps - credentials for databases on the shared PostgreSQL cluster
   # (must precede the paperless-ngx and generic truecharts rules)
-  - path_regex: ^fluxcd/apps/truecharts/(seerr|vaultwarden|paperless-ngx|home-assistant)/secrets/.*-db\.enc\.yml$
+  - path_regex: ^fluxcd/apps/truecharts/(seerr|vaultwarden|paperless-ngx|home-assistant|tandoor-recipes)/secrets/.*-db\.enc\.yml$
     encrypted_regex: ^(data|stringData)$
     age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
     mac_only_encrypted: true
@@ -25,6 +25,13 @@ creation_rules:
   # TrueCharts apps - paperless-ngx secrets (must precede the generic truecharts rule)
   - path_regex: ^fluxcd/apps/truecharts/paperless-ngx/.*\.yml$
     encrypted_regex: ^ADMIN_PASSWORD$
+    age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
+    mac_only_encrypted: true
+
+  # TrueCharts apps - tandoor-recipes values hold the Django secret key
+  # (must precede the generic truecharts rule)
+  - path_regex: ^fluxcd/apps/truecharts/tandoor-recipes/secrets/values\.enc\.yml$
+    encrypted_regex: ^secretKey$
     age: age14g7x5d8jach0wpvjvc29dceu26zgr88wflnjg0qj43r0gf977ffq55dhya
     mac_only_encrypted: true
 

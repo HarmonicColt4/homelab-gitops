@@ -30,10 +30,27 @@ because the token grants full access to the account:
 The intended consumer is `hermes-agent`; wire it up the same way as
 `WGER_MCP_TOKEN` in the hermes-agent secrets.
 
+## Authentication
+
+Login is Pocket ID OIDC — the values set `SOCIALACCOUNT_ONLY=1`, so the login
+page only offers the **Pocket ID** button. The `gpenda` superuser carries the
+matching Pocket ID email, so the first OIDC login auto-links to it
+(`SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT`) and joins the space as
+admin (`SOCIAL_DEFAULT_ACCESS`/`SOCIAL_DEFAULT_GROUP`).
+
+| Item       | Value                                                        |
+| ---------- | ------------------------------------------------------------ |
+| OIDC client| "Tandoor Recipes" in the Pocket ID admin, Restricted, PKCE on |
+| Break-glass| Local password login at `/accounts/login/?form=1` (password kept out-of-band) |
+
+The OIDC client credentials live SOPS-encrypted in the values Secret
+(`SOCIALACCOUNT_PROVIDERS`). The client is restricted to the same Pocket ID
+user group as the other app clients; re-create it there before re-pointing the
+values.
+
 ## First-time setup
 
-1. Open <https://tandoor.teamg.app> and register an account (the first user
-   becomes the admin).
-2. Create an API token under Settings → API Tokens and store it in
+1. Sign in at <https://tandoor.teamg.app> with Pocket ID (passkey).
+2. Create an API token under Settings → API and store it in
    `fluxcd/apps/ai/mcp/tandoor-mcp/secrets/enc.env` (`TANDOOR_TOKEN`) with
    `sops edit`. The MCP server picks it up on the next reconcile.

@@ -27,8 +27,9 @@ because the token grants full access to the account:
 | Manifests  | `fluxcd/apps/ai/mcp/tandoor-mcp/`                                            |
 | In-cluster | `http://tandoor-mcp.ai.svc.cluster.local:3737/mcp` + bearer `TANDOOR_MCP_HTTP_TOKEN` |
 
-The intended consumer is `hermes-agent`; wire it up the same way as
-`WGER_MCP_TOKEN` in the hermes-agent secrets.
+The consumer is `hermes-agent`: its managed config has a `tandoor` entry
+(`Bearer ${TANDOOR_MCP_TOKEN}`), sealed in the hermes-agent secrets
+([`docs/hermes-agent.md`](hermes-agent.md) → MCP servers).
 
 ## Authentication
 

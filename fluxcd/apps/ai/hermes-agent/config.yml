@@ -56,3 +56,8 @@ mcp_servers:
     enabled: true
     headers:
       Authorization: Bearer ${PAPERLESS_MCP_TOKEN}
+  tandoor:
+    url: http://tandoor-mcp.ai.svc.cluster.local:3737/mcp
+    enabled: true
+    headers:
+      Authorization: Bearer ${TANDOOR_MCP_TOKEN}

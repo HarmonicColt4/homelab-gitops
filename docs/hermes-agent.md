@@ -210,6 +210,9 @@ only add a way to break a toolset.
 | `mealie`     | `http://mealie-mcp.ai.svc.cluster.local:8000/mcp`     | server holds the Mealie token, no header    |
 | `linkedin`   | `http://linkedin-mcp.ai.svc.cluster.local:8080/mcp`   | `Bearer ${LINKEDIN_MCP_TOKEN}`              |
 | `actual`     | `http://actual-mcp.ai.svc.cluster.local:3600/http`    | `Bearer ${ACTUAL_MCP_TOKEN}`, read-only     |
+| `wger`       | `http://wger-mcp.ai.svc.cluster.local:8765/mcp`       | `Bearer ${WGER_MCP_TOKEN}`                  |
+| `paperless`  | `http://paperless-mcp.ai.svc.cluster.local:3001/mcp`  | `Bearer ${PAPERLESS_MCP_TOKEN}`             |
+| `tandoor`    | `http://tandoor-mcp.ai.svc.cluster.local:3737/mcp`    | `Bearer ${TANDOOR_MCP_TOKEN}`               |
 
 The `kubernetes` entry is a full cluster-admin credential by design
 ([`rbac.yml`](../fluxcd/apps/ai/mcp/kubernetes-mcp/rbac.yml) says why): it is how
@@ -388,6 +391,7 @@ API.
 | `API_SERVER_KEY`                      | Secret                 | bearer token for `/v1`                         |
 | `HERMES_DASHBOARD_OIDC_CLIENT_ID`     | Secret                 | OIDC client ID (public PKCE client)            |
 | `ACTUAL_MCP_TOKEN`                    | Secret                 | bearer for the Actual MCP server               |
+| `TANDOOR_MCP_TOKEN`                   | Secret                 | bearer for the Tandoor MCP server              |
 
 All three probes hit `GET /health` on port `8642`:
 

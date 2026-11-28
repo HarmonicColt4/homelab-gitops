@@ -139,6 +139,16 @@ spec:
                 secretKeyRef:
                   name: hermes-agent-secret
                   key: PAPERLESS_MCP_TOKEN
+            # The Tandoor MCP bearer token, referenced as
+            # ${TANDOOR_MCP_TOKEN} by config.yml. Must equal
+            # TANDOOR_MCP_HTTP_TOKEN in the tandoor-mcp secret: the server
+            # gates /mcp with it and 401s a client that sends a different
+            # one. Sealed in secrets/enc.env.
+            - name: TANDOOR_MCP_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hermes-agent-secret
+                  key: TANDOOR_MCP_TOKEN
           ports:
             - name: api
               containerPort: 8642

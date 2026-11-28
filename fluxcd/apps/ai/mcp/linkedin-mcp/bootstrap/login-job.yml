@@ -32,8 +32,6 @@ spec:
         app: linkedin-mcp-login
     spec:
       restartPolicy: Never
-      nodeSelector:
-        kubernetes.io/hostname: beast
       automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true

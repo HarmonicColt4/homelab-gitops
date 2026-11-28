@@ -19,10 +19,6 @@ spec:
       labels:
         app: tandoor-mcp
     spec:
-      # beast only. The workload is tiny, but it is pinned so it never lands
-      # on the arm64 control plane (rpi5) or the low-power nodes.
-      nodeSelector:
-        kubernetes.io/hostname: beast
       # The server never talks to the Kubernetes API.
       automountServiceAccountToken: false
       securityContext:

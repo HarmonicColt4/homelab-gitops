@@ -21,11 +21,6 @@ spec:
       labels:
         app: linkedin-mcp
     spec:
-      # beast only. The container runs a full headed Chromium on an Xvfb
-      # display, which is far too heavy for the arm64 control plane (rpi5) and
-      # the low-power nodes.
-      nodeSelector:
-        kubernetes.io/hostname: beast
       # The server never talks to the Kubernetes API.
       automountServiceAccountToken: false
       # Chromium teardown is slow. The entrypoint stops Python before Xvfb so

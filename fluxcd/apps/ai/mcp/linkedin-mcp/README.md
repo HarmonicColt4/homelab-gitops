@@ -7,7 +7,7 @@ runs as a plain `Deployment` in the shared `ai` namespace and is served at
 | Item      | Value                                                         |
 | --------- | ------------------------------------------------------------- |
 | Manifests | `fluxcd/apps/ai/mcp/linkedin-mcp/`                            |
-| Workload  | `Deployment/linkedin-mcp`, 1 replica, pinned to `beast`       |
+| Workload  | `Deployment/linkedin-mcp`, 1 replica                          |
 | Image     | `stickerdaniel/linkedin-mcp-server:4.31.0` (Renovate-tracked) |
 | Service   | `ai/linkedin-mcp`, ClusterIP port `8080`                      |
 | Edge      | `linkedin-mcp` IngressRoute, Traefik `websecure`              |
@@ -24,9 +24,6 @@ starts `Xvfb` on `:99` and the server runs a **headed** Chromium against it
 checks behave differently in real headless mode. That drives most of the
 manifest:
 
-- **`nodeSelector: kubernetes.io/hostname: beast`** — a headed Chromium plus an
-  X server is far too heavy for the arm64 control plane (`rpi5`) and the
-  low-power nodes.
 - **`/dev/shm` is a 512Mi memory-backed `emptyDir`** — Kubernetes defaults it to
   64Mi, which a headed Chromium exhausts and reports as renderer crashes.
 - **The root filesystem is writable, and `/tmp` is _not_ an `emptyDir`.** The
@@ -198,7 +195,7 @@ form as a stopgap only.
 | `401 Unauthorized` from the MCP endpoint                                    | The client is not sending `Authorization: Bearer <token>`, or the token is stale. Re-read it from `secrets/enc.env`.                                                 |
 | `421 Misdirected Request`                                                   | The `Host` you used is not in `FASTMCP_HTTP_ALLOWED_HOSTS`. Add it rather than removing the check.                                                                   |
 | `503` from Traefik                                                          | `kubectl -n ai get ingressroute linkedin-mcp` and that the Service has endpoints.                                                                                    |
-| Pod `Pending`                                                               | `beast` must be schedulable and the Longhorn volume attachable. `kubectl -n ai describe pod`.                                                                        |
+| Pod `Pending`                                                               | A node must be schedulable and the Longhorn volume attachable. `kubectl -n ai describe pod`.                                                                        |
 | `Installer temporary roots can be replaced by another account in /tmp`      | `/tmp` was replaced by an `emptyDir`. Remove that mount; the image's own 1777 `/tmp` is required.                                                                    |
 | `Browser installation failed` on a read-only root                           | `readOnlyRootFilesystem` is incompatible with this image. See the note in `deploy.yml`.                                                                              |
 | Renderer crashes / blank pages                                              | `/dev/shm` too small. Confirm the `dshm` `emptyDir` is mounted at `/dev/shm`.                                                                                        |

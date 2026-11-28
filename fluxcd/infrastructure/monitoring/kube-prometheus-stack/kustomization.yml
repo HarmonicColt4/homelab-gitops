@@ -14,6 +14,13 @@ configMapGenerator:
     namespace: flux-system
     files:
       - values.yaml=values.yml
+  - name: windows-exporter-dashboard
+    namespace: kube-prometheus-stack
+    files:
+      - windows-exporter.json=dashboards/windows-exporter.json
+    options:
+      labels:
+        grafana_dashboard: "1"
 
 secretGenerator:
   - name: grafana-admin-user

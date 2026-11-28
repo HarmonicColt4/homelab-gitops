@@ -63,7 +63,8 @@ Application guides live in [`docs/`](docs):
 [`tandoor.md`](docs/tandoor.md),
 [`waha.md`](docs/waha.md),
 [`whisper.md`](docs/whisper.md),
-[`wger.md`](docs/wger.md).
+[`wger.md`](docs/wger.md),
+[`windows-exporter.md`](docs/windows-exporter.md).
 
 ## Validation
 

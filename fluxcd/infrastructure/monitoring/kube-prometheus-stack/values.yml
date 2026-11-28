@@ -77,6 +77,14 @@ prometheus:
   prometheusSpec:
     externalUrl: https://prometheus.teamg.app
     retention: 15d
+    additionalScrapeConfigs:
+      - job_name: windows-exporter
+        scrape_timeout: 30s
+        static_configs:
+          - targets: ['penda.elessa.internal:9182']
+            labels:
+              instance: penda.elessa.internal:9182
+              os: windows
     storageSpec:
       volumeClaimTemplate:
         spec:

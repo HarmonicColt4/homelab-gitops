@@ -20,7 +20,7 @@ configMapGenerator:
 # Secrets: the API bearer key, the OIDC client ID, the Whisper ASR key and one
 # client token per MCP server that authenticates its callers. Pocket-ID issues a
 # public PKCE client, so there is no client secret to store.
-# The model endpoint, public URL, trusted proxies and every MCP URL are in Git.
+# The public URL, trusted proxies and every MCP URL are in Git.
 #
 # One file, not one per token: two sops env files cannot share a generator,
 # because both carry the same sops_* metadata keys and kustomize fails the

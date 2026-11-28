@@ -16,7 +16,7 @@ dashboard, and it runs shell commands and browser automation as tools.
 | Config     | ConfigMap `ai/hermes-agent-config` (`config.yaml`, mounted via `subPath`)     |
 | Secrets    | Secret `ai/hermes-agent-secret` (`API_SERVER_KEY`, OIDC client, SOPS)         |
 | Storage    | PVC `ai/hermes-agent-data`, 10Gi `longhorn`, ReadWriteOnce                    |
-| Model      | OpenRouter `deepseek/deepseek-v4.1-flash-1017` (key from `/opt/data/.env`)    |
+| Model      | Not pinned — chosen in the dashboard or `/opt/data/config.yaml`               |
 | Auth       | Pocket-ID OIDC at `https://id.teamg.app`                                      |
 | Scheduling | `kubernetes.io/arch: amd64`; currently on `beast`                             |
 
@@ -46,12 +46,11 @@ any of the three.
    ID. If it is missing or stale, the dashboard fails closed at startup rather
    than falling back to an unauthenticated mode.
 
-2. **Confirm the model credentials.** The default model is hosted
-   (`openrouter/deepseek/deepseek-v4.1-flash-1017`), so the pod needs
-   `OPENROUTER_API_KEY` in `/opt/data/.env` on the PVC — the managed config in
-   [`config.yml`](../fluxcd/apps/ai/hermes-agent/config.yml) carries no key. The
-   llama.cpp Service (`llama-cpp:8080`) and its `gemma4-12b-mtp` preset are
-   still what a session gets when it is switched back to the local model.
+2. **Confirm the model credentials.** The managed config no longer pins a model
+   or provider, so the model comes from `/opt/data/config.yaml` on the PVC (the
+   dashboard writes there). If it points at OpenRouter, the pod needs
+   `OPENROUTER_API_KEY` in `/opt/data/.env`. The local llama.cpp Service
+   (`llama-cpp:8080`) and its `gemma4-12b-mtp` preset need no key.
 
 3. **Accept the terminal warning.** Hermes logs that `terminal.backend: local`
    is unsandboxed while the API binds `0.0.0.0`. This is accepted: the API is
@@ -99,7 +98,7 @@ ports. Only `9119` is routed from outside the cluster.
 | ----------------------------------------------------------------------- | --------------------------------------------------------------------------- |
 | [`kustomization.yml`](../fluxcd/apps/ai/hermes-agent/kustomization.yml) | Namespace, resource list, `configMapGenerator`, `secretGenerator`           |
 | [`deploy.yml`](../fluxcd/apps/ai/hermes-agent/deploy.yml)               | Deployment: image, args, env, security context, probes, resources, mounts   |
-| [`config.yml`](../fluxcd/apps/ai/hermes-agent/config.yml)               | Source for the managed `config.yaml` (model, terminal, dashboard, database) |
+| [`config.yml`](../fluxcd/apps/ai/hermes-agent/config.yml)               | Source for the managed `config.yaml` (terminal, dashboard, database)        |
 | [`svc.yml`](../fluxcd/apps/ai/hermes-agent/svc.yml)                     | ClusterIP Service, ports `8642` and `9119`                                  |
 | [`pvc.yml`](../fluxcd/apps/ai/hermes-agent/pvc.yml)                     | 10Gi Longhorn ReadWriteOnce claim for `/opt/data`                           |
 | [`ingress-route.yml`](../fluxcd/apps/ai/hermes-agent/ingress-route.yml) | Traefik route `hermes.teamg.app` -> `9119`                                  |
@@ -130,9 +129,11 @@ Hermes reads two config files:
 - `/etc/hermes/config.yaml` — managed config from the ConfigMap, read because
   `HERMES_MANAGED_DIR=/etc/hermes`.
 
-**Managed scope wins per leaf key.** Editing the model endpoint or API key in
-`/opt/data/config.yaml` from inside the pod therefore has no effect. That is the
-point: the endpoint and auth cannot drift from Git.
+**Managed scope wins per leaf key.** The managed file pins terminal, dashboard,
+database, STT and MCP settings, so editing those in `/opt/data/config.yaml` from
+inside the pod has no effect. It deliberately does not pin `model.*`: the main
+model, provider and credentials are chosen on the PVC or in the dashboard and
+may drift from Git.
 
 The mount is a **single file**, not a directory:
 
@@ -165,36 +166,36 @@ Everything else the agent persists lives on the PVC and is not in Git: `.env`,
 
 ## Model backend
 
-```yaml
-model:
-  default: deepseek/deepseek-v4.1-flash-1017
-  provider: openrouter
-```
+The managed config deliberately pins no `model.*` keys. Hermes resolves the
+main model and provider from `/opt/data/config.yaml` on the PVC (the dashboard
+writes there), or from a per-invocation CLI override. Two routes are available:
 
-- Hosted default via OpenRouter, so no `base_url` and no `api_key`: the
+- **Hosted via OpenRouter.** Set `model.provider: openrouter` and a model such
+  as `deepseek/deepseek-v4.1-flash-1017`, with no `base_url` or `api_key`: the
   provider resolves `https://openrouter.ai/api/v1` and reads
-  `OPENROUTER_API_KEY` from `/opt/data/.env` on the PVC. The key never enters
-  Git.
-- No `context_length` either. It is an override, not a required field
-  (`get_model_context_length`, step 0 in `agent/model_metadata.py`); with it
-  absent the window comes from the OpenRouter catalog for this model
-  (currently `1048576`), so a provider-side change is followed automatically
-  instead of being overridden by a stale number. Hermes fires compression at
-  0.5 x the window. Pin `model.context_length` only when nothing advertises the
-  real limit — e.g. a llama.cpp preset, where it is `ctx-size / parallel`.
-- The local llama.cpp preset is still wired: `provider: custom`,
-  `base_url: http://llama-cpp.ai.svc.cluster.local:8080/v1` with the
-  `sk-no-key-required` placeholder (llama.cpp ignores the `Authorization`
-  header) and default `gemma4-12b-mtp`. Override it per session instead of
-  editing Git, or make it the default again by restoring those four keys.
-  `gemma4-12b-mtp` is a `load-on-startup = 1` preset in
-  [`models-preset.ini`](../fluxcd/apps/ai/llama.cpp/models-preset.ini); llama.cpp
+  `OPENROUTER_API_KEY` from `/opt/data/.env`. The key never enters Git.
+- **Local llama.cpp.** Set `model.provider: custom`,
+  `model.base_url: http://llama-cpp.ai.svc.cluster.local:8080/v1` and
+  `model.api_key: sk-no-key-required` (llama.cpp ignores the `Authorization`
+  header); `gemma4-12b-mtp` is a `load-on-startup = 1` preset in
+  [`models-preset.ini`](../fluxcd/apps/ai/llama.cpp/models-preset.ini). llama.cpp
   runs `--models-max 2`, so Gemma and the `bge-m3` embedder stay resident.
   Asking for a third model would swap an 11-13 GB GGUF and can take a minute or
   more.
-- `terminal.backend: local` because the docker backend cannot work on containerd
-  (there is no Docker socket). The agent runs commands directly in its own
-  container.
+
+Because neither key is managed, changing the model in the dashboard is allowed
+and Git no longer guarantees the endpoint. A PVC config with no `model:`
+mapping falls back to Hermes' built-in default, which may lack credentials.
+
+`model.context_length` is an override, not a required field
+(`get_model_context_length`, step 0 in `agent/model_metadata.py`); leave it
+absent so the window follows the provider catalog, or pin it when nothing
+advertises the real limit — e.g. a llama.cpp preset, where it is
+`ctx-size / parallel`. Hermes fires compression at 0.5 x the window.
+
+`terminal.backend: local` because the docker backend cannot work on containerd
+(there is no Docker socket). The agent runs commands directly in its own
+container.
 
 ## MCP servers
 
@@ -439,7 +440,8 @@ Verified on 2026-11-18, revision `3cc1383b`:
   ```
 
 - A real completion through the gateway reached llama.cpp and returned
-  content (`prompt_tokens: 10229`), so the managed model config is in effect.
+  content (`prompt_tokens: 10229`); at the time, the managed model config was
+  in effect.
 - `hermes config check` prints `Config version: 53 ✓`. The PVC copy of
   `config.yaml` had a stray `{}` at line 54 that made Hermes fall back to
   defaults; it was repaired in place, with a timestamped backup left on the

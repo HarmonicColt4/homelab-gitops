@@ -40,7 +40,7 @@ spec:
       containers:
         - name: actual-mcp
           # Renovate tracks this tag (kubernetes manager, deploy.yml).
-          image: ghcr.io/agigante80/actual-mcp-server:0.36.0
+          image: ghcr.io/agigante80/actual-mcp-server:0.40.1
           imagePullPolicy: IfNotPresent
           # Upstream ENTRYPOINT is tini plus docker/entrypoint.sh, which starts
           # as root to align PUID/PGID and chown the volume directories. That

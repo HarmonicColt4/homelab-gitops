@@ -39,7 +39,7 @@ kubectl apply --dry-run=client -f /tmp/out.yml
 - PVCs that must survive pruning need `kustomize.toolkit.fluxcd.io/ssa: IfNotPresent`.
 - IngressRoutes: Traefik `websecure`, host `<name>.teamg.app`, no `tls:` block (wildcard cert). The name is usually the app (`mealie`, `sonarr`) but is sometimes abbreviated (`git` for Gitea, `nas` for TrueNAS, `id` for Pocket ID).
 - Use `strategy: Recreate` for any Deployment mounting a ReadWriteOnce volume (multi-attach deadlock).
-- A new app must be listed in its group kustomization (`fluxcd/apps/<group>/kustomization.yml`) and, for a new group, in `fluxcd/apps/kustomization.yml` — an app that is not listed is never reconciled. `fluxcd/apps/razzia` is currently in that state.
+- A new app must be listed in its group kustomization (`fluxcd/apps/<group>/kustomization.yml`) and, for a new group, in `fluxcd/apps/kustomization.yml` — an app that is not listed is never reconciled.
 - Per-app operational docs live as `README.md` next to their manifests under `fluxcd/` (`fluxcd/**/<workload>/README.md`) and are linked from the root README guide list; keep deep operational detail there, not in the root README.
 - TrueCharts values: fetch upstream before overriding — `charts/library/common/values.yaml` and `charts/stable/<chart>/values.yaml` from `trueforge-org/truecharts` (raw `master` branch).
 

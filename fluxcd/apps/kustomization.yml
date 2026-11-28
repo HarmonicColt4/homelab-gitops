@@ -8,6 +8,7 @@ resources:
   - comms
   - mealie
   - opencloud
+  - razzia
   - truenas-auto-update
   - unifi-os-server
 

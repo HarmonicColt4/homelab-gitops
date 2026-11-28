@@ -1,7 +1,7 @@
 # llama.cpp
 
 `llama-server` runs in the `ai` namespace in router mode: models are declared
-once in [`models-preset.ini`](../fluxcd/apps/ai/llama.cpp/models-preset.ini) and
+once in [`models-preset.ini`](models-preset.ini) and
 served from a single process. `--models-max 2` lets the chat model and the
 embedding model stay resident together. It is exposed at
 <https://llama.teamg.app>.
@@ -35,7 +35,7 @@ duplicated here.
 
 The weights live in `/var/mnt/longhorn/llama-models` on `beast`, exposed through
 the static `local-nvme` PV in
-[`pv-nvme.yml`](../fluxcd/apps/ai/llama.cpp/pv-nvme.yml). Measured on that node:
+[`pv-nvme.yml`](pv-nvme.yml). Measured on that node:
 
 | Path                     | Throughput |
 | ------------------------ | ---------- |
@@ -85,7 +85,7 @@ Full GPU offload costs ~605 MiB of weights plus the child process' ~328 MiB CUDA
 context. That leaves roughly 0.2–0.6 GiB free at Gemma's worst-case peak, so
 this is a tight budget that can approach zero once driver and compute overheads
 are counted. Do not add a third model and check `nvidia-smi` after rollout —
-see [`whisper.md`](whisper.md) for the co-tenant accounting.
+see [`whisper.md`](../whisper/README.md) for the co-tenant accounting.
 
 ## Memory limit
 
@@ -102,9 +102,9 @@ re-reads the weights from disk.
 - Model ids in requests are the section names in `models-preset.ini`:
   `gemma4-12b-mtp` for chat and `bge-m3` for embeddings. There are no aliases,
   so use those exact ids. The historical `q6` suffix is gone: the chat preset
-  loads Q4_K_M so Whisper can share the card (see [`whisper.md`](whisper.md)).
+  loads Q4_K_M so Whisper can share the card (see [`whisper.md`](../whisper/README.md)).
   Paperless-ngx uses both ids for suggestions and RAG (see
-  [`paperless-ngx.md`](paperless-ngx.md)).
+  [`paperless-ngx.md`](../../truecharts/paperless-ngx/README.md)).
 - `/v1/models` answers before a model is loaded — it lists presets with
   `status.value` of `unloaded`/`loading`/`loaded`. Do not use it as a readiness
   signal; `/health` only reflects the router process, which is what the

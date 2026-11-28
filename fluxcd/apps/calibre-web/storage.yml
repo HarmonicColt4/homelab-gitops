@@ -6,7 +6,7 @@ metadata:
   annotations:
     # Longhorn reclaims with Retain; keep the volume when Flux prunes the app.
     # This also makes Flux create-only for this object, so changing `storage`
-    # below does NOT resize it: patch the live PVC by hand (see docs/calibre-web.md).
+    # below does NOT resize it: patch the live PVC by hand (see README.md).
     kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
 spec:
   storageClassName: longhorn
@@ -24,7 +24,7 @@ metadata:
   annotations:
     # Longhorn reclaims with Retain; keep the volume when Flux prunes the app.
     # This also makes Flux create-only for this object, so changing `storage`
-    # below does NOT resize it: patch the live PVC by hand (see docs/calibre-web.md).
+    # below does NOT resize it: patch the live PVC by hand (see README.md).
     kustomize.toolkit.fluxcd.io/ssa: IfNotPresent
 spec:
   storageClassName: longhorn

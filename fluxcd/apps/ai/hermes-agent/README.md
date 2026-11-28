@@ -8,7 +8,7 @@ dashboard, and it runs shell commands and browser automation as tools.
 
 | Item       | Value                                                                         |
 | ---------- | ----------------------------------------------------------------------------- |
-| Manifests  | [`fluxcd/apps/ai/hermes-agent/`](../fluxcd/apps/ai/hermes-agent/)             |
+| Manifests  | [`fluxcd/apps/ai/hermes-agent/`](.)                                           |
 | Workload   | `Deployment/hermes-agent`, 1 replica, `Recreate`, `kubernetes.io/arch: amd64` |
 | Image      | `nousresearch/hermes-agent:v0.23.2` (Renovate-tracked, tag only)              |
 | Service    | `ai/hermes-agent`, ClusterIP `8642` (api) and `9119` (dashboard)              |
@@ -31,7 +31,7 @@ any of the three.
    with redirect URI `https://hermes.teamg.app/*` (or the exact callback Hermes
    documents). No client secret is issued or needed: a public client
    authenticates with PKCE, so only the client ID is stored in
-   [`secrets/enc.env`](../fluxcd/apps/ai/hermes-agent/secrets/enc.env). To
+   [`secrets/enc.env`](secrets/enc.env). To
    change it:
 
    ```bash
@@ -96,13 +96,13 @@ ports. Only `9119` is routed from outside the cluster.
 
 | File                                                                    | Purpose                                                                     |
 | ----------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| [`kustomization.yml`](../fluxcd/apps/ai/hermes-agent/kustomization.yml) | Namespace, resource list, `configMapGenerator`, `secretGenerator`           |
-| [`deploy.yml`](../fluxcd/apps/ai/hermes-agent/deploy.yml)               | Deployment: image, args, env, security context, probes, resources, mounts   |
-| [`config.yml`](../fluxcd/apps/ai/hermes-agent/config.yml)               | Source for the managed `config.yaml` (terminal, dashboard, database)        |
-| [`svc.yml`](../fluxcd/apps/ai/hermes-agent/svc.yml)                     | ClusterIP Service, ports `8642` and `9119`                                  |
-| [`pvc.yml`](../fluxcd/apps/ai/hermes-agent/pvc.yml)                     | 10Gi Longhorn ReadWriteOnce claim for `/opt/data`                           |
-| [`ingress-route.yml`](../fluxcd/apps/ai/hermes-agent/ingress-route.yml) | Traefik route `hermes.teamg.app` -> `9119`                                  |
-| [`secrets/enc.env`](../fluxcd/apps/ai/hermes-agent/secrets/enc.env)     | SOPS-encrypted API bearer key, OIDC client ID and MCP client tokens         |
+| [`kustomization.yml`](kustomization.yml)                                | Namespace, resource list, `configMapGenerator`, `secretGenerator`           |
+| [`deploy.yml`](deploy.yml)                                              | Deployment: image, args, env, security context, probes, resources, mounts   |
+| [`config.yml`](config.yml)                                              | Source for the managed `config.yaml` (terminal, dashboard, database)        |
+| [`svc.yml`](svc.yml)                                                    | ClusterIP Service, ports `8642` and `9119`                                  |
+| [`pvc.yml`](pvc.yml)                                                    | 10Gi Longhorn ReadWriteOnce claim for `/opt/data`                           |
+| [`ingress-route.yml`](ingress-route.yml)                                | Traefik route `hermes.teamg.app` -> `9119`                                  |
+| [`secrets/enc.env`](secrets/enc.env)                                    | SOPS-encrypted API bearer key, OIDC client ID and MCP client tokens         |
 
 ## Decisions and why
 
@@ -178,7 +178,7 @@ writes there), or from a per-invocation CLI override. Two routes are available:
   `model.base_url: http://llama-cpp.ai.svc.cluster.local:8080/v1` and
   `model.api_key: sk-no-key-required` (llama.cpp ignores the `Authorization`
   header); `gemma4-12b-mtp` is a `load-on-startup = 1` preset in
-  [`models-preset.ini`](../fluxcd/apps/ai/llama.cpp/models-preset.ini). llama.cpp
+  [`models-preset.ini`](../llama.cpp/models-preset.ini). llama.cpp
   runs `--models-max 2`, so Gemma and the `bge-m3` embedder stay resident.
   Asking for a third model would swap an 11-13 GB GGUF and can take a minute or
   more.
@@ -200,7 +200,7 @@ container.
 ## MCP servers
 
 `mcp_servers` in the managed config points at the in-cluster MCP workloads under
-[`fluxcd/apps/ai/mcp/`](../fluxcd/apps/ai/mcp/). The Traefik hosts are not used:
+[`fluxcd/apps/ai/mcp/`](../mcp/). The Traefik hosts are not used:
 the gateway already runs inside the cluster, so the extra DNS and TLS hop would
 only add a way to break a toolset.
 
@@ -216,7 +216,7 @@ only add a way to break a toolset.
 | `tandoor`    | `http://tandoor-mcp.ai.svc.cluster.local:3737/mcp`    | `Bearer ${TANDOOR_MCP_TOKEN}`               |
 
 The `kubernetes` entry is a full cluster-admin credential by design
-([`rbac.yml`](../fluxcd/apps/ai/mcp/kubernetes-mcp/rbac.yml) says why): it is how
+([`rbac.yml`](../mcp/kubernetes-mcp/rbac.yml) says why): it is how
 the agent applies a fix directly when Git is the slow path, and it is also how
 the SOPS age key is retrievable for a `sops` edit. Treat any agent session with
 that MCP enabled as root on the cluster.
@@ -236,12 +236,12 @@ Worked example: `actual`.
 
 1. The consuming server's own Secret holds the token
    (`MCP_SSE_AUTHORIZATION` in
-   [`actual-mcp/secrets/enc.env`](../fluxcd/apps/ai/mcp/actual-mcp/secrets/enc.env)).
-2. This app's [`secrets/enc.env`](../fluxcd/apps/ai/hermes-agent/secrets/enc.env)
+   [`actual-mcp/secrets/enc.env`](../mcp/actual-mcp/secrets/enc.env)).
+2. This app's [`secrets/enc.env`](secrets/enc.env)
    holds the same value sealed as `ACTUAL_MCP_TOKEN`.
-3. [`deploy.yml`](../fluxcd/apps/ai/hermes-agent/deploy.yml) maps that key to
+3. [`deploy.yml`](deploy.yml) maps that key to
    the `ACTUAL_MCP_TOKEN` env var.
-4. [`config.yml`](../fluxcd/apps/ai/hermes-agent/config.yml) references
+4. [`config.yml`](config.yml) references
    `Bearer ${ACTUAL_MCP_TOKEN}`. The managed overlay expands `${...}` from the
    **process** environment only, so a missing env entry leaves the literal
    `${ACTUAL_MCP_TOKEN}` and the server answers 401.
@@ -488,7 +488,7 @@ curl -s http://localhost:8642/health
    Flux re-applies `replicas: 1` on its next reconcile, so take the snapshot
    promptly.
 
-3. Bump the tag in [`deploy.yml`](../fluxcd/apps/ai/hermes-agent/deploy.yml),
+3. Bump the tag in [`deploy.yml`](deploy.yml),
    commit, and reconcile:
 
    ```bash
@@ -534,7 +534,7 @@ An untested backup is a hypothesis. Run this drill after any storage change:
      volumeName: <restored-volume-name>
    ```
 
-3. Point `claimName` in [`deploy.yml`](../fluxcd/apps/ai/hermes-agent/deploy.yml)
+3. Point `claimName` in [`deploy.yml`](deploy.yml)
    at the restored claim, apply out of band, and confirm `state.db` opens and
    sessions are present:
 
@@ -582,4 +582,4 @@ An untested backup is a hypothesis. Run this drill after any storage change:
 - Upstream Docker guide:
   <https://hermes-agent.nousresearch.com/docs/user-guide/docker>
 - Upstream repository: <https://github.com/NousResearch/hermes-agent>
-- Related: [SearXNG](searxng.md)
+- Related: [SearXNG](../searxng/README.md)

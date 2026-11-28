@@ -3,7 +3,7 @@
 #
 # NOT part of kustomization.yml, and it must stay that way: Flux would race the
 # Deployment for the ReadWriteOnce session volume, and the job needs a human at
-# a browser. Apply it by hand, following docs/linkedin-mcp.md:
+# a browser. Apply it by hand, following README.md in this app's directory:
 #
 #   kubectl -n ai scale deploy/linkedin-mcp --replicas=0
 #   kubectl apply -f fluxcd/apps/ai/mcp/linkedin-mcp/bootstrap/login-job.yml

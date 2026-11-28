@@ -6,8 +6,9 @@
 # place that many pods, and every pod sees the whole 16 GB card. There is no
 # memory isolation and no per-pod cap. The first pod to over-allocate wins and
 # the other one gets a CUDA OOM. The VRAM budget in
-# fluxcd/apps/ai/llama.cpp/models-preset.ini and docs/whisper.md is what keeps
-# the two co-tenants inside the card; the scheduler will not do it for you.
+# fluxcd/apps/ai/llama.cpp/models-preset.ini and
+# fluxcd/apps/ai/whisper/README.md is what keeps the two co-tenants inside the
+# card; the scheduler will not do it for you.
 #
 # The ConfigMap must live in the operator namespace (gpu-operator), not
 # flux-system: the device plugin DaemonSet reads it from its own namespace.

@@ -18,7 +18,7 @@ Cluster `teamg`: control plane `rpi5`, workers `hedy` and `beast`, endpoint
 | [`fluxcd/`](fluxcd)              | Flux GitOps configuration: `apps`, `infrastructure` (controllers, configs, iam, monitoring), `cluster`. |
 | [`talos/`](talos)                | Talos machine configuration for the `home` cluster (extensions, patches, secrets).                      |
 | [`terraform/`](terraform)        | Talos schematic and node modules, plus the `talos-clusters/home` root module. Proxmox is no longer used; `beast` is bare metal. |
-| [`docs/`](docs)                  | Per-application operational guides.                                                                     |
+| Per-app guides                   | Operational `README.md` files next to each workload's manifests under [`fluxcd/`](fluxcd).              |
 | [`.gitea/`](.gitea)              | Gitea Actions workflow and composite action for the container-image upgrade PRs.                        |
 | [`renovate.json`](renovate.json) | Renovate configuration covering both Flux and Talos dependencies.                                       |
 | [`.sops.yaml`](.sops.yaml)       | SOPS/age creation rules for all encrypted content (`fluxcd/` and `talos/`).                             |
@@ -50,21 +50,21 @@ Cluster `teamg`: control plane `rpi5`, workers `hedy` and `beast`, endpoint
 | `unifi-os-server`                      | UniFi OS Server.                                                                 |
 | [`truecharts`](fluxcd/apps/truecharts) | TrueCharts HelmReleases (`global-values` plus `<app>-values`).                   |
 
-Application guides live in [`docs/`](docs):
-[`calibre-web.md`](docs/calibre-web.md),
-[`garage-mcp.md`](docs/garage-mcp.md),
-[`hermes-agent.md`](docs/hermes-agent.md),
-[`linkedin-mcp.md`](docs/linkedin-mcp.md),
-[`llama.cpp.md`](docs/llama.cpp.md),
-[`opencloud.md`](docs/opencloud.md),
-[`paperless-ngx.md`](docs/paperless-ngx.md),
-[`postgres.md`](docs/postgres.md),
-[`searxng.md`](docs/searxng.md),
-[`tandoor.md`](docs/tandoor.md),
-[`waha.md`](docs/waha.md),
-[`whisper.md`](docs/whisper.md),
-[`wger.md`](docs/wger.md),
-[`windows-exporter.md`](docs/windows-exporter.md).
+Operational guides live next to the workload manifests they describe:
+[`calibre-web`](fluxcd/apps/calibre-web/README.md),
+[`garage-mcp`](fluxcd/apps/ai/mcp/garage/README.md),
+[`hermes-agent`](fluxcd/apps/ai/hermes-agent/README.md),
+[`linkedin-mcp`](fluxcd/apps/ai/mcp/linkedin-mcp/README.md),
+[`llama.cpp`](fluxcd/apps/ai/llama.cpp/README.md),
+[`opencloud`](fluxcd/apps/opencloud/README.md),
+[`paperless-ngx`](fluxcd/apps/truecharts/paperless-ngx/README.md),
+[`postgres`](fluxcd/apps/truecharts/postgres/README.md),
+[`searxng`](fluxcd/apps/ai/searxng/README.md),
+[`tandoor`](fluxcd/apps/truecharts/tandoor-recipes/README.md),
+[`waha`](fluxcd/apps/comms/waha/README.md),
+[`whisper`](fluxcd/apps/ai/whisper/README.md),
+[`wger`](fluxcd/apps/ai/mcp/wger-mcp/README.md),
+[`windows-exporter`](fluxcd/infrastructure/monitoring/kube-prometheus-stack/README.md).
 
 ## Validation
 

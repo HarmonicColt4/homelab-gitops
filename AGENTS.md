@@ -6,7 +6,8 @@ This file provides guidance to agents working in this repository.
 
 GitOps configuration only: no application code, package manager or test suite.
 "Build" means render manifests; "test" means dry-run apply. The README is the
-user-facing overview; deep operational detail belongs in `docs/<app>.md`.
+user-facing overview; deep operational detail belongs in the workload's own
+`README.md`, next to its manifests under `fluxcd/`.
 
 ## Validate
 
@@ -39,7 +40,7 @@ kubectl apply --dry-run=client -f /tmp/out.yml
 - IngressRoutes: Traefik `websecure`, host `<name>.teamg.app`, no `tls:` block (wildcard cert). The name is usually the app (`mealie`, `sonarr`) but is sometimes abbreviated (`git` for Gitea, `nas` for TrueNAS, `id` for Pocket ID).
 - Use `strategy: Recreate` for any Deployment mounting a ReadWriteOnce volume (multi-attach deadlock).
 - A new app must be listed in its group kustomization (`fluxcd/apps/<group>/kustomization.yml`) and, for a new group, in `fluxcd/apps/kustomization.yml` — an app that is not listed is never reconciled. `fluxcd/apps/razzia` is currently in that state.
-- Per-app operational docs live in `docs/<app>.md` and are linked from the README guide list; keep deep operational detail there, not in the README.
+- Per-app operational docs live as `README.md` next to their manifests under `fluxcd/` (`fluxcd/**/<workload>/README.md`) and are linked from the root README guide list; keep deep operational detail there, not in the root README.
 - TrueCharts values: fetch upstream before overriding — `charts/library/common/values.yaml` and `charts/stable/<chart>/values.yaml` from `trueforge-org/truecharts` (raw `master` branch).
 
 ## Talos / Terraform

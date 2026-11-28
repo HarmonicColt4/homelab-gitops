@@ -4,7 +4,7 @@
 # needs the vectorchord image and has a much higher WAL churn.
 #
 # Roles and databases are declared separately (roles.yml / databases.yml) so
-# they survive a rebuild of this cluster. See docs/postgres.md.
+# they survive a rebuild of this cluster. See README.md.
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:

@@ -1,7 +1,7 @@
 ---
 # MANUAL DISASTER-RECOVERY MANIFEST — NOT RECONCILED BY FLUX.
 # It is deliberately absent from kustomization.yml, so `kustomize build` never
-# emits it and Flux never applies it. See docs/postgres.md.
+# emits it and Flux never applies it. See README.md.
 #
 # Default use: verify the backup chain by restoring into a throwaway cluster
 # named `shared-db-restore`. It reads the `shared-db` backup chain and writes

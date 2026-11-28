@@ -16,9 +16,10 @@ chat. Both are served by the in-cluster `llama.cpp` router.
 | Embeddings | Same Service, preset `bge-m3` (`Q8_0`, 1024 dimensions)                   |
 | Edge       | IngressRoute `paperless-ngx`, Traefik `websecure`, `paperless.teamg.app`   |
 
-The model server is documented in [`llama.cpp.md`](llama.cpp.md): Gemma 4 12B
-Q4_K_M with the MTP speculative-decoding drafter at 131072-token context, plus
-`bge-m3` for embeddings. `--models-max 2` keeps both resident.
+The model server is documented in
+[`llama.cpp.md`](../../ai/llama.cpp/README.md): Gemma 4 12B Q4_K_M with the MTP
+speculative-decoding drafter at 131072-token context, plus `bge-m3` for
+embeddings. `--models-max 2` keeps both resident.
 
 ## AI configuration
 
@@ -49,7 +50,7 @@ Why these values:
 - The endpoint is the in-cluster Service, not `llama.teamg.app`: Paperless runs
   inside the cluster, so the extra DNS and TLS hop buys nothing.
 - `gemma4-12b-mtp` is the section name in
-  [`models-preset.ini`](../fluxcd/apps/ai/llama.cpp/models-preset.ini), and
+  [`models-preset.ini`](../../ai/llama.cpp/models-preset.ini), and
   therefore the model id in `/v1/models`. There are no aliases; do not use the
   historical `gemma4-12b-q6` name.
 - `sk-no-key-required` is a placeholder. `llama-server` is started without

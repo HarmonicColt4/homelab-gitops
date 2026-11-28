@@ -27,7 +27,7 @@ resident footprint near 2.9 GB instead of ~4.5 GB for fp16.
 ## VRAM budget and co-tenancy risk
 
 The RTX 4080 has 16,376 MiB. GPU time-slicing (see
-[`time-slicing.yml`](../fluxcd/infrastructure/controllers/nvidia-gpu-operator/time-slicing.yml))
+[`time-slicing.yml`](../../../infrastructure/controllers/nvidia-gpu-operator/time-slicing.yml))
 advertises two `nvidia.com/gpu` resources so both pods can schedule, but it is
 **time-multiplexing, not memory partitioning**: both pods see the whole card,
 there is no per-pod cap, and the first pod to over-allocate wins while the other
@@ -44,9 +44,9 @@ The budget that keeps them apart:
 
 llama.cpp was downshifted from Q6_K @ 262144 (measured peak 15,713 MiB) to
 Q4_K_M @ 131072 for this. The arithmetic and the TODO for re-measurement live
-in [`models-preset.ini`](../fluxcd/apps/ai/llama.cpp/models-preset.ini). The
+in [`models-preset.ini`](../llama.cpp/models-preset.ini). The
 embedding model is required by Paperless-ngx; its preset and pooling setup are
-in [`llama.cpp.md`](llama.cpp.md).
+in [`llama.cpp.md`](../llama.cpp/README.md).
 
 That 198 MiB row is the conservative arithmetic. On 2026-11-25 the card
 reported 2,602 MiB free with Gemma loaded and a CPU-only bge-m3 test instance
@@ -163,7 +163,7 @@ rotation restarts them; in-flight Hermes sessions are lost.
 
 ## Hermes wiring
 
-[`config.yml`](../fluxcd/apps/ai/hermes-agent/config.yml) sets
+[`config.yml`](../hermes-agent/config.yml) sets
 `stt.provider: openai` with the in-cluster base URL and
 `api_key: ${WHISPER_API_KEY}`. The key must be explicit: a private `base_url`
 with no `api_key` resolves to the literal placeholder `not-needed`, which a

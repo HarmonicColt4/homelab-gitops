@@ -4,7 +4,7 @@ Tandoor is a self-hosted recipe manager (cookbook, tags, search and shopping
 list). It runs the TrueCharts `tandoor-recipes` chart in the `tandoor-recipes`
 namespace and is exposed at <https://tandoor.teamg.app>. The database lives on
 the shared `shared-db` CNPG cluster (role and database `tandoor-recipes`, see
-[postgres.md](postgres.md)); media files live on a Longhorn PVC
+[postgres.md](../postgres/README.md)); media files live on a Longhorn PVC
 (`tandoor-recipes-media`).
 
 | Item       | Value                                                        |
@@ -29,7 +29,7 @@ because the token grants full access to the account:
 
 The consumer is `hermes-agent`: its managed config has a `tandoor` entry
 (`Bearer ${TANDOOR_MCP_TOKEN}`), sealed in the hermes-agent secrets
-([`docs/hermes-agent.md`](hermes-agent.md) → MCP servers).
+([`hermes-agent.md`](../../ai/hermes-agent/README.md) → MCP servers).
 
 ## Authentication
 

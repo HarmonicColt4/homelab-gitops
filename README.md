@@ -45,7 +45,7 @@ Cluster `teamg`: control plane `rpi5`, workers `hedy` and `beast`, endpoint
 | [`comms`](fluxcd/apps/comms)           | `waha` (WhatsApp HTTP API, linked device).                                       |
 | `mealie`                               | Mealie recipe manager.                                                           |
 | `opencloud`                            | OpenCloud file management and collaboration, at `cloud.teamg.app`.               |
-| [`razzia`](fluxcd/apps/razzia)         | Present in the repo but not listed in `fluxcd/apps/kustomization.yml`, so Flux does not reconcile it. |
+| [`razzia`](fluxcd/apps/razzia)         | Razzia quiz app at `razzia.teamg.app`; deployed with `replicas: 0` (dormant).       |
 | `truenas-auto-update`                  | Scheduled TrueNAS updater, per-host overlays.                                    |
 | `unifi-os-server`                      | UniFi OS Server.                                                                 |
 | [`truecharts`](fluxcd/apps/truecharts) | TrueCharts HelmReleases (`global-values` plus `<app>-values`).                   |

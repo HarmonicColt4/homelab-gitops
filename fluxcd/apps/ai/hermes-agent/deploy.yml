@@ -49,7 +49,7 @@ spec:
           # Renovate tracks this tag (kubernetes manager, deploy.yml). Tag only,
           # not a digest: upstream publishes moving vX.Y.Z tags and does not
           # guarantee digest stability across re-pushes.
-          image: nousresearch/hermes-agent:v0.23.2
+          image: nousresearch/hermes-agent:v0.23.3
           imagePullPolicy: IfNotPresent
           # Never override the entrypoint: the image's s6 init is what performs
           # the /opt/data chown and the privilege drop. These args are appended
